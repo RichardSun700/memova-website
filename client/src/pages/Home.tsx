@@ -55,7 +55,25 @@ function SectionLabel({ children }: { children: React.ReactNode }) {
    ───────────────────────────────────────────── */
 function MemovaBadge() {
   return (
-    <div className="flex flex-col items-center justify-center py-4 lg:py-0 lg:px-2">
+    <>
+      <div className="lg:hidden flex items-center justify-center py-2">
+        <div className="flex flex-col items-center">
+          <div className="h-5 w-px bg-gradient-to-b from-transparent to-[#D4E9F7]" />
+          <div className="relative flex items-center gap-2 rounded-full border border-[#D4E9F7] bg-white px-3 py-2 shadow-lg shadow-[#2E5B82]/[0.06]">
+            <div className="absolute inset-0 rounded-full bg-[#6FA8D9]/10 blur-xl" />
+            <div className="relative flex h-7 w-7 items-center justify-center rounded-full bg-gradient-to-br from-[#2E5B82] to-[#6FA8D9] text-white">
+              <Zap className="h-3.5 w-3.5" />
+            </div>
+            <span className="relative text-[10px] font-bold uppercase tracking-[0.15em] text-[#2E5B82]/70">
+              MEMOVA transforms
+            </span>
+            <ArrowRight className="relative h-3.5 w-3.5 rotate-90 text-[#6FA8D9]" />
+          </div>
+          <div className="h-5 w-px bg-gradient-to-b from-[#D4E9F7] to-transparent" />
+        </div>
+      </div>
+
+      <div className="hidden lg:flex flex-col items-center justify-center py-0 px-2">
       <div className="relative">
         <div className="absolute inset-0 bg-[#6FA8D9]/20 rounded-full blur-xl scale-150" />
         <div className="relative w-14 h-14 rounded-full bg-gradient-to-br from-[#2E5B82] to-[#6FA8D9] flex items-center justify-center shadow-lg shadow-[#2E5B82]/20">
@@ -66,6 +84,7 @@ function MemovaBadge() {
         MEMOVA
       </div>
     </div>
+    </>
   );
 }
 
@@ -644,38 +663,38 @@ export default function Home() {
       </section>
 
       {/* ─── HOW IT WORKS ─── */}
-      <section id="workflow" className="py-20 md:py-40 bg-white">
+      <section id="workflow" className="py-16 md:py-40 bg-white">
         <div className="container">
-          <div className="text-center mb-14 md:mb-20">
+          <div className="text-center mb-9 md:mb-20">
             <SectionLabel>How it works</SectionLabel>
-            <h2 className="font-serif text-[2rem] sm:text-[2.75rem] md:text-[3.5rem] text-[#0F2B3C] leading-[1.1] tracking-[-0.015em]">
+            <h2 className="font-serif text-[1.72rem] sm:text-[2.75rem] md:text-[3.5rem] text-[#0F2B3C] leading-[1.08] tracking-[-0.015em] md:leading-[1.1]">
               Capture. Understand.
               <br />
               Confirm. Execute.
             </h2>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 max-w-5xl mx-auto">
+          <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-5 max-w-5xl mx-auto">
             {workflowSteps.map((step, i) => (
               <div
                 key={i}
-                className="relative p-7 rounded-2xl bg-[#FAFCFF] border border-[#E8F0F8] hover:shadow-xl hover:shadow-[#2E5B82]/[0.04] hover:-translate-y-1 transition-all duration-400 group"
+                className="relative p-4 md:p-7 rounded-xl md:rounded-2xl bg-[#FAFCFF] border border-[#E8F0F8] hover:shadow-xl hover:shadow-[#2E5B82]/[0.04] hover:-translate-y-1 transition-all duration-400 group"
               >
-                <span className="text-[11px] font-bold text-[#6FA8D9]/40 tracking-[0.15em]">
+                <span className="text-[10px] md:text-[11px] font-bold text-[#6FA8D9]/40 tracking-[0.15em]">
                   {String(i + 1).padStart(2, "0")}
                 </span>
-                <div className="mt-4 mb-4 w-11 h-11 rounded-xl bg-[#EDF5FC] flex items-center justify-center text-[#2E5B82] group-hover:bg-[#0F2B3C] group-hover:text-white transition-all duration-300">
-                  <step.icon className="w-5 h-5" />
+                <div className="mt-3 md:mt-4 mb-3 md:mb-4 w-9 h-9 md:w-11 md:h-11 rounded-lg md:rounded-xl bg-[#EDF5FC] flex items-center justify-center text-[#2E5B82] group-hover:bg-[#0F2B3C] group-hover:text-white transition-all duration-300">
+                  <step.icon className="w-4 h-4 md:w-5 md:h-5" />
                 </div>
-                <h3 className="text-[17px] font-bold text-[#0F2B3C] mb-3 tracking-[-0.01em]">
+                <h3 className="text-[15px] md:text-[17px] font-bold text-[#0F2B3C] mb-2 md:mb-3 tracking-[-0.01em]">
                   {step.label}
                 </h3>
-                <div className="space-y-2">
+                <div className="flex flex-wrap gap-1.5 md:block md:space-y-2">
                   {step.items.map((item) => (
                     <div
                       key={item}
-                      className="flex items-center gap-2.5 text-[13px] text-[#2E5B82]/50 font-medium"
+                      className="inline-flex items-center gap-1.5 rounded-full bg-white/70 px-2 py-1 text-[10.5px] text-[#2E5B82]/55 font-medium md:flex md:gap-2.5 md:rounded-none md:bg-transparent md:px-0 md:py-0 md:text-[13px]"
                     >
-                      <div className="w-1 h-1 rounded-full bg-[#6FA8D9]/60" />
+                      <div className="hidden md:block w-1 h-1 rounded-full bg-[#6FA8D9]/60" />
                       {item}
                     </div>
                   ))}
@@ -687,11 +706,11 @@ export default function Home() {
       </section>
 
       {/* ─── USE CASES ─── */}
-      <section id="use-cases" className="py-20 md:py-40 bg-[#FAFCFF] overflow-hidden">
+      <section id="use-cases" className="py-16 md:py-40 bg-[#FAFCFF] overflow-hidden">
         <div className="container">
-          <div className="text-center mb-16 md:mb-24">
+          <div className="text-center mb-12 md:mb-24">
             <SectionLabel>Use Cases</SectionLabel>
-            <h2 className="font-serif text-[2rem] sm:text-[2.75rem] md:text-[3.5rem] text-[#0F2B3C] leading-[1.1] tracking-[-0.015em]">
+            <h2 className="font-serif text-[1.85rem] sm:text-[2.75rem] md:text-[3.5rem] text-[#0F2B3C] leading-[1.08] tracking-[-0.015em] md:leading-[1.1]">
               Real scenarios.
               <br />
               Real output.
@@ -699,8 +718,8 @@ export default function Home() {
           </div>
 
           {/* Use Case 01: Scribble to structure */}
-          <div className="max-w-6xl mx-auto mb-24 md:mb-32">
-            <div className="flex items-center gap-4 mb-8">
+          <div className="max-w-6xl mx-auto mb-16 md:mb-32">
+            <div className="flex items-center gap-4 mb-5 md:mb-8">
               <div className="w-10 h-10 rounded-full bg-[#0F2B3C] flex items-center justify-center text-white text-[13px] font-bold shrink-0">
                 01
               </div>
@@ -711,14 +730,17 @@ export default function Home() {
                 <p className="text-[13px] text-[#2E5B82]/50 font-medium mt-1">
                   Handwritten notes become confirmed action items.
                 </p>
+                <p className="lg:hidden text-[11px] text-[#6FA8D9] font-bold tracking-[0.12em] uppercase mt-2">
+                  {"Raw note -> MEMOVA -> ready actions"}
+                </p>
               </div>
             </div>
-            <div className="grid grid-cols-1 lg:grid-cols-[1fr_auto_1fr] gap-6 lg:gap-0 items-center">
+            <div className="grid grid-cols-1 lg:grid-cols-[1fr_auto_1fr] gap-2 md:gap-6 lg:gap-0 items-center">
               {/* Left: handwritten note image */}
               <div className="relative group">
                 <div className="absolute -inset-1 bg-gradient-to-br from-[#E8F0F8] to-transparent rounded-3xl opacity-60" />
                 <div className="relative rounded-2xl overflow-hidden border-2 border-[#E8F0F8] bg-[#FEFEFE] shadow-lg shadow-[#2E5B82]/[0.06]">
-                  <div className="px-5 py-3 bg-[#F5F0E8] border-b border-[#E8E0D0] flex items-center gap-2">
+                  <div className="px-4 md:px-5 py-2.5 md:py-3 bg-[#F5F0E8] border-b border-[#E8E0D0] flex items-center gap-2">
                     <PenLine className="w-3.5 h-3.5 text-[#A09080]" />
                     <span className="text-[11px] font-semibold text-[#8A7A6A] tracking-wide uppercase">
                       Your handwritten note
@@ -727,7 +749,7 @@ export default function Home() {
                   <div className="p-1">
                     <img
                       alt="Handwritten meeting note"
-                      className="w-full rounded-b-xl"
+                      className="w-full h-[255px] object-cover object-[50%_56%] rounded-b-xl md:h-auto md:object-contain"
                       src="https://d2xsxph8kpxj0f.cloudfront.net/310519663636410310/fBxJzGQBiXXw4ojYaGnejX/handwritten_note-Vu9BtDtF6YRhgddWMn3CZw.webp"
                     />
                   </div>
@@ -741,50 +763,50 @@ export default function Home() {
               <div className="relative">
                 <div className="absolute -inset-1 bg-gradient-to-br from-[#2E5B82]/5 to-transparent rounded-3xl" />
                 <div className="relative rounded-2xl bg-white border-2 border-[#E8F0F8] shadow-lg shadow-[#2E5B82]/[0.06] overflow-hidden">
-                  <div className="px-5 py-3 bg-gradient-to-r from-[#0F2B3C] to-[#2E5B82] flex items-center gap-2">
+                  <div className="px-4 md:px-5 py-2.5 md:py-3 bg-gradient-to-r from-[#0F2B3C] to-[#2E5B82] flex items-center gap-2">
                     <Sparkles className="w-3.5 h-3.5 text-[#6FA8D9]" />
-                    <span className="text-[11px] font-semibold text-white/80 tracking-wide uppercase">
+                    <span className="text-[10px] md:text-[11px] font-semibold text-white/80 tracking-wide uppercase">
                       MEMOVA output
                     </span>
                     <div className="ml-auto flex items-center gap-1">
                       <div className="w-1.5 h-1.5 rounded-full bg-[#4ECDC4]" />
-                      <span className="text-[10px] text-[#4ECDC4] font-medium">
+                      <span className="text-[9px] md:text-[10px] text-[#4ECDC4] font-medium">
                         4 actions detected
                       </span>
                     </div>
                   </div>
-                  <div className="p-5 space-y-2.5">
+                  <div className="p-3.5 md:p-5 space-y-2 md:space-y-2.5">
                     {useCaseActions.map((action, i) => (
                       <div
                         key={i}
-                        className="flex items-center gap-3 p-3 rounded-xl bg-[#F8FBFE] border border-[#EDF3FA] hover:border-[#6FA8D9]/30 transition-colors group/item"
+                        className="flex items-center gap-2.5 md:gap-3 p-2.5 md:p-3 rounded-xl bg-[#F8FBFE] border border-[#EDF3FA] hover:border-[#6FA8D9]/30 transition-colors group/item"
                       >
-                        <div className="w-8 h-8 rounded-lg bg-[#EDF5FC] flex items-center justify-center text-[#2E5B82] group-hover/item:bg-[#2E5B82] group-hover/item:text-white transition-colors">
+                        <div className="w-7 h-7 md:w-8 md:h-8 rounded-lg bg-[#EDF5FC] flex items-center justify-center text-[#2E5B82] group-hover/item:bg-[#2E5B82] group-hover/item:text-white transition-colors shrink-0">
                           <action.icon className="w-3.5 h-3.5" />
                         </div>
-                        <div className="flex-1">
-                          <span className="text-[13px] text-[#0F2B3C] font-semibold">
+                        <div className="flex-1 min-w-0">
+                          <span className="block text-[12px] md:text-[13px] text-[#0F2B3C] font-semibold leading-snug">
                             {action.label}
                           </span>
                         </div>
-                        <span className="text-[10px] font-semibold text-[#6FA8D9] bg-[#EDF5FC] px-2 py-0.5 rounded-full">
+                        <span className="text-[9px] md:text-[10px] font-semibold text-[#6FA8D9] bg-[#EDF5FC] px-2 py-0.5 rounded-full shrink-0">
                           {action.tag}
                         </span>
                       </div>
                     ))}
                     {/* Confirm prompt */}
-                    <div className="mt-4 p-4 rounded-xl bg-gradient-to-r from-[#EDF5FC] to-[#F0F8FF] border border-[#D4E9F7]/80">
-                      <div className="flex items-center gap-2 mb-3">
+                    <div className="mt-3 md:mt-4 p-3 md:p-4 rounded-xl bg-gradient-to-r from-[#EDF5FC] to-[#F0F8FF] border border-[#D4E9F7]/80">
+                      <div className="flex items-center gap-2 mb-2.5 md:mb-3">
                         <CircleCheck className="w-4 h-4 text-[#2E5B82]" />
-                        <p className="text-[13px] text-[#0F2B3C] font-bold">
+                        <p className="text-[12px] md:text-[13px] text-[#0F2B3C] font-bold">
                           Draft an email to Fred?
                         </p>
                       </div>
                       <div className="flex gap-2">
-                        <button className="px-4 py-2 bg-[#0F2B3C] text-white text-[12px] font-semibold rounded-lg hover:bg-[#1A3A5C] transition-colors flex items-center gap-1.5">
+                        <button className="px-3 md:px-4 py-2 bg-[#0F2B3C] text-white text-[11px] md:text-[12px] font-semibold rounded-lg hover:bg-[#1A3A5C] transition-colors flex items-center gap-1.5">
                           <Send className="w-3 h-3" /> Yes, draft
                         </button>
-                        <button className="px-4 py-2 bg-white text-[#2E5B82] text-[12px] font-semibold rounded-lg border border-[#D4E9F7]">
+                        <button className="px-3 md:px-4 py-2 bg-white text-[#2E5B82] text-[11px] md:text-[12px] font-semibold rounded-lg border border-[#D4E9F7]">
                           Keep as note
                         </button>
                       </div>
