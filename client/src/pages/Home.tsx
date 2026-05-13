@@ -473,10 +473,42 @@ export default function Home() {
   const waitlistRef = useRef<HTMLDivElement>(null);
 
   const [email, setEmail] = useState("");
+  const [waitlistStatus, setWaitlistStatus] = useState<
+    "idle" | "loading" | "success" | "error"
+  >("idle");
+  const [waitlistMessage, setWaitlistMessage] = useState("");
 
-  const handleWaitlist = (e: React.FormEvent) => {
+  const handleWaitlist = async (e: React.FormEvent) => {
     e.preventDefault();
-    // placeholder
+    const normalizedEmail = email.trim().toLowerCase();
+
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(normalizedEmail)) {
+      setWaitlistStatus("error");
+      setWaitlistMessage("Please enter a valid email.");
+      return;
+    }
+
+    setWaitlistStatus("loading");
+    setWaitlistMessage("");
+
+    try {
+      const response = await fetch("/api/waitlist", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ email: normalizedEmail, source: "home-waitlist" }),
+      });
+
+      if (!response.ok) {
+        throw new Error("waitlist request failed");
+      }
+
+      setEmail("");
+      setWaitlistStatus("success");
+      setWaitlistMessage("You're on the list.");
+    } catch {
+      setWaitlistStatus("error");
+      setWaitlistMessage("Something went wrong. Please try again.");
+    }
   };
 
   /* Workflow steps data */
@@ -514,7 +546,7 @@ export default function Home() {
           <div className="flex items-center gap-2.5">
             <img
               alt="MEMOVA"
-              className="h-6 w-auto"
+              className="h-[1.8rem] w-[5.6rem] shrink-0 object-cover object-[50%_69%] mix-blend-multiply"
               src="/manus-storage/memova_logo_0eb30acc.png"
             />
             <span className="text-[13px] font-bold tracking-[0.18em] text-[#0F2B3C]">
@@ -1184,28 +1216,40 @@ export default function Home() {
                 placeholder="Work email"
                 className="w-full sm:flex-1 px-5 py-3.5 rounded-full text-[13px] bg-white border border-[#D4E9F7] text-[#0F2B3C] placeholder:text-[#2E5B82]/35 outline-none focus:ring-2 focus:ring-[#6FA8D9]/30 focus:border-[#6FA8D9] transition-all"
                 type="email"
+                required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
+                disabled={waitlistStatus === "loading"}
               />
               <button
                 type="submit"
-                className="w-full sm:w-auto px-7 py-3.5 bg-[#0F2B3C] text-white text-[13px] font-semibold rounded-full hover:bg-[#1A3A5C] transition-all hover:shadow-xl hover:shadow-[#0F2B3C]/15 hover:-translate-y-0.5"
+                disabled={waitlistStatus === "loading"}
+                className="w-full sm:w-auto px-7 py-3.5 bg-[#0F2B3C] text-white text-[13px] font-semibold rounded-full hover:bg-[#1A3A5C] transition-all hover:shadow-xl hover:shadow-[#0F2B3C]/15 hover:-translate-y-0.5 disabled:opacity-70 disabled:hover:translate-y-0 disabled:hover:shadow-none"
               >
-                Join Waitlist
+                {waitlistStatus === "loading" ? "Joining..." : "Join Waitlist"}
               </button>
             </form>
+            <p
+              className={`mt-4 min-h-5 text-[12px] font-medium ${
+                waitlistStatus === "error"
+                  ? "text-[#B45309]"
+                  : "text-[#2E5B82]/55"
+              }`}
+            >
+              {waitlistMessage}
+            </p>
           </div>
         </div>
       </section>
 
       {/* ─── FOOTER ─── */}
-      <footer className="py-8 border-t border-[#E8F0F8]/60 bg-white">
+      <footer className="py-8 border-t border-[#E8F0F8]/60 bg-white/70 backdrop-blur-xl">
         <div className="container">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
             <div className="flex items-center gap-2.5">
               <img
                 alt="MEMOVA"
-                className="h-5 w-auto opacity-70"
+                className="h-[1.6rem] w-[4.8rem] shrink-0 object-cover object-[50%_69%] opacity-80 mix-blend-multiply"
                 src="/manus-storage/memova_logo_0eb30acc.png"
               />
               <span className="text-[12px] font-bold tracking-[0.15em] text-[#2E5B82]/50">
