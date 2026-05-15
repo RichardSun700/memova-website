@@ -12,8 +12,12 @@ import {
   ListChecks,
   BookOpen,
   ChevronRight,
+  LogOut,
   Zap,
+  UserRound,
 } from "lucide-react";
+import SiteFooter from "@/components/SiteFooter";
+import { useAuth } from "@/contexts/AuthContext";
 
 /* ─────────────────────────────────────────────
    Intersection Observer hook for scroll animations
@@ -489,6 +493,7 @@ function WorkflowPreviewSection() {
    Main Home Page
    ───────────────────────────────────────────── */
 export default function Home() {
+  const auth = useAuth();
   const heroRef = useRef<HTMLDivElement>(null);
   const workflowRef = useRef<HTMLDivElement>(null);
   const useCasesRef = useRef<HTMLDivElement>(null);
@@ -536,6 +541,10 @@ export default function Home() {
     }
   };
 
+  const handleLogout = async () => {
+    await auth.logout();
+  };
+
   /* Workflow steps data */
   const workflowSteps = [
     { icon: PenLine, label: "Capture", items: ["Voice", "Photo", "Handwriting"] },
@@ -578,6 +587,24 @@ export default function Home() {
               MEMOVA
             </span>
           </div>
+          {auth.isAuthenticated ? (
+            <button
+              type="button"
+              onClick={() => void handleLogout()}
+              aria-label="Log out"
+              className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-[#D4E9F7] bg-white text-[#2E5B82] shadow-sm md:hidden"
+            >
+              <LogOut className="h-4 w-4" />
+            </button>
+          ) : (
+            <a
+              href="/login"
+              aria-label="Sign in"
+              className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-[#D4E9F7] bg-white text-[#2E5B82] shadow-sm md:hidden"
+            >
+              <UserRound className="h-4 w-4" />
+            </a>
+          )}
           <div className="hidden md:flex items-center gap-9">
             <a
               href="#workflow"
@@ -597,6 +624,24 @@ export default function Home() {
             >
               Integrations
             </a>
+            {auth.isAuthenticated ? (
+              <button
+                type="button"
+                onClick={() => void handleLogout()}
+                className="inline-flex items-center gap-2 text-[13px] font-medium text-[#2E5B82]/60 transition-colors hover:text-[#0F2B3C]"
+              >
+                <LogOut className="h-3.5 w-3.5" />
+                Log out
+              </button>
+            ) : (
+              <a
+                href="/login"
+                className="inline-flex items-center gap-2 text-[13px] font-medium text-[#2E5B82]/60 transition-colors hover:text-[#0F2B3C]"
+              >
+                <UserRound className="h-3.5 w-3.5" />
+                Sign in
+              </a>
+            )}
             <a
               href="#waitlist"
               className="px-5 py-2 bg-[#0F2B3C] text-white text-[13px] font-semibold rounded-full hover:bg-[#1A3A5C] transition-all"
@@ -1270,46 +1315,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ─── FOOTER ─── */}
-      <footer className="py-8 border-t border-[#E8F0F8]/60 bg-white/70 backdrop-blur-xl">
-        <div className="container">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-            <div className="flex items-center gap-2.5">
-              <img
-                alt="MEMOVA"
-                className="h-[1.6rem] w-[4.8rem] shrink-0 object-cover object-[50%_69%] opacity-80 mix-blend-multiply"
-                src="/manus-storage/memova_logo_0eb30acc.png"
-              />
-              <span className="text-[12px] font-bold tracking-[0.15em] text-[#2E5B82]/50">
-                MEMOVA
-              </span>
-            </div>
-            <div className="flex items-center gap-6">
-              <a
-                href="mailto:hello@memova.ai"
-                className="text-[11px] text-[#2E5B82]/40 hover:text-[#2E5B82] transition-colors font-medium"
-              >
-                hello@memova.ai
-              </a>
-              <a
-                href="#"
-                className="text-[11px] text-[#2E5B82]/40 hover:text-[#2E5B82] transition-colors font-medium"
-              >
-                Privacy
-              </a>
-              <a
-                href="#"
-                className="text-[11px] text-[#2E5B82]/40 hover:text-[#2E5B82] transition-colors font-medium"
-              >
-                Terms
-              </a>
-            </div>
-            <p className="text-[10px] text-[#2E5B82]/30 font-medium">
-              © 2025 Memova
-            </p>
-          </div>
-        </div>
-      </footer>
+      <SiteFooter />
     </div>
   );
 }

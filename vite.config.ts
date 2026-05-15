@@ -3,7 +3,7 @@ import tailwindcss from "@tailwindcss/vite";
 import react from "@vitejs/plugin-react";
 import fs from "node:fs";
 import path from "node:path";
-import { defineConfig, type Plugin, type ViteDevServer } from "vite";
+import { defineConfig, type Plugin, type ProxyOptions, type ViteDevServer } from "vite";
 import { vitePluginManusRuntime } from "vite-plugin-manus-runtime";
 
 // =============================================================================
@@ -221,6 +221,12 @@ function vitePluginStorageProxy(): Plugin {
 }
 
 const plugins = [react(), tailwindcss(), jsxLocPlugin(), vitePluginManusRuntime(), vitePluginManusDebugCollector(), vitePluginStorageProxy()];
+const memovaApiProxy: ProxyOptions = {
+  target: process.env.VITE_API_PROXY_TARGET || "https://api.memova.ai",
+  changeOrigin: true,
+  secure: true,
+  rewrite: (proxyPath) => proxyPath.replace(/^\/__memova_api/, ""),
+};
 
 export default defineConfig({
   plugins,
@@ -253,6 +259,14 @@ export default defineConfig({
     fs: {
       strict: true,
       deny: ["**/.*"],
+    },
+    proxy: {
+      "/__memova_api": memovaApiProxy,
+    },
+  },
+  preview: {
+    proxy: {
+      "/__memova_api": memovaApiProxy,
     },
   },
 });

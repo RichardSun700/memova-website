@@ -1,0 +1,149 @@
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useMemo,
+  useState,
+  type ReactNode,
+} from "react";
+import {
+  getCurrentUser,
+  logoutSession,
+  type AuthTokenResponse,
+  type AuthUser,
+  type AuthWorkspace,
+} from "@/lib/api";
+
+const STORAGE_KEY = "memova.auth.v1";
+
+export type AuthSession = {
+  access_token: string;
+  expires_at: string;
+  user: AuthUser;
+  default_workspace: AuthWorkspace;
+};
+
+type AuthContextValue = {
+  session: AuthSession | null;
+  token: string | null;
+  user: AuthUser | null;
+  workspace: AuthWorkspace | null;
+  isAuthenticated: boolean;
+  setSessionFromTokenResponse: (response: AuthTokenResponse) => void;
+  refreshUser: () => Promise<void>;
+  clearSession: () => void;
+  logout: () => Promise<void>;
+};
+
+const AuthContext = createContext<AuthContextValue | null>(null);
+
+export function AuthProvider({ children }: { children: ReactNode }) {
+  const [session, setSessionState] = useState<AuthSession | null>(() =>
+    readStoredSession()
+  );
+
+  const persistSession = useCallback((nextSession: AuthSession | null) => {
+    setSessionState(nextSession);
+    if (nextSession) {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(nextSession));
+    } else {
+      localStorage.removeItem(STORAGE_KEY);
+    }
+  }, []);
+
+  const setSessionFromTokenResponse = useCallback(
+    (response: AuthTokenResponse) => {
+      persistSession({
+        access_token: response.access_token,
+        expires_at: response.expires_at,
+        user: response.user,
+        default_workspace: response.default_workspace,
+      });
+    },
+    [persistSession]
+  );
+
+  const clearSession = useCallback(() => {
+    persistSession(null);
+  }, [persistSession]);
+
+  const refreshUser = useCallback(async () => {
+    if (!session?.access_token) return;
+    const current = await getCurrentUser(session.access_token);
+    persistSession({
+      ...session,
+      user: current.user,
+      default_workspace: current.default_workspace,
+    });
+  }, [persistSession, session]);
+
+  const logout = useCallback(async () => {
+    const token = session?.access_token;
+    clearSession();
+    if (token) {
+      try {
+        await logoutSession(token);
+      } catch {
+        // Local logout should still complete even if the network request fails.
+      }
+    }
+  }, [clearSession, session?.access_token]);
+
+  const isAuthenticated = Boolean(
+    session?.access_token && !isExpired(session.expires_at)
+  );
+
+  const value = useMemo<AuthContextValue>(
+    () => ({
+      session,
+      token: isAuthenticated ? session?.access_token || null : null,
+      user: isAuthenticated ? session?.user || null : null,
+      workspace: isAuthenticated ? session?.default_workspace || null : null,
+      isAuthenticated,
+      setSessionFromTokenResponse,
+      refreshUser,
+      clearSession,
+      logout,
+    }),
+    [
+      clearSession,
+      isAuthenticated,
+      logout,
+      refreshUser,
+      session,
+      setSessionFromTokenResponse,
+    ]
+  );
+
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+}
+
+export function useAuth() {
+  const context = useContext(AuthContext);
+  if (!context) {
+    throw new Error("useAuth must be used inside AuthProvider");
+  }
+  return context;
+}
+
+function readStoredSession(): AuthSession | null {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) return null;
+    const parsed = JSON.parse(raw) as AuthSession;
+    if (!parsed.access_token || isExpired(parsed.expires_at)) {
+      localStorage.removeItem(STORAGE_KEY);
+      return null;
+    }
+    return parsed;
+  } catch {
+    localStorage.removeItem(STORAGE_KEY);
+    return null;
+  }
+}
+
+function isExpired(expiresAt: string): boolean {
+  const expiresMs = Date.parse(expiresAt);
+  if (!Number.isFinite(expiresMs)) return true;
+  return expiresMs <= Date.now();
+}
