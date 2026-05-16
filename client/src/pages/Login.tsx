@@ -13,11 +13,15 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import {
+  ApiError,
+  loginWithReviewCredentials,
   startEmailLogin,
   verifyEmailLogin,
   type EmailLoginStartResponse,
 } from "@/lib/api";
 import { useAuth } from "@/contexts/AuthContext";
+
+type LoginMode = "email-code" | "review";
 
 export default function Login() {
   const [, setLocation] = useLocation();
@@ -30,6 +34,9 @@ export default function Login() {
 
   const [email, setEmail] = useState("");
   const [code, setCode] = useState("");
+  const [mode, setMode] = useState<LoginMode>("email-code");
+  const [reviewEmail, setReviewEmail] = useState("");
+  const [reviewPassword, setReviewPassword] = useState("");
   const [challenge, setChallenge] = useState<EmailLoginStartResponse | null>(
     null
   );
@@ -76,6 +83,37 @@ export default function Login() {
     }
   };
 
+  const handleReviewLogin = async (event: React.FormEvent) => {
+    event.preventDefault();
+    setError("");
+    setLoading(true);
+    try {
+      const response = await loginWithReviewCredentials(
+        reviewEmail.trim(),
+        reviewPassword
+      );
+      auth.setSessionFromTokenResponse(response);
+      setLocation(next);
+    } catch (err) {
+      setError(reviewLoginErrorMessage(err));
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const switchToEmailCode = () => {
+    setMode("email-code");
+    setError("");
+    setReviewPassword("");
+  };
+
+  const switchToReview = () => {
+    setMode("review");
+    setError("");
+    setChallenge(null);
+    setCode("");
+  };
+
   return (
     <div className="flex min-h-screen flex-col bg-[#F7FAFD] text-[#0F2B3C]">
       <main className="mx-auto flex w-full max-w-6xl flex-1 items-center justify-center px-4 py-10 sm:px-6 lg:px-8">
@@ -103,7 +141,61 @@ export default function Login() {
             </CardHeader>
 
             <CardContent>
-              {!challenge ? (
+              {mode === "review" ? (
+                <form onSubmit={handleReviewLogin} className="space-y-4">
+                  <div>
+                    <label className="mb-2 block text-[12px] font-bold uppercase tracking-[0.12em] text-[#2E5B82]/55">
+                      Review email
+                    </label>
+                    <Input
+                      type="email"
+                      required
+                      autoComplete="username"
+                      value={reviewEmail}
+                      onChange={event => setReviewEmail(event.target.value)}
+                      placeholder="reviewer@example.com"
+                      className="h-11 rounded-lg border-[#D4E9F7] bg-[#FAFCFF]"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="mb-2 block text-[12px] font-bold uppercase tracking-[0.12em] text-[#2E5B82]/55">
+                      Review password
+                    </label>
+                    <Input
+                      type="password"
+                      required
+                      autoComplete="current-password"
+                      value={reviewPassword}
+                      onChange={event =>
+                        setReviewPassword(event.target.value)
+                      }
+                      placeholder="Password"
+                      className="h-11 rounded-lg border-[#D4E9F7] bg-[#FAFCFF]"
+                    />
+                  </div>
+
+                  <Button
+                    type="submit"
+                    disabled={loading}
+                    className="h-11 w-full rounded-lg bg-[#0F2B3C] text-white hover:bg-[#1A3A5C]"
+                  >
+                    {loading && <Loader2 className="h-4 w-4 animate-spin" />}
+                    Continue
+                  </Button>
+
+                  <div className="text-center">
+                    <button
+                      type="button"
+                      disabled={loading}
+                      onClick={switchToEmailCode}
+                      className="text-[12px] font-semibold text-[#2E5B82]/55 transition-colors hover:text-[#0F2B3C]"
+                    >
+                      Use email code instead
+                    </button>
+                  </div>
+                </form>
+              ) : !challenge ? (
                 <form onSubmit={handleStart} className="space-y-4">
                   <div>
                     <label className="mb-2 block text-[12px] font-bold uppercase tracking-[0.12em] text-[#2E5B82]/55">
@@ -131,6 +223,17 @@ export default function Login() {
                     )}
                     Send code
                   </Button>
+
+                  <div className="text-center">
+                    <button
+                      type="button"
+                      disabled={loading}
+                      onClick={switchToReview}
+                      className="text-[12px] font-semibold text-[#2E5B82]/45 transition-colors hover:text-[#0F2B3C]"
+                    >
+                      Use review credentials
+                    </button>
+                  </div>
                 </form>
               ) : (
                 <form onSubmit={handleVerify} className="space-y-4">
@@ -213,4 +316,16 @@ function normalizeNext(next: string | null): string {
 function errorMessage(error: unknown, fallback: string): string {
   if (error instanceof Error && error.message) return error.message;
   return fallback;
+}
+
+function reviewLoginErrorMessage(error: unknown): string {
+  if (error instanceof ApiError) {
+    if (error.status === 401 && error.code === "auth.invalid_credentials") {
+      return "These review credentials didn't work.";
+    }
+    if (error.status === 404 && error.code === "resource.not_found") {
+      return "Review login isn't available right now.";
+    }
+  }
+  return errorMessage(error, "Could not sign in with review credentials.");
 }

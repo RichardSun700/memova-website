@@ -124,6 +124,16 @@ export async function verifyEmailLogin(
   });
 }
 
+export async function loginWithReviewCredentials(
+  email: string,
+  password: string
+): Promise<AuthTokenResponse> {
+  return apiRequest<AuthTokenResponse>("/v1/auth/reviewer/login", {
+    method: "POST",
+    body: { email, password },
+  });
+}
+
 export async function getCurrentUser(
   token: string
 ): Promise<CurrentUserResponse> {
