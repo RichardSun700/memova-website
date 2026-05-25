@@ -678,7 +678,7 @@ export default function Home() {
               href="/mcp"
               className="text-[13px] font-medium text-[#2E5B82]/60 hover:text-[#0F2B3C] transition-colors"
             >
-              Plugins
+              Plugins & MCP
             </a>
             {auth.isAuthenticated ? (
               <button
@@ -1392,9 +1392,9 @@ export default function Home() {
         <div className="container">
           <div className="grid items-center gap-8 lg:grid-cols-[0.9fr_1.1fr]">
             <div>
-              <SectionLabel>Agent plugins</SectionLabel>
+              <SectionLabel>Plugins & MCP</SectionLabel>
               <h2 className="font-serif text-[2rem] leading-[1.1] tracking-[-0.015em] text-[#0F2B3C] sm:text-[2.75rem]">
-                Set up once. Use Memova from Codex.
+                Use Memova from Codex and MCP clients.
               </h2>
               <p className="mt-4 max-w-xl text-[14px] font-medium leading-6 text-[#2E5B82]/55">
                 The Memova Codex plugin connects the iOS app, OAuth MCP, and
@@ -1407,7 +1407,7 @@ export default function Home() {
                   href="/mcp"
                   className="inline-flex h-11 items-center justify-center rounded-full bg-[#0F2B3C] px-6 text-[13px] font-semibold text-white transition-all hover:bg-[#1A3A5C]"
                 >
-                  View plugin setup
+                  View plugin & MCP setup
                 </a>
                 <a
                   href="/connected-clients"

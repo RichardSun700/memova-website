@@ -128,10 +128,10 @@ export default function Mcp() {
             <div className="grid gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
               <div>
                 <p className="mb-4 text-[11px] font-bold uppercase tracking-[0.24em] text-[#6FA8D9]">
-                  Agent plugins and MCP
+                  Plugins & MCP
                 </p>
                 <h1 className="max-w-3xl font-serif text-[2.4rem] leading-[1.05] tracking-[-0.01em] text-[#0F2B3C] sm:text-[3.4rem]">
-                  Connect Memova to Codex.
+                  Connect Memova to Codex and MCP clients.
                 </h1>
                 <p className="mt-5 max-w-2xl text-[15px] leading-7 text-[#2E5B82]/60 md:text-[16px]">
                   Install the Memova Codex plugin to connect your Memova app,
@@ -198,7 +198,7 @@ export default function Mcp() {
                   What it can do
                 </p>
                 <h2 className="font-serif text-[2rem] leading-[1.1] text-[#0F2B3C] md:text-[2.8rem]">
-                  The plugin turns Memova into an agent workspace.
+                  Plugins and MCP turn Memova into an agent workspace.
                 </h2>
               </div>
               <div className="grid gap-3 sm:grid-cols-2">
@@ -316,7 +316,7 @@ export default function Mcp() {
             <div className="grid gap-8 lg:grid-cols-[0.85fr_1.15fr]">
               <div>
                 <p className="mb-3 text-[11px] font-bold uppercase tracking-[0.2em] text-[#6FA8D9]">
-                  Agent support
+                  Plugin & MCP support
                 </p>
                 <h2 className="font-serif text-[2rem] leading-[1.1] text-[#0F2B3C] md:text-[2.8rem]">
                   Built for Codex first, not Codex only.
