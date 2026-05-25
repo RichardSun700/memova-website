@@ -12,10 +12,13 @@ import {
   ListChecks,
   BookOpen,
   ChevronRight,
+  Code2,
+  FolderCheck,
   LogOut,
+  PlugZap,
   Zap,
   UserRound,
-  Server,
+  Smartphone,
 } from "lucide-react";
 import SiteFooter from "@/components/SiteFooter";
 import { useAuth } from "@/contexts/AuthContext";
@@ -297,16 +300,20 @@ function WorkflowPreviewSection() {
                     Detected Context
                   </p>
                   <div className="flex flex-wrap gap-1.5">
-                    {["Fred", "Friday", "Nov 15", "GitHub", "Budget missing"].map(
-                      (tag) => (
-                        <span
-                          key={tag}
-                          className="px-2 py-0.5 text-[10px] font-semibold rounded-full bg-[#EDF5FC] text-[#2E5B82] border border-[#D4E9F7]/60"
-                        >
-                          {tag}
-                        </span>
-                      )
-                    )}
+                    {[
+                      "Fred",
+                      "Friday",
+                      "Nov 15",
+                      "GitHub",
+                      "Budget missing",
+                    ].map(tag => (
+                      <span
+                        key={tag}
+                        className="px-2 py-0.5 text-[10px] font-semibold rounded-full bg-[#EDF5FC] text-[#2E5B82] border border-[#D4E9F7]/60"
+                      >
+                        {tag}
+                      </span>
+                    ))}
                   </div>
                 </div>
 
@@ -526,7 +533,10 @@ export default function Home() {
       const response = await fetch("/api/waitlist", {
         method: "POST",
         headers: { "content-type": "application/json" },
-        body: JSON.stringify({ email: normalizedEmail, source: "home-waitlist" }),
+        body: JSON.stringify({
+          email: normalizedEmail,
+          source: "home-waitlist",
+        }),
       });
 
       if (!response.ok) {
@@ -548,10 +558,26 @@ export default function Home() {
 
   /* Workflow steps data */
   const workflowSteps = [
-    { icon: PenLine, label: "Capture", items: ["Voice", "Photo", "Handwriting"] },
-    { icon: Sparkles, label: "Understand", items: ["People", "Deadlines", "Decisions"] },
-    { icon: CircleCheck, label: "Confirm", items: ["Attendees", "Email draft", "Priority"] },
-    { icon: Send, label: "Execute", items: ["Calendar sync", "Email send", "Daily plan"] },
+    {
+      icon: PenLine,
+      label: "Capture",
+      items: ["Voice", "Photo", "Handwriting"],
+    },
+    {
+      icon: Sparkles,
+      label: "Understand",
+      items: ["People", "Deadlines", "Decisions"],
+    },
+    {
+      icon: CircleCheck,
+      label: "Confirm",
+      items: ["Attendees", "Email draft", "Priority"],
+    },
+    {
+      icon: Send,
+      label: "Execute",
+      items: ["Calendar sync", "Email send", "Daily plan"],
+    },
   ];
 
   /* Use case 1 action items */
@@ -563,14 +589,37 @@ export default function Home() {
   ];
 
   /* Integrations */
-  const integrations = ["Google Calendar", "Outlook", "Gmail", "Slack", "GitHub", "Notebook"];
+  const integrations = [
+    "Codex Plugin",
+    "Remote MCP",
+    "iCloud Vault",
+    "Google Calendar",
+    "Gmail",
+    "GitHub",
+  ];
 
   /* Intuitive reasons */
   const intuitiveReasons = [
-    { icon: PenLine, title: "You do what you already do", desc: "Notes, recordings, uploads." },
-    { icon: Sparkles, title: "MEMOVA finds what matters", desc: "People, deadlines, decisions." },
-    { icon: CircleCheck, title: "You stay in control", desc: "Confirm before anything is sent." },
-    { icon: Send, title: "Actions go where they belong", desc: "Calendar, email, planner." },
+    {
+      icon: PenLine,
+      title: "You do what you already do",
+      desc: "Notes, recordings, uploads.",
+    },
+    {
+      icon: Sparkles,
+      title: "MEMOVA finds what matters",
+      desc: "People, deadlines, decisions.",
+    },
+    {
+      icon: CircleCheck,
+      title: "You stay in control",
+      desc: "Confirm before anything is sent.",
+    },
+    {
+      icon: Send,
+      title: "Actions go where they belong",
+      desc: "Calendar, email, planner.",
+    },
   ];
 
   return (
@@ -629,7 +678,7 @@ export default function Home() {
               href="/mcp"
               className="text-[13px] font-medium text-[#2E5B82]/60 hover:text-[#0F2B3C] transition-colors"
             >
-              MCP
+              Plugins
             </a>
             {auth.isAuthenticated ? (
               <button
@@ -747,7 +796,7 @@ export default function Home() {
                   {step.label}
                 </h3>
                 <div className="flex flex-wrap gap-1.5 md:block md:space-y-2">
-                  {step.items.map((item) => (
+                  {step.items.map(item => (
                     <div
                       key={item}
                       className="inline-flex items-center gap-1.5 rounded-full bg-white/70 px-2 py-1 text-[10.5px] text-[#2E5B82]/55 font-medium md:flex md:gap-2.5 md:rounded-none md:bg-transparent md:px-0 md:py-0 md:text-[13px]"
@@ -764,7 +813,10 @@ export default function Home() {
       </section>
 
       {/* ─── USE CASES ─── */}
-      <section id="use-cases" className="py-16 md:py-40 bg-[#FAFCFF] overflow-hidden">
+      <section
+        id="use-cases"
+        className="py-16 md:py-40 bg-[#FAFCFF] overflow-hidden"
+      >
         <div className="container">
           <div className="text-center mb-12 md:mb-24">
             <SectionLabel>Use Cases</SectionLabel>
@@ -1024,11 +1076,31 @@ export default function Home() {
                   </div>
                   <div className="p-5 space-y-2">
                     {[
-                      { ext: "MD", color: "bg-[#EDF5FC] text-[#2E5B82]", name: "Last meeting note" },
-                      { ext: "PDF", color: "bg-[#FEE2E2] text-[#B91C1C]", name: "User interview notes" },
-                      { ext: "XLS", color: "bg-[#D1FAE5] text-[#065F46]", name: "Budget sheet" },
-                      { ext: "DOC", color: "bg-[#EDE9FE] text-[#5B21B6]", name: "Product roadmap" },
-                      { ext: "PDF", color: "bg-[#FEE2E2] text-[#B91C1C]", name: "Research doc" },
+                      {
+                        ext: "MD",
+                        color: "bg-[#EDF5FC] text-[#2E5B82]",
+                        name: "Last meeting note",
+                      },
+                      {
+                        ext: "PDF",
+                        color: "bg-[#FEE2E2] text-[#B91C1C]",
+                        name: "User interview notes",
+                      },
+                      {
+                        ext: "XLS",
+                        color: "bg-[#D1FAE5] text-[#065F46]",
+                        name: "Budget sheet",
+                      },
+                      {
+                        ext: "DOC",
+                        color: "bg-[#EDE9FE] text-[#5B21B6]",
+                        name: "Product roadmap",
+                      },
+                      {
+                        ext: "PDF",
+                        color: "bg-[#FEE2E2] text-[#B91C1C]",
+                        name: "Research doc",
+                      },
                     ].map((file, i) => (
                       <div
                         key={i}
@@ -1064,11 +1136,26 @@ export default function Home() {
                   </div>
                   <div className="p-5 space-y-3">
                     {[
-                      { title: "What happened last time", desc: "Q3 launch timeline confirmed, budget pending" },
-                      { title: "Open questions", desc: "Pricing model, partner onboarding" },
-                      { title: "Missing context", desc: "No update from engineering since May 2" },
-                      { title: "Previous action items", desc: "3 items still open from last sync" },
-                      { title: "People to follow up with", desc: "Sarah (design), Jordan (eng)" },
+                      {
+                        title: "What happened last time",
+                        desc: "Q3 launch timeline confirmed, budget pending",
+                      },
+                      {
+                        title: "Open questions",
+                        desc: "Pricing model, partner onboarding",
+                      },
+                      {
+                        title: "Missing context",
+                        desc: "No update from engineering since May 2",
+                      },
+                      {
+                        title: "Previous action items",
+                        desc: "3 items still open from last sync",
+                      },
+                      {
+                        title: "People to follow up with",
+                        desc: "Sarah (design), Jordan (eng)",
+                      },
                     ].map((item, i) => (
                       <div
                         key={i}
@@ -1120,17 +1207,44 @@ export default function Home() {
                   </div>
                   <div className="p-5 space-y-2">
                     {[
-                      { icon: Mail, label: "Email Fred about approval", time: "9:00 AM", color: "bg-[#EF4444]" },
-                      { icon: FileText, label: "Upload PR deck to GitHub", time: "10:30 AM", color: "bg-[#F59E0B]" },
-                      { icon: Calendar, label: "Confirm launch sync", time: "11:00 AM", color: "bg-[#EF4444]" },
-                      { icon: FileText, label: "Review pricing proposal", time: "2:00 PM", color: "bg-[#F59E0B]" },
-                      { icon: Mail, label: "Ask manager for feedback", time: "4:00 PM", color: "bg-[#6FA8D9]" },
+                      {
+                        icon: Mail,
+                        label: "Email Fred about approval",
+                        time: "9:00 AM",
+                        color: "bg-[#EF4444]",
+                      },
+                      {
+                        icon: FileText,
+                        label: "Upload PR deck to GitHub",
+                        time: "10:30 AM",
+                        color: "bg-[#F59E0B]",
+                      },
+                      {
+                        icon: Calendar,
+                        label: "Confirm launch sync",
+                        time: "11:00 AM",
+                        color: "bg-[#EF4444]",
+                      },
+                      {
+                        icon: FileText,
+                        label: "Review pricing proposal",
+                        time: "2:00 PM",
+                        color: "bg-[#F59E0B]",
+                      },
+                      {
+                        icon: Mail,
+                        label: "Ask manager for feedback",
+                        time: "4:00 PM",
+                        color: "bg-[#6FA8D9]",
+                      },
                     ].map((item, i) => (
                       <div
                         key={i}
                         className="flex items-center gap-3 p-3 rounded-xl bg-[#F8FBFE] border border-[#EDF3FA] hover:border-[#6FA8D9]/30 transition-colors"
                       >
-                        <div className={`w-2 h-2 rounded-full shrink-0 ${item.color}`} />
+                        <div
+                          className={`w-2 h-2 rounded-full shrink-0 ${item.color}`}
+                        />
                         <div className="w-8 h-8 rounded-lg bg-[#EDF5FC] flex items-center justify-center text-[#2E5B82] shrink-0">
                           <item.icon className="w-3.5 h-3.5" />
                         </div>
@@ -1259,7 +1373,7 @@ export default function Home() {
             />
           </div>
           <div className="grid grid-cols-3 md:grid-cols-6 gap-3 max-w-3xl mx-auto mt-8">
-            {integrations.map((name) => (
+            {integrations.map(name => (
               <div
                 key={name}
                 className="text-center py-2.5 rounded-xl bg-[#F8FBFE] border border-[#EDF3FA]"
@@ -1273,26 +1387,27 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ─── MCP ─── */}
+      {/* ─── AGENT PLUGINS ─── */}
       <section className="border-y border-[#E8F0F8]/70 bg-[#FAFCFF] py-20 md:py-28">
         <div className="container">
           <div className="grid items-center gap-8 lg:grid-cols-[0.9fr_1.1fr]">
             <div>
-              <SectionLabel>Remote MCP beta</SectionLabel>
+              <SectionLabel>Agent plugins</SectionLabel>
               <h2 className="font-serif text-[2rem] leading-[1.1] tracking-[-0.015em] text-[#0F2B3C] sm:text-[2.75rem]">
-                Use Memova from your AI agent.
+                Set up once. Use Memova from Codex.
               </h2>
               <p className="mt-4 max-w-xl text-[14px] font-medium leading-6 text-[#2E5B82]/55">
-                Connect Codex, Claude, Cursor, or any MCP-compatible client to
-                search notes, read action items, and update task progress with
-                your approval.
+                The Memova Codex plugin connects the iOS app, OAuth MCP, and
+                your user-owned iCloud knowledge base. Direct MCP setup still
+                works for compatible clients, and the same plugin pattern is
+                designed to expand to Claude Code and other agents.
               </p>
               <div className="mt-7 flex flex-col gap-3 sm:flex-row">
                 <a
                   href="/mcp"
                   className="inline-flex h-11 items-center justify-center rounded-full bg-[#0F2B3C] px-6 text-[13px] font-semibold text-white transition-all hover:bg-[#1A3A5C]"
                 >
-                  View MCP setup
+                  View plugin setup
                 </a>
                 <a
                   href="/connected-clients"
@@ -1306,26 +1421,62 @@ export default function Home() {
             <div className="rounded-2xl border border-[#DCEBF6] bg-white p-5 shadow-xl shadow-[#2E5B82]/[0.04]">
               <div className="flex items-center gap-3 border-b border-[#EDF3FA] pb-4">
                 <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-[#EDF5FC] text-[#2E5B82]">
-                  <Server className="h-5 w-5" />
+                  <PlugZap className="h-5 w-5" />
                 </div>
                 <div>
                   <div className="text-[11px] font-bold uppercase tracking-[0.16em] text-[#2E5B82]/45">
-                    MCP endpoint
+                    Available now
                   </div>
                   <div className="break-all text-[14px] font-bold text-[#0F2B3C]">
-                    https://api.memova.ai/mcp
+                    Memova Codex Plugin
                   </div>
                 </div>
               </div>
-              <div className="mt-4 grid gap-2 sm:grid-cols-3">
-                {["Read notes", "Write actions", "Track tasks"].map(item => (
+              <div className="mt-4 grid gap-2">
+                {[
+                  {
+                    icon: Smartphone,
+                    title: "Start in the Memova app",
+                    desc: "Choose new vault or connect an existing knowledge base.",
+                  },
+                  {
+                    icon: Code2,
+                    title: "Run @memova in Codex",
+                    desc: "The plugin signs in with OAuth and creates the local input root.",
+                  },
+                  {
+                    icon: FolderCheck,
+                    title: "Bind iOS to the same vault",
+                    desc: "The app uses manifest hints to find and verify the iCloud folder.",
+                  },
+                ].map(item => (
                   <div
-                    key={item}
-                    className="rounded-lg border border-[#EDF3FA] bg-[#F8FBFE] px-3 py-2 text-[12px] font-semibold text-[#2E5B82]"
+                    key={item.title}
+                    className="flex gap-3 rounded-lg border border-[#EDF3FA] bg-[#F8FBFE] px-3 py-3"
                   >
-                    {item}
+                    <item.icon className="mt-0.5 h-4 w-4 shrink-0 text-[#2E5B82]" />
+                    <div>
+                      <div className="text-[12px] font-bold text-[#0F2B3C]">
+                        {item.title}
+                      </div>
+                      <div className="mt-0.5 text-[11px] font-medium leading-4 text-[#2E5B82]/50">
+                        {item.desc}
+                      </div>
+                    </div>
                   </div>
                 ))}
+              </div>
+              <div className="mt-4 flex flex-wrap gap-2">
+                {["Codex now", "MCP fallback", "Claude Code planned"].map(
+                  item => (
+                    <span
+                      key={item}
+                      className="rounded-full border border-[#D4E9F7] bg-white px-3 py-1.5 text-[11px] font-bold text-[#2E5B82]"
+                    >
+                      {item}
+                    </span>
+                  )
+                )}
               </div>
             </div>
           </div>
@@ -1357,7 +1508,7 @@ export default function Home() {
                 type="email"
                 required
                 value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                onChange={e => setEmail(e.target.value)}
                 disabled={waitlistStatus === "loading"}
               />
               <button
