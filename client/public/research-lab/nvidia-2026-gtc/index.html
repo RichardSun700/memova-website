@@ -1,0 +1,1467 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>GTC 2026 x Memova: AI Factory, Token Economy, Five-Layer Cake</title>
+  <style>
+    :root {
+      --bg: #07100d;
+      --bg2: #0d1a16;
+      --panel: rgba(252, 255, 248, 0.92);
+      --panel-dark: rgba(13, 26, 22, 0.78);
+      --line: rgba(189, 232, 190, 0.26);
+      --ink: #f7fff1;
+      --ink-dark: #10201a;
+      --muted: #9bb7a7;
+      --muted-dark: #4f6c5d;
+      --green: #79d45e;
+      --lime: #c7ff5f;
+      --cyan: #8ce7f7;
+      --gold: #ffd166;
+      --rose: #ff8a88;
+      --blue: #8fb8ff;
+      --card: #f8fff3;
+      --shadow: 0 24px 80px rgba(0, 0, 0, 0.36);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 18% 8%, rgba(121, 212, 94, 0.22), transparent 32%),
+        radial-gradient(circle at 78% 12%, rgba(140, 231, 247, 0.15), transparent 30%),
+        linear-gradient(180deg, var(--bg), var(--bg2) 46%, #f3f8ee 46%, #edf3ea);
+    }
+
+    a { color: inherit; }
+
+    .shell {
+      width: min(1280px, calc(100% - 32px));
+      margin: 0 auto;
+    }
+
+    .hero {
+      min-height: 92vh;
+      display: grid;
+      grid-template-rows: auto 1fr;
+      padding: 22px 0 38px;
+    }
+
+    .nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 18px;
+      padding: 12px 0;
+      color: rgba(247, 255, 241, 0.86);
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 800;
+    }
+
+    .mark {
+      width: 34px;
+      height: 34px;
+      border-radius: 8px;
+      background: linear-gradient(145deg, var(--lime), var(--green));
+      box-shadow: 0 0 36px rgba(121, 212, 94, 0.42);
+    }
+
+    .nav-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: flex-end;
+    }
+
+    .nav-links a,
+    .pill {
+      min-height: 36px;
+      display: inline-flex;
+      align-items: center;
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: 8px;
+      padding: 8px 12px;
+      text-decoration: none;
+      color: rgba(247, 255, 241, 0.86);
+      backdrop-filter: blur(12px);
+      font-size: 13px;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.04fr) minmax(360px, 0.96fr);
+      gap: 26px;
+      align-items: end;
+      padding-top: 36px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--lime);
+      font-size: 13px;
+      font-weight: 760;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 18px;
+    }
+
+    .pulse {
+      width: 9px;
+      height: 9px;
+      border-radius: 999px;
+      background: var(--lime);
+      box-shadow: 0 0 0 8px rgba(199, 255, 95, 0.12);
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(34px, 5.8vw, 76px);
+      line-height: 0.96;
+      letter-spacing: 0;
+      max-width: 900px;
+    }
+
+    .hero-copy {
+      color: rgba(247, 255, 241, 0.76);
+      font-size: clamp(16px, 2vw, 20px);
+      line-height: 1.6;
+      max-width: 780px;
+      margin: 24px 0 28px;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .button {
+      min-height: 44px;
+      border: 1px solid rgba(199, 255, 95, 0.5);
+      border-radius: 8px;
+      padding: 11px 16px;
+      background: rgba(199, 255, 95, 0.13);
+      color: var(--ink);
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      font-weight: 760;
+      cursor: pointer;
+    }
+
+    .button.primary {
+      color: #07100d;
+      background: var(--lime);
+      border-color: var(--lime);
+    }
+
+    .visual-card {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      overflow: hidden;
+      background: rgba(255, 255, 255, 0.06);
+      box-shadow: var(--shadow);
+    }
+
+    .video-still {
+      min-height: 320px;
+      background:
+        linear-gradient(180deg, rgba(7,16,13,0.06), rgba(7,16,13,0.78)),
+        url("https://img.youtube.com/vi/jw_o0xr8MWU/maxresdefault.jpg") center / cover;
+      position: relative;
+    }
+
+    .video-still::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(90deg, rgba(255,255,255,0.05), rgba(255,255,255,0.05) 1px, transparent 1px, transparent 18px);
+      opacity: 0.14;
+      pointer-events: none;
+    }
+
+    .play {
+      position: absolute;
+      left: 24px;
+      bottom: 24px;
+      display: grid;
+      gap: 6px;
+      z-index: 1;
+    }
+
+    .play a {
+      text-decoration: none;
+      color: #07100d;
+      background: var(--lime);
+      border-radius: 8px;
+      padding: 12px 14px;
+      font-weight: 800;
+      width: fit-content;
+    }
+
+    .play span {
+      color: rgba(247,255,241,0.72);
+      font-size: 13px;
+    }
+
+    .ticker-ribbon {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      border-top: 1px solid var(--line);
+    }
+
+    .ticker {
+      padding: 14px;
+      border-right: 1px solid var(--line);
+      display: grid;
+      gap: 4px;
+      min-height: 74px;
+    }
+
+    .ticker:last-child { border-right: 0; }
+
+    .ticker strong {
+      color: var(--lime);
+      font-size: 17px;
+    }
+
+    .ticker span {
+      color: rgba(247, 255, 241, 0.66);
+      font-size: 12px;
+      line-height: 1.35;
+    }
+
+    .section {
+      padding: 72px 0;
+      color: var(--ink-dark);
+    }
+
+    .summary-section {
+      color: var(--ink);
+      background:
+        linear-gradient(180deg, rgba(7,16,13,0.94), rgba(13,26,22,0.92)),
+        radial-gradient(circle at 18% 10%, rgba(199, 255, 95, 0.16), transparent 30%),
+        radial-gradient(circle at 82% 4%, rgba(140, 231, 247, 0.13), transparent 32%);
+    }
+
+    .dark-section {
+      color: var(--ink);
+      background:
+        linear-gradient(180deg, rgba(7,16,13,0.86), rgba(7,16,13,0.95)),
+        radial-gradient(circle at 70% 20%, rgba(140, 231, 247, 0.15), transparent 34%);
+    }
+
+    .section-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+      gap: 18px;
+      margin-bottom: 24px;
+    }
+
+    .section-title {
+      margin: 0;
+      font-size: clamp(30px, 4.6vw, 58px);
+      line-height: 1;
+      letter-spacing: 0;
+      max-width: 850px;
+      color: #07100d;
+    }
+
+    .section-title.compact {
+      font-size: clamp(16px, 2.8vw, 34px);
+      line-height: 1.08;
+      display: inline-block;
+      max-width: none;
+      white-space: nowrap;
+      color: #ffffff;
+      background: #07100d;
+      border: 1px solid rgba(16,32,26,0.12);
+      border-radius: 8px;
+      padding: 8px 12px;
+      text-shadow: 0 1px 12px rgba(0,0,0,0.42);
+    }
+
+    .section-lead {
+      max-width: 620px;
+      color: var(--muted-dark);
+      line-height: 1.6;
+      margin: 10px 0 0;
+      font-size: 16px;
+    }
+
+    .summary-section .section-lead {
+      color: rgba(255,255,255,0.86);
+    }
+
+    .dark-section .section-title {
+      color: #ffffff;
+    }
+
+    .dark-section .section-lead { color: rgba(247, 255, 241, 0.66); }
+
+    .insight-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 18px;
+      align-items: stretch;
+    }
+
+    .panel {
+      background: var(--panel);
+      border: 1px solid rgba(16,32,26,0.12);
+      border-radius: 8px;
+      box-shadow: 0 18px 56px rgba(16,32,26,0.11);
+      overflow: hidden;
+    }
+
+    .panel.dark {
+      background: var(--panel-dark);
+      border-color: var(--line);
+      color: var(--ink);
+      box-shadow: var(--shadow);
+    }
+
+    .panel-pad { padding: 22px; }
+
+    .two-min {
+      display: grid;
+      gap: 12px;
+    }
+
+    .thesis {
+      display: grid;
+      grid-template-columns: 54px 1fr;
+      gap: 14px;
+      align-items: start;
+      border: 1px solid rgba(16,32,26,0.1);
+      background: #ffffff;
+      border-radius: 8px;
+      padding: 14px;
+    }
+
+    .num {
+      width: 42px;
+      height: 42px;
+      border-radius: 8px;
+      display: grid;
+      place-items: center;
+      background: #0d1a16;
+      color: var(--lime);
+      font-weight: 900;
+    }
+
+    .thesis h3,
+    .metric-card h3,
+    .layer-card h3,
+    .road-card h3 {
+      margin: 0 0 6px;
+      font-size: 18px;
+      line-height: 1.15;
+    }
+
+    .thesis h3 {
+      color: #0b2f24;
+    }
+
+    .thesis p,
+    .metric-card p,
+    .layer-card p,
+    .road-card p {
+      margin: 0;
+      color: var(--muted-dark);
+      line-height: 1.55;
+      font-size: 14px;
+    }
+
+    .source-stack {
+      display: grid;
+      gap: 12px;
+    }
+
+    .keynote-console {
+      min-height: 300px;
+      padding: 18px;
+      display: grid;
+      gap: 12px;
+      align-content: stretch;
+      color: #fff;
+      background:
+        linear-gradient(135deg, rgba(7,16,13,0.96), rgba(13,26,22,0.9)),
+        radial-gradient(circle at 74% 20%, rgba(140,231,247,0.2), transparent 32%);
+    }
+
+    .console-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .console-top span {
+      color: var(--lime);
+      font-weight: 850;
+      font-size: 13px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .console-light {
+      width: 10px;
+      height: 10px;
+      border-radius: 999px;
+      background: var(--lime);
+      box-shadow: 0 0 0 8px rgba(199,255,95,0.12), 0 0 28px rgba(199,255,95,0.66);
+    }
+
+    .console-line {
+      display: grid;
+      grid-template-columns: 92px 1fr;
+      gap: 10px;
+      align-items: center;
+      color: rgba(247,255,241,0.72);
+      font-size: 13px;
+    }
+
+    .console-bar {
+      height: 9px;
+      border-radius: 8px;
+      overflow: hidden;
+      background: rgba(255,255,255,0.1);
+    }
+
+    .console-bar i {
+      display: block;
+      width: var(--w);
+      height: 100%;
+      background: linear-gradient(90deg, var(--lime), var(--cyan));
+      border-radius: 8px;
+    }
+
+    .console-summary {
+      border: 1px solid rgba(247,255,241,0.14);
+      background: rgba(255,255,255,0.07);
+      border-radius: 8px;
+      padding: 14px;
+      display: grid;
+      gap: 8px;
+    }
+
+    .console-summary strong {
+      color: #ffffff;
+      font-size: 20px;
+      line-height: 1.15;
+    }
+
+    .console-summary p {
+      margin: 0;
+      color: rgba(247,255,241,0.74);
+      line-height: 1.5;
+      font-size: 13px;
+    }
+
+    .caption {
+      color: var(--muted-dark);
+      font-size: 13px;
+      line-height: 1.5;
+      margin-top: 10px;
+    }
+
+    .metric-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-top: 18px;
+    }
+
+    .metric-card {
+      background: #0d1a16;
+      color: var(--ink);
+      border-radius: 8px;
+      border: 1px solid var(--line);
+      padding: 16px;
+      min-height: 150px;
+    }
+
+    .metric-card strong {
+      display: block;
+      color: var(--lime);
+      font-size: 34px;
+      line-height: 1;
+      margin: 8px 0;
+    }
+
+    .metric-card p { color: rgba(247, 255, 241, 0.68); }
+
+    .keynote-summary-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 0.95fr) minmax(340px, 1.05fr);
+      gap: 18px;
+      align-items: stretch;
+    }
+
+    .summary-brief {
+      display: grid;
+      gap: 12px;
+    }
+
+    .summary-brief h3,
+    .transcript-entry h3 {
+      margin: 0;
+      color: #0b2f24;
+      font-size: 24px;
+      line-height: 1.08;
+    }
+
+    .summary-brief p,
+    .transcript-entry p {
+      margin: 0;
+      color: var(--muted-dark);
+      line-height: 1.58;
+    }
+
+    .summary-points {
+      display: grid;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .summary-point {
+      border: 1px solid rgba(16,32,26,0.1);
+      background: #ffffff;
+      border-radius: 8px;
+      padding: 12px;
+    }
+
+    .summary-point strong {
+      display: block;
+      color: #0b2f24;
+      margin-bottom: 4px;
+    }
+
+    .summary-point span {
+      color: var(--muted-dark);
+      font-size: 14px;
+      line-height: 1.48;
+    }
+
+    .transcript-entry {
+      background:
+        linear-gradient(135deg, rgba(7,16,13,0.96), rgba(13,26,22,0.9)),
+        radial-gradient(circle at 86% 14%, rgba(199,255,95,0.2), transparent 34%);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 20px;
+      color: var(--ink);
+      display: grid;
+      gap: 14px;
+      box-shadow: var(--shadow);
+    }
+
+    .transcript-entry h3 {
+      color: #ffffff;
+    }
+
+    .transcript-entry p {
+      color: rgba(247,255,241,0.72);
+    }
+
+    .transcript-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 4px;
+    }
+
+    .transcript-button {
+      min-height: 42px;
+      display: inline-flex;
+      align-items: center;
+      border-radius: 8px;
+      padding: 10px 12px;
+      border: 1px solid rgba(199,255,95,0.38);
+      color: #07100d;
+      background: var(--lime);
+      font-weight: 800;
+      text-decoration: none;
+    }
+
+    .transcript-button.secondary {
+      color: #ffffff;
+      background: rgba(255,255,255,0.08);
+      border-color: rgba(247,255,241,0.2);
+    }
+
+    .transcript-matrix {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+    }
+
+    .matrix-card {
+      border: 1px solid rgba(247,255,241,0.14);
+      background: rgba(255,255,255,0.07);
+      border-radius: 8px;
+      padding: 12px;
+    }
+
+    .matrix-card small {
+      color: rgba(247,255,241,0.55);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      font-weight: 760;
+    }
+
+    .matrix-card b {
+      display: block;
+      margin-top: 5px;
+      color: var(--lime);
+      font-size: 18px;
+    }
+
+    .cake-layout {
+      display: grid;
+      grid-template-columns: minmax(300px, 0.78fr) minmax(0, 1.22fr);
+      gap: 18px;
+      align-items: start;
+    }
+
+    .cake {
+      display: grid;
+      gap: 10px;
+      perspective: 900px;
+    }
+
+    .cake-layer {
+      position: relative;
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 8px;
+      padding: 18px 18px 18px 20px;
+      cursor: pointer;
+      color: var(--ink);
+      background: linear-gradient(135deg, rgba(255,255,255,0.15), rgba(255,255,255,0.04));
+      transform: translateX(calc(var(--i) * 7px));
+      transition: transform 0.18s ease, background 0.18s ease, border-color 0.18s ease;
+    }
+
+    .cake-layer:hover,
+    .cake-layer.active {
+      transform: translateX(calc(var(--i) * 7px + 12px));
+      background: linear-gradient(135deg, rgba(199,255,95,0.24), rgba(140,231,247,0.08));
+      border-color: rgba(199,255,95,0.62);
+    }
+
+    .cake-layer small {
+      display: block;
+      color: rgba(247, 255, 241, 0.56);
+      font-size: 12px;
+      margin-bottom: 4px;
+    }
+
+    .cake-layer strong {
+      font-size: 18px;
+    }
+
+    .layer-card {
+      display: grid;
+      gap: 14px;
+    }
+
+    .layer-summary {
+      background: rgba(255,255,255,0.08);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 18px;
+    }
+
+    .layer-summary p { color: rgba(247, 255, 241, 0.68); }
+
+    .stock-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .stock {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: rgba(255,255,255,0.08);
+      padding: 14px;
+      min-height: 168px;
+      display: grid;
+      gap: 8px;
+    }
+
+    .stock-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: baseline;
+    }
+
+    .stock h4 { margin: 0; font-size: 18px; }
+
+    .price {
+      color: var(--lime);
+      font-weight: 860;
+    }
+
+    .badge {
+      width: fit-content;
+      border-radius: 8px;
+      padding: 5px 8px;
+      font-size: 12px;
+      font-weight: 760;
+      background: rgba(140, 231, 247, 0.16);
+      color: var(--cyan);
+      border: 1px solid rgba(140, 231, 247, 0.35);
+    }
+
+    .badge.risk { color: #ffd1d0; border-color: rgba(255,138,136,0.34); background: rgba(255,138,136,0.14); }
+    .badge.bull { color: var(--lime); border-color: rgba(199,255,95,0.4); background: rgba(199,255,95,0.12); }
+
+    .stock p {
+      margin: 0;
+      color: rgba(247, 255, 241, 0.68);
+      font-size: 13px;
+      line-height: 1.48;
+    }
+
+    .ohlc-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 6px;
+    }
+
+    .ohlc-grid span {
+      border: 1px solid rgba(247,255,241,0.12);
+      border-radius: 8px;
+      background: rgba(7,16,13,0.22);
+      padding: 8px;
+      display: grid;
+      gap: 3px;
+      min-width: 0;
+    }
+
+    .ohlc-grid small {
+      color: rgba(247,255,241,0.48);
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .ohlc-grid b {
+      color: #ffffff;
+      font-size: 13px;
+      white-space: nowrap;
+    }
+
+    .market-meta {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      color: rgba(247,255,241,0.58);
+      font-size: 12px;
+    }
+
+    .market-meta .up { color: var(--lime); }
+    .market-meta .down { color: #ffaaa8; }
+
+    .sim-grid {
+      display: grid;
+      grid-template-columns: 350px minmax(0, 1fr);
+      gap: 18px;
+      align-items: stretch;
+    }
+
+    .controls {
+      display: grid;
+      gap: 14px;
+    }
+
+    label {
+      display: grid;
+      gap: 8px;
+      color: rgba(247, 255, 241, 0.72);
+      font-size: 13px;
+      font-weight: 720;
+    }
+
+    input[type="range"] { width: 100%; accent-color: var(--lime); }
+
+    .value {
+      color: var(--lime);
+      font-size: 22px;
+      font-weight: 880;
+    }
+
+    .dashboard {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+
+    .dash {
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.08);
+      border-radius: 8px;
+      padding: 14px;
+      min-height: 96px;
+    }
+
+    .dash span {
+      display: block;
+      color: rgba(247, 255, 241, 0.56);
+      font-size: 12px;
+      margin-bottom: 8px;
+    }
+
+    .dash strong {
+      color: var(--lime);
+      font-size: 24px;
+      line-height: 1;
+    }
+
+    canvas {
+      width: 100%;
+      min-height: 270px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      display: block;
+    }
+
+    .chart-legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 10px 0 0;
+    }
+
+    .legend-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 6px 8px;
+      color: rgba(247,255,241,0.72);
+      font-size: 12px;
+    }
+
+    .legend-dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 999px;
+      background: var(--dot);
+    }
+
+    .legend-dot.baseline {
+      background: transparent;
+      border: 1px dashed rgba(247,255,241,0.58);
+    }
+
+    .roadmap {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin-top: 18px;
+    }
+
+    .road-card {
+      background: #ffffff;
+      border: 1px solid rgba(16,32,26,0.12);
+      border-radius: 8px;
+      padding: 16px;
+      min-height: 176px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .road-card::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 5px;
+      background: linear-gradient(90deg, var(--green), var(--cyan), var(--gold));
+    }
+
+    .factory-flow {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 8px;
+      margin-top: 16px;
+    }
+
+    .flow-node {
+      border: 1px solid rgba(16,32,26,0.12);
+      border-radius: 8px;
+      padding: 14px;
+      background: #ffffff;
+      min-height: 120px;
+    }
+
+    .flow-node strong {
+      display: block;
+      margin-bottom: 6px;
+    }
+
+    .flow-node p {
+      margin: 0;
+      color: var(--muted-dark);
+      font-size: 13px;
+      line-height: 1.45;
+    }
+
+    .source-list {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+
+    .source-link {
+      background: #ffffff;
+      border: 1px solid rgba(16,32,26,0.12);
+      border-radius: 8px;
+      padding: 14px;
+      text-decoration: none;
+      color: var(--ink-dark);
+      display: grid;
+      gap: 6px;
+      min-height: 108px;
+    }
+
+    .source-link small { color: var(--muted-dark); }
+
+    .disclaimer {
+      color: var(--muted-dark);
+      font-size: 13px;
+      line-height: 1.55;
+      padding: 18px 0 40px;
+    }
+
+    @media (max-width: 1040px) {
+      .hero-grid,
+      .insight-grid,
+      .cake-layout,
+      .sim-grid { grid-template-columns: 1fr; }
+      .dashboard,
+      .roadmap,
+      .factory-flow,
+      .keynote-summary-grid,
+      .source-list { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (max-width: 680px) {
+      .shell { width: min(100% - 22px, 1280px); }
+      .nav { align-items: flex-start; flex-direction: column; }
+      .ticker-ribbon,
+      .metric-grid,
+      .stock-grid,
+      .dashboard,
+      .roadmap,
+      .factory-flow,
+      .keynote-summary-grid,
+      .transcript-matrix,
+      .source-list { grid-template-columns: 1fr; }
+      .section { padding: 48px 0; }
+      .section-head { flex-direction: column; align-items: flex-start; }
+      .video-still { min-height: 250px; }
+      .thesis { grid-template-columns: 44px 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <header class="hero shell">
+    <nav class="nav">
+      <div class="brand"><span class="mark"></span><span>Memova Research Lab</span></div>
+      <div class="nav-links">
+        <a href="#summary">2 分钟总结</a>
+        <a href="#stocks">五层蛋糕股价影响</a>
+        <a href="#memova">Memova 模拟器</a>
+      </div>
+    </nav>
+
+    <div class="hero-grid">
+      <div>
+        <div class="eyebrow"><span class="pulse"></span>GTC 2026 keynote analysis</div>
+        <h1>Token is the new output. AI factories are the new plants.</h1>
+        <p class="hero-copy">基于黄仁勋 GTC 2026 的Memova笔记，官方keynote，把五个关键词压成一份可演示报告：五层蛋糕、CUDA 飞轮、100 万倍增长、token 价值锚、AI 工厂效率。</p>
+        <div class="hero-actions">
+          <a class="button primary" href="#summary">开始阅读</a>
+        </div>
+      </div>
+
+      <div class="visual-card">
+        <div class="video-still">
+          <div class="play">
+            <a href="https://www.youtube.com/watch?v=jw_o0xr8MWU" target="_blank" rel="noreferrer">NVIDIA 官方回放</a>
+            <span>Video still from official GTC 2026 keynote replay</span>
+          </div>
+        </div>
+        <div class="ticker-ribbon">
+          <div class="ticker"><strong>CUDA</strong><span>软件生态飞轮，锁住开发者、库和部署路径</span></div>
+          <div class="ticker"><strong>1,000,000x</strong><span>长期效率跃迁叙事，支撑持续换代</span></div>
+          <div class="ticker"><strong>Tokens</strong><span>AI 工厂的产出单位和企业预算锚</span></div>
+          <div class="ticker"><strong>35x / 50x</strong><span>单位能耗与单位成本的经济性语言</span></div>
+          <div class="ticker"><strong>AI Factory</strong><span>从 data center 到 intelligence production</span></div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="section summary-section" id="summary">
+      <div class="shell">
+        <div class="section-head">
+          <div>
+            <h2 class="section-title compact">2 分钟知道黄仁勋这次真正想说什么</h2>
+            <p class="section-lead">这不是一场普通芯片发布会，而是在重新定义 AI 时代的会计科目：以前企业买算力是 capex，现在企业买的是 token 产能、agent 劳动力和智能产出。</p>
+          </div>
+          <span class="pill" style="color:#10201a;background:#fff;border-color:rgba(16,32,26,0.12)">Based on official replay + manual captions</span>
+        </div>
+
+        <div class="insight-grid">
+          <article class="panel panel-pad">
+            <div class="two-min">
+              <div class="thesis">
+                <div class="num">1</div>
+                <div>
+                  <h3>AI 工厂：数据中心不再是成本中心，而是生产智能的工厂</h3>
+                  <p>黄仁勋把 GPU 集群、网络、存储、冷却、软件和模型编排合并成一个新概念：AI factory。它的产出不是网页点击，也不是服务器利用率，而是 token、reasoning、agent action。</p>
+                </div>
+              </div>
+              <div class="thesis">
+                <div class="num">2</div>
+                <div>
+                  <h3>Token 成为新的价值锚：替代一部分劳动力预算</h3>
+                  <p>你的笔记里“token 取代劳动力”非常关键。Jensen 的逻辑是，企业会用 token 预算衡量 AI 员工/工程师的杠杆率：不用 AI token 的知识工作者，像在用纸笔设计芯片。</p>
+                </div>
+              </div>
+              <div class="thesis">
+                <div class="num">3</div>
+                <div>
+                  <h3>CUDA 飞轮：NVIDIA 卖的不是芯片，而是可迁移的整套生产系统</h3>
+                  <p>CUDA、CUDA-X、库、开发者、模型优化、网络和 rack-scale 系统形成复利。越多应用跑在 CUDA 上，下一代硬件越容易被采用；越多硬件部署，软件优化越有价值。</p>
+                </div>
+              </div>
+              <div class="thesis">
+                <div class="num">4</div>
+                <div>
+                  <h3>100 万倍增长：给市场一个“还早”的尺度</h3>
+                  <p>他用长期效率增长强调 AI 不是短期硬件周期，而是持续十年以上的 computing transition。重点不是某一代 GPU，而是每一代都把单位 token 成本压低，把可做的任务扩大。</p>
+                </div>
+              </div>
+              <div class="thesis">
+                <div class="num">5</div>
+                <div>
+                  <h3>35x / 50x 效率语言：市场开始用 token per watt 定价</h3>
+                  <p>传统云看 utilization，AI factory 看每瓦、每美元、每秒能产出多少 token。对资本市场来说，这会把估值从“买了多少 GPU”转向“这些 GPU 能生产多少可售智能”。</p>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <aside class="source-stack">
+            <div class="panel keynote-console">
+              <div class="console-top">
+                <span>Keynote signal map</span>
+                <i class="console-light"></i>
+              </div>
+              <div class="console-line"><span>AI Factory</span><div class="console-bar"><i style="--w:94%"></i></div></div>
+              <div class="console-line"><span>CUDA Flywheel</span><div class="console-bar"><i style="--w:88%"></i></div></div>
+              <div class="console-line"><span>Token Anchor</span><div class="console-bar"><i style="--w:92%"></i></div></div>
+              <div class="console-line"><span>Cost Curve</span><div class="console-bar"><i style="--w:79%"></i></div></div>
+              <div class="console-summary">
+                <strong>一句话压缩</strong>
+                <p>这场 keynote 的核心不是“更多 GPU”，而是把 AI 的经济单位改写成 token 产能、每瓦效率和 agent 可执行劳动。</p>
+              </div>
+            </div>
+            <div class="panel panel-pad">
+              <h3 style="margin:0 0 10px;color:#10201a">一句话摘要</h3>
+              <p class="caption">黄仁勋试图把 AI 的经济单位从“模型参数/算力规模”迁移到“token 产能/每瓦效率/可执行 agent 劳动”。NVIDIA 的战略不是单点芯片领先，而是把五层蛋糕尽可能垂直整合成 AI factory 标准。</p>
+              <div class="metric-grid">
+                <div class="metric-card"><h3>Efficiency</h3><strong>35x+</strong><p>每瓦 token 产能成为新基准。</p></div>
+                <div class="metric-card"><h3>Cost curve</h3><strong>50x</strong><p>推理成本下降释放更多应用需求。</p></div>
+                <div class="metric-card"><h3>Output unit</h3><strong>Token</strong><p>企业预算从 seat/license 走向 token/action。</p></div>
+              </div>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <section class="section dark-section" id="stocks">
+      <div class="shell">
+        <div class="section-head">
+          <div>
+            <h2 class="section-title">五层蛋糕：对大公司股价的方向性影响</h2>
+            <p class="section-lead">这里把你的“五层蛋糕”拆成 AI 价值链五层。点击每一层，看 GTC 2026 叙事如何影响代表公司；股价使用 2026-03-16 GTC keynote 当天的 OHLC 基准数据。</p>
+          </div>
+          <span class="pill">Interactive market map</span>
+        </div>
+
+        <div class="cake-layout">
+          <div class="cake" id="cake"></div>
+          <div class="panel dark panel-pad">
+            <div class="layer-card">
+              <div class="layer-summary">
+                <h3 id="layerTitle"></h3>
+                <p id="layerText"></p>
+              </div>
+              <div class="stock-grid" id="stockGrid"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="memova">
+      <div class="shell">
+        <div class="section-head">
+          <div>
+            <h2 class="section-title">对 Memova 的影响：我们不是笔记软件，是个人 AI 工厂的输入层</h2>
+            <p class="section-lead">如果 AI factory 的产出是 token 和 action，那么 Memova 的位置不是“总结笔记”，而是把人类真实世界输入变成 agent 可用的上下文、记忆和可确认行动。</p>
+          </div>
+          <span class="pill" style="color:#10201a;background:#fff;border-color:rgba(16,32,26,0.12)">Scenario simulator</span>
+        </div>
+
+        <div class="panel dark panel-pad">
+          <div class="sim-grid">
+            <div class="controls">
+              <label>Monthly active users <span class="value" id="usersValue"></span><input id="users" type="range" min="1000" max="1000000" step="1000" value="80000"></label>
+              <label>Notes / interactions per user per day <span class="value" id="notesValue"></span><input id="notes" type="range" min="1" max="30" step="1" value="9"></label>
+              <label>Tokens per structured memory/action <span class="value" id="tokensValue"></span><input id="tokens" type="range" min="300" max="6000" step="100" value="1600"></label>
+              <label>Cost per 1M tokens before efficiency gain <span class="value" id="costValue"></span><input id="cost" type="range" min="0.2" max="15" step="0.1" value="3"></label>
+              <label>AI factory efficiency gain <span class="value" id="effValue"></span><input id="eff" type="range" min="1" max="50" step="1" value="35"></label>
+              <label>Paid price per user per month <span class="value" id="priceValue"></span><input id="price" type="range" min="3" max="39" step="1" value="12"></label>
+            </div>
+
+            <div>
+              <div class="dashboard">
+                <div class="dash"><span>Monthly token demand</span><strong id="monthlyTokens"></strong></div>
+                <div class="dash"><span>Infra cost / month</span><strong id="infraCost"></strong></div>
+                <div class="dash"><span>Revenue / month</span><strong id="revenue"></strong></div>
+                <div class="dash"><span>Token gross margin</span><strong id="margin"></strong></div>
+              </div>
+              <canvas id="simCanvas" width="900" height="360"></canvas>
+              <div class="chart-legend">
+                <span class="legend-pill"><span class="legend-dot" style="--dot:#c7ff5f"></span>Revenue</span>
+                <span class="legend-pill"><span class="legend-dot" style="--dot:#ffd166"></span>Gross profit</span>
+                <span class="legend-pill"><span class="legend-dot" style="--dot:#8ce7f7"></span>Token infra cost</span>
+                <span class="legend-pill"><span class="legend-dot baseline"></span>Default baseline</span>
+              </div>
+              <p style="color:rgba(247,255,241,0.62);font-size:13px;line-height:1.5">模拟解释：当推理效率提升，Memova 可以把更多长上下文、更多 agent action 和更多本地知识库检索纳入同一个用户预算。真正的产品壁垒会从“谁接了更便宜模型”转向“谁拥有更干净、可控、持续更新的人类上下文”。</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="factory-flow">
+          <div class="flow-node"><strong>1. Natural input</strong><p>手写、会议、语音、照片、quick note。</p></div>
+          <div class="flow-node"><strong>2. Memory graph</strong><p>人物、项目、承诺、偏好、决策、时间线。</p></div>
+          <div class="flow-node"><strong>3. Agent context</strong><p>把私有知识转成任意 agent 可读上下文。</p></div>
+          <div class="flow-node"><strong>4. Token/action</strong><p>生成日程、邮件、提醒、研究、代码任务。</p></div>
+          <div class="flow-node"><strong>5. Human confirm</strong><p>高影响动作不静默执行，用户确认后落地。</p></div>
+        </div>
+
+        <div class="roadmap">
+          <div class="road-card"><h3>产品形态 1：个人 Token Budget 面板</h3><p>让用户看到每天的 AI token 不是“花费”，而是把笔记转化为行动产能。Memova 可以显示每条记忆带来的 action、节省时间和未来复用次数。</p></div>
+          <div class="road-card"><h3>产品形态 2：Local AI Factory</h3><p>本地 vault 是原料仓，agent 是生产线，Memova 是调度系统。优先做导出、权限、可追溯、可删除，而不是锁定在单一云端模型。</p></div>
+          <div class="road-card"><h3>产品形态 3：Five-action Planner</h3><p>不要做复杂 dashboard。每天把所有会议和笔记压成 5 个最有价值的 action，形成“token -> action -> confirmation”的闭环。</p></div>
+          <div class="road-card"><h3>产品形态 4：Memory API for Agents</h3><p>如果 CUDA 是 GPU 的软件飞轮，Memova 的飞轮应该是个人上下文 API：OpenClaw、Codex、Claude Code 等 agent 都能读，但用户掌控边界。</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="shell">
+        <div class="section-head">
+          <div>
+            <h2 class="section-title">Sources</h2>
+            <p class="section-lead">页面使用官方 keynote 页面、NVIDIA 新闻稿和公开市场价格快照。长篇演讲内容只做观点提炼，没有复刻全文。</p>
+          </div>
+        </div>
+        <div class="source-list">
+          <a class="source-link" href="https://www.nvidia.com/gtc/keynote/" target="_blank" rel="noreferrer"><strong>NVIDIA GTC Keynote</strong><small>Official on-demand replay</small></a>
+          <a class="source-link" href="https://nvidianews.nvidia.com/news/nvidia-vera-rubin-platform" target="_blank" rel="noreferrer"><strong>Vera Rubin platform</strong><small>NVIDIA Newsroom announcement</small></a>
+          <a class="source-link" href="https://investor.nvidia.com/news/press-release-details/2026/NVIDIA-Releases-Vera-Rubin-DSX-AI-Factory-Reference-Design-and-Omniverse-DSX-Digital-Twin-Blueprint-With-Broad-Industry-Support/default.aspx" target="_blank" rel="noreferrer"><strong>Vera Rubin DSX</strong><small>AI factory reference design</small></a>
+          <a class="source-link" href="https://investor.nvidia.com/news/press-release-details/2026/NVIDIA-Launches-Vera-CPU-Purpose-Built-for-Agentic-AI/default.aspx" target="_blank" rel="noreferrer"><strong>Vera CPU</strong><small>Agentic AI CPU announcement</small></a>
+          <a class="source-link" href="https://www.techrepublic.com/article/news-nvidia-gtc-jensen-huang-ai-token-factory-takeaways/" target="_blank" rel="noreferrer"><strong>Token factory takeaways</strong><small>Third-party event summary</small></a>
+        </div>
+        <p class="disclaimer">Disclosure: 股价影响部分是事件驱动的方向性分析，不是买卖建议。股价为 2026-03-16 GTC keynote 当天的公开历史 OHLC 基准数据，来源为 Yahoo Finance chart 数据接口；实际交易请以券商行情和自己的研究为准。</p>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const layers = [
+      {
+        id: "silicon",
+        title: "Layer 1: Silicon, manufacturing, memory",
+        label: "半导体 / 制造 / HBM",
+        summary: "GTC 2026 强化了一个事实：token 产能的最底层仍然是先进制程、HBM、封装、网络芯片和 GPU 架构。效率提升会扩大需求，但也会迫使供应链持续升级。",
+        stocks: [
+          { t: "NVDA", p: "$183.22", day: "+0.25 (+0.14%)", vol: "217.3M", ohlc: { open: "$182.97", high: "$188.88", low: "$181.41", close: "$183.22" }, tag: "Bullish core", text: "AI factory 的标准制定者。CUDA 飞轮、Rubin/Blackwell 路线和 token economics 都把价值链中心拉向 NVIDIA。" },
+          { t: "TSM", p: "$340.23", day: "-1.02 (-0.30%)", vol: "11.1M", ohlc: { open: "$341.25", high: "$344.63", low: "$339.82", close: "$340.23" }, tag: "Capacity lever", text: "受益于先进制程与封装需求；风险在于客户集中、地缘政治和产能资本开支周期。" },
+          { t: "ASML", p: "$1375.56", day: "-3.96 (-0.29%)", vol: "1.3M", ohlc: { open: "$1379.52", high: "$1390.16", low: "$1368.20", close: "$1375.56" }, tag: "Structural", text: "先进制程扩产的上游稀缺环节。GTC 的含义是 AI capex 延续，对 EUV/High-NA 需求形成长期支撑。" },
+          { t: "MU", p: "$441.80", day: "-4.36 (-0.98%)", vol: "43.1M", ohlc: { open: "$446.16", high: "$454.86", low: "$437.75", close: "$441.80" }, tag: "HBM torque", text: "长上下文和推理工厂提高内存带宽价值；但周期性、供应扩张和定价波动会放大股价弹性。" }
+        ]
+      },
+      {
+        id: "factory",
+        title: "Layer 2: AI factory systems, networking, power",
+        label: "AI 工厂 / 网络 / 电力冷却",
+        summary: "Jensen 把数据中心改名为 AI factory，等于把服务器、网络、电力、冷却和数字孪生都变成核心生产线。每瓦 token 产能越重要，电力和网络越像瓶颈资产。",
+        stocks: [
+          { t: "DELL", p: "$156.54", day: "+3.49 (+2.28%)", vol: "7.9M", ohlc: { open: "$153.05", high: "$157.80", low: "$152.68", close: "$156.54" }, tag: "Factory assembler", text: "Dell AI Factory 叙事直接受益；机会在企业级部署，风险在硬件毛利和 NVIDIA 议价权。" },
+          { t: "SMCI", p: "$31.86", day: "+0.36 (+1.14%)", vol: "28.8M", ohlc: { open: "$31.50", high: "$32.43", low: "$30.92", close: "$31.86" }, tag: "High beta", text: "rack-scale 集成和液冷需求利好，但公司治理/执行风险会让估值折价更明显。" },
+          { t: "ANET", p: "$135.35", day: "+1.48 (+1.11%)", vol: "7.9M", ohlc: { open: "$133.87", high: "$136.28", low: "$131.91", close: "$135.35" }, tag: "Network bottleneck", text: "AI cluster 需要低延迟、高带宽网络。Spectrum-X 也意味着 NVIDIA 在挤压传统网络利润池。" },
+          { t: "VRT", p: "$264.74", day: "+3.06 (+1.17%)", vol: "7.4M", ohlc: { open: "$261.68", high: "$270.91", low: "$261.68", close: "$264.74" }, tag: "Power/cooling", text: "AI 工厂从算力问题变成电力工程问题，Vertiv 这类电源/冷却供应商进入核心叙事。" }
+        ]
+      },
+      {
+        id: "cloud",
+        title: "Layer 3: Cloud AI factories",
+        label: "云 / 超级工厂 / 平台",
+        summary: "云厂商从卖 VM 变成卖 token 产能和 agent 执行环境。赢家取决于：谁能更快把 capex 变成可售 inference，谁能把成本曲线压低给应用层。",
+        stocks: [
+          { t: "MSFT", p: "$399.95", day: "+1.88 (+0.47%)", vol: "27.7M", ohlc: { open: "$398.07", high: "$400.63", low: "$394.79", close: "$399.95" }, tag: "Azure + OpenAI", text: "Fairwater/AI superfactory 叙事增强 Azure 价值，但 capex 强度和 OpenAI 经济分成会影响利润率。" },
+          { t: "AMZN", p: "$211.74", day: "+3.39 (+1.63%)", vol: "42.2M", ohlc: { open: "$208.35", high: "$212.72", low: "$207.45", close: "$211.74" }, tag: "AWS + custom silicon", text: "受益于 AI 云需求，同时用 Trainium/Inferentia 对冲 NVIDIA 依赖。GTC 强化了 AWS 必须持续投入。" },
+          { t: "GOOGL", p: "$305.56", day: "+1.21 (+0.40%)", vol: "23.5M", ohlc: { open: "$304.35", high: "$306.49", low: "$303.02", close: "$305.56" }, tag: "TPU hedge", text: "Google 同时是云平台、模型公司和自研 TPU 玩家。NVIDIA 叙事利好需求，但也凸显自研硬件的重要性。" },
+          { t: "ORCL", p: "$155.97", day: "-0.09 (-0.06%)", vol: "21.6M", ohlc: { open: "$156.06", high: "$158.74", low: "$154.51", close: "$155.97" }, tag: "AI cloud challenger", text: "若 AI factory 需求爆发，Oracle 云基础设施可能继续被重估；风险是融资和客户集中。" }
+        ]
+      },
+      {
+        id: "model",
+        title: "Layer 4: Models, agents, orchestration",
+        label: "模型 / Agent / 编排",
+        summary: "token 便宜以后，模型公司不再只比训练大模型，而是比 inference、reasoning、tool use 和 agent workflow。价值从模型本身延伸到执行层。",
+        stocks: [
+          { t: "META", p: "$627.45", day: "-4.55 (-0.72%)", vol: "15.1M", ohlc: { open: "$632.00", high: "$634.75", low: "$623.10", close: "$627.45" }, tag: "Open model scale", text: "开源模型和巨量 GPU capex 让 Meta 成为模型层关键玩家；回报取决于 AI 如何进入广告、内容和设备。" },
+          { t: "PLTR", p: "$152.72", day: "+0.27 (+0.18%)", vol: "32.9M", ohlc: { open: "$152.45", high: "$153.86", low: "$151.17", close: "$152.72" }, tag: "Action layer", text: "企业 agent 编排和 operational AI 受益；估值已经反映高预期，需要真实工作流收入验证。" },
+          { t: "NOW", p: "$114.88", day: "-2.02 (-1.73%)", vol: "12.3M", ohlc: { open: "$116.90", high: "$117.20", low: "$113.80", close: "$114.88" }, tag: "Enterprise agents", text: "Service workflow 是 agent 落地强场景。token 成本下降会扩大自动化范围。" },
+          { t: "AVGO", p: "$324.92", day: "-1.10 (-0.34%)", vol: "31.4M", ohlc: { open: "$326.02", high: "$329.20", low: "$320.06", close: "$324.92" }, tag: "Custom silicon", text: "大型客户自研 ASIC 和网络芯片需求受益；也是 NVIDIA stack 的潜在替代/补充路径。" }
+        ]
+      },
+      {
+        id: "app",
+        title: "Layer 5: Applications, memory, workflow",
+        label: "应用 / 私有记忆 / 工作流",
+        summary: "当 token 成本下降，应用层的稀缺资产不是调用模型，而是拥有独特上下文、分发和行动闭环。Memova 属于这一层：把人的自然输入变成 agent 可执行记忆。",
+        stocks: [
+          { t: "CRM", p: "$198.34", day: "+3.19 (+1.63%)", vol: "13.4M", ohlc: { open: "$195.15", high: "$198.63", low: "$195.15", close: "$198.34" }, tag: "Seat to action", text: "Salesforce 需要从 CRM seat 转向 agent action 和客户记忆层，否则容易被更轻的 AI-native 工具吃掉增量。" },
+          { t: "SNOW", p: "$174.40", day: "-6.00 (-3.32%)", vol: "3.9M", ohlc: { open: "$180.40", high: "$180.79", low: "$173.71", close: "$174.40" }, tag: "Data substrate", text: "AI 需要企业数据上下文，Snowflake 受益；挑战是把 data cloud 转成 agent-native workflow。" },
+          { t: "ADBE", p: "$251.86", day: "+3.61 (+1.45%)", vol: "11.7M", ohlc: { open: "$248.25", high: "$256.37", low: "$244.55", close: "$251.86" }, tag: "Creative tokens", text: "生成式创意 token 成本下降利好内容生产，但价格权力取决于工作流和版权信任。" },
+          { t: "Memova", p: "private", tag: "Private memory", text: "最大启发：不要和模型比 intelligence，要做个人/团队私有上下文的生产资料。" }
+        ]
+      }
+    ];
+
+    let activeLayer = 0;
+    const cake = document.getElementById("cake");
+    const layerTitle = document.getElementById("layerTitle");
+    const layerText = document.getElementById("layerText");
+    const stockGrid = document.getElementById("stockGrid");
+    function renderLayers() {
+      cake.innerHTML = layers.map((layer, index) => `
+        <button class="cake-layer ${index === activeLayer ? "active" : ""}" style="--i:${index}" data-index="${index}">
+          <small>${layer.title}</small>
+          <strong>${layer.label}</strong>
+        </button>
+      `).join("");
+      cake.querySelectorAll("button").forEach(button => {
+        button.addEventListener("click", () => {
+          activeLayer = Number(button.dataset.index);
+          renderLayers();
+        });
+      });
+      const layer = layers[activeLayer];
+      layerTitle.textContent = layer.title;
+      layerText.textContent = layer.summary;
+      stockGrid.innerHTML = layer.stocks.map(stock => `
+        <div class="stock">
+          <div class="stock-top"><h4>${stock.t}</h4><span class="price">${stock.p}</span></div>
+          <span class="badge ${stock.tag.includes("risk") ? "risk" : stock.tag.includes("Bullish") ? "bull" : ""}">${stock.tag}</span>
+          ${stock.ohlc ? `<div class="ohlc-grid">
+            <span><small>Open</small><b>${stock.ohlc.open}</b></span>
+            <span><small>High</small><b>${stock.ohlc.high}</b></span>
+            <span><small>Low</small><b>${stock.ohlc.low}</b></span>
+            <span><small>Close</small><b>${stock.ohlc.close}</b></span>
+          </div>
+          <div class="market-meta"><span class="${stock.day?.startsWith("+") ? "up" : stock.day?.startsWith("-") ? "down" : ""}">${stock.day}</span><span>Vol ${stock.vol}</span></div>` : `<div class="market-meta"><span>Private company</span><span>No public ticker</span></div>`}
+          <p>${stock.text}</p>
+        </div>
+      `).join("");
+    }
+
+    const fmt = new Intl.NumberFormat("en-US", { maximumFractionDigits: 1 });
+    const money = new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 });
+    const controls = ["users", "notes", "tokens", "cost", "eff", "price"].map(id => document.getElementById(id));
+    const canvas = document.getElementById("simCanvas");
+    const ctx = canvas.getContext("2d");
+    const defaultScenario = { users: 80000, notes: 9, tokens: 1600, cost: 3, eff: 35, price: 12 };
+
+    function compact(n) {
+      if (n >= 1e9) return fmt.format(n / 1e9) + "B";
+      if (n >= 1e6) return fmt.format(n / 1e6) + "M";
+      if (n >= 1e3) return fmt.format(n / 1e3) + "K";
+      return fmt.format(n);
+    }
+
+    function renderSim() {
+      const users = Number(document.getElementById("users").value);
+      const notes = Number(document.getElementById("notes").value);
+      const tokens = Number(document.getElementById("tokens").value);
+      const cost = Number(document.getElementById("cost").value);
+      const eff = Number(document.getElementById("eff").value);
+      const price = Number(document.getElementById("price").value);
+      document.getElementById("usersValue").textContent = compact(users);
+      document.getElementById("notesValue").textContent = notes;
+      document.getElementById("tokensValue").textContent = compact(tokens);
+      document.getElementById("costValue").textContent = "$" + cost.toFixed(1);
+      document.getElementById("effValue").textContent = eff + "x";
+      document.getElementById("priceValue").textContent = "$" + price;
+
+      const monthlyTokens = users * notes * 30 * tokens;
+      const infra = monthlyTokens / 1_000_000 * cost / eff;
+      const rev = users * price;
+      const margin = Math.max(0, Math.min(99, (1 - infra / Math.max(1, rev)) * 100));
+      document.getElementById("monthlyTokens").textContent = compact(monthlyTokens);
+      document.getElementById("infraCost").textContent = money.format(infra);
+      document.getElementById("revenue").textContent = money.format(rev);
+      document.getElementById("margin").textContent = margin.toFixed(1) + "%";
+
+      drawChart({ users, notes, tokens, cost, eff, price });
+    }
+
+    function scenarioSeries(v) {
+      const months = Array.from({ length: 24 }, (_, i) => i + 1);
+      const userGrowth = 1.09;
+      return months.map((month, i) => {
+        const activeUsers = v.users * Math.pow(userGrowth, i);
+        const efficiencyRamp = v.eff * Math.pow(1.018, i);
+        const monthlyTokens = activeUsers * v.notes * 30 * v.tokens;
+        const revenue = activeUsers * v.price;
+        const tokenCost = monthlyTokens / 1_000_000 * v.cost / efficiencyRamp;
+        const grossProfit = revenue - tokenCost;
+        return { month, activeUsers, monthlyTokens, revenue, tokenCost, grossProfit, efficiencyRamp };
+      });
+    }
+
+    function drawChart(v) {
+      const w = canvas.width;
+      const h = canvas.height;
+      ctx.clearRect(0, 0, w, h);
+      ctx.fillStyle = "rgba(255,255,255,0.02)";
+      ctx.fillRect(0, 0, w, h);
+      const data = scenarioSeries(v);
+      const baselineData = scenarioSeries(defaultScenario);
+      window.__memovaScenarioData = data;
+      canvas.dataset.m1Revenue = data[0].revenue.toFixed(2);
+      canvas.dataset.m24Revenue = data[23].revenue.toFixed(2);
+      canvas.dataset.m1Cost = data[0].tokenCost.toFixed(2);
+      canvas.dataset.m24Cost = data[23].tokenCost.toFixed(2);
+
+      const pad = 42;
+      const gap = 34;
+      const left = { x: pad, y: pad, w: (w - pad * 2 - gap) * 0.58, h: h - pad * 2 };
+      const right = { x: pad + left.w + gap, y: pad, w: (w - pad * 2 - gap) * 0.42, h: h - pad * 2 };
+      const currentRevenueMax = Math.max(
+        ...data.map(d => Math.max(d.revenue, d.grossProfit)),
+        ...baselineData.map(d => Math.max(d.revenue, d.grossProfit))
+      );
+      const currentCostMax = Math.max(
+        ...data.map(d => d.tokenCost),
+        ...baselineData.map(d => d.tokenCost)
+      );
+      const maxRevenue = Math.max(12_000_000, currentRevenueMax > 12_000_000 ? currentRevenueMax * 1.12 : 0);
+      const maxCost = Math.max(120_000, currentCostMax > 120_000 ? currentCostMax * 1.18 : 0);
+
+      function grid(area, label, maxLabel) {
+        ctx.strokeStyle = "rgba(247,255,241,0.14)";
+        ctx.lineWidth = 1;
+        for (let i = 0; i < 5; i++) {
+          const y = area.y + i * (area.h / 4);
+          ctx.beginPath();
+          ctx.moveTo(area.x, y);
+          ctx.lineTo(area.x + area.w, y);
+          ctx.stroke();
+        }
+        ctx.fillStyle = "rgba(247,255,241,0.72)";
+        ctx.font = "700 13px Inter, system-ui";
+        ctx.fillText(label, area.x, area.y - 12);
+        ctx.fillStyle = "rgba(247,255,241,0.42)";
+        ctx.font = "12px Inter, system-ui";
+        ctx.fillText(maxLabel, area.x + area.w - 82, area.y - 12);
+        ctx.fillText("M1", area.x, h - 14);
+        ctx.fillText("M24", area.x + area.w - 28, h - 14);
+      }
+
+      function plot(area, series, dataKey, maxY, color, dashed = false) {
+        ctx.save();
+        ctx.setLineDash(dashed ? [8, 8] : []);
+        ctx.beginPath();
+        series.forEach((d, i) => {
+          const x = area.x + i * (area.w / (data.length - 1));
+          const y = area.y + area.h - (d[dataKey] / maxY) * area.h;
+          if (i === 0) ctx.moveTo(x, y);
+          else ctx.lineTo(x, y);
+        });
+        ctx.strokeStyle = color;
+        ctx.lineWidth = dashed ? 1.8 : 3.5;
+        ctx.stroke();
+        ctx.restore();
+      }
+
+      grid(left, "Revenue and gross profit", "$" + compact(maxRevenue));
+      grid(right, "Token infra cost", "$" + compact(maxCost));
+      plot(left, baselineData, "revenue", maxRevenue, "rgba(199,255,95,0.38)", true);
+      plot(left, baselineData, "grossProfit", maxRevenue, "rgba(255,209,102,0.34)", true);
+      plot(right, baselineData, "tokenCost", maxCost, "rgba(140,231,247,0.34)", true);
+      plot(left, data, "revenue", maxRevenue, "#c7ff5f");
+      plot(left, data, "grossProfit", maxRevenue, "#ffd166");
+      plot(right, data, "tokenCost", maxCost, "#8ce7f7");
+
+      const last = data[data.length - 1];
+      const first = data[0];
+      ctx.fillStyle = "rgba(247,255,241,0.62)";
+      ctx.font = "12px Inter, system-ui";
+      ctx.fillText("M1 rev " + money.format(first.revenue) + " / cost " + money.format(first.tokenCost), left.x, h - 27);
+      ctx.fillText("M24 rev " + money.format(last.revenue) + " / cost " + money.format(last.tokenCost), right.x, h - 27);
+
+      ctx.fillStyle = "rgba(247,255,241,0.58)";
+      ctx.font = "12px Inter, system-ui";
+      ctx.fillText("Scenario only: not accounting forecast", w - pad - 230, pad + 4);
+    }
+
+    controls.forEach(c => c.addEventListener("input", renderSim));
+    window.__memovaScenarioSeries = scenarioSeries;
+    window.__memovaApplyScenario = function(partial) {
+      Object.entries(partial).forEach(([id, value]) => {
+        const input = document.getElementById(id);
+        if (input) input.value = String(value);
+      });
+      renderSim();
+    };
+    renderLayers();
+    renderSim();
+  </script>
+</body>
+</html>
