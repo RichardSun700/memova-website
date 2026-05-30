@@ -5,7 +5,7 @@
  */
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
-import { Lock, Smartphone, Download, Cpu, Key, ShieldAlert } from "lucide-react";
+import { Lock, Smartphone, Cpu, Key, ShieldAlert } from "lucide-react";
 
 export default function PrivacySection() {
   const ref = useRef(null);
@@ -47,7 +47,7 @@ export default function PrivacySection() {
   ];
 
   return (
-    <section className="py-24 md:py-32 relative overflow-hidden bg-white text-[var(--memova-navy)]" ref={ref} id="privacy">
+    <section className="py-20 md:py-32 relative overflow-hidden bg-white text-[var(--memova-navy)]" ref={ref} id="privacy">
       {/* Subtle colorful background gradient blobs - Rich but Clean */}
       <div className="absolute top-1/4 -left-20 w-96 h-96 bg-blue-100/30 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute bottom-1/4 -right-20 w-96 h-96 bg-purple-100/20 rounded-full blur-3xl pointer-events-none" />
@@ -59,7 +59,7 @@ export default function PrivacySection() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 relative z-10">
         
         {/* Upper Section: Text Left, Laptop Right */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20 items-center mb-20">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20 items-center mb-16 md:mb-20">
           
           {/* Left Text Column */}
           <div className="lg:col-span-6 space-y-6">
@@ -108,7 +108,7 @@ export default function PrivacySection() {
         </div>
 
         {/* Lower Section: 4 Minimal Grid Cards with Hover Glow & Magnetic Lift */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {cards.map((card, index) => (
             <motion.div
               key={card.title}
@@ -131,26 +131,6 @@ export default function PrivacySection() {
             </motion.div>
           ))}
         </div>
-
-        {/* Bottom CTA Button with Shimmer & Scale active feedback */}
-        <motion.div
-          initial={{ opacity: 0, y: 15 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6, delay: 0.6 }}
-          className="flex justify-center"
-        >
-          <motion.a
-            href="#waitlist"
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
-            className="inline-flex items-center gap-2.5 px-8 py-3.5 rounded-full bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 text-white text-[12px] font-bold hover:shadow-indigo-500/30 shadow-lg shadow-indigo-500/10 transition-all duration-300 relative overflow-hidden group"
-          >
-            {/* Shimmer overlay effect */}
-            <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0 -translate-x-full group-hover:animate-[shimmer_1.5s_infinite] pointer-events-none" />
-            <Download className="h-4 w-4" />
-            Join Early Access
-          </motion.a>
-        </motion.div>
 
       </div>
     </section>
