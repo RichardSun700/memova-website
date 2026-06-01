@@ -1,0 +1,921 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CPA Call Follow-up Card</title>
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+  <style>
+    :root {
+      --bg: #f4eddf;
+      --paper: #fffaf0;
+      --paper-2: #fbf3e4;
+      --ink: #211d18;
+      --muted: #6c6256;
+      --line: #ddd1bd;
+      --brown: #6f5638;
+      --brown-2: #8f714a;
+      --sage: #526b54;
+      --sage-bg: #eef4e9;
+      --gold: #a77a24;
+      --gold-bg: #fff2c8;
+      --red: #9d5142;
+      --red-bg: #f9e7df;
+      --shadow: 0 18px 42px rgba(62, 47, 29, .12);
+      --radius: 8px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        linear-gradient(90deg, rgba(111,86,56,.08) 1px, transparent 1px) 0 0 / 28px 28px,
+        linear-gradient(0deg, rgba(111,86,56,.06) 1px, transparent 1px) 0 0 / 28px 28px,
+        var(--bg);
+      line-height: 1.45;
+    }
+
+    button, textarea { font: inherit; }
+
+    .page {
+      width: min(440px, calc(100% - 20px));
+      margin: 0 auto;
+      padding: 14px 0 42px;
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      padding: 12px 0;
+      background: rgba(244,237,223,.9);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(221,209,189,.72);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 850;
+      letter-spacing: 0;
+      font-size: 15px;
+    }
+
+    .brand-mark {
+      width: 34px;
+      height: 34px;
+      display: grid;
+      place-items: center;
+      border-radius: var(--radius);
+      color: #fffaf0;
+      background: var(--brown);
+      box-shadow: 0 8px 18px rgba(111,86,56,.22);
+    }
+
+    .nav {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding-bottom: 2px;
+    }
+
+    .nav a {
+      color: #5f554b;
+      text-decoration: none;
+      padding: 8px 10px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 760;
+      white-space: nowrap;
+    }
+
+    .nav a:hover, .nav a.active {
+      color: var(--brown);
+      background: #eadbc2;
+    }
+
+    .hero {
+      margin: 18px 0 14px;
+      padding: 22px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background:
+        linear-gradient(135deg, rgba(143,113,74,.15), rgba(255,250,240,.78)),
+        var(--paper);
+      box-shadow: var(--shadow);
+    }
+
+    .eyebrow {
+      width: fit-content;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 10px;
+      border-radius: 999px;
+      background: #fffdf8;
+      border: 1px solid rgba(111,86,56,.18);
+      color: var(--brown);
+      font-weight: 820;
+      font-size: 13px;
+    }
+
+    h1 {
+      margin: 14px 0 10px;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 35px;
+      line-height: 1;
+      letter-spacing: 0;
+    }
+
+    .hero p {
+      margin: 0;
+      color: #5d5449;
+      font-size: 15px;
+    }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+      margin-top: 16px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 8px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 850;
+      white-space: nowrap;
+    }
+
+    .pill.brown { background: #eadbc2; color: var(--brown); }
+    .pill.sage { background: var(--sage-bg); color: var(--sage); }
+    .pill.gold { background: var(--gold-bg); color: #806019; }
+    .pill.red { background: var(--red-bg); color: var(--red); }
+    .pill.gray { background: #f2eadc; color: #6b6258; }
+
+    main {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    section {
+      padding: 16px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: rgba(255,250,240,.92);
+      box-shadow: 0 10px 26px rgba(62,47,29,.08);
+      scroll-margin-top: 92px;
+    }
+
+    .section-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: start;
+      padding-bottom: 13px;
+      border-bottom: 1px solid var(--line);
+      margin-bottom: 13px;
+    }
+
+    .section-head h2 {
+      margin: 0;
+      font-size: 22px;
+      letter-spacing: 0;
+    }
+
+    .section-head p {
+      margin: 5px 0 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .readiness-list, .action-list, .checks {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .timeline-card {
+      display: grid;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
+    .deadline-strip {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 9px;
+    }
+
+    .deadline-box {
+      padding: 12px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: #fffdf8;
+    }
+
+    .deadline-box strong {
+      display: block;
+      font-size: 26px;
+      line-height: 1;
+      color: var(--brown);
+      margin-bottom: 5px;
+    }
+
+    .deadline-box span {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 850;
+      text-transform: uppercase;
+    }
+
+    .timeline {
+      position: relative;
+      display: grid;
+      gap: 0;
+      padding: 4px 0;
+    }
+
+    .timeline::before {
+      content: "";
+      position: absolute;
+      left: 15px;
+      top: 22px;
+      bottom: 22px;
+      width: 2px;
+      background: #dcccad;
+    }
+
+    .timeline-step {
+      position: relative;
+      display: grid;
+      grid-template-columns: 32px 1fr;
+      gap: 10px;
+      padding: 9px 0;
+    }
+
+    .dot {
+      position: relative;
+      z-index: 1;
+      width: 32px;
+      height: 32px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background: #fffdf8;
+      border: 2px solid #dcccad;
+      color: var(--brown);
+    }
+
+    .timeline-step.hot .dot {
+      border-color: var(--red);
+      color: var(--red);
+      background: var(--red-bg);
+    }
+
+    .timeline-step.done .dot {
+      border-color: var(--sage);
+      color: var(--sage);
+      background: var(--sage-bg);
+    }
+
+    .timeline-copy {
+      padding: 8px 10px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: #fffdf8;
+    }
+
+    .timeline-copy h3 {
+      margin: 0 0 3px;
+      font-size: 15px;
+    }
+
+    .timeline-copy p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .readiness-card, .action-card, .check-row {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: #fffdf8;
+      overflow: hidden;
+    }
+
+    .readiness-card {
+      padding: 13px;
+    }
+
+    .readiness-card h3 {
+      margin: 0 0 8px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 16px;
+    }
+
+    .readiness-card p {
+      margin: 0;
+      color: #5d5449;
+      font-size: 14px;
+    }
+
+    .meta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 10px;
+    }
+
+    .source-toggle {
+      margin-top: 10px;
+      border: 0;
+      padding: 0;
+      background: transparent;
+      color: var(--brown);
+      font-weight: 850;
+      cursor: pointer;
+    }
+
+    .source-context {
+      display: none;
+      margin-top: 9px;
+      padding: 10px;
+      border-radius: var(--radius);
+      background: var(--paper-2);
+      color: #655b50;
+      font-size: 13px;
+    }
+
+    .source-context.open { display: block; }
+
+    .action-top {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      gap: 11px;
+      padding: 13px;
+      align-items: start;
+    }
+
+    .check {
+      width: 24px;
+      height: 24px;
+      accent-color: var(--brown);
+      margin-top: 2px;
+      cursor: pointer;
+    }
+
+    .action-card h3 {
+      margin: 0 0 7px;
+      font-size: 16px;
+    }
+
+    .action-card p {
+      margin: 0;
+      color: #5d5449;
+      font-size: 14px;
+    }
+
+    .status {
+      padding: 5px 8px;
+      border-radius: 999px;
+      background: var(--gold-bg);
+      color: #806019;
+      font-weight: 850;
+      font-size: 12px;
+      white-space: nowrap;
+    }
+
+    .action-card.done .status {
+      background: var(--sage-bg);
+      color: var(--sage);
+    }
+
+    .preview {
+      margin: 0 13px 13px 48px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: white;
+      overflow: hidden;
+    }
+
+    .preview-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      align-items: center;
+      padding: 9px 11px;
+      background: #f1e6d2;
+      color: var(--brown);
+      font-weight: 900;
+      font-size: 13px;
+    }
+
+    .preview-body {
+      padding: 11px;
+      color: #413a33;
+      font-size: 14px;
+    }
+
+    .preview-body textarea {
+      width: 100%;
+      min-height: 142px;
+      resize: vertical;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 11px;
+      color: #332d27;
+      background: #fffdf8;
+      outline: none;
+    }
+
+    .email-paper {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: #fffdf8;
+      overflow: hidden;
+    }
+
+    .email-meta {
+      display: grid;
+      grid-template-columns: 78px 1fr;
+      gap: 8px;
+      padding: 11px;
+      border-bottom: 1px solid var(--line);
+      font-size: 14px;
+    }
+
+    .email-meta span:nth-child(odd) {
+      color: var(--muted);
+      font-weight: 800;
+    }
+
+    .email-body {
+      padding: 14px;
+      color: #332d27;
+      font-size: 14px;
+      white-space: pre-line;
+    }
+
+    .card-actions {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      padding: 0 11px 11px;
+    }
+
+    .btn {
+      min-height: 38px;
+      border-radius: var(--radius);
+      border: 1px solid var(--line);
+      background: #fffdf8;
+      color: #3c352d;
+      font-weight: 850;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      padding: 0 10px;
+    }
+
+    .btn:hover {
+      border-color: rgba(111,86,56,.42);
+      color: var(--brown);
+    }
+
+    .btn.primary {
+      color: #fffaf0;
+      background: var(--brown);
+      border-color: var(--brown);
+    }
+
+    .check-row {
+      display: flex;
+      gap: 9px;
+      padding: 11px;
+      color: #5d5449;
+      font-size: 14px;
+    }
+
+    .disclaimer {
+      margin-top: 11px;
+      padding: 11px;
+      border-radius: var(--radius);
+      background: #f2eadc;
+      color: #655b50;
+      font-size: 13px;
+    }
+
+    .toast {
+      position: fixed;
+      left: 50%;
+      bottom: 18px;
+      z-index: 20;
+      display: none;
+      width: min(390px, calc(100% - 28px));
+      transform: translateX(-50%);
+      padding: 12px 13px;
+      border-radius: var(--radius);
+      background: #211d18;
+      color: #fffaf0;
+      box-shadow: var(--shadow);
+      font-size: 14px;
+      font-weight: 750;
+    }
+
+    .toast.show { display: block; }
+
+    @media (min-width: 900px) {
+      .page { width: min(1200px, calc(100% - 48px)); }
+      .topbar {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+      }
+      main {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        align-items: start;
+      }
+      #readiness,
+      #actions,
+      #calendar { grid-column: 1 / -1; }
+      .readiness-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .action-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+
+    @media (max-width: 460px) {
+      .page { width: min(100% - 18px, 440px); }
+      .hero, section { padding: 14px; }
+      h1 { font-size: 32px; }
+      .deadline-strip { grid-template-columns: 1fr; }
+      .action-top { grid-template-columns: auto 1fr; }
+      .status { grid-column: 2; width: fit-content; }
+      .preview { margin-left: 13px; }
+      .card-actions { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header class="topbar">
+      <div class="brand">
+        <div class="brand-mark"><i data-lucide="receipt-text" size="18"></i></div>
+        <span>CPA Call Follow-up Card</span>
+      </div>
+      <nav class="nav" aria-label="Page sections">
+        <a class="active" href="#readiness">Readiness</a>
+        <a href="#actions">Action Items</a>
+        <a href="#calendar">Calendar Invite</a>
+      </nav>
+    </header>
+
+    <section class="hero" aria-label="Case summary">
+      <div class="eyebrow"><i data-lucide="phone-call" size="15"></i> Annual tax filing prep</div>
+      <h1>CPA Call with Lena</h1>
+      <p>This card helps Lena prepare the materials her CPA needs for annual tax filing and schedule the next CPA meeting. It organizes missing documents, review questions, and follow-up tasks before anything is filed.</p>
+      <div class="tags">
+        <span class="pill brown">IRS checklist aligned</span>
+        <span class="pill gold">needs CPA review</span>
+        <span class="pill sage">meeting in 2 days</span>
+      </div>
+    </section>
+
+    <main>
+      <section id="readiness">
+        <div class="section-head">
+          <div>
+            <h2>1. Document Readiness</h2>
+            <p>Materials are grouped against the IRS “Gather your documents” checklist and the CPA call notes.</p>
+          </div>
+          <span class="pill sage"><i data-lucide="check-circle-2" size="14"></i> sorted</span>
+        </div>
+
+        <div class="timeline-card" aria-label="Tax filing timeline">
+          <div class="deadline-strip">
+            <div class="deadline-box">
+              <strong>May 31</strong>
+              <span>next CPA meeting in 2 days · 10:00 AM</span>
+            </div>
+            <div class="deadline-box">
+              <strong>6 days</strong>
+              <span>to submit remaining materials</span>
+            </div>
+          </div>
+
+          <div class="timeline">
+            <div class="timeline-step done">
+              <div class="dot"><i data-lucide="check" size="16"></i></div>
+              <div class="timeline-copy">
+                <h3>CPA prep call completed</h3>
+                <p>Transcript and Lena's quick notes are captured.</p>
+              </div>
+            </div>
+            <div class="timeline-step hot">
+              <div class="dot"><i data-lucide="upload" size="16"></i></div>
+              <div class="timeline-copy">
+                <h3>Materials due before next meeting</h3>
+                <p>1099s, Etsy/Stripe exports, receipts, and estimated tax confirmations need to be uploaded.</p>
+              </div>
+            </div>
+            <div class="timeline-step">
+              <div class="dot"><i data-lucide="user-check" size="16"></i></div>
+              <div class="timeline-copy">
+                <h3>Next CPA meeting: May 31, 10:00 AM</h3>
+                <p>Review home office, missing receipts, and any inconsistent amounts.</p>
+              </div>
+            </div>
+            <div class="timeline-step">
+              <div class="dot"><i data-lucide="file-check-2" size="16"></i></div>
+              <div class="timeline-copy">
+                <h3>Ready for filing prep</h3>
+                <p>CPA has a clean packet and a short question list.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="readiness-list">
+          <article class="readiness-card">
+            <h3><i data-lucide="id-card" size="18"></i> Personal Info</h3>
+            <p>Prior-year tax return and direct deposit details are present. Identity details need final confirmation before sharing with the CPA.</p>
+            <div class="meta-row">
+              <span class="pill sage">uploaded</span>
+              <span class="pill gray">review identity</span>
+            </div>
+            <button class="source-toggle">Show source context</button>
+            <div class="source-context">Source: last year tax return, CPA call reminder to reuse prior-year categories, IRS personal information checklist.</div>
+          </article>
+
+          <article class="readiness-card">
+            <h3><i data-lucide="file-stack" size="18"></i> Income Forms</h3>
+            <p>1099-NEC and 1099-K are uploaded. Etsy and Stripe annual reports are still needed to reconcile marketplace income.</p>
+            <div class="meta-row">
+              <span class="pill sage">1099 uploaded</span>
+              <span class="pill gold">exports missing</span>
+            </div>
+            <button class="source-toggle">Show source context</button>
+            <div class="source-context">Source: CPA call mentioned 1099, Etsy/Stripe income, and payment app records. Lena's note: “export Etsy + Stripe yearly reports”.</div>
+          </article>
+
+          <article class="readiness-card">
+            <h3><i data-lucide="tag" size="18"></i> Credits & Deductions</h3>
+            <p>Software subscriptions and charitable receipts are candidates. Home office expenses are separated for CPA review, not assumed deductible.</p>
+            <div class="meta-row">
+              <span class="pill red">CPA review</span>
+              <span class="pill gold">possible deductions</span>
+            </div>
+            <button class="source-toggle">Show source context</button>
+            <div class="source-context">Source: CPA call covered software subscriptions, home office, and prior-year expense categories. This card does not make final tax judgments.</div>
+          </article>
+
+          <article class="readiness-card">
+            <h3><i data-lucide="briefcase-business" size="18"></i> Self-employment Records</h3>
+            <p>Business receipts, client travel, mileage notes, and estimated tax payment confirmations are partially complete.</p>
+            <div class="meta-row">
+              <span class="pill gold">partial</span>
+              <span class="pill red">3 receipts missing</span>
+            </div>
+            <button class="source-toggle">Show source context</button>
+            <div class="source-context">Source: receipt screenshots, bank statements, CPA reminder about estimated tax payments, and Lena's missing travel receipt note.</div>
+          </article>
+        </div>
+      </section>
+
+      <section id="actions">
+        <div class="section-head">
+          <div>
+            <h2>2. Action Items</h2>
+            <p>CPA reminders become concrete prep tasks. Checking a task only marks it ready; nothing is filed or submitted.</p>
+          </div>
+          <span class="pill gold"><i data-lucide="list-checks" size="14"></i> 6 tasks</span>
+        </div>
+
+        <div class="action-list">
+          <article class="action-card" data-action="exports">
+            <div class="action-top">
+              <input class="check" type="checkbox" aria-label="Mark Etsy and Stripe exports ready" />
+              <div>
+                <h3>Export Etsy and Stripe income reports</h3>
+                <p>Pull the annual marketplace/payment reports and compare them with 1099-K totals.</p>
+              </div>
+              <span class="status">missing</span>
+            </div>
+            <div class="preview">
+              <div class="preview-head">
+                <span>Prep preview</span>
+                <span class="pill gold">income</span>
+              </div>
+              <div class="preview-body">Create a folder named `2025 Income Reports` and add Etsy annual sales, Stripe gross payments, and PayPal/payment app statements if applicable.</div>
+            </div>
+          </article>
+
+          <article class="action-card" data-action="software">
+            <div class="action-top">
+              <input class="check" type="checkbox" aria-label="Mark software subscriptions organized" />
+              <div>
+                <h3>Organize software subscriptions</h3>
+                <p>Group Adobe, Figma, Notion, Dropbox, and design tool payments for CPA review.</p>
+              </div>
+              <span class="status">needs sort</span>
+            </div>
+            <div class="preview">
+              <div class="preview-head">
+                <span>Expense packet</span>
+                <span class="pill brown">business records</span>
+              </div>
+              <div class="preview-body">Use bank statement lines and receipt screenshots to make one software subscription packet. Do not label final deductibility; leave it for CPA review.</div>
+            </div>
+          </article>
+
+          <article class="action-card" data-action="estimated">
+            <div class="action-top">
+              <input class="check" type="checkbox" aria-label="Mark estimated tax confirmations found" />
+              <div>
+                <h3>Find estimated tax payment confirmations</h3>
+                <p>Locate quarterly payment confirmations so the CPA can reconcile payments already made.</p>
+              </div>
+              <span class="status">missing</span>
+            </div>
+            <div class="preview">
+              <div class="preview-head">
+                <span>Search reminder</span>
+                <span class="pill gold">payments</span>
+              </div>
+              <div class="preview-body">Search email and bank records for quarterly estimated tax payment confirmations. Add dates, amounts, and payment confirmation screenshots.</div>
+            </div>
+          </article>
+
+          <article class="action-card" data-action="home-office">
+            <div class="action-top">
+              <input class="check" type="checkbox" aria-label="Mark home office packet ready for CPA review" />
+              <div>
+                <h3>Prepare home office review packet</h3>
+                <p>Separate rent, utilities, internet, workspace photos, and usage ratio for CPA review.</p>
+              </div>
+              <span class="status">CPA review</span>
+            </div>
+            <div class="preview">
+              <div class="preview-head">
+                <span>CPA review preview</span>
+                <span class="pill red">not auto-deducted</span>
+              </div>
+              <div class="preview-body">Package home office materials separately and label them “CPA review needed.” Do not assume they should be included.</div>
+            </div>
+          </article>
+
+          <article class="action-card" data-action="travel">
+            <div class="action-top">
+              <input class="check" type="checkbox" aria-label="Mark missing travel receipts requested" />
+              <div>
+                <h3>Find 3 missing client travel receipts</h3>
+                <p>Recover March New York client meeting and August Los Angeles project receipts.</p>
+              </div>
+              <span class="status">missing</span>
+            </div>
+            <div class="preview">
+              <div class="preview-head">
+                <span>Reminder preview</span>
+                <span class="pill gold">receipts</span>
+              </div>
+              <div class="preview-body">Add a personal reminder to check email, rideshare apps, hotel portals, and card statements for the three missing receipts.</div>
+            </div>
+          </article>
+
+          <article class="action-card" data-action="prior-year">
+            <div class="action-top">
+              <input class="check" type="checkbox" aria-label="Mark prior-year categories reviewed" />
+              <div>
+                <h3>Compare prior-year expense categories</h3>
+                <p>Use last year's return as a category guide, then update amounts and remove anything no longer relevant.</p>
+              </div>
+              <span class="status">review</span>
+            </div>
+            <div class="preview">
+              <div class="preview-head">
+                <span>Comparison preview</span>
+                <span class="pill brown">prior return</span>
+              </div>
+              <div class="preview-body">Create a side-by-side list of last year's categories and this year's candidate records. Flag differences for the CPA instead of forcing a match.</div>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section id="calendar">
+        <div class="section-head">
+          <div>
+            <h2>3. Google Calendar Invite</h2>
+            <p>A ready-to-send calendar invite for the next CPA meeting, with agenda items pulled from Lena's notes and the filing prep checklist.</p>
+          </div>
+          <span class="pill brown"><i data-lucide="calendar-plus" size="14"></i> ready</span>
+        </div>
+
+        <div class="email-paper">
+          <div class="email-meta">
+            <span>Event</span><span>Final tax filing prep review</span>
+            <span>Guest</span><span>Martin, CPA</span>
+            <span>Time</span><span>Sunday, May 31, 2026, 10:00-10:45 AM</span>
+            <span>Location</span><span>Google Meet</span>
+          </div>
+          <div class="email-body">Agenda
+
+1. Confirm all 1099-NEC / 1099-K forms and Etsy / Stripe income exports are complete.
+2. Review home office packet: rent, utilities, internet, workspace photos, and usage ratio.
+3. Check quarterly estimated tax payment confirmations.
+4. Review missing client travel receipts and decide what can still be included.
+5. Compare this year's expense categories against last year's return.
+
+Notes
+Lena will upload the remaining materials before this meeting. Home office and deduction candidates are marked for CPA review only.</div>
+          <div class="card-actions">
+            <button class="btn primary" id="addCalendar"><i data-lucide="calendar-plus" size="16"></i> Add</button>
+            <button class="btn"><i data-lucide="pencil" size="16"></i> Edit</button>
+            <button class="btn"><i data-lucide="clock-3" size="16"></i> Later</button>
+          </div>
+        </div>
+
+        <div class="checks" style="margin-top: 10px;">
+          <div class="check-row"><i data-lucide="calendar-clock" size="18"></i> Confirms the next CPA meeting for 2 days from now.</div>
+          <div class="check-row"><i data-lucide="clipboard-check" size="18"></i> Agenda is based on missing documents and IRS checklist categories.</div>
+          <div class="check-row"><i data-lucide="user-check" size="18"></i> Keeps home office and deduction candidates marked for CPA judgment.</div>
+        </div>
+
+        <div class="disclaimer">This is a filing-prep workflow concept. It is not tax advice and does not replace a qualified tax professional.</div>
+      </section>
+    </main>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script>
+    lucide.createIcons();
+
+    const toast = document.getElementById('toast');
+    let toastTimer;
+    function showToast(message) {
+      toast.textContent = message;
+      toast.classList.add('show');
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => toast.classList.remove('show'), 2300);
+    }
+
+    document.querySelectorAll('.source-toggle').forEach((button) => {
+      button.addEventListener('click', () => {
+        const panel = button.nextElementSibling;
+        panel.classList.toggle('open');
+        button.textContent = panel.classList.contains('open') ? 'Hide source context' : 'Show source context';
+      });
+    });
+
+    document.querySelectorAll('.action-card .check').forEach((checkbox) => {
+      checkbox.addEventListener('change', () => {
+        const card = checkbox.closest('.action-card');
+        const status = card.querySelector('.status');
+        const original = card.dataset.originalStatus || status.textContent;
+        card.dataset.originalStatus = original;
+        card.classList.toggle('done', checkbox.checked);
+
+        if (checkbox.checked) {
+          status.textContent = 'ready';
+          showToast('Marked ready for CPA prep packet.');
+        } else {
+          status.textContent = original;
+          showToast('Moved back to review.');
+        }
+      });
+    });
+
+    document.getElementById('addCalendar').addEventListener('click', () => {
+      showToast('Google Calendar invite marked ready to add.');
+    });
+
+    const sections = Array.from(document.querySelectorAll('main section'));
+    const navLinks = Array.from(document.querySelectorAll('.nav a'));
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        navLinks.forEach((link) => link.classList.toggle('active', link.getAttribute('href') === '#' + entry.target.id));
+      });
+    }, { rootMargin: '-35% 0px -55% 0px' });
+    sections.forEach((section) => observer.observe(section));
+  </script>
+</body>
+</html>

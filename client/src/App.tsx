@@ -8,6 +8,7 @@ import Mcp from "@/pages/Mcp";
 import McpConsent from "@/pages/McpConsent";
 import NotFound from "@/pages/NotFound";
 import Profile from "@/pages/Profile";
+import UserCases from "@/pages/UserCases";
 import { Route, Switch } from "wouter";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
@@ -22,6 +23,7 @@ function Router() {
       <Route path={"/connected-clients"} component={ConnectedClients} />
       <Route path={"/privacy"} component={PrivacyPolicyPage} />
       <Route path={"/terms"} component={TermsOfServicePage} />
+      <Route path={"/user-cases"} component={UserCases} />
       <Route
         path={"/settings/connected-clients"}
         component={ConnectedClients}

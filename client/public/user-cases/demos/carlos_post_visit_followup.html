@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Carlos Post-Visit Follow-up Card</title>
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+  <style>
+    :root {
+      --bg: #eef4f1;
+      --paper: #fbfdfb;
+      --panel: #ffffff;
+      --ink: #17211f;
+      --muted: #5f6c68;
+      --line: #d9e4df;
+      --teal: #2f6f68;
+      --teal-2: #3f8a80;
+      --teal-bg: #e3f2ee;
+      --blue: #3f68a8;
+      --blue-bg: #e7eef9;
+      --gold: #a67b28;
+      --gold-bg: #fff2cd;
+      --red: #a85848;
+      --red-bg: #f8e8e2;
+      --shadow: 0 18px 42px rgba(31, 57, 51, .12);
+      --radius: 8px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        linear-gradient(90deg, rgba(47,111,104,.07) 1px, transparent 1px) 0 0 / 28px 28px,
+        linear-gradient(0deg, rgba(47,111,104,.05) 1px, transparent 1px) 0 0 / 28px 28px,
+        var(--bg);
+      line-height: 1.45;
+    }
+
+    button, input, select { font: inherit; }
+
+    .page {
+      width: min(440px, calc(100% - 20px));
+      margin: 0 auto;
+      padding: 14px 0 42px;
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      padding: 12px 0;
+      background: rgba(238,244,241,.9);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(217,228,223,.76);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 850;
+      letter-spacing: 0;
+      font-size: 15px;
+    }
+
+    .brand-mark {
+      width: 34px;
+      height: 34px;
+      display: grid;
+      place-items: center;
+      border-radius: var(--radius);
+      color: #ffffff;
+      background: var(--teal);
+      box-shadow: 0 8px 18px rgba(47,111,104,.23);
+    }
+
+    .nav {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding-bottom: 2px;
+    }
+
+    .nav a {
+      color: #53625f;
+      text-decoration: none;
+      padding: 8px 10px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 760;
+      white-space: nowrap;
+    }
+
+    .nav a:hover,
+    .nav a.active {
+      color: var(--teal);
+      background: var(--teal-bg);
+    }
+
+    .hero {
+      margin: 18px 0 14px;
+      padding: 22px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background:
+        linear-gradient(135deg, rgba(47,111,104,.13), rgba(255,255,255,.78)),
+        var(--paper);
+      box-shadow: var(--shadow);
+    }
+
+    .eyebrow {
+      width: fit-content;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 10px;
+      border-radius: 999px;
+      background: #ffffff;
+      border: 1px solid rgba(47,111,104,.18);
+      color: var(--teal);
+      font-weight: 820;
+      font-size: 13px;
+    }
+
+    h1 {
+      margin: 14px 0 10px;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 34px;
+      line-height: 1;
+      letter-spacing: 0;
+    }
+
+    .hero p {
+      margin: 0;
+      color: #53625f;
+      font-size: 15px;
+    }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+      margin-top: 16px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 8px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 850;
+      white-space: nowrap;
+    }
+
+    .pill.teal { background: var(--teal-bg); color: var(--teal); }
+    .pill.blue { background: var(--blue-bg); color: var(--blue); }
+    .pill.gold { background: var(--gold-bg); color: #806019; }
+    .pill.red { background: var(--red-bg); color: var(--red); }
+    .pill.gray { background: #edf2f0; color: #66736f; }
+
+    main {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    section {
+      padding: 16px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: rgba(251,253,251,.95);
+      box-shadow: 0 10px 26px rgba(31,57,51,.08);
+      scroll-margin-top: 92px;
+    }
+
+    .section-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: start;
+      padding-bottom: 13px;
+      border-bottom: 1px solid var(--line);
+      margin-bottom: 13px;
+    }
+
+    .section-head h2 {
+      margin: 0;
+      font-size: 22px;
+      letter-spacing: 0;
+    }
+
+    .section-head p {
+      margin: 5px 0 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .takeaway-list,
+    .monitor-grid,
+    .checks {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .takeaway-card,
+    .monitor-card,
+    .check-row {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: #ffffff;
+      overflow: hidden;
+    }
+
+    .takeaway-card {
+      padding: 13px;
+    }
+
+    .takeaway-card h3 {
+      margin: 0 0 8px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 16px;
+    }
+
+    .takeaway-card p {
+      margin: 0;
+      color: #53625f;
+      font-size: 14px;
+    }
+
+    .source-toggle {
+      margin-top: 10px;
+      border: 0;
+      padding: 0;
+      background: transparent;
+      color: var(--teal);
+      font-weight: 850;
+      cursor: pointer;
+    }
+
+    .source-context {
+      display: none;
+      margin-top: 9px;
+      padding: 10px;
+      border-radius: var(--radius);
+      background: #edf5f2;
+      color: #53625f;
+      font-size: 13px;
+    }
+
+    .source-context.open { display: block; }
+
+    .monitor-card {
+      padding: 12px;
+    }
+
+    .monitor-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .monitor-top h3 {
+      margin: 0;
+      font-size: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .mini-form {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .field label {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 820;
+    }
+
+    .field input,
+    .field select {
+      width: 100%;
+      min-height: 36px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: #fbfdfb;
+      color: var(--ink);
+      padding: 0 9px;
+      outline: none;
+    }
+
+    .progress {
+      height: 9px;
+      border-radius: 999px;
+      background: #e8efeb;
+      overflow: hidden;
+      margin-top: 10px;
+    }
+
+    .bar {
+      height: 100%;
+      width: 14%;
+      border-radius: 999px;
+      background: linear-gradient(90deg, var(--teal), var(--teal-2));
+      transition: width .2s ease;
+    }
+
+    .export-card {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: #ffffff;
+      padding: 12px;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 8px 12px;
+      align-items: center;
+    }
+
+    .export-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .export-top h3 {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin: 0;
+      font-size: 16px;
+    }
+
+    .export-card p {
+      margin: 0;
+      color: #53625f;
+      font-size: 14px;
+      grid-column: 1 / -1;
+    }
+
+    .export-preview {
+      padding: 10px;
+      border-radius: var(--radius);
+      background: #edf5f2;
+      color: #53625f;
+      font-size: 13px;
+    }
+
+    .export-card .btn {
+      grid-column: 2;
+      grid-row: 1;
+      min-width: 132px;
+    }
+
+    .btn {
+      min-height: 36px;
+      border-radius: var(--radius);
+      border: 1px solid var(--line);
+      background: #ffffff;
+      color: var(--teal);
+      font-weight: 850;
+      cursor: pointer;
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      gap: 7px;
+      padding: 0 11px;
+    }
+
+    .btn.primary {
+      color: #ffffff;
+      background: var(--teal);
+      border-color: var(--teal);
+    }
+
+    .check-row {
+      display: flex;
+      gap: 9px;
+      padding: 11px;
+      color: #53625f;
+      font-size: 14px;
+    }
+
+    .disclaimer {
+      padding: 11px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: #edf2f0;
+      color: #606d69;
+      font-size: 13px;
+    }
+
+    .safety-notes {
+      padding: 12px;
+    }
+
+    .safety-notes .checks {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .safety-notes .check-row,
+    .safety-notes .disclaimer {
+      min-height: 100%;
+    }
+
+    .toast {
+      position: fixed;
+      left: 50%;
+      bottom: 18px;
+      z-index: 20;
+      display: none;
+      width: min(390px, calc(100% - 28px));
+      transform: translateX(-50%);
+      padding: 12px 13px;
+      border-radius: var(--radius);
+      background: #17211f;
+      color: #ffffff;
+      box-shadow: var(--shadow);
+      font-size: 14px;
+      font-weight: 750;
+    }
+
+    .toast.show { display: block; }
+
+    @media (min-width: 820px) {
+      .page { width: min(1040px, calc(100% - 48px)); }
+      .topbar {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+      }
+      main {
+        display: grid;
+        grid-template-columns: minmax(0, .82fr) minmax(0, 1.18fr);
+        align-items: start;
+      }
+      .safety-notes { grid-column: 1 / -1; }
+    }
+
+    @media (max-width: 460px) {
+      .page { width: min(100% - 18px, 440px); }
+      .hero, section { padding: 14px; }
+      h1 { font-size: 31px; }
+      .mini-form { grid-template-columns: 1fr; }
+      .safety-notes .checks { grid-template-columns: 1fr; }
+      .export-card { grid-template-columns: 1fr; }
+      .export-card .btn { grid-column: auto; grid-row: auto; width: 100%; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header class="topbar">
+      <div class="brand">
+        <div class="brand-mark"><i data-lucide="heart-pulse" size="18"></i></div>
+        <span>Post-Visit Follow-up Card</span>
+      </div>
+      <nav class="nav" aria-label="Page sections">
+        <a class="active" href="#takeaways">Takeaways</a>
+        <a href="#monitoring">7-Day Log</a>
+      </nav>
+    </header>
+
+    <section class="hero" aria-label="Case summary">
+      <div class="eyebrow"><i data-lucide="stethoscope" size="15"></i> Primary care follow-up</div>
+      <h1>Carlos Post-Visit Plan</h1>
+      <div class="tags">
+        <span class="pill teal">7-day plan</span>
+        <span class="pill blue">tracking only</span>
+        <span class="pill gold">needs scheduling</span>
+      </div>
+    </section>
+
+    <main>
+      <section id="takeaways">
+        <div class="section-head">
+          <div>
+            <h2>1. Summary Takeaways</h2>
+            <p>PCP instructions condensed into the points Carlos needs to remember this week.</p>
+          </div>
+          <span class="pill teal"><i data-lucide="check-circle-2" size="14"></i> ready</span>
+        </div>
+
+        <div class="takeaway-list">
+          <article class="takeaway-card">
+            <h3><i data-lucide="network" size="18"></i> Connected health picture</h3>
+            <p>Blood sugar, blood pressure, sleep, and mood can affect one another. The plan should not treat them as four separate problems.</p>
+            <button class="source-toggle">Show source context</button>
+            <div class="source-context">Provider quote: “Your blood sugar, blood pressure, sleep, and mood are not separate problems.”</div>
+          </article>
+
+          <article class="takeaway-card">
+            <h3><i data-lucide="list-checks" size="18"></i> Keep the week small</h3>
+            <p>For the next 7 days, track a few key signals rather than trying to change ten habits at once.</p>
+            <button class="source-toggle">Show source context</button>
+            <div class="source-context">Provider note: two consistent habits for the next month are better than ten goals that feel overwhelming by Friday.</div>
+          </article>
+
+          <article class="takeaway-card">
+            <h3><i data-lucide="moon" size="18"></i> Sleep study matters</h3>
+            <p>Sleep apnea follow-up is important because untreated sleep problems may affect daytime energy, blood pressure, and metabolic health.</p>
+            <button class="source-toggle">Show source context</button>
+            <div class="source-context">PCP mentioned sleep study referral and possible connection to energy, BP, and metabolic health.</div>
+          </article>
+        </div>
+      </section>
+
+      <section id="monitoring">
+        <div class="section-head">
+          <div>
+            <h2>2. 7-Day Monitoring Log</h2>
+            <p>One simple daily log for the next PCP follow-up. The goal is a readable trend, not perfect tracking.</p>
+          </div>
+          <span class="pill blue"><i data-lucide="activity" size="14"></i> day 1/7</span>
+        </div>
+
+        <div class="monitor-grid">
+          <article class="monitor-card">
+            <div class="monitor-top">
+              <h3><i data-lucide="calendar-days" size="18"></i> Today</h3>
+              <span class="pill gray" id="logStatus">0 of 5</span>
+            </div>
+            <div class="mini-form">
+              <div class="field">
+                <label for="morningBp">Morning BP</label>
+                <input id="morningBp" type="text" placeholder="e.g. 132/84" />
+              </div>
+              <div class="field">
+                <label for="eveningBp">Evening BP</label>
+                <input id="eveningBp" type="text" placeholder="e.g. 128/82" />
+              </div>
+              <div class="field">
+                <label for="glucose">Fasting glucose</label>
+                <input id="glucose" type="text" placeholder="e.g. 118" />
+              </div>
+              <div class="field">
+                <label for="sleep">Sleep / energy</label>
+                <select id="sleep">
+                  <option value="">Select</option>
+                  <option>Good</option>
+                  <option>Okay</option>
+                  <option>Rough</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="mood">Mood check</label>
+                <select id="mood">
+                  <option value="">Select</option>
+                  <option>Good</option>
+                  <option>Okay</option>
+                  <option>Rough</option>
+                </select>
+              </div>
+            </div>
+            <div class="progress" aria-label="Daily log completion">
+              <div class="bar" id="logBar"></div>
+            </div>
+          </article>
+
+          <article class="monitor-card">
+            <div class="monitor-top">
+              <h3><i data-lucide="file-heart" size="18"></i> Follow-up summary target</h3>
+              <span class="pill teal">bring to PCP</span>
+            </div>
+            <p style="margin:0;color:#53625f;font-size:14px;">After 7 days, bring BP averages, fasting glucose notes, sleep/energy pattern, and mood trend to the next visit.</p>
+          </article>
+
+          <article class="export-card">
+            <div class="export-top">
+              <h3><i data-lucide="file-down" size="18"></i> Export for PCP</h3>
+              <span class="pill blue">doc ready</span>
+            </div>
+            <p>Daily entries can be exported into a one-page visit summary for Carlos to send through MyChart or bring to the next PCP visit.</p>
+            <button class="btn primary" id="exportDoc"><i data-lucide="download" size="16"></i> Export doc</button>
+          </article>
+        </div>
+      </section>
+
+      <section class="safety-notes" aria-label="Important follow-up notes">
+        <div class="checks">
+          <div class="check-row"><i data-lucide="shield-alert" size="18"></i> This card organizes follow-up tasks only. It is not medical advice or a diagnosis.</div>
+          <div class="check-row"><i data-lucide="message-square-text" size="18"></i> Use MyChart or the clinic phone line for provider-specific questions.</div>
+          <div class="disclaimer">If symptoms worsen or Carlos has urgent concerns, he should contact a healthcare professional or emergency services directly.</div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script>
+    lucide.createIcons();
+
+    const toast = document.getElementById('toast');
+    let toastTimer;
+    function showToast(message) {
+      toast.textContent = message;
+      toast.classList.add('show');
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => toast.classList.remove('show'), 2300);
+    }
+
+    document.querySelectorAll('.source-toggle').forEach((button) => {
+      button.addEventListener('click', () => {
+        const panel = button.nextElementSibling;
+        panel.classList.toggle('open');
+        button.textContent = panel.classList.contains('open') ? 'Hide source context' : 'Show source context';
+      });
+    });
+
+    const logInputs = Array.from(document.querySelectorAll('#monitoring input, #monitoring select'));
+    const logStatus = document.getElementById('logStatus');
+    const logBar = document.getElementById('logBar');
+    function updateLog() {
+      const filled = logInputs.filter((input) => input.value.trim() !== '').length;
+      logStatus.textContent = `${filled} of ${logInputs.length}`;
+      logBar.style.width = `${Math.max(14, (filled / logInputs.length) * 100)}%`;
+    }
+    logInputs.forEach((input) => input.addEventListener('input', updateLog));
+    logInputs.forEach((input) => input.addEventListener('change', updateLog));
+
+    document.getElementById('exportDoc').addEventListener('click', () => {
+      showToast('PCP summary doc marked ready to export.');
+    });
+
+    const sections = Array.from(document.querySelectorAll('main section'));
+    const navLinks = Array.from(document.querySelectorAll('.nav a'));
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        navLinks.forEach((link) => link.classList.toggle('active', link.getAttribute('href') === '#' + entry.target.id));
+      });
+    }, { rootMargin: '-35% 0px -55% 0px' });
+    sections.forEach((section) => observer.observe(section));
+  </script>
+</body>
+</html>

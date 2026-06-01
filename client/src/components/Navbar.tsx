@@ -4,12 +4,11 @@ import { LogOut, UserRound } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 
 const navLinks = [
-  { label: "Workflow", href: "#workflow" },
-  { label: "Privacy", href: "#privacy" },
-  { label: "Memory", href: "#memory" },
-  { label: "Use Cases", href: "#user-cases" },
-  { label: "Plugins & MCP", href: "#plugins" },
-  { label: "Research", href: "/research-lab/nvidia-2026-gtc/" },
+  { label: "Workflow", href: "/#workflow", section: "workflow" },
+  { label: "Privacy", href: "/#privacy", section: "privacy" },
+  { label: "Memory", href: "/#memory", section: "memory" },
+  { label: "Use Cases", href: "/user-cases" },
+  { label: "Plugins & MCP", href: "/#plugins", section: "plugins" },
 ];
 
 export default function Navbar() {
@@ -23,7 +22,7 @@ export default function Navbar() {
       setScrolled(window.scrollY > 50);
 
       // Detect active section
-      const sections = navLinks.filter(l => l.href.startsWith("#")).map(l => l.href.slice(1));
+      const sections = navLinks.map(l => l.section).filter(Boolean) as string[];
       let current = "";
       for (const id of sections) {
         const el = document.getElementById(id);
@@ -66,7 +65,7 @@ export default function Navbar() {
               key={link.href}
               href={link.href}
               className={`px-3 py-1.5 text-[13px] font-medium rounded-full transition-all duration-250 ${
-                link.href.startsWith("#") && activeSection === link.href.slice(1)
+                link.section && activeSection === link.section
                   ? "text-[var(--memova-navy)] bg-[var(--memova-blue)]/10"
                   : "text-[#637083] hover:text-[var(--memova-navy)] hover:bg-[#F6F9FF]"
               }`}
@@ -97,7 +96,7 @@ export default function Navbar() {
             </a>
           )}
           <motion.a
-            href="#waitlist"
+            href="/#waitlist"
             whileHover={{ scale: 1.03 }}
             whileTap={{ scale: 0.97 }}
             className={`hidden px-5 py-2 text-[13px] font-semibold rounded-full transition-all duration-300 sm:inline-flex ${
@@ -137,7 +136,7 @@ export default function Navbar() {
                 href={link.href}
                 onClick={() => setMobileOpen(false)}
                 className={`px-3 py-2 text-[14px] font-medium rounded-lg transition-all ${
-                  link.href.startsWith("#") && activeSection === link.href.slice(1)
+                  link.section && activeSection === link.section
                     ? "text-[var(--memova-navy)] bg-[var(--memova-blue)]/10"
                     : "text-[#637083] hover:text-[var(--memova-navy)] hover:bg-[#F6F9FF]"
                 }`}
