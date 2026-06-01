@@ -16,11 +16,11 @@ type UserCase = {
   person: string;
   description: string;
   source: string;
+  sourceImage: string;
   output: string;
   bullets: string[];
   demoHref?: string;
   image?: string;
-  sourceHref: string;
   accent: string;
 };
 
@@ -33,12 +33,12 @@ const cases: UserCase[] = [
       "Allergist notes, test results, suspected triggers, refills, and work forms become one calm action plan.",
     source:
       "Skin test result + phone notes: shrimp? new detergent? pollen week. Need refill, work form, follow-up question.",
+    sourceImage: "/user-cases/notes/maya_allergy_note.png",
     output:
       "7-day trigger log, refill checklist, MyChart draft, and next appointment email.",
     bullets: ["Track suspected triggers", "Prepare refill tasks", "Draft doctor follow-up"],
     demoHref: "/user-cases/demos/maya_allergy_action_plan.html",
     image: "/user-cases/thumbs/maya_allergy_action_plan.png",
-    sourceHref: "https://zcn7sf3df1ac.feishu.cn/wiki/QI39wBGvriEVKckmRFkclenUnWf",
     accent: "emerald",
   },
   {
@@ -49,12 +49,12 @@ const cases: UserCase[] = [
       "A doctor visit turns into takeaways, a lightweight seven-day monitoring log, and a summary for the next PCP update.",
     source:
       "PCP said: BP + glucose + sleep/mood for a week. Keep it doable. Bring a clearer update next time.",
+    sourceImage: "/user-cases/notes/carlos_post_visit_note.png",
     output:
       "3 takeaways, BP/glucose/sleep/mood log, and one-page export for the next visit.",
     bullets: ["Remember visit instructions", "Log daily signals", "Export one-page summary"],
     demoHref: "/user-cases/demos/carlos_post_visit_followup.html",
     image: "/user-cases/thumbs/carlos_post_visit_followup.png",
-    sourceHref: "https://zcn7sf3df1ac.feishu.cn/wiki/QI39wBGvriEVKckmRFkclenUnWf",
     accent: "teal",
   },
   {
@@ -65,12 +65,12 @@ const cases: UserCase[] = [
       "A messy alum chat and handwritten application notes become essay edits, reference asks, and a thank-you email.",
     source:
       "Sarah: collaboration = active building. Jerry note: co-founder conflict, 2022 pivot, ask Alex metrics, Priya ambiguity.",
+    sourceImage: "/user-cases/notes/kellogg_alum_chat_note.png",
     output:
       "Why Kellogg rewrite, emails to Alex and Priya, research task, and thank-you note to Sarah.",
     bullets: ["Turn chat into essay evidence", "Ask for outside validation", "Send warm follow-up"],
     demoHref: "/user-cases/demos/memova_jerry_kellogg_followup.html",
     image: "/user-cases/thumbs/memova_jerry_kellogg_followup.png",
-    sourceHref: "https://zcn7sf3df1ac.feishu.cn/wiki/QI39wBGvriEVKckmRFkclenUnWf",
     accent: "violet",
   },
   {
@@ -81,12 +81,12 @@ const cases: UserCase[] = [
       "A CPA prep call becomes a document-readiness board, missing-material tasks, and a next-meeting calendar invite.",
     source:
       "Call notes: Etsy + Stripe exports, 1099s, software subscriptions, travel receipts, estimated tax confirmations.",
+    sourceImage: "/user-cases/notes/tax_filing_prep_note.png",
     output:
       "Filing checklist, upload tasks, CPA review questions, and final prep meeting invite.",
     bullets: ["Group missing documents", "Separate prep from advice", "Create review agenda"],
     demoHref: "/user-cases/demos/tax_filing_prep_card.html",
     image: "/user-cases/thumbs/tax_filing_prep_card.png",
-    sourceHref: "https://zcn7sf3df1ac.feishu.cn/wiki/QI39wBGvriEVKckmRFkclenUnWf",
     accent: "amber",
   },
   {
@@ -97,10 +97,12 @@ const cases: UserCase[] = [
       "A high eye-pressure scare, OCT results, doctor instructions, and anxious personal notes become a six-month observation tracker.",
     source:
       "Eye pressure was high. Existing floaters. Doctor says no diagnosis now, recheck IOP / fundus / OCT in six months.",
+    sourceImage: "/user-cases/notes/eye_watch_tracker_note.png",
     output:
       "Review countdown, appointment reminders, symptom log, red-flag list, and next-visit questions.",
     bullets: ["Track uncertainty without panic", "Know red-flag symptoms", "Prepare next appointment"],
-    sourceHref: "https://zcn7sf3df1ac.feishu.cn/wiki/YH9pw0ozBiQixYkCwuOc7UMDnKe",
+    demoHref: "/user-cases/demos/eye_watch_tracker.html",
+    image: "/user-cases/thumbs/eye_watch_tracker.png",
     accent: "blue",
   },
 ];
@@ -145,7 +147,7 @@ function SourceNote({ item }: { item: UserCase }) {
   const accent = accentClasses[item.accent];
 
   return (
-    <div className={`rounded-2xl border border-[#DDE6FF] bg-gradient-to-br ${accent.panel} p-4 shadow-sm`}>
+    <div className={`overflow-hidden rounded-2xl border border-[#DDE6FF] bg-gradient-to-br ${accent.panel} p-3 shadow-sm`}>
       <div className="mb-3 flex items-center justify-between">
         <div className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.16em] text-[#8C96A8]">
           <NotebookPen className="h-3.5 w-3.5" />
@@ -153,18 +155,11 @@ function SourceNote({ item }: { item: UserCase }) {
         </div>
         <span className={`h-2.5 w-2.5 rounded-full ${accent.dot}`} />
       </div>
-      <div className="rounded-xl border border-white/80 bg-white/75 p-4 font-serif text-[15px] leading-7 text-[var(--memova-navy)] shadow-inner">
-        {item.source}
-      </div>
-      <a
-        href={item.sourceHref}
-        target="_blank"
-        rel="noreferrer"
-        className={`mt-3 inline-flex items-center gap-1.5 text-[11px] font-bold ${accent.text} transition-opacity hover:opacity-70`}
-      >
-        Feishu source
-        <ArrowUpRight className="h-3.5 w-3.5" />
-      </a>
+      <img
+        src={item.sourceImage}
+        alt={`${item.title} source note`}
+        className="aspect-[9/13] w-full rounded-xl border border-white/80 bg-[#F4F4FA] object-cover object-top shadow-inner"
+      />
     </div>
   );
 }
