@@ -151,6 +151,18 @@ export default function CTASection() {
             >
               hello@memova.ai
             </a>
+            <a
+              href="/privacy"
+              className="text-[11px] font-bold text-[#637083] transition-colors hover:text-[var(--memova-navy)]"
+            >
+              Privacy
+            </a>
+            <a
+              href="/terms"
+              className="text-[11px] font-bold text-[#637083] transition-colors hover:text-[var(--memova-navy)]"
+            >
+              Terms
+            </a>
           </div>
           <p className="text-[10px] font-medium text-[#A9B9D8]">
             © 2026 Memova. Personal workflow OS for the agent era.

@@ -2,6 +2,7 @@ import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { AuthProvider } from "@/contexts/AuthContext";
 import ConnectedClients from "@/pages/ConnectedClients";
+import { PrivacyPolicyPage, TermsOfServicePage } from "@/pages/LegalPage";
 import Login from "@/pages/Login";
 import Mcp from "@/pages/Mcp";
 import McpConsent from "@/pages/McpConsent";
@@ -19,6 +20,8 @@ function Router() {
       <Route path={"/login"} component={Login} />
       <Route path={"/profile"} component={Profile} />
       <Route path={"/connected-clients"} component={ConnectedClients} />
+      <Route path={"/privacy"} component={PrivacyPolicyPage} />
+      <Route path={"/terms"} component={TermsOfServicePage} />
       <Route
         path={"/settings/connected-clients"}
         component={ConnectedClients}

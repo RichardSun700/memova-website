@@ -21,13 +21,13 @@ export default function SiteFooter() {
               hello@memova.ai
             </a>
             <a
-              href="#"
+              href="/privacy"
               className="text-[11px] font-medium text-[#2E5B82]/40 transition-colors hover:text-[#2E5B82]"
             >
               Privacy
             </a>
             <a
-              href="#"
+              href="/terms"
               className="text-[11px] font-medium text-[#2E5B82]/40 transition-colors hover:text-[#2E5B82]"
             >
               Terms
