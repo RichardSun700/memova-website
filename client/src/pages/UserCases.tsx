@@ -172,9 +172,9 @@ function OutputPreview({ item }: { item: UserCase }) {
         target="_blank"
         rel="noreferrer"
         aria-label={`Open ${item.title} interactive demo`}
-        className="group relative block overflow-hidden rounded-2xl border border-[#DDE6FF] bg-white shadow-xl shadow-[var(--memova-navy)]/[0.05] transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:shadow-[var(--memova-navy)]/[0.10]"
+        className="group relative block h-full min-h-[420px] overflow-hidden rounded-2xl border border-[#DDE6FF] bg-white shadow-xl shadow-[var(--memova-navy)]/[0.05] transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:shadow-[var(--memova-navy)]/[0.10] md:min-h-[520px]"
       >
-        <div className="relative aspect-[16/10] overflow-hidden bg-[#F6F9FF]">
+        <div className="relative h-full overflow-hidden bg-[#F6F9FF]">
           <iframe
             src={item.demoHref}
             title={`${item.title} embedded preview`}
@@ -266,7 +266,7 @@ function CaseCard({ item, index }: { item: UserCase; index: number }) {
         ) : null}
       </div>
 
-      <div className="grid gap-5 lg:grid-cols-[0.9fr_1.25fr]">
+      <div className="grid items-stretch gap-5 lg:grid-cols-[0.62fr_1.55fr]">
         <SourceNote item={item} />
         <OutputPreview item={item} />
       </div>
