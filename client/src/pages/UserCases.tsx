@@ -165,6 +165,40 @@ function SourceNote({ item }: { item: UserCase }) {
 }
 
 function OutputPreview({ item }: { item: UserCase }) {
+  if (item.demoHref) {
+    return (
+      <a
+        href={item.demoHref}
+        target="_blank"
+        rel="noreferrer"
+        aria-label={`Open ${item.title} interactive demo`}
+        className="group relative block overflow-hidden rounded-2xl border border-[#DDE6FF] bg-white shadow-xl shadow-[var(--memova-navy)]/[0.05] transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:shadow-[var(--memova-navy)]/[0.10]"
+      >
+        <div className="relative aspect-[16/10] overflow-hidden bg-[#F6F9FF]">
+          <iframe
+            src={item.demoHref}
+            title={`${item.title} embedded preview`}
+            loading="lazy"
+            tabIndex={-1}
+            className="pointer-events-none absolute left-0 top-0 origin-top-left border-0"
+            style={{
+              width: "166.667%",
+              height: "166.667%",
+              transform: "scale(0.6)",
+            }}
+          />
+          <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[var(--memova-navy)]/30 via-transparent to-white/5 opacity-70 transition-opacity duration-300 group-hover:opacity-45" />
+          <div className="pointer-events-none absolute bottom-4 left-4 right-4 flex items-center justify-between gap-3 rounded-full border border-white/70 bg-white/90 px-4 py-3 text-[12px] font-bold text-[var(--memova-navy)] shadow-lg shadow-[var(--memova-navy)]/10 backdrop-blur-md transition-transform duration-300 group-hover:-translate-y-1">
+            <span>Open interactive case</span>
+            <span className="inline-flex h-7 w-7 items-center justify-center rounded-full bg-[var(--memova-navy)] text-white">
+              <ArrowUpRight className="h-4 w-4" />
+            </span>
+          </div>
+        </div>
+      </a>
+    );
+  }
+
   return (
     <div className="overflow-hidden rounded-2xl border border-[#DDE6FF] bg-white shadow-xl shadow-[var(--memova-navy)]/[0.05]">
       {item.image ? (
