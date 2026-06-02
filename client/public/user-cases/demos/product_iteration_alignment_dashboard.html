@@ -1,0 +1,583 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Product Iteration Alignment Dashboard</title>
+  <style>
+    :root {
+      --ink: #16202f;
+      --muted: #667386;
+      --line: #dce4ef;
+      --paper: #f6f8fb;
+      --panel: #ffffff;
+      --blue: #3867d6;
+      --teal: #1d7580;
+      --green: #2f8f68;
+      --yellow: #e9b949;
+      --red: #bf4a43;
+      --purple: #7661d9;
+      --shadow: 0 18px 55px rgba(22, 32, 47, .12);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      background: #e8edf5;
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      letter-spacing: 0;
+    }
+
+    .phone {
+      width: min(430px, 100vw);
+      min-height: 100vh;
+      background: var(--paper);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .hero {
+      padding: 28px 18px 16px;
+      background: linear-gradient(135deg, rgba(56, 103, 214, .10), rgba(29, 117, 128, .10)), #fbfcff;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .label {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(56, 103, 214, .25);
+      color: var(--blue);
+      background: rgba(255, 255, 255, .78);
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--green);
+    }
+
+    h1 {
+      margin: 16px 0 8px;
+      font-size: 31px;
+      line-height: 1.04;
+      font-weight: 850;
+      letter-spacing: 0;
+    }
+
+    .sub {
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.42;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+      margin-top: 15px;
+    }
+
+    .stat {
+      min-height: 72px;
+      padding: 9px 8px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, .82);
+    }
+
+    .stat strong {
+      display: block;
+      font-size: 24px;
+      line-height: 1;
+      color: var(--teal);
+    }
+
+    .stat span {
+      display: block;
+      margin-top: 6px;
+      color: var(--muted);
+      font-size: 10px;
+      line-height: 1.15;
+      font-weight: 800;
+      text-transform: uppercase;
+    }
+
+    main {
+      padding: 12px;
+    }
+
+    .card {
+      margin-bottom: 11px;
+      padding: 14px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--panel);
+    }
+
+    .card-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+
+    h2 {
+      margin: 0;
+      font-size: 17px;
+      line-height: 1.2;
+      letter-spacing: 0;
+    }
+
+    button, select {
+      font: inherit;
+    }
+
+    .run {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 9px;
+      min-height: 45px;
+      border: 0;
+      border-radius: 8px;
+      background: var(--ink);
+      color: white;
+      font-size: 14px;
+      font-weight: 850;
+      cursor: pointer;
+    }
+
+    .run span {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--yellow);
+    }
+
+    .trust {
+      display: none;
+      margin-top: 12px;
+      padding: 12px;
+      border-radius: 8px;
+      border: 1px solid #cfe2dd;
+      background: #f0f8f5;
+    }
+
+    .trust.on {
+      display: grid;
+      gap: 8px;
+    }
+
+    .trust-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      color: #2f3b4b;
+      font-size: 13px;
+    }
+
+    .trust-row b {
+      color: var(--green);
+    }
+
+    .filters {
+      display: flex;
+      gap: 7px;
+      overflow-x: auto;
+      padding-bottom: 2px;
+      margin-bottom: 10px;
+    }
+
+    .chip {
+      flex: 0 0 auto;
+      padding: 8px 10px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: #fbfcff;
+      color: #3a4657;
+      font-size: 12px;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    .chip.active {
+      border-color: rgba(56, 103, 214, .32);
+      background: #edf3ff;
+      color: var(--blue);
+    }
+
+    .req {
+      display: grid;
+      gap: 10px;
+      padding: 12px 0;
+      border-top: 1px solid var(--line);
+    }
+
+    .req:first-of-type {
+      border-top: 0;
+      padding-top: 0;
+    }
+
+    .req-title {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+    }
+
+    .signal {
+      width: 18px;
+      height: 18px;
+      flex: 0 0 auto;
+      display: grid;
+      place-items: center;
+      margin-top: 1px;
+      border-radius: 50%;
+      color: white;
+      font-size: 12px;
+      font-weight: 900;
+    }
+
+    .signal.yellow { background: var(--yellow); color: #332600; }
+    .signal.red { background: var(--red); }
+    .signal.green { background: var(--green); }
+
+    .req h3 {
+      margin: 0;
+      font-size: 15px;
+      line-height: 1.25;
+    }
+
+    .meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .tag {
+      padding: 5px 7px;
+      border-radius: 999px;
+      background: #f0f3f8;
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 800;
+    }
+
+    .tag.warn { background: #fff5d8; color: #7b520c; }
+    .tag.risk { background: #ffecea; color: #8e332e; }
+    .tag.ready { background: #eaf7ef; color: var(--green); }
+
+    .actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 7px;
+    }
+
+    .mini {
+      min-height: 34px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fbfcff;
+      color: #364253;
+      font-size: 12px;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    .mini.selected {
+      border-color: rgba(47, 143, 104, .36);
+      background: #eaf7ef;
+      color: var(--green);
+    }
+
+    details {
+      border-radius: 8px;
+      background: #f6f8fb;
+      padding: 9px 10px;
+    }
+
+    summary {
+      cursor: pointer;
+      color: var(--blue);
+      font-size: 12px;
+      font-weight: 850;
+    }
+
+    .source {
+      margin: 8px 0 0;
+      color: #3f4b5d;
+      font-size: 12px;
+      line-height: 1.4;
+    }
+
+    .resolver {
+      display: grid;
+      gap: 9px;
+    }
+
+    .option {
+      display: grid;
+      grid-template-columns: 20px 1fr;
+      gap: 8px;
+      align-items: start;
+      padding: 10px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fbfcff;
+      cursor: pointer;
+      color: #374356;
+      font-size: 13px;
+      line-height: 1.35;
+    }
+
+    .option input {
+      margin: 2px 0 0;
+      accent-color: var(--blue);
+    }
+
+    .footer {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      padding-bottom: 18px;
+    }
+
+    .export {
+      min-height: 42px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: white;
+      color: var(--ink);
+      font-size: 13px;
+      font-weight: 850;
+      cursor: pointer;
+    }
+
+    .toast {
+      position: fixed;
+      left: 50%;
+      bottom: 18px;
+      transform: translateX(-50%);
+      width: min(360px, calc(100vw - 28px));
+      padding: 12px 14px;
+      border-radius: 8px;
+      background: var(--ink);
+      color: white;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .18s ease;
+      font-size: 13px;
+      text-align: center;
+      box-shadow: var(--shadow);
+    }
+
+    .toast.on {
+      opacity: 1;
+    }
+  </style>
+</head>
+<body>
+  <div class="phone">
+    <section class="hero">
+      <div class="label"><span class="dot"></span>Meeting transcript + dev notes</div>
+      <h1>Product Iteration Alignment</h1>
+      <p class="sub">Meeting transcript and quick dev notes turned into requirements, open questions, and items for Richard to confirm.</p>
+      <div class="stats">
+        <div class="stat"><strong id="totalCount">6</strong><span>requirements</span></div>
+        <div class="stat"><strong id="readyCount">2</strong><span>ready for dev</span></div>
+        <div class="stat"><strong id="confirmCount">3</strong><span>need Richard</span></div>
+        <div class="stat"><strong>2</strong><span>AI uncertain</span></div>
+      </div>
+    </section>
+
+    <main>
+      <section class="card">
+        <div class="card-head">
+          <h2>AI Trust Check</h2>
+        </div>
+        <button class="run" id="runCheck"><span></span>Run manual check</button>
+        <div class="trust" id="trustPanel">
+          <div class="trust-row"><span>Final Note coverage</span><b>91%</b></div>
+          <div class="trust-row"><span>Unsupported claims</span><b>1 needs review</b></div>
+          <div class="trust-row"><span>Transcript points not translated</span><b>3 found</b></div>
+          <div class="trust-row"><span>Ambiguous ASR segments</span><b>2 flagged</b></div>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="card-head">
+          <h2>Requirements Queue</h2>
+        </div>
+        <div class="filters">
+          <button class="chip active" data-filter="all">All</button>
+          <button class="chip" data-filter="confirm">Need confirm</button>
+          <button class="chip" data-filter="uncertain">AI uncertain</button>
+          <button class="chip" data-filter="ready">Ready</button>
+        </div>
+
+        <article class="req" data-state="confirm">
+          <div class="req-title">
+            <span class="signal yellow">•</span>
+            <h3>Marked content should become action items, not generic summary.</h3>
+          </div>
+          <div class="meta">
+            <span class="tag warn">needs Richard</span>
+            <span class="tag">Owner: AI + Product</span>
+            <span class="tag">Source 06:12</span>
+          </div>
+          <div class="actions">
+            <button class="mini">Confirm</button>
+            <button class="mini">Edit</button>
+            <button class="mini">Later</button>
+          </div>
+          <details>
+            <summary>Show source context</summary>
+            <p class="source">Dev note: “Marker should become action item, not just summary.” Transcript also mentions preserving decision/action wording.</p>
+          </details>
+        </article>
+
+        <article class="req" data-state="ready">
+          <div class="req-title">
+            <span class="signal green">✓</span>
+            <h3>Manual marks are high-signal. Keep more context and reduce compression.</h3>
+          </div>
+          <div class="meta">
+            <span class="tag ready">ready for dev</span>
+            <span class="tag">Owner: AI</span>
+            <span class="tag">Source 08:40</span>
+          </div>
+          <div class="actions">
+            <button class="mini selected">Confirm</button>
+            <button class="mini">Edit</button>
+            <button class="mini">Later</button>
+          </div>
+          <details>
+            <summary>Show source context</summary>
+            <p class="source">Marked user text should be treated as important input. Final Note should retain more surrounding detail.</p>
+          </details>
+        </article>
+
+        <article class="req" data-state="confirm">
+          <div class="req-title">
+            <span class="signal yellow">•</span>
+            <h3>Yellow dot means new generated action or content that needs attention.</h3>
+          </div>
+          <div class="meta">
+            <span class="tag warn">needs Richard</span>
+            <span class="tag">Owner: Frontend</span>
+            <span class="tag">Source 12:05</span>
+          </div>
+          <div class="actions">
+            <button class="mini">Confirm</button>
+            <button class="mini">Edit</button>
+            <button class="mini">Later</button>
+          </div>
+        </article>
+
+        <article class="req" data-state="uncertain">
+          <div class="req-title">
+            <span class="signal red">!</span>
+            <h3>Red exclamation means AI is unsure, risky, or needs user confirmation.</h3>
+          </div>
+          <div class="meta">
+            <span class="tag risk">AI uncertain</span>
+            <span class="tag warn">needs Richard</span>
+            <span class="tag">Source 13:28</span>
+          </div>
+          <div class="actions">
+            <button class="mini">Confirm</button>
+            <button class="mini">Edit</button>
+            <button class="mini">Later</button>
+          </div>
+          <details open>
+            <summary>Show source context</summary>
+            <p class="source">Unclear whether red ! should mean “AI uncertain” only, or broader risk/user confirmation.</p>
+          </details>
+        </article>
+      </section>
+
+      <section class="card">
+        <div class="card-head">
+          <h2>Ambiguity Resolver</h2>
+          <span class="tag risk">red !</span>
+        </div>
+        <div class="resolver">
+          <label class="option">
+            <input type="radio" name="amb" checked>
+            <span>Show multiple possible meanings in Final Note, then create an action for the user to confirm.</span>
+          </label>
+          <label class="option">
+            <input type="radio" name="amb">
+            <span>Keep the unclear ASR text as “uncertain” and ask Richard before turning it into a requirement.</span>
+          </label>
+          <label class="option">
+            <input type="radio" name="amb">
+            <span>Only show the warning near the action item, not inside the Final Note.</span>
+          </label>
+        </div>
+      </section>
+
+      <section class="footer">
+        <button class="export" data-toast="Copied dev brief">Copy dev brief</button>
+        <button class="export" data-toast="Marked ready for sprint">Ready for sprint</button>
+      </section>
+    </main>
+  </div>
+
+  <div class="toast" id="toast">Done</div>
+
+  <script>
+    const reqs = [...document.querySelectorAll(".req")];
+    const chips = [...document.querySelectorAll(".chip")];
+    const toast = document.getElementById("toast");
+
+    function showToast(message) {
+      toast.textContent = message;
+      toast.classList.add("on");
+      window.setTimeout(() => toast.classList.remove("on"), 1300);
+    }
+
+    document.getElementById("runCheck").addEventListener("click", () => {
+      document.getElementById("trustPanel").classList.add("on");
+      showToast("AI check finished: 2 items need review");
+    });
+
+    chips.forEach((chip) => {
+      chip.addEventListener("click", () => {
+        chips.forEach((item) => item.classList.remove("active"));
+        chip.classList.add("active");
+        const filter = chip.dataset.filter;
+        reqs.forEach((req) => {
+          req.style.display = filter === "all" || req.dataset.state === filter ? "grid" : "none";
+        });
+      });
+    });
+
+    document.querySelectorAll(".actions").forEach((group) => {
+      group.addEventListener("click", (event) => {
+        if (!event.target.classList.contains("mini")) return;
+        group.querySelectorAll(".mini").forEach((btn) => btn.classList.remove("selected"));
+        event.target.classList.add("selected");
+        showToast(`Set to: ${event.target.textContent}`);
+      });
+    });
+
+    document.querySelectorAll(".export").forEach((btn) => {
+      btn.addEventListener("click", () => showToast(btn.dataset.toast));
+    });
+  </script>
+</body>
+</html>

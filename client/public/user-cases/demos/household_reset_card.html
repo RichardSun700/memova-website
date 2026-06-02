@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Household Reset Card</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #1f2623;
+      --muted: #716a61;
+      --paper: #fffaf2;
+      --panel: #ffffff;
+      --line: #eadfce;
+      --green: #627f67;
+      --sage: #edf3e7;
+      --rose: #b86855;
+      --blue: #6f6b9f;
+      --soft: #f7f1e7;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background:
+        radial-gradient(circle at 88% 0%, rgba(98, 127, 103, 0.2), transparent 22rem),
+        radial-gradient(circle at 8% 14%, rgba(184, 104, 85, 0.13), transparent 22rem),
+        linear-gradient(180deg, #fbf5ea 0%, #ede8dd 100%);
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      display: grid;
+      place-items: center;
+      padding: 28px 14px;
+    }
+
+    .phone {
+      width: min(100%, 430px);
+      background: var(--paper);
+      border: 1px solid rgba(31, 38, 35, 0.12);
+      border-radius: 34px;
+      box-shadow: 0 24px 70px rgba(37, 45, 40, 0.2);
+      overflow: hidden;
+    }
+
+    .hero {
+      padding: 22px 22px 16px;
+      border-bottom: 1px solid var(--line);
+      background:
+        linear-gradient(135deg, rgba(255, 255, 255, 0.94), rgba(250, 241, 226, 0.9)),
+        url("data:image/svg+xml,%3Csvg width='120' height='120' viewBox='0 0 120 120' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='%23cdbd9f' stroke-opacity='.32'%3E%3Cpath d='M10 34h100M10 68h100M34 10v100M68 10v100'/%3E%3C/g%3E%3C/svg%3E");
+    }
+
+    .meta {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--muted);
+      font-size: 12px;
+      margin-bottom: 18px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      min-height: 28px;
+      padding: 0 10px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.82);
+      border: 1px solid rgba(47, 111, 88, 0.18);
+      white-space: nowrap;
+    }
+
+    .dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--rose);
+      box-shadow: 0 0 0 4px rgba(196, 107, 115, 0.14);
+    }
+
+    h1 {
+      margin: 0;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 38px;
+      line-height: 0.98;
+      letter-spacing: 0;
+    }
+
+    .sub {
+      margin: 12px 0 0;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.45;
+    }
+
+    .insight {
+      margin-top: 18px;
+      padding: 14px;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.76);
+      border: 1px solid rgba(47, 111, 88, 0.18);
+    }
+
+    .label {
+      color: var(--green);
+      font-size: 11px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .quote {
+      margin: 6px 0 0;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 22px;
+      line-height: 1.14;
+    }
+
+    .content {
+      padding: 18px;
+    }
+
+    .section {
+      margin-bottom: 14px;
+      padding: 16px;
+      background: var(--panel);
+      border: 1px solid rgba(31, 38, 35, 0.1);
+      border-radius: 8px;
+    }
+
+    .section-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    h2 {
+      margin: 0;
+      font-size: 15px;
+      line-height: 1.2;
+    }
+
+    .count {
+      color: var(--green);
+      font-size: 12px;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .load-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+    }
+
+    .stat {
+      padding: 10px;
+      border-radius: 8px;
+      background: var(--soft);
+      border: 1px solid rgba(31, 38, 35, 0.08);
+    }
+
+    .stat strong {
+      display: block;
+      font-size: 20px;
+      line-height: 1;
+    }
+
+    .stat span {
+      display: block;
+      color: var(--muted);
+      font-size: 10px;
+      line-height: 1.15;
+      margin-top: 6px;
+    }
+
+    .task-list {
+      display: grid;
+      gap: 10px;
+    }
+
+    .task {
+      display: grid;
+      grid-template-columns: 1fr auto auto;
+      gap: 10px;
+      align-items: start;
+      padding: 10px;
+      border-radius: 8px;
+      background: #f8faf7;
+      border: 1px solid rgba(31, 38, 35, 0.08);
+    }
+
+    .task-title {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      align-items: center;
+      font-size: 14px;
+      font-weight: 800;
+    }
+
+    .tag {
+      border-radius: 999px;
+      padding: 3px 7px;
+      font-size: 10px;
+      font-weight: 800;
+      color: var(--blue);
+      background: #eef3fb;
+    }
+
+    .tag.hidden {
+      color: var(--rose);
+      background: #faeeee;
+    }
+
+    .task small {
+      display: block;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.35;
+      margin-top: 5px;
+    }
+
+    .owner {
+      min-width: 92px;
+      min-height: 36px;
+      border: 1px solid rgba(47, 111, 88, 0.18);
+      border-radius: 999px;
+      background: #fff;
+      color: var(--green);
+      font: inherit;
+      font-size: 12px;
+      font-weight: 800;
+      padding: 0 10px;
+      outline: none;
+    }
+
+    .delete-task {
+      width: 36px;
+      height: 36px;
+      border: 1px solid rgba(184, 104, 85, 0.18);
+      border-radius: 50%;
+      background: #fff8f5;
+      color: var(--rose);
+      font: inherit;
+      font-size: 20px;
+      line-height: 1;
+      cursor: pointer;
+    }
+
+    .check {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      margin-top: 8px;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .check input {
+      width: 18px;
+      height: 18px;
+      accent-color: var(--green);
+    }
+
+    .progress {
+      height: 9px;
+      border-radius: 999px;
+      background: var(--sage);
+      overflow: hidden;
+      margin-top: 12px;
+    }
+
+    .bar {
+      width: 0;
+      height: 100%;
+      background: linear-gradient(90deg, var(--green), #87b982);
+      border-radius: inherit;
+      transition: width 0.2s ease;
+    }
+
+    .standards {
+      display: grid;
+      gap: 9px;
+    }
+
+    .add-task {
+      margin-top: 12px;
+      padding: 12px;
+      border: 1px solid rgba(31, 38, 35, 0.1);
+      border-radius: 8px;
+      background: #fffdf8;
+      display: grid;
+      gap: 9px;
+    }
+
+    .add-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+
+    .standard {
+      display: grid;
+      gap: 6px;
+    }
+
+    .standard label {
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 800;
+    }
+
+    input[type="text"],
+    textarea,
+    .add-task select {
+      width: 100%;
+      border: 1px solid rgba(31, 38, 35, 0.12);
+      border-radius: 8px;
+      background: #fffefe;
+      color: var(--ink);
+      font: inherit;
+      outline: none;
+    }
+
+    input[type="text"] {
+      min-height: 40px;
+      padding: 0 10px;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .add-task select {
+      min-height: 40px;
+      padding: 0 10px;
+      font: inherit;
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .add-button {
+      min-height: 40px;
+      border: 0;
+      border-radius: 999px;
+      background: var(--green);
+      color: #fff;
+      font: inherit;
+      font-size: 13px;
+      font-weight: 900;
+      cursor: pointer;
+    }
+
+    textarea {
+      min-height: 86px;
+      resize: vertical;
+      padding: 11px;
+      font-size: 14px;
+      line-height: 1.45;
+    }
+
+    input:focus,
+    textarea:focus,
+    select:focus {
+      border-color: rgba(47, 111, 88, 0.42);
+      box-shadow: 0 0 0 3px rgba(47, 111, 88, 0.09);
+    }
+
+    .review-list {
+      display: grid;
+      gap: 8px;
+    }
+
+    .review-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px;
+      border-radius: 8px;
+      background: #f8faf7;
+      color: #303733;
+      font-size: 13px;
+      line-height: 1.3;
+    }
+
+    .review-item input {
+      width: 18px;
+      height: 18px;
+      flex: 0 0 auto;
+      accent-color: var(--green);
+    }
+
+    .footer {
+      padding: 0 18px 18px;
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.35;
+    }
+
+    @media (max-width: 380px) {
+      h1 {
+        font-size: 34px;
+      }
+
+      .load-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .task {
+        grid-template-columns: 1fr;
+      }
+
+      .owner {
+        width: 100%;
+      }
+
+      .delete-task {
+        width: 100%;
+        border-radius: 999px;
+      }
+
+      .add-row {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="phone" aria-label="Household reset card">
+    <section class="hero">
+      <div class="meta">
+        <span class="pill"><span class="dot"></span>household reset talk</span>
+      </div>
+      <h1>Household Reset Card</h1>
+      <p class="sub">A shared page for one weekly home-life review.</p>
+      <div class="insight">
+        <div class="label">Core rule</div>
+        <p class="quote">Own the whole task, not just the final step.</p>
+      </div>
+    </section>
+
+    <section class="content">
+      <div class="section">
+        <div class="section-head">
+          <h2>This Week's Load</h2>
+          <span class="count" id="done-count">0/8 done</span>
+        </div>
+        <div class="load-grid">
+          <div class="stat"><strong id="partner-a-count">0</strong><span>Partner A owns</span></div>
+          <div class="stat"><strong id="partner-b-count">0</strong><span>Partner B owns</span></div>
+          <div class="stat"><strong id="hidden-count">0</strong><span>invisible tasks</span></div>
+        </div>
+        <div class="progress" aria-label="weekly completion">
+          <div class="bar" id="done-bar"></div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-head">
+          <h2>Task Ownership</h2>
+          <span class="count">editable</span>
+        </div>
+        <div class="task-list" id="tasks">
+          <div class="task" data-type="visible">
+            <div>
+              <div class="task-title">Cooking <span class="tag">visible chore</span></div>
+              <small>Plan dinners enough to avoid last-minute chaos.</small>
+              <label class="check"><input type="checkbox" data-done> Done this week</label>
+            </div>
+            <select class="owner" data-owner>
+              <option>Partner A</option>
+              <option>Partner B</option>
+              <option>Shared</option>
+            </select>
+            <button class="delete-task" type="button" aria-label="Delete task">×</button>
+          </div>
+
+          <div class="task" data-type="visible">
+            <div>
+              <div class="task-title">Dishes <span class="tag">visible chore</span></div>
+              <small>Sink clear, dishwasher handled, counter wiped.</small>
+              <label class="check"><input type="checkbox" data-done> Done this week</label>
+            </div>
+            <select class="owner" data-owner>
+              <option>Partner B</option>
+              <option>Partner A</option>
+              <option>Shared</option>
+            </select>
+            <button class="delete-task" type="button" aria-label="Delete task">×</button>
+          </div>
+
+          <div class="task" data-type="hidden">
+            <div>
+              <div class="task-title">Trash bins <span class="tag hidden">invisible load</span></div>
+              <small>Bins out Tuesday night before Wednesday pickup.</small>
+              <label class="check"><input type="checkbox" data-done> Done this week</label>
+            </div>
+            <select class="owner" data-owner>
+              <option>Partner B</option>
+              <option>Partner A</option>
+              <option>Shared</option>
+            </select>
+            <button class="delete-task" type="button" aria-label="Delete task">×</button>
+          </div>
+
+          <div class="task" data-type="visible">
+            <div>
+              <div class="task-title">Grocery <span class="tag">visible chore</span></div>
+              <small>List checked, staples restocked, next meals covered.</small>
+              <label class="check"><input type="checkbox" data-done> Done this week</label>
+            </div>
+            <select class="owner" data-owner>
+              <option>Partner B</option>
+              <option>Partner A</option>
+              <option>Shared</option>
+            </select>
+            <button class="delete-task" type="button" aria-label="Delete task">×</button>
+          </div>
+
+          <div class="task" data-type="visible">
+            <div>
+              <div class="task-title">Laundry <span class="tag">visible chore</span></div>
+              <small>Washed, dried, folded, and put back where it belongs.</small>
+              <label class="check"><input type="checkbox" data-done> Done this week</label>
+            </div>
+            <select class="owner" data-owner>
+              <option>Shared</option>
+              <option>Partner A</option>
+              <option>Partner B</option>
+            </select>
+            <button class="delete-task" type="button" aria-label="Delete task">×</button>
+          </div>
+
+          <div class="task" data-type="visible">
+            <div>
+              <div class="task-title">Bathroom cleaning <span class="tag">visible chore</span></div>
+              <small>Toilet, sink, mirror, shower, and floor reset.</small>
+              <label class="check"><input type="checkbox" data-done> Done this week</label>
+            </div>
+            <select class="owner" data-owner>
+              <option>Partner B</option>
+              <option>Partner A</option>
+              <option>Shared</option>
+            </select>
+            <button class="delete-task" type="button" aria-label="Delete task">×</button>
+          </div>
+
+          <div class="task" data-type="hidden">
+            <div>
+              <div class="task-title">Dentist appointment <span class="tag hidden">invisible load</span></div>
+              <small>Notice it is due, book it, add calendar reminder.</small>
+              <label class="check"><input type="checkbox" data-done> Done this week</label>
+            </div>
+            <select class="owner" data-owner>
+              <option>Partner A</option>
+              <option>Partner B</option>
+              <option>Shared</option>
+            </select>
+            <button class="delete-task" type="button" aria-label="Delete task">×</button>
+          </div>
+
+          <div class="task" data-type="hidden">
+            <div>
+              <div class="task-title">Fridge filter <span class="tag hidden">invisible load</span></div>
+              <small>Notice, order, replace, reset the reminder.</small>
+              <label class="check"><input type="checkbox" data-done> Done this week</label>
+            </div>
+            <select class="owner" data-owner>
+              <option>Partner A</option>
+              <option>Partner B</option>
+              <option>Shared</option>
+            </select>
+            <button class="delete-task" type="button" aria-label="Delete task">×</button>
+          </div>
+
+          <div class="task" data-type="hidden">
+            <div>
+              <div class="task-title">Bills due <span class="tag hidden">invisible load</span></div>
+              <small>Know the due dates before something becomes urgent.</small>
+              <label class="check"><input type="checkbox" data-done> Done this week</label>
+            </div>
+            <select class="owner" data-owner>
+              <option>Shared</option>
+              <option>Partner A</option>
+              <option>Partner B</option>
+            </select>
+            <button class="delete-task" type="button" aria-label="Delete task">×</button>
+          </div>
+
+          <div class="task" data-type="hidden">
+            <div>
+              <div class="task-title">Holiday gifts <span class="tag hidden">emotional labor</span></div>
+              <small>Remember dates, choose gifts, buy cards, ship on time.</small>
+              <label class="check"><input type="checkbox" data-done> Done this week</label>
+            </div>
+            <select class="owner" data-owner>
+              <option>Partner A</option>
+              <option>Partner B</option>
+              <option>Shared</option>
+            </select>
+            <button class="delete-task" type="button" aria-label="Delete task">×</button>
+          </div>
+        </div>
+
+        <div class="add-task">
+          <input id="new-task-name" type="text" placeholder="Add a task, e.g. pet meds">
+          <input id="new-task-note" type="text" placeholder="What does owning it include?">
+          <div class="add-row">
+            <select id="new-task-type">
+              <option value="visible">visible chore</option>
+              <option value="hidden">invisible load</option>
+            </select>
+            <select id="new-task-owner">
+              <option>Partner A</option>
+              <option>Partner B</option>
+              <option>Shared</option>
+            </select>
+          </div>
+          <button class="add-button" type="button" id="add-task">Add Task</button>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-head">
+          <h2>Weekly Review</h2>
+          <span class="count" id="review-count">0/5 checked</span>
+        </div>
+        <div class="review-list" id="review">
+          <label class="review-item"><input type="checkbox"> We named what got missed.</label>
+          <label class="review-item"><input type="checkbox"> We checked if one person had to remind too much.</label>
+          <label class="review-item"><input type="checkbox"> We updated owners for next week.</label>
+          <label class="review-item"><input type="checkbox"> We clarified one standard of done.</label>
+          <label class="review-item"><input type="checkbox"> We chose one change for next week.</label>
+        </div>
+        <div class="progress" aria-label="review progress">
+          <div class="bar" id="review-bar"></div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-head">
+          <h2>Next Week Adjustment</h2>
+          <span class="count">editable</span>
+        </div>
+        <textarea>Trash bins move fully to Partner B. No reminders unless the reminder is requested before Tuesday night.</textarea>
+      </div>
+    </section>
+
+    <p class="footer">Conceptual shared household reset use case. Created from messy partner conversation notes, not therapy or legal advice.</p>
+  </main>
+
+  <script>
+    const taskList = document.querySelector("#tasks");
+    let tasks = [...document.querySelectorAll(".task")];
+    let ownerSelects = [...document.querySelectorAll("[data-owner]")];
+    let doneChecks = [...document.querySelectorAll("[data-done]")];
+    const reviewChecks = [...document.querySelectorAll("#review input")];
+    const doneCount = document.querySelector("#done-count");
+    const doneBar = document.querySelector("#done-bar");
+    const partnerACount = document.querySelector("#partner-a-count");
+    const partnerBCount = document.querySelector("#partner-b-count");
+    const hiddenCount = document.querySelector("#hidden-count");
+    const reviewCount = document.querySelector("#review-count");
+    const reviewBar = document.querySelector("#review-bar");
+    const addTaskButton = document.querySelector("#add-task");
+    const newTaskName = document.querySelector("#new-task-name");
+    const newTaskNote = document.querySelector("#new-task-note");
+    const newTaskType = document.querySelector("#new-task-type");
+    const newTaskOwner = document.querySelector("#new-task-owner");
+
+    function refreshTaskRefs() {
+      tasks = [...document.querySelectorAll(".task")];
+      ownerSelects = [...document.querySelectorAll("[data-owner]")];
+      doneChecks = [...document.querySelectorAll("[data-done]")];
+    }
+
+    function updateTasks() {
+      const done = doneChecks.filter((input) => input.checked).length;
+      const a = ownerSelects.filter((select) => select.value === "Partner A").length;
+      const b = ownerSelects.filter((select) => select.value === "Partner B").length;
+      const hidden = tasks.filter((task) => task.dataset.type === "hidden").length;
+      doneCount.textContent = `${done}/${doneChecks.length} done`;
+      doneBar.style.width = `${doneChecks.length ? (done / doneChecks.length) * 100 : 0}%`;
+      partnerACount.textContent = a;
+      partnerBCount.textContent = b;
+      hiddenCount.textContent = hidden;
+    }
+
+    function updateReview() {
+      const checked = reviewChecks.filter((input) => input.checked).length;
+      reviewCount.textContent = `${checked}/${reviewChecks.length} checked`;
+      reviewBar.style.width = `${(checked / reviewChecks.length) * 100}%`;
+    }
+
+    function bindTaskEvents(task) {
+      const done = task.querySelector("[data-done]");
+      const owner = task.querySelector("[data-owner]");
+      const remove = task.querySelector(".delete-task");
+      done.addEventListener("change", updateTasks);
+      owner.addEventListener("change", updateTasks);
+      remove.addEventListener("click", () => {
+        task.remove();
+        refreshTaskRefs();
+        updateTasks();
+      });
+    }
+
+    doneChecks.forEach((input, index) => {
+      input.checked = index < 4;
+    });
+    tasks.forEach(bindTaskEvents);
+
+    reviewChecks.forEach((input, index) => {
+      input.checked = index < 2;
+      input.addEventListener("change", updateReview);
+    });
+
+    addTaskButton.addEventListener("click", () => {
+      const name = newTaskName.value.trim();
+      const note = newTaskNote.value.trim() || "Own the remembering, planning, and follow-through.";
+      const type = newTaskType.value;
+      const owner = newTaskOwner.value;
+
+      if (!name) {
+        newTaskName.focus();
+        return;
+      }
+
+      const task = document.createElement("div");
+      task.className = "task";
+      task.dataset.type = type;
+      task.innerHTML = `
+        <div>
+          <div class="task-title">${name} <span class="tag ${type === "hidden" ? "hidden" : ""}">${type === "hidden" ? "invisible load" : "visible chore"}</span></div>
+          <small>${note}</small>
+          <label class="check"><input type="checkbox" data-done> Done this week</label>
+        </div>
+        <select class="owner" data-owner>
+          <option${owner === "Partner A" ? " selected" : ""}>Partner A</option>
+          <option${owner === "Partner B" ? " selected" : ""}>Partner B</option>
+          <option${owner === "Shared" ? " selected" : ""}>Shared</option>
+        </select>
+        <button class="delete-task" type="button" aria-label="Delete task">×</button>
+      `;
+
+      taskList.appendChild(task);
+      bindTaskEvents(task);
+      refreshTaskRefs();
+      newTaskName.value = "";
+      newTaskNote.value = "";
+      updateTasks();
+    });
+
+    updateTasks();
+    updateReview();
+  </script>
+</body>
+</html>

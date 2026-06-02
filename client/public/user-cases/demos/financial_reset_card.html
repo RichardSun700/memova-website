@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>90-Day Financial Reset Card</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #20172f;
+      --muted: #746b83;
+      --paper: #fbf9ff;
+      --panel: #ffffff;
+      --line: #e5ddf2;
+      --green: #6d4bd1;
+      --red: #8b4cc5;
+      --gold: #a36ad8;
+      --blue: #5b5ed6;
+      --soft: #efe9f8;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background:
+        radial-gradient(circle at 88% 0%, rgba(126, 87, 194, 0.24), transparent 22rem),
+        radial-gradient(circle at 12% 18%, rgba(91, 94, 214, 0.16), transparent 24rem),
+        linear-gradient(180deg, #f7f2ff 0%, #ebe5f4 100%);
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      display: grid;
+      place-items: center;
+      padding: 28px 14px;
+    }
+
+    .phone {
+      width: min(100%, 440px);
+      background: var(--paper);
+      border: 1px solid rgba(32, 30, 25, 0.12);
+      border-radius: 34px;
+      box-shadow: 0 24px 70px rgba(49, 36, 76, 0.22);
+      overflow: hidden;
+    }
+
+    .hero {
+      padding: 22px 22px 16px;
+      border-bottom: 1px solid var(--line);
+      background:
+        linear-gradient(135deg, rgba(255, 255, 255, 0.94), rgba(244, 237, 252, 0.9)),
+        url("data:image/svg+xml,%3Csvg width='120' height='120' viewBox='0 0 120 120' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='%23c7b5e6' stroke-opacity='.28'%3E%3Cpath d='M10 38h100M10 72h100M38 10v100M72 10v100'/%3E%3C/g%3E%3C/svg%3E");
+    }
+
+    .meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      color: var(--muted);
+      font-size: 12px;
+      margin-bottom: 18px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      min-height: 28px;
+      padding: 0 10px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.82);
+      border: 1px solid rgba(109, 75, 209, 0.18);
+      white-space: nowrap;
+    }
+
+    .dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--red);
+      box-shadow: 0 0 0 4px rgba(139, 76, 197, 0.13);
+    }
+
+    h1 {
+      margin: 0;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 38px;
+      line-height: 0.98;
+      letter-spacing: 0;
+    }
+
+    .sub {
+      margin: 12px 0 0;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.45;
+    }
+
+    .insight {
+      margin-top: 18px;
+      padding: 14px;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.76);
+      border: 1px solid rgba(139, 76, 197, 0.18);
+    }
+
+    .label {
+      color: var(--red);
+      font-size: 11px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .quote {
+      margin: 6px 0 0;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 22px;
+      line-height: 1.14;
+    }
+
+    .content {
+      padding: 18px;
+    }
+
+    .section {
+      margin-bottom: 14px;
+      padding: 16px;
+      background: var(--panel);
+      border: 1px solid rgba(32, 30, 25, 0.1);
+      border-radius: 8px;
+    }
+
+    .section-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    h2 {
+      margin: 0;
+      font-size: 15px;
+      line-height: 1.2;
+    }
+
+    .count {
+      color: var(--green);
+      font-size: 12px;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .big-number {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .stat {
+      padding: 12px;
+      border-radius: 8px;
+      background: #f7f3fd;
+      border: 1px solid rgba(32, 30, 25, 0.08);
+    }
+
+    .stat strong {
+      display: block;
+      font-size: 22px;
+      line-height: 1;
+    }
+
+    .stat span {
+      display: block;
+      color: var(--muted);
+      font-size: 11px;
+      margin-top: 6px;
+    }
+
+    ul {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      display: grid;
+      gap: 9px;
+    }
+
+    li {
+      display: flex;
+      align-items: flex-start;
+      gap: 9px;
+      color: #302d28;
+      font-size: 14px;
+      line-height: 1.32;
+    }
+
+    .mark {
+      flex: 0 0 auto;
+      width: 18px;
+      height: 18px;
+      margin-top: 1px;
+      border-radius: 5px;
+      display: grid;
+      place-items: center;
+      background: rgba(109, 75, 209, 0.12);
+      color: var(--green);
+      font-size: 13px;
+      font-weight: 900;
+    }
+
+    .priority {
+      display: grid;
+      gap: 8px;
+    }
+
+    .priority-card {
+      display: grid;
+      grid-template-columns: 28px 1fr;
+      gap: 12px;
+      align-items: start;
+      padding: 10px;
+      border-radius: 8px;
+      background: #f7f3fd;
+      border: 1px solid rgba(32, 30, 25, 0.08);
+    }
+
+    .rank {
+      width: 28px;
+      min-height: 42px;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      padding-top: 1px;
+      border-right: 2px solid rgba(109, 75, 209, 0.2);
+      color: var(--green);
+      font-size: 14px;
+      font-weight: 900;
+    }
+
+    .priority-card strong {
+      display: block;
+      font-size: 14px;
+    }
+
+    .priority-card span {
+      display: block;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.35;
+      margin-top: 2px;
+    }
+
+    .debt-list {
+      display: grid;
+      gap: 10px;
+    }
+
+    .debt-row {
+      display: grid;
+      grid-template-columns: 1fr 118px;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .debt-row label {
+      display: block;
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .debt-row small {
+      color: var(--muted);
+      display: block;
+      margin-top: 2px;
+    }
+
+    input[type="number"],
+    input[type="text"],
+    textarea {
+      width: 100%;
+      border: 1px solid rgba(32, 30, 25, 0.12);
+      border-radius: 8px;
+      background: #fffefe;
+      color: var(--ink);
+      font: inherit;
+      outline: none;
+    }
+
+    input[type="number"],
+    input[type="text"] {
+      min-height: 40px;
+      padding: 0 10px;
+      text-align: right;
+      font-weight: 800;
+    }
+
+    input:focus,
+    textarea:focus {
+      border-color: rgba(109, 75, 209, 0.42);
+      box-shadow: 0 0 0 3px rgba(109, 75, 209, 0.1);
+    }
+
+    .progress {
+      height: 9px;
+      border-radius: 999px;
+      background: var(--soft);
+      overflow: hidden;
+      margin-top: 12px;
+    }
+
+    .bar {
+      width: 0;
+      height: 100%;
+      background: linear-gradient(90deg, var(--green), #a779e7);
+      border-radius: inherit;
+      transition: width 0.2s ease;
+    }
+
+    .action-item {
+      align-items: center;
+      padding: 7px 8px;
+      border: 1px solid transparent;
+      border-radius: 8px;
+      transition: background 0.18s ease, border-color 0.18s ease;
+    }
+
+    .action-item:has(input:checked) {
+      background: rgba(109, 75, 209, 0.07);
+      border-color: rgba(109, 75, 209, 0.16);
+    }
+
+    .check {
+      position: relative;
+      flex: 0 0 auto;
+      width: 22px;
+      height: 22px;
+    }
+
+    .check input {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      cursor: pointer;
+    }
+
+    .box {
+      width: 22px;
+      height: 22px;
+      border: 1.5px solid #bdb6aa;
+      border-radius: 6px;
+      display: grid;
+      place-items: center;
+      color: transparent;
+      background: #fff;
+      font-size: 14px;
+      font-weight: 900;
+      transition: background 0.18s ease, border-color 0.18s ease, color 0.18s ease;
+    }
+
+    .check input:checked + .box {
+      color: #fff;
+      background: var(--green);
+      border-color: var(--green);
+    }
+
+    .tracker {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 9px;
+    }
+
+    .tracker label {
+      display: grid;
+      gap: 5px;
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 800;
+    }
+
+    .tracker input {
+      text-align: left;
+      font-size: 18px;
+    }
+
+    .footer {
+      padding: 0 18px 18px;
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.35;
+    }
+
+    @media (max-width: 380px) {
+      h1 {
+        font-size: 34px;
+      }
+
+      .big-number,
+      .partner-grid,
+      .tracker {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="phone" aria-label="90-day financial reset card">
+    <section class="hero">
+      <div class="meta">
+        <span class="pill"><span class="dot"></span>Ramsey call notes</span>
+      </div>
+      <h1>90-Day Financial Reset Card</h1>
+      <p class="sub">Our shared plan after a high-pressure debt advice call.</p>
+      <div class="insight">
+        <div class="label">Key insight</div>
+        <p class="quote">This is not just debt. This is a lifestyle reset.</p>
+      </div>
+    </section>
+
+    <section class="content">
+      <div class="section">
+        <div class="section-head">
+          <h2>Starting Snapshot</h2>
+          <span class="count" id="total-debt">$760k debt</span>
+        </div>
+        <div class="big-number">
+          <div class="stat">
+            <strong>$230k</strong>
+            <span>household income</span>
+          </div>
+          <div class="stat">
+            <strong>$90k</strong>
+            <span>condo equity target</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-head">
+          <h2>What Ramsey Told Us</h2>
+          <span class="count">5 directions</span>
+        </div>
+        <ul>
+          <li><span class="mark">✓</span><span>Stop adding debt immediately.</span></li>
+          <li><span class="mark">✓</span><span>Sell the condo we do not live in.</span></li>
+          <li><span class="mark">✓</span><span>Use the equity to jump-start the debt snowball.</span></li>
+          <li><span class="mark">✓</span><span>Live on a bare-bones budget for the next few years.</span></li>
+          <li><span class="mark">✓</span><span>Get on the same page as a couple every week.</span></li>
+        </ul>
+      </div>
+
+      <div class="section">
+        <div class="section-head">
+          <h2>Priority Order</h2>
+          <span class="count">next moves</span>
+        </div>
+        <div class="priority">
+          <div class="priority-card">
+            <span class="rank">1</span>
+            <div><strong>Sell unused condo</strong><span>Free the $90k equity and remove the mortgage pressure.</span></div>
+          </div>
+          <div class="priority-card">
+            <span class="rank">2</span>
+            <div><strong>Freeze credit cards</strong><span>No new balances while the reset starts.</span></div>
+          </div>
+          <div class="priority-card">
+            <span class="rank">3</span>
+            <div><strong>Start debt snowball</strong><span>List debts smallest to largest and attack the first balance.</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-head">
+          <h2>Debt Snowball</h2>
+          <span class="count" id="remaining-label">editable</span>
+        </div>
+        <div class="debt-list">
+          <div class="debt-row">
+            <label>Student loans <small>advanced degrees</small></label>
+            <input type="number" min="0" value="335000" data-debt>
+          </div>
+          <div class="debt-row">
+            <label>Mortgage <small>condo / home debt</small></label>
+            <input type="number" min="0" value="210000" data-debt>
+          </div>
+          <div class="debt-row">
+            <label>Credit cards <small>freeze immediately</small></label>
+            <input type="number" min="0" value="136000" data-debt>
+          </div>
+          <div class="debt-row">
+            <label>Personal loans <small>snowball target</small></label>
+            <input type="number" min="0" value="44000" data-debt>
+          </div>
+          <div class="debt-row">
+            <label>Car loans <small>possible sale later</small></label>
+            <input type="number" min="0" value="35000" data-debt>
+          </div>
+        </div>
+        <div class="progress" aria-label="debt remaining">
+          <div class="bar" id="debt-bar"></div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-head">
+          <h2>90-Day Actions</h2>
+          <span class="count" id="action-count">0/7 done</span>
+        </div>
+        <ul id="actions">
+          <li class="action-item">
+            <label class="check"><input type="checkbox" data-action="listed every debt smallest to largest"><span class="box">✓</span></label>
+            <span>List every debt smallest to largest.</span>
+          </li>
+          <li class="action-item">
+            <label class="check"><input type="checkbox" data-action="froze credit card use"><span class="box">✓</span></label>
+            <span>Freeze credit card use.</span>
+          </li>
+          <li class="action-item">
+            <label class="check"><input type="checkbox" data-action="listed the condo for sale"><span class="box">✓</span></label>
+            <span>List the unused condo for sale.</span>
+          </li>
+          <li class="action-item">
+            <label class="check"><input type="checkbox" data-action="applied condo equity to the first debts"><span class="box">✓</span></label>
+            <span>Apply condo equity to first debts.</span>
+          </li>
+          <li class="action-item">
+            <label class="check"><input type="checkbox" data-action="built a bare-bones monthly budget"><span class="box">✓</span></label>
+            <span>Build a bare-bones monthly budget.</span>
+          </li>
+          <li class="action-item">
+            <label class="check"><input type="checkbox" data-action="held weekly money meetings"><span class="box">✓</span></label>
+            <span>Hold weekly money meetings.</span>
+          </li>
+          <li class="action-item">
+            <label class="check"><input type="checkbox" data-action="tracked no-restaurant spending days"><span class="box">✓</span></label>
+            <span>Track no-restaurant spending days.</span>
+          </li>
+        </ul>
+        <div class="progress" aria-label="90-day action progress">
+          <div class="bar" id="action-bar"></div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-head">
+          <h2>Behavior Tracker</h2>
+          <span class="count">ongoing</span>
+        </div>
+        <div class="tracker">
+          <label>No card days <input id="no-card-days" type="number" min="0" value="18"></label>
+          <label>Money meetings held <input id="meetings" type="number" min="0" value="3"></label>
+          <label>Restaurant spend limit <input id="restaurant" type="number" min="0" value="0"></label>
+          <label>Total debt paid <input id="paid" type="number" min="0" value="12000"></label>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-head">
+          <h2>Monthly Review</h2>
+          <span class="count" id="review-count">0/6 checked</span>
+        </div>
+        <ul id="review">
+          <li class="action-item">
+            <label class="check"><input type="checkbox"><span class="box">✓</span></label>
+            <span>We reviewed every balance together.</span>
+          </li>
+          <li class="action-item">
+            <label class="check"><input type="checkbox"><span class="box">✓</span></label>
+            <span>We agreed on the next debt to attack.</span>
+          </li>
+          <li class="action-item">
+            <label class="check"><input type="checkbox"><span class="box">✓</span></label>
+            <span>We checked if any new debt was added.</span>
+          </li>
+          <li class="action-item">
+            <label class="check"><input type="checkbox"><span class="box">✓</span></label>
+            <span>We set next month’s grocery and restaurant limits.</span>
+          </li>
+          <li class="action-item">
+            <label class="check"><input type="checkbox"><span class="box">✓</span></label>
+            <span>We chose one sacrifice we both accept.</span>
+          </li>
+          <li class="action-item">
+            <label class="check"><input type="checkbox"><span class="box">✓</span></label>
+            <span>We scheduled next month’s money meeting.</span>
+          </li>
+        </ul>
+        <div class="progress" aria-label="monthly review progress">
+          <div class="bar" id="review-bar"></div>
+        </div>
+      </div>
+    </section>
+
+    <p class="footer">Inspired by a real Ramsey Show call: “I'm 29 Years Old With Nearly $1,000,000 In Debt!” Conceptual use case, not financial advice or an endorsement.</p>
+  </main>
+
+  <script>
+    const initialDebt = 760000;
+    const debtInputs = [...document.querySelectorAll("[data-debt]")];
+    const actionInputs = [...document.querySelectorAll("#actions input[type='checkbox']")];
+    const reviewInputs = [...document.querySelectorAll("#review input[type='checkbox']")];
+    const totalDebt = document.querySelector("#total-debt");
+    const remainingLabel = document.querySelector("#remaining-label");
+    const debtBar = document.querySelector("#debt-bar");
+    const actionCount = document.querySelector("#action-count");
+    const actionBar = document.querySelector("#action-bar");
+    const reviewCount = document.querySelector("#review-count");
+    const reviewBar = document.querySelector("#review-bar");
+
+    function money(value) {
+      return new Intl.NumberFormat("en-US", {
+        style: "currency",
+        currency: "USD",
+        maximumFractionDigits: 0
+      }).format(value || 0);
+    }
+
+    function getDebtTotal() {
+      return debtInputs.reduce((sum, input) => sum + Number(input.value || 0), 0);
+    }
+
+    function updateDebt() {
+      const current = getDebtTotal();
+      const paidDown = Math.max(initialDebt - current, 0);
+      totalDebt.textContent = `${money(current)} debt`;
+      remainingLabel.textContent = `${money(paidDown)} down`;
+      debtBar.style.width = `${Math.min((paidDown / initialDebt) * 100, 100)}%`;
+    }
+
+    function updateGroup(inputs, label, bar) {
+      const done = inputs.filter((input) => input.checked).length;
+      label.textContent = `${done}/${inputs.length} checked`;
+      bar.style.width = `${(done / inputs.length) * 100}%`;
+    }
+
+    function updateAll() {
+      updateDebt();
+      updateGroup(actionInputs, actionCount, actionBar);
+      updateGroup(reviewInputs, reviewCount, reviewBar);
+    }
+
+    debtInputs.forEach((input) => input.addEventListener("input", updateAll));
+    actionInputs.forEach((input) => input.addEventListener("change", updateAll));
+    reviewInputs.forEach((input) => input.addEventListener("change", updateAll));
+
+    actionInputs.forEach((input, index) => {
+      input.checked = index < 3;
+    });
+
+    reviewInputs.forEach((input, index) => {
+      input.checked = index < 2;
+    });
+
+    updateAll();
+  </script>
+</body>
+</html>

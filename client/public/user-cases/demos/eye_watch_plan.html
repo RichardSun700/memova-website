@@ -1,0 +1,438 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Eye Watch Plan</title>
+  <style>
+    :root {
+      --ink: #18212f;
+      --muted: #687386;
+      --line: #dfe5ee;
+      --paper: #f7f8fb;
+      --panel: #ffffff;
+      --blue: #3867d6;
+      --teal: #1d6f78;
+      --green: #2f8f68;
+      --amber: #b36a18;
+      --red: #b3403a;
+      --shadow: 0 18px 50px rgba(27, 36, 52, .12);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      background: #e8edf5;
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      letter-spacing: 0;
+    }
+
+    .phone {
+      width: min(430px, 100vw);
+      min-height: 100vh;
+      background: var(--paper);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+    }
+
+    .status {
+      height: 18px;
+    }
+
+    .hero {
+      padding: 22px 22px 18px;
+      background:
+        linear-gradient(135deg, rgba(56, 103, 214, .10), rgba(29, 111, 120, .12)),
+        #f9fbff;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .label {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 10px;
+      border: 1px solid rgba(56, 103, 214, .22);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, .72);
+      color: var(--blue);
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--green);
+    }
+
+    h1 {
+      margin: 18px 0 8px;
+      font-size: 34px;
+      line-height: 1.02;
+      font-weight: 800;
+      letter-spacing: 0;
+    }
+
+    .sub {
+      margin: 0;
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.45;
+    }
+
+    .countdown {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    .metric {
+      padding: 14px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, .82);
+    }
+
+    .metric strong {
+      display: block;
+      font-size: 28px;
+      line-height: 1;
+      color: var(--teal);
+    }
+
+    .metric span {
+      display: block;
+      margin-top: 7px;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    main {
+      padding: 14px;
+    }
+
+    .card {
+      margin-bottom: 12px;
+      padding: 15px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--panel);
+    }
+
+    .card-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    h2 {
+      margin: 0;
+      font-size: 17px;
+      line-height: 1.2;
+      letter-spacing: 0;
+    }
+
+    .pill {
+      flex: 0 0 auto;
+      padding: 6px 9px;
+      border-radius: 999px;
+      background: #eef5f1;
+      color: var(--green);
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .visit-row {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 12px;
+      align-items: center;
+      padding: 11px 0;
+      border-top: 1px solid var(--line);
+    }
+
+    .visit-row:first-of-type {
+      border-top: 0;
+      padding-top: 0;
+    }
+
+    .visit-row b {
+      display: block;
+      font-size: 14px;
+      margin-bottom: 3px;
+    }
+
+    .visit-row small {
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.35;
+    }
+
+    .date {
+      color: var(--ink);
+      font-size: 13px;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .track-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 9px;
+    }
+
+    .check {
+      min-height: 74px;
+      display: grid;
+      align-content: space-between;
+      padding: 11px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fbfcff;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .check input {
+      position: absolute;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .check-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .box {
+      width: 21px;
+      height: 21px;
+      display: grid;
+      place-items: center;
+      border: 2px solid #b7c3d5;
+      border-radius: 6px;
+      color: white;
+      font-size: 14px;
+      font-weight: 900;
+    }
+
+    .check input:checked + .check-top .box {
+      border-color: var(--green);
+      background: var(--green);
+    }
+
+    .check input:checked + .check-top .box::after {
+      content: "✓";
+    }
+
+    .check b {
+      font-size: 14px;
+      line-height: 1.2;
+    }
+
+    .check span {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.25;
+    }
+
+    .red-flags {
+      display: grid;
+      gap: 8px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .red-flags li {
+      display: flex;
+      gap: 8px;
+      align-items: flex-start;
+      color: #3a4351;
+      font-size: 14px;
+      line-height: 1.35;
+    }
+
+    .mark {
+      width: 7px;
+      height: 7px;
+      flex: 0 0 auto;
+      margin-top: 6px;
+      border-radius: 50%;
+      background: var(--red);
+    }
+
+    .questions {
+      display: grid;
+      gap: 8px;
+    }
+
+    .question {
+      padding: 10px 11px;
+      border-radius: 8px;
+      background: #f4f7fb;
+      color: #3a4351;
+      font-size: 14px;
+      line-height: 1.35;
+    }
+
+    .footer-note {
+      margin: 0;
+      padding: 4px 3px 22px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.4;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="phone">
+    <div class="status"></div>
+    <section class="hero">
+      <div class="label"><span class="dot"></span>Doctor visit turned into a plan</div>
+      <h1>Eye Watch Plan</h1>
+      <p class="sub">Scans looked okay for now. Track the small stuff, know the red flags, and recheck in 6 months.</p>
+      <div class="countdown" aria-label="Follow-up countdown">
+        <div class="metric">
+          <strong id="daysLeft">--</strong>
+          <span>days to recheck</span>
+        </div>
+        <div class="metric">
+          <strong id="bookIn">--</strong>
+          <span>days to book</span>
+        </div>
+      </div>
+    </section>
+
+    <main>
+      <section class="card">
+        <div class="card-head">
+          <h2>Follow-up plan</h2>
+          <span class="pill">On watch</span>
+        </div>
+        <div class="visit-row">
+          <div>
+            <b>Book the next eye visit</b>
+            <small>Call about a month early so the 6-month check does not slip.</small>
+          </div>
+          <div class="date" id="bookDate">Oct 28</div>
+        </div>
+        <div class="visit-row">
+          <div>
+            <b>6-month recheck</b>
+            <small>Eye pressure, OCT, retina photo, and any symptom changes.</small>
+          </div>
+          <div class="date" id="visitDate">Nov 28</div>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="card-head">
+          <h2>Today</h2>
+          <span class="pill" id="doneCount">0/6 done</span>
+        </div>
+        <div class="track-grid">
+          <label class="check">
+            <input type="checkbox">
+            <span class="check-top"><b>Far look breaks</b><span class="box"></span></span>
+            <span>At least 4 short breaks</span>
+          </label>
+          <label class="check">
+            <input type="checkbox">
+            <span class="check-top"><b>Screen blocks</b><span class="box"></span></span>
+            <span>No long nonstop session</span>
+          </label>
+          <label class="check">
+            <input type="checkbox">
+            <span class="check-top"><b>Floaters</b><span class="box"></span></span>
+            <span>No sudden change</span>
+          </label>
+          <label class="check">
+            <input type="checkbox">
+            <span class="check-top"><b>Flashes</b><span class="box"></span></span>
+            <span>None today</span>
+          </label>
+          <label class="check">
+            <input type="checkbox">
+            <span class="check-top"><b>Sleep</b><span class="box"></span></span>
+            <span>Lights out before 12</span>
+          </label>
+          <label class="check">
+            <input type="checkbox">
+            <span class="check-top"><b>Supplements</b><span class="box"></span></span>
+            <span>Taken after dinner</span>
+          </label>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="card-head">
+          <h2>Call sooner if</h2>
+        </div>
+        <ul class="red-flags">
+          <li><span class="mark"></span><span>A sudden shower of new floaters</span></li>
+          <li><span class="mark"></span><span>Flashes of light that are new or increasing</span></li>
+          <li><span class="mark"></span><span>A curtain, shadow, or missing area in vision</span></li>
+          <li><span class="mark"></span><span>Sudden vision loss, strong eye pain, or nausea</span></li>
+        </ul>
+      </section>
+
+      <section class="card">
+        <div class="card-head">
+          <h2>Ask next time</h2>
+        </div>
+        <div class="questions">
+          <div class="question">Was my eye pressure high or just borderline?</div>
+          <div class="question">Should I do a visual field test next visit?</div>
+          <div class="question">What number or symptom should make me call earlier?</div>
+        </div>
+      </section>
+
+      <p class="footer-note">Personal follow-up page from doctor notes and recording. Not a diagnosis or medical advice.</p>
+    </main>
+  </div>
+
+  <script>
+    const visit = new Date("2026-11-28T09:00:00");
+    const book = new Date("2026-10-28T09:00:00");
+    const now = new Date();
+    const dayMs = 24 * 60 * 60 * 1000;
+    const daysUntil = (date) => Math.max(0, Math.ceil((date - now) / dayMs));
+    const fmt = new Intl.DateTimeFormat("en-US", { month: "short", day: "numeric" });
+
+    document.getElementById("daysLeft").textContent = daysUntil(visit);
+    document.getElementById("bookIn").textContent = daysUntil(book);
+    document.getElementById("visitDate").textContent = fmt.format(visit);
+    document.getElementById("bookDate").textContent = fmt.format(book);
+
+    const checks = [...document.querySelectorAll(".check input")];
+    const doneCount = document.getElementById("doneCount");
+
+    function syncDone() {
+      const done = checks.filter((input) => input.checked).length;
+      doneCount.textContent = `${done}/${checks.length} done`;
+      doneCount.style.background = done === checks.length ? "#eaf7ef" : "#eef5f1";
+    }
+
+    checks.forEach((input) => input.addEventListener("change", syncDone));
+    syncDone();
+  </script>
+</body>
+</html>

@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gout Flare Recovery Card</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #211b18;
+      --muted: #746b66;
+      --paper: #fffaf5;
+      --panel: #ffffff;
+      --line: #eadbd0;
+      --red: #b85d50;
+      --green: #4f7a5d;
+      --blue: #4c6f9f;
+      --amber: #bd7d35;
+      --soft: #f7efe8;
+      --rose: #faeeee;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background:
+        radial-gradient(circle at 88% 0%, rgba(184, 93, 80, 0.18), transparent 22rem),
+        radial-gradient(circle at 10% 18%, rgba(79, 122, 93, 0.14), transparent 24rem),
+        linear-gradient(180deg, #fbf2ea 0%, #eee6dd 100%);
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      display: grid;
+      place-items: center;
+      padding: 28px 14px;
+    }
+
+    .phone {
+      width: min(100%, 440px);
+      background: var(--paper);
+      border: 1px solid rgba(33, 27, 24, 0.12);
+      border-radius: 34px;
+      box-shadow: 0 24px 70px rgba(58, 35, 28, 0.22);
+      overflow: hidden;
+    }
+
+    .hero {
+      padding: 22px 22px 16px;
+      border-bottom: 1px solid var(--line);
+      background:
+        linear-gradient(135deg, rgba(255, 255, 255, 0.94), rgba(252, 239, 231, 0.9)),
+        url("data:image/svg+xml,%3Csvg width='120' height='120' viewBox='0 0 120 120' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='%23d6b4a8' stroke-opacity='.34'%3E%3Cpath d='M15 40h90M15 76h90M40 15v90M76 15v90'/%3E%3C/g%3E%3C/svg%3E");
+    }
+
+    .meta {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--muted);
+      font-size: 12px;
+      margin-bottom: 18px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      min-height: 28px;
+      padding: 0 10px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.82);
+      border: 1px solid rgba(184, 93, 80, 0.18);
+      white-space: nowrap;
+    }
+
+    .dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--red);
+      box-shadow: 0 0 0 4px rgba(184, 93, 80, 0.13);
+    }
+
+    h1 {
+      margin: 0;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 38px;
+      line-height: 0.98;
+      letter-spacing: 0;
+    }
+
+    .sub {
+      margin: 12px 0 0;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.45;
+    }
+
+    .insight {
+      margin-top: 18px;
+      padding: 14px;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.76);
+      border: 1px solid rgba(184, 93, 80, 0.18);
+    }
+
+    .label {
+      color: var(--red);
+      font-size: 11px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .quote {
+      margin: 6px 0 0;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 22px;
+      line-height: 1.14;
+    }
+
+    .content {
+      padding: 18px;
+    }
+
+    .section {
+      margin-bottom: 14px;
+      padding: 16px;
+      background: var(--panel);
+      border: 1px solid rgba(33, 27, 24, 0.1);
+      border-radius: 8px;
+    }
+
+    .section-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    h2 {
+      margin: 0;
+      font-size: 15px;
+      line-height: 1.2;
+    }
+
+    .count {
+      color: var(--green);
+      font-size: 12px;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .snapshot {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+    }
+
+    .stat {
+      padding: 10px;
+      border-radius: 8px;
+      background: var(--soft);
+      border: 1px solid rgba(33, 27, 24, 0.08);
+    }
+
+    .stat strong {
+      display: block;
+      font-size: 20px;
+      line-height: 1;
+    }
+
+    .stat span {
+      display: block;
+      color: var(--muted);
+      font-size: 10px;
+      line-height: 1.15;
+      margin-top: 6px;
+    }
+
+    .slider-field {
+      display: grid;
+      gap: 7px;
+      margin-bottom: 13px;
+    }
+
+    .slider-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    input[type="range"] {
+      width: 100%;
+      accent-color: var(--red);
+    }
+
+    .progress {
+      height: 9px;
+      border-radius: 999px;
+      background: var(--rose);
+      overflow: hidden;
+      margin-top: 12px;
+    }
+
+    .bar {
+      width: 0;
+      height: 100%;
+      background: linear-gradient(90deg, var(--red), #d98c60);
+      border-radius: inherit;
+      transition: width 0.2s ease;
+    }
+
+    .tracker {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 9px;
+    }
+
+    .tracker.single {
+      grid-template-columns: 1fr;
+    }
+
+    .field {
+      display: grid;
+      gap: 5px;
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 800;
+    }
+
+    input[type="number"],
+    input[type="text"],
+    input[type="date"],
+    textarea {
+      width: 100%;
+      border: 1px solid rgba(33, 27, 24, 0.12);
+      border-radius: 8px;
+      background: #fffefe;
+      color: var(--ink);
+      font: inherit;
+      outline: none;
+    }
+
+    input[type="number"],
+    input[type="text"],
+    input[type="date"] {
+      min-height: 40px;
+      padding: 0 10px;
+      font-size: 15px;
+      font-weight: 800;
+    }
+
+    textarea {
+      min-height: 80px;
+      resize: vertical;
+      padding: 11px;
+      font-size: 14px;
+      line-height: 1.45;
+    }
+
+    input:focus,
+    textarea:focus {
+      border-color: rgba(184, 93, 80, 0.42);
+      box-shadow: 0 0 0 3px rgba(184, 93, 80, 0.09);
+    }
+
+    .check-list {
+      display: grid;
+      gap: 8px;
+    }
+
+    .check-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px;
+      border-radius: 8px;
+      background: #fff9f5;
+      color: #302824;
+      font-size: 13px;
+      line-height: 1.3;
+    }
+
+    .check-item input {
+      width: 18px;
+      height: 18px;
+      flex: 0 0 auto;
+      accent-color: var(--green);
+    }
+
+    .trigger-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+    }
+
+    .trigger {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      min-height: 40px;
+      padding: 8px;
+      border-radius: 8px;
+      background: #fff9f5;
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .trigger input {
+      width: 18px;
+      height: 18px;
+      accent-color: var(--red);
+    }
+
+    .footer {
+      padding: 0 18px 18px;
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.35;
+    }
+
+    @media (max-width: 380px) {
+      h1 {
+        font-size: 34px;
+      }
+
+      .snapshot,
+      .tracker,
+      .trigger-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="phone" aria-label="Gout flare recovery card">
+    <section class="hero">
+      <div class="meta">
+        <span class="pill"><span class="dot"></span>doctor visit + OCR</span>
+      </div>
+      <h1>Gout Flare Recovery Card</h1>
+      <p class="sub">A daily tracker for pain, swelling, hydration, triggers, medication, and follow-up.</p>
+    </section>
+
+    <section class="content">
+      <div class="section">
+        <div class="section-head">
+          <h2>Flare Snapshot</h2>
+          <span class="count" id="flare-day">day 1</span>
+        </div>
+        <div class="snapshot">
+          <div class="stat"><strong>9.2</strong><span>uric acid lab</span></div>
+          <div class="stat"><strong id="pain-stat">7/10</strong><span>pain now</span></div>
+          <div class="stat"><strong id="walk-stat">limping</strong><span>walking status</span></div>
+        </div>
+        <div class="progress" aria-label="pain level">
+          <div class="bar" id="pain-bar"></div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-head">
+          <h2>Today’s Flare Log</h2>
+          <span class="count">editable</span>
+        </div>
+        <div class="slider-field">
+          <div class="slider-top"><span>Pain level</span><span id="pain-label">7/10</span></div>
+          <input id="pain" type="range" min="0" max="10" value="7">
+        </div>
+        <div class="slider-field">
+          <div class="slider-top"><span>Swelling</span><span id="swelling-label">6/10</span></div>
+          <input id="swelling" type="range" min="0" max="10" value="6">
+        </div>
+        <div class="tracker">
+          <label class="field">Flare start <input id="start-date" type="date"></label>
+          <label class="field">Walking <input id="walking" type="text" value="limping"></label>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-head">
+          <h2>Medication Checklist</h2>
+          <span class="count" id="med-count">0/4 checked</span>
+        </div>
+        <div class="check-list" id="meds">
+          <label class="check-item"><input type="checkbox"> Colchicine / NSAID as prescribed.</label>
+          <label class="check-item"><input type="checkbox"> Took meds with food if instructed.</label>
+          <label class="check-item"><input type="checkbox"> No extra dose without asking doctor.</label>
+          <label class="check-item"><input type="checkbox"> Logged side effects or stomach issues.</label>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-head">
+          <h2>Water Goal</h2>
+          <span class="count" id="water-label">0 / 3 L</span>
+        </div>
+        <div class="tracker">
+          <label class="field">Water today (L) <input id="water" type="number" min="0" step="0.25" value="0"></label>
+          <label class="field">Water target (L) <input id="water-target" type="number" min="0" step="0.25" value="3"></label>
+        </div>
+        <div class="progress" aria-label="hydration progress">
+          <div class="bar" id="water-bar"></div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-head">
+          <h2>Trigger Watch</h2>
+          <span class="count" id="trigger-count">0 flagged</span>
+        </div>
+        <div class="trigger-grid" id="triggers">
+          <label class="trigger"><input type="checkbox"> beer / alcohol</label>
+          <label class="trigger"><input type="checkbox"> shellfish</label>
+          <label class="trigger"><input type="checkbox"> red meat</label>
+          <label class="trigger"><input type="checkbox"> organ meat</label>
+          <label class="trigger"><input type="checkbox"> sugary drinks</label>
+          <label class="trigger"><input type="checkbox"> dehydration</label>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-head">
+          <h2>Follow-up Plan</h2>
+          <span class="count">recheck</span>
+        </div>
+        <div class="tracker single">
+          <label class="field">Uric acid recheck <input id="recheck" type="date"></label>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-head">
+          <h2>Notes for Next Visit</h2>
+          <span class="count">editable</span>
+        </div>
+        <textarea>Pain started in big toe. Worse at night. Swelling improved after meds + water. Need to ask whether this is first flare only or long-term uric acid plan.</textarea>
+      </div>
+    </section>
+
+    <p class="footer">Conceptual gout recovery use case based on doctor visit notes and OCR documents. Not medical advice; follow clinician instructions.</p>
+  </main>
+
+  <script>
+    const pain = document.querySelector("#pain");
+    const swelling = document.querySelector("#swelling");
+    const painLabel = document.querySelector("#pain-label");
+    const swellingLabel = document.querySelector("#swelling-label");
+    const painStat = document.querySelector("#pain-stat");
+    const painBar = document.querySelector("#pain-bar");
+    const walking = document.querySelector("#walking");
+    const walkStat = document.querySelector("#walk-stat");
+    const startDate = document.querySelector("#start-date");
+    const flareDay = document.querySelector("#flare-day");
+    const medInputs = [...document.querySelectorAll("#meds input")];
+    const medCount = document.querySelector("#med-count");
+    const water = document.querySelector("#water");
+    const waterTarget = document.querySelector("#water-target");
+    const waterLabel = document.querySelector("#water-label");
+    const waterBar = document.querySelector("#water-bar");
+    const triggerInputs = [...document.querySelectorAll("#triggers input")];
+    const triggerCount = document.querySelector("#trigger-count");
+    const recheck = document.querySelector("#recheck");
+
+    function isoDateAfter(days) {
+      const date = new Date();
+      date.setDate(date.getDate() + days);
+      return date.toISOString().slice(0, 10);
+    }
+
+    function updateFlare() {
+      painLabel.textContent = `${pain.value}/10`;
+      swellingLabel.textContent = `${swelling.value}/10`;
+      painStat.textContent = `${pain.value}/10`;
+      painBar.style.width = `${Number(pain.value) * 10}%`;
+      walkStat.textContent = walking.value || "not logged";
+
+      const start = new Date(startDate.value + "T12:00:00");
+      const today = new Date();
+      const day = Math.max(Math.floor((today - start) / 86400000) + 1, 1);
+      flareDay.textContent = `day ${day}`;
+    }
+
+    function updateMeds() {
+      const done = medInputs.filter((input) => input.checked).length;
+      medCount.textContent = `${done}/${medInputs.length} checked`;
+    }
+
+    function updateWater() {
+      const current = Number(water.value || 0);
+      const target = Number(waterTarget.value || 0);
+      waterLabel.textContent = `${current} / ${target} L`;
+      waterBar.style.width = `${target ? Math.min((current / target) * 100, 100) : 0}%`;
+    }
+
+    function updateTriggers() {
+      const flagged = triggerInputs.filter((input) => input.checked).length;
+      triggerCount.textContent = `${flagged} flagged`;
+    }
+
+    [pain, swelling, walking, startDate].forEach((input) => input.addEventListener("input", updateFlare));
+    medInputs.forEach((input, index) => {
+      input.checked = index < 1;
+      input.addEventListener("change", updateMeds);
+    });
+    [water, waterTarget].forEach((input) => input.addEventListener("input", updateWater));
+    triggerInputs.forEach((input) => input.addEventListener("change", updateTriggers));
+
+    startDate.value = isoDateAfter(-1);
+    recheck.value = isoDateAfter(28);
+    updateFlare();
+    updateMeds();
+    updateWater();
+    updateTriggers();
+  </script>
+</body>
+</html>

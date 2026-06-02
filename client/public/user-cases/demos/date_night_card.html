@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Weekly Date Night Card</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #251d24;
+      --muted: #7b6f78;
+      --paper: #fff9fb;
+      --panel: #ffffff;
+      --line: #eadde5;
+      --rose: #c96f83;
+      --plum: #6f4f75;
+      --lavender: #efe8f5;
+      --peach: #f7e7dc;
+      --soft: #fbf1f4;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background:
+        radial-gradient(circle at 88% 0%, rgba(201, 111, 131, 0.2), transparent 22rem),
+        radial-gradient(circle at 8% 18%, rgba(111, 79, 117, 0.14), transparent 24rem),
+        linear-gradient(180deg, #fff5f8 0%, #efe8ef 100%);
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      display: grid;
+      place-items: center;
+      padding: 28px 14px;
+    }
+
+    .phone {
+      width: min(100%, 430px);
+      background: var(--paper);
+      border: 1px solid rgba(37, 29, 36, 0.12);
+      border-radius: 34px;
+      box-shadow: 0 24px 70px rgba(57, 39, 54, 0.22);
+      overflow: hidden;
+    }
+
+    .hero {
+      padding: 22px 22px 16px;
+      border-bottom: 1px solid var(--line);
+      background:
+        linear-gradient(135deg, rgba(255, 255, 255, 0.94), rgba(252, 236, 242, 0.9)),
+        url("data:image/svg+xml,%3Csvg width='120' height='120' viewBox='0 0 120 120' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='%23d7a8b8' stroke-opacity='.35'%3E%3Cpath d='M60 90C28 68 20 43 36 30c11-9 22-3 24 7 2-10 14-16 24-7 16 13 8 38-24 60z'/%3E%3C/g%3E%3C/svg%3E");
+    }
+
+    .meta {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--muted);
+      font-size: 12px;
+      margin-bottom: 18px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      min-height: 28px;
+      padding: 0 10px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.82);
+      border: 1px solid rgba(201, 111, 131, 0.18);
+      white-space: nowrap;
+    }
+
+    .dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--rose);
+      box-shadow: 0 0 0 4px rgba(201, 111, 131, 0.13);
+    }
+
+    h1 {
+      margin: 0;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 38px;
+      line-height: 0.98;
+      letter-spacing: 0;
+    }
+
+    .sub {
+      margin: 12px 0 0;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.45;
+    }
+
+    .content {
+      padding: 18px;
+    }
+
+    .section {
+      margin-bottom: 14px;
+      padding: 16px;
+      background: var(--panel);
+      border: 1px solid rgba(37, 29, 36, 0.1);
+      border-radius: 8px;
+    }
+
+    .section-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    h2 {
+      margin: 0;
+      font-size: 15px;
+      line-height: 1.2;
+    }
+
+    .count {
+      color: var(--plum);
+      font-size: 12px;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 9px;
+    }
+
+    .field {
+      display: grid;
+      gap: 5px;
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 800;
+    }
+
+    input[type="text"],
+    textarea,
+    select {
+      width: 100%;
+      border: 1px solid rgba(37, 29, 36, 0.12);
+      border-radius: 8px;
+      background: #fffefe;
+      color: var(--ink);
+      font: inherit;
+      outline: none;
+    }
+
+    input[type="text"],
+    select {
+      min-height: 40px;
+      padding: 0 10px;
+      font-size: 14px;
+      font-weight: 800;
+    }
+
+    textarea {
+      min-height: 88px;
+      resize: vertical;
+      padding: 11px;
+      font-size: 14px;
+      line-height: 1.45;
+    }
+
+    input:focus,
+    textarea:focus,
+    select:focus {
+      border-color: rgba(201, 111, 131, 0.42);
+      box-shadow: 0 0 0 3px rgba(201, 111, 131, 0.09);
+    }
+
+    .check-list {
+      display: grid;
+      gap: 8px;
+    }
+
+    .check-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px;
+      border-radius: 8px;
+      background: var(--soft);
+      color: #362b34;
+      font-size: 13px;
+      line-height: 1.3;
+    }
+
+    .check-item input {
+      width: 18px;
+      height: 18px;
+      flex: 0 0 auto;
+      accent-color: var(--rose);
+    }
+
+    .progress {
+      height: 9px;
+      border-radius: 999px;
+      background: var(--lavender);
+      overflow: hidden;
+      margin-top: 12px;
+    }
+
+    .bar {
+      width: 0;
+      height: 100%;
+      background: linear-gradient(90deg, var(--rose), #9b78c5);
+      border-radius: inherit;
+      transition: width 0.2s ease;
+    }
+
+    .idea-row {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+
+    button {
+      min-height: 40px;
+      border: 0;
+      border-radius: 999px;
+      background: var(--plum);
+      color: #fff;
+      font: inherit;
+      font-size: 13px;
+      font-weight: 900;
+      cursor: pointer;
+      padding: 0 14px;
+    }
+
+    .delete {
+      width: 40px;
+      padding: 0;
+      background: #fff0f4;
+      color: var(--rose);
+      border: 1px solid rgba(201, 111, 131, 0.18);
+      font-size: 20px;
+    }
+
+    .save-row {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 10px;
+      align-items: center;
+      margin-top: 4px;
+    }
+
+    .save-status {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .footer {
+      padding: 0 18px 18px;
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.35;
+    }
+
+    @media (max-width: 380px) {
+      h1 {
+        font-size: 34px;
+      }
+
+      .grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="phone" aria-label="Weekly date night card">
+    <section class="hero">
+      <div class="meta">
+        <span class="pill"><span class="dot"></span>date night transcript</span>
+      </div>
+      <h1>Weekly Date Night Card</h1>
+      <p class="sub">A shared check-in page for appreciation, support, repair, and next week’s date.</p>
+    </section>
+
+    <section class="content">
+      <div class="section">
+        <div class="section-head">
+          <h2>Appreciation</h2>
+          <span class="count">both sides</span>
+        </div>
+        <div class="grid">
+          <label class="field">Partner A noticed
+            <textarea>Grace bought flowers after a rough work day.</textarea>
+          </label>
+          <label class="field">Partner B noticed
+            <textarea>Clara made pasta + salad when I was exhausted.</textarea>
+          </label>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-head">
+          <h2>Quality Time</h2>
+          <span class="count" id="quality-count">0/4 checked</span>
+        </div>
+        <div class="check-list" id="quality">
+          <label class="check-item"><input type="checkbox"> Dinner without Discord / TikTok / Instagram.</label>
+          <label class="check-item"><input type="checkbox"> One walk or coffee together.</label>
+          <label class="check-item"><input type="checkbox"> One conversation not about bills or chores.</label>
+          <label class="check-item"><input type="checkbox"> Phones away for 30 minutes.</label>
+        </div>
+        <div class="progress" aria-label="quality time progress">
+          <div class="bar" id="quality-bar"></div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-head">
+          <h2>Support Needed</h2>
+          <span class="count">this week</span>
+        </div>
+        <div class="grid">
+          <label class="field">Partner A needs
+            <textarea>Listening about family stuff. No fixing first.</textarea>
+          </label>
+          <label class="field">Partner B needs
+            <textarea>Patience around Friday work stress.</textarea>
+          </label>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-head">
+          <h2>Repair Note</h2>
+          <span class="count">editable</span>
+        </div>
+        <textarea>I’m sorry I snapped when we talked about bills. Next time I’ll ask for a pause.</textarea>
+      </div>
+
+      <div class="section">
+        <div class="section-head">
+          <h2>Next Date</h2>
+          <span class="count">shared plan</span>
+        </div>
+        <div class="grid">
+          <label class="field">Date idea
+            <input id="date-idea" type="text" value="Make Basque cheesecake">
+          </label>
+          <label class="field">Next planner
+            <select id="planner">
+              <option>Partner A</option>
+              <option>Partner B</option>
+              <option selected>Shared</option>
+            </select>
+          </label>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-head">
+          <h2>Date Ideas</h2>
+          <span class="count">editable</span>
+        </div>
+        <div id="ideas">
+          <div class="idea-row"><input type="text" value="Bake Basque cheesecake"><button class="delete" type="button">×</button></div>
+          <div class="idea-row"><input type="text" value="No-phone ramen night"><button class="delete" type="button">×</button></div>
+          <div class="idea-row"><input type="text" value="Evening walk + coffee"><button class="delete" type="button">×</button></div>
+        </div>
+        <button type="button" id="add-idea">Add Idea</button>
+      </div>
+
+      <div class="section">
+        <div class="section-head">
+          <h2>Save</h2>
+          <span class="count">local state</span>
+        </div>
+        <div class="save-row">
+          <span class="save-status" id="save-status">Unsaved changes stay on this page only.</span>
+          <button type="button" id="save-changes">Save Changes</button>
+        </div>
+      </div>
+    </section>
+
+    <p class="footer">Conceptual relationship check-in use case from a couple’s date night transcript and notes. Not therapy or medical advice.</p>
+  </main>
+
+  <script>
+    const qualityInputs = [...document.querySelectorAll("#quality input")];
+    const qualityCount = document.querySelector("#quality-count");
+    const qualityBar = document.querySelector("#quality-bar");
+    const ideas = document.querySelector("#ideas");
+    const addIdea = document.querySelector("#add-idea");
+    const saveButton = document.querySelector("#save-changes");
+    const saveStatus = document.querySelector("#save-status");
+    const storageKey = "memova-date-night-card-state";
+
+    function updateQuality() {
+      const done = qualityInputs.filter((input) => input.checked).length;
+      qualityCount.textContent = `${done}/${qualityInputs.length} checked`;
+      qualityBar.style.width = `${(done / qualityInputs.length) * 100}%`;
+    }
+
+    function markUnsaved() {
+      saveStatus.textContent = "Unsaved changes";
+    }
+
+    function bindDelete(button) {
+      button.addEventListener("click", () => {
+        button.closest(".idea-row").remove();
+        markUnsaved();
+      });
+    }
+
+    function addIdeaRow(value = "New date idea") {
+      const row = document.createElement("div");
+      row.className = "idea-row";
+      row.innerHTML = '<input type="text"><button class="delete" type="button">×</button>';
+      row.querySelector("input").value = value;
+      ideas.appendChild(row);
+      bindDelete(row.querySelector(".delete"));
+      row.querySelector("input").addEventListener("input", markUnsaved);
+      return row;
+    }
+
+    function collectState() {
+      return {
+        textareas: [...document.querySelectorAll("textarea")].map((el) => el.value),
+        textInputs: [...document.querySelectorAll('input[type="text"]')].map((el) => el.value),
+        selects: [...document.querySelectorAll("select")].map((el) => el.value),
+        checkboxes: [...document.querySelectorAll('input[type="checkbox"]')].map((el) => el.checked),
+        ideas: [...document.querySelectorAll("#ideas .idea-row input")].map((el) => el.value)
+      };
+    }
+
+    function restoreState() {
+      const raw = localStorage.getItem(storageKey);
+      if (!raw) return;
+      const state = JSON.parse(raw);
+
+      [...document.querySelectorAll("textarea")].forEach((el, index) => {
+        if (state.textareas[index] !== undefined) el.value = state.textareas[index];
+      });
+      [...document.querySelectorAll("select")].forEach((el, index) => {
+        if (state.selects[index] !== undefined) el.value = state.selects[index];
+      });
+      [...document.querySelectorAll('input[type="checkbox"]')].forEach((el, index) => {
+        if (state.checkboxes[index] !== undefined) el.checked = state.checkboxes[index];
+      });
+      if (Array.isArray(state.ideas)) {
+        ideas.innerHTML = "";
+        state.ideas.forEach((idea) => addIdeaRow(idea));
+      }
+      updateQuality();
+      saveStatus.textContent = "Loaded saved changes";
+    }
+
+    function saveState() {
+      localStorage.setItem(storageKey, JSON.stringify(collectState()));
+      saveStatus.textContent = "Saved on this browser";
+    }
+
+    addIdea.addEventListener("click", () => {
+      const row = addIdeaRow();
+      row.querySelector("input").focus();
+      markUnsaved();
+    });
+
+    qualityInputs.forEach((input, index) => {
+      input.checked = index < 2;
+      input.addEventListener("change", () => {
+        updateQuality();
+        markUnsaved();
+      });
+    });
+
+    document.querySelectorAll(".delete").forEach(bindDelete);
+    document.querySelectorAll("textarea, input, select").forEach((el) => {
+      el.addEventListener("input", markUnsaved);
+      el.addEventListener("change", markUnsaved);
+    });
+    saveButton.addEventListener("click", saveState);
+    restoreState();
+    updateQuality();
+  </script>
+</body>
+</html>

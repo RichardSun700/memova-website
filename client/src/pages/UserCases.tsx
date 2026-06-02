@@ -2,10 +2,12 @@ import Navbar from "@/components/Navbar";
 import SiteFooter from "@/components/SiteFooter";
 import {
   ArrowUpRight,
+  ArrowRight,
   CalendarCheck,
   FileCheck2,
   HeartPulse,
   NotebookPen,
+  Sparkles,
   Stethoscope,
   UserRoundCheck,
 } from "lucide-react";
@@ -90,20 +92,132 @@ const cases: UserCase[] = [
     accent: "amber",
   },
   {
-    title: "6-Month Eye Watch Tracker",
+    title: "Eye Watch Plan",
     category: "Long-cycle health",
     person: "Alex",
     description:
       "A high eye-pressure scare, OCT results, doctor instructions, and anxious personal notes become a six-month observation tracker.",
     source:
       "Eye pressure was high. Existing floaters. Doctor says no diagnosis now, recheck IOP / fundus / OCT in six months.",
-    sourceImage: "/user-cases/notes/eye_watch_tracker_note.png",
+    sourceImage: "/user-cases/notes/eye_watch_plan_note.png",
     output:
       "Review countdown, appointment reminders, symptom log, red-flag list, and next-visit questions.",
     bullets: ["Track uncertainty without panic", "Know red-flag symptoms", "Prepare next appointment"],
-    demoHref: "/user-cases/demos/eye_watch_tracker.html",
-    image: "/user-cases/thumbs/eye_watch_tracker.png",
+    demoHref: "/user-cases/demos/eye_watch_plan.html",
+    image: "/user-cases/thumbs/eye_watch_plan.png",
     accent: "blue",
+  },
+  {
+    title: "90-Day A1C Lifestyle Experiment",
+    category: "Health experiment",
+    person: "Mia",
+    description:
+      "A borderline A1C visit becomes a calm 90-day experiment across food, walking, sleep, weight, and recheck timing.",
+    source:
+      "Doctor visit notes: A1C 6.1, pre-diabetes range, less sugar, no soda, walk after meals, track food spikes.",
+    sourceImage: "/user-cases/notes/a1c_lifestyle_note.png",
+    output:
+      "Daily targets, food-spike notes, high-risk habit flags, weekly review, and recheck preparation.",
+    bullets: ["Make habits measurable", "Notice food spikes", "Prepare the recheck"],
+    demoHref: "/user-cases/demos/a1c_lifestyle_experiment.html",
+    image: "/user-cases/thumbs/a1c_lifestyle_experiment.png",
+    accent: "sage",
+  },
+  {
+    title: "Gout Flare Recovery Card",
+    category: "Flare recovery",
+    person: "Ben",
+    description:
+      "A painful gout flare turns into a daily recovery card for pain, swelling, medication, hydration, triggers, and follow-up.",
+    source:
+      "Foot swollen, big toe pain, maybe gout flare. Check uric acid, meds with food, more water, avoid trigger foods.",
+    sourceImage: "/user-cases/notes/gout_flare_note.png",
+    output:
+      "Flare snapshot, pain and swelling log, hydration target, medication checklist, trigger watch, and next-visit notes.",
+    bullets: ["Track flare severity", "Follow medication basics", "Plan uric acid recheck"],
+    demoHref: "/user-cases/demos/gout_flare_recovery_card.html",
+    image: "/user-cases/thumbs/gout_flare_recovery_card.png",
+    accent: "rose",
+  },
+  {
+    title: "Product Iteration Alignment",
+    category: "Product work",
+    person: "Richard",
+    description:
+      "A product sync and dev notes become a requirements board that separates confirmed asks, ready work, and AI uncertainty.",
+    source:
+      "Manual marks matter. Yellow means new action. Red means AI uncertainty. Keep source context and confirm warnings.",
+    sourceImage: "/user-cases/notes/product_iteration_note.png",
+    output:
+      "AI trust check, requirements queue, source-context review, ambiguity resolver, and ready-for-sprint handoff.",
+    bullets: ["Preserve source context", "Separate ready vs uncertain", "Confirm before dev handoff"],
+    demoHref: "/user-cases/demos/product_iteration_alignment_dashboard.html",
+    image: "/user-cases/thumbs/product_iteration_alignment_dashboard.png",
+    accent: "indigo",
+  },
+  {
+    title: "Mentor Follow-up Card",
+    category: "Founder follow-up",
+    person: "Dan",
+    description:
+      "A mentor call becomes a focused founder reset: key advice, pricing tests, outreach targets, and a thank-you update.",
+    source:
+      "Call with Mark Cuban: raise price, sell the maker story, premium tiers, corporate gifts, local media, 30-day follow-up.",
+    sourceImage: "/user-cases/notes/mentor_followup_note.png",
+    output:
+      "Advice highlights, 30-day actions, early signals, outreach lists, and an auto-drafted update back to the mentor.",
+    bullets: ["Turn advice into motion", "Track early signals", "Draft warm follow-up"],
+    demoHref: "/user-cases/demos/mentor_followup_card.html",
+    image: "/user-cases/thumbs/mentor_followup_card.png",
+    accent: "copper",
+  },
+  {
+    title: "90-Day Financial Reset Card",
+    category: "Financial reset",
+    person: "Nelly",
+    description:
+      "A debt-reset conversation becomes a shared 90-day plan for priorities, behavior changes, and monthly review.",
+    source:
+      "Ramsey call notes: stop new debt, sell condo, freeze cards, start debt snowball, bare-bones budget, weekly money meeting.",
+    sourceImage: "/user-cases/notes/financial_reset_note.png",
+    output:
+      "Starting snapshot, advice summary, debt snowball order, 90-day actions, behavior tracker, and monthly review.",
+    bullets: ["Clarify next debt move", "Track behavior change", "Review together monthly"],
+    demoHref: "/user-cases/demos/financial_reset_card.html",
+    image: "/user-cases/thumbs/financial_reset_card.png",
+    accent: "violet",
+  },
+  {
+    title: "Household Reset Card",
+    category: "Shared life",
+    person: "Partner A + B",
+    description:
+      "A tense household conversation becomes a shared card for invisible work, ownership, standards, reminders, and weekly reset.",
+    source:
+      "Chores fight again. Cooking, trash, dentist, fridge filter, bills, groceries. Define done and who owns each task.",
+    sourceImage: "/user-cases/notes/household_reset_note.png",
+    output:
+      "Task ownership, visible and invisible load, done criteria, reminder planning, and next-week household review.",
+    bullets: ["Expose invisible work", "Assign clear ownership", "Review without blame"],
+    demoHref: "/user-cases/demos/household_reset_card.html",
+    image: "/user-cases/thumbs/household_reset_card.png",
+    accent: "olive",
+  },
+  {
+    title: "Weekly Date Night Card",
+    category: "Relationship check-in",
+    person: "Grace + Clara",
+    description:
+      "A date-night conversation becomes a gentle shared check-in for appreciation, repair, support, quality time, and next date.",
+    source:
+      "Dinner drifted into phones, bills, work stress, and small things. Capture appreciation, support needed, repair note, next plan.",
+    sourceImage: "/user-cases/notes/date_night_note.png",
+    output:
+      "Appreciation notes, repair note, quality-time checklist, support needed, next-date planner, and saved ideas.",
+    bullets: ["Remember small signals", "Plan quality time", "Make repair concrete"],
+    demoHref: "/user-cases/demos/date_night_card.html",
+    image: "/user-cases/thumbs/date_night_card.png",
+    accent: "plum",
   },
 ];
 
@@ -122,6 +236,36 @@ const accentClasses: Record<string, { dot: string; panel: string; text: string }
     dot: "bg-emerald-400",
     panel: "from-emerald-50 via-white to-[#F8FAFF]",
     text: "text-emerald-700",
+  },
+  copper: {
+    dot: "bg-orange-300",
+    panel: "from-orange-50 via-white to-[#F8FAFF]",
+    text: "text-orange-700",
+  },
+  indigo: {
+    dot: "bg-indigo-400",
+    panel: "from-indigo-50 via-white to-[#F8FAFF]",
+    text: "text-indigo-700",
+  },
+  olive: {
+    dot: "bg-lime-500",
+    panel: "from-lime-50 via-white to-[#F8FAFF]",
+    text: "text-lime-700",
+  },
+  plum: {
+    dot: "bg-fuchsia-400",
+    panel: "from-fuchsia-50 via-white to-[#F8FAFF]",
+    text: "text-fuchsia-700",
+  },
+  rose: {
+    dot: "bg-rose-400",
+    panel: "from-rose-50 via-white to-[#F8FAFF]",
+    text: "text-rose-700",
+  },
+  sage: {
+    dot: "bg-green-400",
+    panel: "from-green-50 via-white to-[#F8FAFF]",
+    text: "text-green-700",
   },
   teal: {
     dot: "bg-teal-400",
@@ -147,7 +291,7 @@ function SourceNote({ item }: { item: UserCase }) {
   const accent = accentClasses[item.accent];
 
   return (
-    <div className={`overflow-hidden rounded-2xl border border-[#DDE6FF] bg-gradient-to-br ${accent.panel} p-3 shadow-sm`}>
+    <div className={`w-full min-w-0 overflow-hidden rounded-2xl border border-[#DDE6FF] bg-gradient-to-br ${accent.panel} p-3 shadow-sm lg:max-w-[300px]`}>
       <div className="mb-3 flex items-center justify-between">
         <div className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.16em] text-[#8C96A8]">
           <NotebookPen className="h-3.5 w-3.5" />
@@ -158,8 +302,29 @@ function SourceNote({ item }: { item: UserCase }) {
       <img
         src={item.sourceImage}
         alt={`${item.title} source note`}
-        className="aspect-[9/13] w-full rounded-xl border border-white/80 bg-[#F4F4FA] object-cover object-top shadow-inner"
+        className="mx-auto h-auto w-full max-w-[280px] rounded-xl border border-white/80 bg-[#F4F4FA] shadow-inner sm:max-w-full"
       />
+    </div>
+  );
+}
+
+function TransformCue() {
+  return (
+    <div className="flex min-h-24 items-center justify-center py-1 lg:min-h-[520px]">
+      <div className="flex w-full max-w-[250px] flex-row items-center justify-center gap-3 rounded-2xl border border-[#DDE6FF] bg-white/85 px-4 py-3 text-center shadow-sm shadow-[var(--memova-navy)]/[0.04] backdrop-blur-sm lg:flex-col lg:px-3 lg:py-5">
+        <span className="relative inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-[var(--memova-blue)] text-white shadow-lg shadow-[var(--memova-blue)]/25">
+          <Sparkles className="h-5 w-5" />
+        </span>
+        <div className="min-w-0">
+          <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-[var(--memova-blue)]">
+            Memova
+          </p>
+          <p className="mt-1 text-[12px] font-bold leading-5 text-[var(--memova-navy)]">
+            Automatically turns your note into an interactive web app.
+          </p>
+        </div>
+        <ArrowRight className="hidden h-5 w-5 text-[var(--memova-blue)] lg:block" />
+      </div>
     </div>
   );
 }
@@ -172,7 +337,7 @@ function OutputPreview({ item }: { item: UserCase }) {
         target="_blank"
         rel="noreferrer"
         aria-label={`Open ${item.title} interactive demo`}
-        className="group relative block h-full min-h-[420px] overflow-hidden rounded-2xl border border-[#DDE6FF] bg-white shadow-xl shadow-[var(--memova-navy)]/[0.05] transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:shadow-[var(--memova-navy)]/[0.10] md:min-h-[520px]"
+        className="group relative block h-full min-h-[420px] min-w-0 overflow-hidden rounded-2xl border border-[#DDE6FF] bg-white shadow-xl shadow-[var(--memova-navy)]/[0.05] transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:shadow-[var(--memova-navy)]/[0.10] md:min-h-[520px]"
       >
         <div className="relative h-full overflow-hidden bg-[#F6F9FF]">
           <iframe
@@ -234,7 +399,7 @@ function CaseCard({ item, index }: { item: UserCase; index: number }) {
   const accent = accentClasses[item.accent];
 
   return (
-    <article className="overflow-hidden rounded-[28px] border border-[#DDE6FF] bg-white p-5 shadow-xl shadow-[var(--memova-navy)]/[0.04] md:p-7">
+    <article className="min-w-0 overflow-hidden rounded-[28px] border border-[#DDE6FF] bg-white p-5 shadow-xl shadow-[var(--memova-navy)]/[0.04] md:p-7">
       <div className="mb-6 flex flex-col justify-between gap-4 md:flex-row md:items-start">
         <div className="max-w-2xl">
           <div className="mb-3 flex flex-wrap items-center gap-2">
@@ -266,8 +431,9 @@ function CaseCard({ item, index }: { item: UserCase; index: number }) {
         ) : null}
       </div>
 
-      <div className="grid items-stretch gap-5 lg:grid-cols-[0.62fr_1.55fr]">
+      <div className="grid min-w-0 items-stretch gap-5 lg:grid-cols-[300px_240px_minmax(0,1fr)]">
         <SourceNote item={item} />
+        <TransformCue />
         <OutputPreview item={item} />
       </div>
 

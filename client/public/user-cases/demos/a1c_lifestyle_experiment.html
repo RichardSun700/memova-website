@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>90-Day A1C Lifestyle Experiment</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #182523;
+      --muted: #697572;
+      --paper: #f9fbf7;
+      --panel: #ffffff;
+      --line: #dce8dd;
+      --green: #2d7357;
+      --mint: #eaf5ee;
+      --blue: #3f6f9b;
+      --amber: #bd7d35;
+      --red: #b75a52;
+      --soft: #f0f6ef;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background:
+        radial-gradient(circle at 90% 0%, rgba(45, 115, 87, 0.2), transparent 22rem),
+        radial-gradient(circle at 8% 18%, rgba(63, 111, 155, 0.14), transparent 24rem),
+        linear-gradient(180deg, #f4faf4 0%, #e5eee5 100%);
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      display: grid;
+      place-items: center;
+      padding: 28px 14px;
+    }
+
+    .phone {
+      width: min(100%, 440px);
+      background: var(--paper);
+      border: 1px solid rgba(24, 37, 35, 0.12);
+      border-radius: 34px;
+      box-shadow: 0 24px 70px rgba(30, 55, 42, 0.22);
+      overflow: hidden;
+    }
+
+    .hero {
+      padding: 22px 22px 16px;
+      border-bottom: 1px solid var(--line);
+      background:
+        linear-gradient(135deg, rgba(255, 255, 255, 0.94), rgba(235, 246, 237, 0.9)),
+        url("data:image/svg+xml,%3Csvg width='120' height='120' viewBox='0 0 120 120' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='%23abd4b7' stroke-opacity='.34'%3E%3Cpath d='M18 82c18-22 38-22 60 0 11 11 20 11 30 0'/%3E%3Cpath d='M18 48c18-22 38-22 60 0 11 11 20 11 30 0'/%3E%3C/g%3E%3C/svg%3E");
+    }
+
+    .meta {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--muted);
+      font-size: 12px;
+      margin-bottom: 18px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      min-height: 28px;
+      padding: 0 10px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.82);
+      border: 1px solid rgba(45, 115, 87, 0.18);
+      white-space: nowrap;
+    }
+
+    .dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--amber);
+      box-shadow: 0 0 0 4px rgba(189, 125, 53, 0.14);
+    }
+
+    h1 {
+      margin: 0;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 37px;
+      line-height: 0.98;
+      letter-spacing: 0;
+    }
+
+    .sub {
+      margin: 12px 0 0;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.45;
+    }
+
+    .insight {
+      margin-top: 18px;
+      padding: 14px;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.76);
+      border: 1px solid rgba(45, 115, 87, 0.18);
+    }
+
+    .label {
+      color: var(--green);
+      font-size: 11px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .quote {
+      margin: 6px 0 0;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 22px;
+      line-height: 1.14;
+    }
+
+    .content {
+      padding: 18px;
+    }
+
+    .section {
+      margin-bottom: 14px;
+      padding: 16px;
+      background: var(--panel);
+      border: 1px solid rgba(24, 37, 35, 0.1);
+      border-radius: 8px;
+    }
+
+    .section-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    h2 {
+      margin: 0;
+      font-size: 15px;
+      line-height: 1.2;
+    }
+
+    .count {
+      color: var(--green);
+      font-size: 12px;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .snapshot {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+    }
+
+    .stat {
+      padding: 10px;
+      border-radius: 8px;
+      background: var(--soft);
+      border: 1px solid rgba(24, 37, 35, 0.08);
+    }
+
+    .stat strong {
+      display: block;
+      font-size: 20px;
+      line-height: 1;
+    }
+
+    .stat span {
+      display: block;
+      color: var(--muted);
+      font-size: 10px;
+      line-height: 1.15;
+      margin-top: 6px;
+    }
+
+    .progress {
+      height: 9px;
+      border-radius: 999px;
+      background: var(--mint);
+      overflow: hidden;
+      margin-top: 12px;
+    }
+
+    .bar {
+      width: 0;
+      height: 100%;
+      background: linear-gradient(90deg, var(--green), #8abc7e);
+      border-radius: inherit;
+      transition: width 0.2s ease;
+    }
+
+    .habit-list {
+      display: grid;
+      gap: 9px;
+    }
+
+    .habit {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      gap: 9px;
+      align-items: center;
+      padding: 9px;
+      border-radius: 8px;
+      background: #f8fbf7;
+      border: 1px solid rgba(24, 37, 35, 0.08);
+    }
+
+    .habit input[type="checkbox"] {
+      width: 20px;
+      height: 20px;
+      accent-color: var(--green);
+    }
+
+    .habit span {
+      font-size: 14px;
+      font-weight: 800;
+    }
+
+    .habit small {
+      color: var(--muted);
+      display: block;
+      font-size: 11px;
+      line-height: 1.25;
+      margin-top: 2px;
+    }
+
+    .risk {
+      color: var(--red);
+      font-size: 11px;
+      font-weight: 900;
+      white-space: nowrap;
+    }
+
+    .tracker {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 9px;
+    }
+
+    .field {
+      display: grid;
+      gap: 5px;
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 800;
+    }
+
+    input[type="number"],
+    input[type="text"],
+    input[type="date"],
+    textarea {
+      width: 100%;
+      border: 1px solid rgba(24, 37, 35, 0.12);
+      border-radius: 8px;
+      background: #fffefe;
+      color: var(--ink);
+      font: inherit;
+      outline: none;
+    }
+
+    input[type="number"],
+    input[type="text"],
+    input[type="date"] {
+      min-height: 40px;
+      padding: 0 10px;
+      font-size: 15px;
+      font-weight: 800;
+    }
+
+    textarea {
+      min-height: 76px;
+      resize: vertical;
+      padding: 11px;
+      font-size: 14px;
+      line-height: 1.45;
+    }
+
+    input:focus,
+    textarea:focus {
+      border-color: rgba(45, 115, 87, 0.42);
+      box-shadow: 0 0 0 3px rgba(45, 115, 87, 0.09);
+    }
+
+    .food-list {
+      display: grid;
+      gap: 8px;
+    }
+
+    .food-row {
+      display: grid;
+      grid-template-columns: 1fr 88px;
+      gap: 8px;
+    }
+
+    .review-list {
+      display: grid;
+      gap: 8px;
+    }
+
+    .review-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px;
+      border-radius: 8px;
+      background: #f8fbf7;
+      color: #303733;
+      font-size: 13px;
+      line-height: 1.3;
+    }
+
+    .review-item input {
+      width: 18px;
+      height: 18px;
+      flex: 0 0 auto;
+      accent-color: var(--green);
+    }
+
+    .footer {
+      padding: 0 18px 18px;
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.35;
+    }
+
+    @media (max-width: 380px) {
+      h1 {
+        font-size: 33px;
+      }
+
+      .snapshot,
+      .tracker {
+        grid-template-columns: 1fr;
+      }
+
+      .habit {
+        grid-template-columns: auto 1fr;
+      }
+
+      .risk {
+        grid-column: 2;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="phone" aria-label="90-day A1C lifestyle experiment">
+    <section class="hero">
+      <div class="meta">
+        <span class="pill"><span class="dot"></span>doctor visit notes</span>
+      </div>
+      <h1>90-Day A1C Lifestyle Experiment</h1>
+      <p class="sub">A daily tracker for diet, movement, sleep, and weight before the next A1C check.</p>
+      <div class="insight">
+        <div class="label">Goal</div>
+        <p class="quote">Move A1C back toward a normal range.</p>
+      </div>
+    </section>
+
+    <section class="content">
+      <div class="section">
+        <div class="section-head">
+          <h2>Starting Point</h2>
+          <span class="count" id="countdown">90 days left</span>
+        </div>
+        <div class="snapshot">
+          <div class="stat"><strong>6.1%</strong><span>starting A1C</span></div>
+          <div class="stat"><strong>&lt;5.7%</strong><span>normal range goal</span></div>
+          <div class="stat"><strong id="weight-change">0 lb</strong><span>weight change</span></div>
+        </div>
+        <div class="progress" aria-label="90-day countdown">
+          <div class="bar" id="days-bar"></div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-head">
+          <h2>Next Recheck</h2>
+          <span class="count">editable</span>
+        </div>
+        <div class="tracker">
+          <label class="field">Recheck date <input id="recheck" type="date"></label>
+          <label class="field">Current weight <input id="current-weight" type="number" value="185"></label>
+          <label class="field">Starting weight <input id="start-weight" type="number" value="185"></label>
+          <label class="field">Weekly exercise min <input id="exercise" type="number" value="90"></label>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-head">
+          <h2>High-Risk Habits</h2>
+          <span class="count" id="risk-count">0 flagged</span>
+        </div>
+        <div class="habit-list" id="risks">
+          <label class="habit">
+            <input type="checkbox">
+            <span>Sweet drinks <small>soda, juice, sweet coffee</small></span>
+            <b class="risk">high risk</b>
+          </label>
+          <label class="habit">
+            <input type="checkbox">
+            <span>White carbs at night <small>rice, pasta, bread, chips</small></span>
+            <b class="risk">watch</b>
+          </label>
+          <label class="habit">
+            <input type="checkbox">
+            <span>No walk after dinner <small>missed post-meal movement</small></span>
+            <b class="risk">watch</b>
+          </label>
+          <label class="habit">
+            <input type="checkbox">
+            <span>Short sleep <small>under 6.5 hours</small></span>
+            <b class="risk">watch</b>
+          </label>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-head">
+          <h2>Daily Targets</h2>
+          <span class="count" id="target-count">0/5 checked</span>
+        </div>
+        <div class="review-list" id="targets">
+          <label class="review-item"><input type="checkbox"> Protein first at breakfast.</label>
+          <label class="review-item"><input type="checkbox"> No soda or juice today.</label>
+          <label class="review-item"><input type="checkbox"> Walk 10 minutes after largest meal.</label>
+          <label class="review-item"><input type="checkbox"> Vegetables or fiber with dinner.</label>
+          <label class="review-item"><input type="checkbox"> Sleep plan before 11 pm.</label>
+        </div>
+        <div class="progress" aria-label="daily target progress">
+          <div class="bar" id="target-bar"></div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-head">
+          <h2>Food Spike Notes</h2>
+          <span class="count">editable</span>
+        </div>
+        <div class="food-list">
+          <div class="food-row">
+            <input type="text" value="white rice dinner">
+            <input type="text" value="+35?">
+          </div>
+          <div class="food-row">
+            <input type="text" value="chips late night">
+            <input type="text" value="bad">
+          </div>
+          <div class="food-row">
+            <input type="text" value="protein + walk">
+            <input type="text" value="better">
+          </div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-head">
+          <h2>Weekly Review</h2>
+          <span class="count">one adjustment</span>
+        </div>
+        <textarea id="weekly-note">Next week: walk after dinner 5 nights, replace chips with Greek yogurt, keep sweet drinks at zero.</textarea>
+      </div>
+    </section>
+
+    <p class="footer">Conceptual lifestyle tracking use case based on doctor visit notes. Not medical advice; users should follow their clinician's guidance.</p>
+  </main>
+
+  <script>
+    const recheck = document.querySelector("#recheck");
+    const countdown = document.querySelector("#countdown");
+    const daysBar = document.querySelector("#days-bar");
+    const startWeight = document.querySelector("#start-weight");
+    const currentWeight = document.querySelector("#current-weight");
+    const weightChange = document.querySelector("#weight-change");
+    const riskInputs = [...document.querySelectorAll("#risks input")];
+    const riskCount = document.querySelector("#risk-count");
+    const targetInputs = [...document.querySelectorAll("#targets input")];
+    const targetCount = document.querySelector("#target-count");
+    const targetBar = document.querySelector("#target-bar");
+
+    function isoDateAfter(days) {
+      const date = new Date();
+      date.setDate(date.getDate() + days);
+      return date.toISOString().slice(0, 10);
+    }
+
+    function updateCountdown() {
+      const today = new Date();
+      const target = new Date(recheck.value + "T12:00:00");
+      const diff = Math.max(Math.ceil((target - today) / 86400000), 0);
+      countdown.textContent = `${diff} days left`;
+      daysBar.style.width = `${Math.min(((90 - diff) / 90) * 100, 100)}%`;
+    }
+
+    function updateWeight() {
+      const delta = Number(currentWeight.value || 0) - Number(startWeight.value || 0);
+      const sign = delta > 0 ? "+" : "";
+      weightChange.textContent = `${sign}${delta} lb`;
+    }
+
+    function updateRisks() {
+      const flagged = riskInputs.filter((input) => input.checked).length;
+      riskCount.textContent = `${flagged} flagged`;
+    }
+
+    function updateTargets() {
+      const done = targetInputs.filter((input) => input.checked).length;
+      targetCount.textContent = `${done}/${targetInputs.length} checked`;
+      targetBar.style.width = `${(done / targetInputs.length) * 100}%`;
+    }
+
+    recheck.value = isoDateAfter(90);
+    targetInputs.forEach((input, index) => {
+      input.checked = index < 2;
+      input.addEventListener("change", updateTargets);
+    });
+    riskInputs.forEach((input) => input.addEventListener("change", updateRisks));
+    [recheck, startWeight, currentWeight].forEach((input) => {
+      input.addEventListener("input", () => {
+        updateCountdown();
+        updateWeight();
+      });
+    });
+
+    updateCountdown();
+    updateWeight();
+    updateRisks();
+    updateTargets();
+  </script>
+</body>
+</html>
