@@ -26,17 +26,17 @@ type UserCase = {
 
 const cases: UserCase[] = [
   {
-    title: "Maya Allergy Action Plan",
+    title: "Daily Allergy Tracker",
     category: "Health follow-up",
     person: "Maya",
     description:
-      "Allergist notes, test results, suspected triggers, refills, and work forms become one calm action plan.",
+      "Allergist notes, symptoms, triggers, local weather, medication readiness, and trend signals become one daily tracker.",
     source:
       "Skin test result + phone notes: shrimp? new detergent? pollen week. Need refill, work form, follow-up question.",
     sourceImage: "/user-cases/notes/maya_allergy_note.png",
     output:
-      "7-day trigger log, refill checklist, MyChart draft, and next appointment email.",
-    bullets: ["Track suspected triggers", "Prepare refill tasks", "Draft doctor follow-up"],
+      "Daily check-ins, severity trends, trigger correlations, medication readiness, and printable reports.",
+    bullets: ["Track symptom severity", "Correlate weather triggers", "Export daily report"],
     demoHref: "/user-cases/demos/maya_allergy_action_plan.html",
     image: "/user-cases/thumbs/maya_allergy_action_plan.png",
     accent: "emerald",

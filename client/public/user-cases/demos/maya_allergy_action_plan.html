@@ -3,25 +3,29 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Maya Allergy Action Plan</title>
+  <title>Daily Allergy Tracker</title>
   <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
   <style>
     :root {
-      --bg: #f4f1ec;
-      --paper: #fffdf8;
-      --ink: #1f211d;
-      --muted: #62675e;
-      --line: #ddd8cf;
-      --green: #4e7660;
-      --green-bg: #e9f2ea;
-      --amber: #a57720;
-      --amber-bg: #fff1c9;
-      --rose: #aa5749;
-      --rose-bg: #f8e6df;
-      --blue: #456da8;
-      --blue-bg: #e8eef8;
-      --shadow: 0 18px 42px rgba(53, 48, 40, .12);
-      --radius: 8px;
+      --bg: #f7f8f5;
+      --paper: #ffffff;
+      --ink: #1e2825;
+      --muted: #6b7773;
+      --line: #e3e8e4;
+      --green: #2f7d62;
+      --green-2: #4da17c;
+      --green-soft: #eef8f3;
+      --teal: #3d9a91;
+      --orange: #f28a35;
+      --orange-soft: #fff4e8;
+      --red: #dc5353;
+      --red-soft: #fff0ee;
+      --blue: #4d7fd1;
+      --blue-soft: #eef4ff;
+      --purple: #8d65c9;
+      --purple-soft: #f5f0ff;
+      --shadow: 0 8px 24px rgba(35, 68, 57, .07);
+      --radius: 16px;
     }
 
     * { box-sizing: border-box; }
@@ -30,654 +34,979 @@
 
     body {
       margin: 0;
+      min-width: 0;
       color: var(--ink);
-      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background:
-        linear-gradient(90deg, rgba(78,118,96,.07) 1px, transparent 1px) 0 0 / 28px 28px,
-        linear-gradient(0deg, rgba(78,118,96,.05) 1px, transparent 1px) 0 0 / 28px 28px,
-        var(--bg);
-      line-height: 1.45;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+      background: var(--bg);
+      line-height: 1.5;
     }
 
-    button, input, select { font: inherit; }
+    button, input, textarea { font: inherit; }
+
+    button { cursor: pointer; }
 
     .page {
-      width: min(440px, calc(100% - 20px));
+      width: min(1100px, calc(100% - 32px));
       margin: 0 auto;
-      padding: 14px 0 42px;
+      padding: 22px 0 42px;
     }
 
-    .topbar {
-      position: sticky;
-      top: 0;
-      z-index: 10;
+    .header {
       display: flex;
-      flex-direction: column;
-      gap: 12px;
-      padding: 12px 0;
-      background: rgba(244,241,236,.9);
-      backdrop-filter: blur(16px);
-      border-bottom: 1px solid rgba(221,216,207,.78);
+      justify-content: space-between;
+      align-items: center;
+      gap: 18px;
+      padding: 4px 4px 18px;
     }
 
     .brand {
       display: flex;
       align-items: center;
-      gap: 10px;
-      font-weight: 850;
-      font-size: 15px;
+      gap: 12px;
+      min-width: 0;
     }
 
-    .brand-mark {
+    .logo {
+      width: 42px;
+      height: 42px;
+      display: grid;
+      place-items: center;
+      flex: 0 0 auto;
+      border-radius: 13px;
+      color: #fff;
+      background: linear-gradient(135deg, var(--green), var(--teal));
+      box-shadow: 0 8px 18px rgba(47, 125, 98, .18);
+    }
+
+    .brand h1 {
+      margin: 0;
+      font-size: 23px;
+      line-height: 1.15;
+      letter-spacing: 0;
+    }
+
+    .brand p {
+      margin: 4px 0 0;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .print-date {
+      display: none;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .btn {
+      min-height: 40px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      padding: 0 14px;
+      border: 1px solid var(--line);
+      border-radius: 11px;
+      color: var(--ink);
+      background: #fff;
+      font-weight: 760;
+      transition: .18s ease;
+    }
+
+    .btn:hover {
+      border-color: #bdd6ca;
+      color: var(--green);
+      transform: translateY(-1px);
+    }
+
+    .btn.ghost {
+      color: var(--muted);
+      min-height: 36px;
+      padding: 0 12px;
+      font-size: 13px;
+    }
+
+    .week-bar {
+      display: grid;
+      grid-template-columns: 40px minmax(0, 1fr) 40px;
+      gap: 10px;
+      align-items: center;
+      margin-bottom: 18px;
+      padding: 11px 12px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: rgba(255, 255, 255, .84);
+      box-shadow: var(--shadow);
+    }
+
+    .arrow-btn {
+      width: 38px;
+      height: 38px;
+      display: grid;
+      place-items: center;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      color: var(--muted);
+      background: #fff;
+    }
+
+    .arrow-btn:hover { color: var(--green); border-color: #bcd8cb; }
+
+    .week-days {
+      display: grid;
+      grid-template-columns: repeat(7, minmax(72px, 1fr));
+      gap: 8px;
+      min-width: 0;
+    }
+
+    .day-btn {
+      min-height: 54px;
+      display: grid;
+      place-items: center;
+      gap: 2px;
+      padding: 6px 5px;
+      border: 1px solid transparent;
+      border-radius: 11px;
+      color: #53615d;
+      background: transparent;
+      font-size: 12px;
+    }
+
+    .day-btn strong { font-size: 13px; }
+
+    .day-btn:hover { background: var(--green-soft); }
+
+    .day-btn.selected:not(.today) {
+      color: var(--green);
+      border-color: #c6e0d4;
+      background: var(--green-soft);
+    }
+
+    .day-btn.today {
+      color: #fff;
+      background: linear-gradient(135deg, var(--green), var(--green-2));
+      box-shadow: 0 5px 14px rgba(47, 125, 98, .2);
+    }
+
+    .panel {
+      margin-top: 16px;
+      padding: 16px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: rgba(255, 255, 255, .96);
+      box-shadow: var(--shadow);
+    }
+
+    .panel-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 14px;
+      margin-bottom: 13px;
+    }
+
+    .section-title {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin: 0;
+      font-size: 18px;
+      letter-spacing: 0;
+    }
+
+    .section-title i { color: var(--green); }
+
+    .section-subtitle {
+      margin: 4px 0 0;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .today-grid {
+      display: grid;
+      grid-template-columns: 1.22fr 1.42fr .78fr 1fr;
+      gap: 12px;
+    }
+
+    .record-card {
+      min-width: 0;
+      padding: 13px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: #fff;
+    }
+
+    .severity-card { grid-column: span 2; }
+    .symptom-card { grid-column: span 2; }
+    .trigger-card { grid-column: span 2; }
+    .treatment-card,
+    .readiness-card { grid-column: span 2; }
+    .weather-card {
+      grid-column: span 2;
+      position: relative;
+      overflow: hidden;
+      min-height: 184px;
+      color: #fff;
+      border-color: transparent;
+      background: linear-gradient(145deg, #7795ad, #aab8c6);
+    }
+
+    .weather-card > * {
+      position: relative;
+      z-index: 2;
+    }
+
+    .weather-card.storm {
+      background: linear-gradient(145deg, #263750, #566b86);
+    }
+
+    .weather-card.storm::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      opacity: .82;
+      background-image:
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 640 260'%3E%3Cg fill='none' stroke='%23f7fbff' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M190 22 172 61l16-4-19 31 14-5-20 42' stroke-width='5'/%3E%3Cpath d='M456 27 440 58l13-3-17 27 12-4-17 36' stroke-width='3'/%3E%3C/g%3E%3C/svg%3E"),
+        radial-gradient(ellipse at 18% 2%, rgba(255, 255, 255, .88) 0 12%, rgba(183, 198, 216, .74) 21%, transparent 38%),
+        radial-gradient(ellipse at 55% -4%, rgba(240, 245, 251, .86) 0 13%, rgba(151, 170, 194, .7) 25%, transparent 42%),
+        radial-gradient(ellipse at 90% 4%, rgba(255, 255, 255, .78) 0 13%, rgba(161, 180, 203, .66) 27%, transparent 43%),
+        repeating-linear-gradient(101deg, transparent 0 13px, rgba(218, 231, 244, .35) 14px 15px, transparent 16px 26px);
+      background-size: cover, 52% 54%, 64% 58%, 52% 54%, auto;
+      background-position: center, left top, center top, right top, center;
+      background-repeat: no-repeat, no-repeat, no-repeat, no-repeat, repeat;
+    }
+
+    .weather-card.storm::after {
+      right: -26px;
+      bottom: -54px;
+      background: rgba(255, 255, 255, .08);
+    }
+
+    .weather-card::after {
+      content: "";
+      position: absolute;
+      right: -44px;
+      bottom: -68px;
+      width: 210px;
+      height: 150px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, .1);
+    }
+
+    .weather-card .card-title,
+    .weather-card .card-title .info { color: #fff; }
+
+    .weather-location {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      color: rgba(255, 255, 255, .92);
+      font-size: 13px;
+      font-weight: 760;
+    }
+
+    .weather-date {
+      margin-top: 4px;
+      color: rgba(255, 255, 255, .78);
+      font-size: 11px;
+    }
+
+    .weather-temperature {
+      margin-top: 5px;
+      font-size: 58px;
+      font-weight: 350;
+      letter-spacing: -4px;
+      line-height: .98;
+    }
+
+    .weather-details {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 14px;
+    }
+
+    .weather-detail {
+      padding: 6px 9px;
+      border-radius: 999px;
+      color: #fff;
+      background: rgba(255, 255, 255, .16);
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    .weather-detail.humidity {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      min-width: 148px;
+      justify-content: center;
+    }
+
+    .weather-status {
+      position: absolute;
+      right: 14px;
+      bottom: 14px;
+      z-index: 1;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      color: #fff;
+      font-size: 12px;
+      font-weight: 760;
+    }
+
+    .card-title {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin: 0 0 13px;
+      font-size: 14px;
+    }
+
+    .card-title .info {
+      color: #9ba7a3;
+      width: 15px;
+      height: 15px;
+    }
+
+    .severity-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 74px;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .severity-scale,
+    .severity-labels {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 0;
+    }
+
+    .severity-labels {
+      margin-bottom: 7px;
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+    .severity-labels span:last-child { text-align: right; grid-column: 5; }
+
+    .severity-point {
+      position: relative;
+      display: grid;
+      place-items: center;
+      height: 34px;
+      border: 0;
+      background: transparent;
+    }
+
+    .severity-point::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: #dce5e1;
+    }
+
+    .severity-point:first-child::before { left: 50%; }
+    .severity-point:last-child::before { right: 50%; }
+
+    .severity-dot {
+      position: relative;
+      z-index: 1;
+      width: 25px;
+      height: 25px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      color: #fff;
+      font-size: 13px;
+      background: #b9c9c2;
+      transition: transform .15s ease;
+    }
+
+    .severity-point:hover .severity-dot,
+    .severity-point.active .severity-dot { transform: scale(1.12); }
+
+    .severity-point[data-value="0"] .severity-dot { background: #68ad72; }
+    .severity-point[data-value="1"] .severity-dot { background: #9bcf95; }
+    .severity-point[data-value="2"] .severity-dot { background: #f5b43f; }
+    .severity-point[data-value="3"] .severity-dot { background: #ef8b42; }
+    .severity-point[data-value="4"] .severity-dot { background: var(--red); }
+
+    .severity-point.active::after {
+      content: "";
+      position: absolute;
+      bottom: -4px;
+      width: 19px;
+      height: 3px;
+      border-radius: 999px;
+      background: var(--orange);
+    }
+
+    .severity-result {
+      text-align: center;
+      color: #5e6865;
+      font-size: 12px;
+    }
+
+    .severity-result strong {
+      display: block;
+      color: var(--orange);
+      font-size: 32px;
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+
+    .symptom-grid {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .symptom-chip {
+      display: grid;
+      place-items: center;
+      gap: 4px;
+      min-height: 65px;
+      padding: 7px 4px;
+      border: 1px solid var(--line);
+      border-radius: 11px;
+      color: #586460;
+      background: #fff;
+      font-size: 12px;
+    }
+
+    .symptom-chip:hover { border-color: #b8d8c8; }
+
+    .symptom-chip.active {
+      color: var(--green);
+      border-color: var(--green-2);
+      background: var(--green-soft);
+    }
+
+    .nose-icon {
+      font-size: 20px;
+      line-height: 1;
+    }
+
+    .trigger-list,
+    .check-list,
+    .medicine-status {
+      display: grid;
+      gap: 10px;
+    }
+
+    .trigger-row {
+      display: grid;
+      grid-template-columns: 106px minmax(0, 1fr) 36px;
+      gap: 9px;
+      align-items: center;
+      color: #53615d;
+      font-size: 12px;
+    }
+
+    .trigger-name {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .trigger-name i { color: var(--green); }
+
+    input[type="range"] {
+      width: 100%;
+      height: 5px;
+      accent-color: var(--green);
+      cursor: pointer;
+    }
+
+    .trigger-value { color: #4f5c58; font-weight: 760; text-align: right; }
+
+    .check-label,
+    .medicine-option {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: #58635f;
+      font-size: 12px;
+      cursor: pointer;
+    }
+
+    .check-label input,
+    .medicine-option input {
+      width: 17px;
+      height: 17px;
+      accent-color: var(--green);
+      flex: 0 0 auto;
+      cursor: pointer;
+    }
+
+    .check-label.red { color: var(--red); }
+
+    .medicine-option.active { color: var(--green); font-weight: 760; }
+
+    .manage-link,
+    .more-link,
+    .knowledge-link {
+      color: var(--green);
+      text-decoration: none;
+      font-size: 12px;
+      font-weight: 760;
+    }
+
+    .manage-link {
+      display: block;
+      margin-top: 14px;
+      text-align: right;
+    }
+
+    .notes {
+      grid-column: 1 / -1;
+    }
+
+    .notes-wrap {
+      position: relative;
+    }
+
+    .notes textarea {
+      width: 100%;
+      min-height: 54px;
+      resize: vertical;
+      padding: 11px 44px 11px 12px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      color: var(--ink);
+      outline: none;
+    }
+
+    .notes textarea:focus { border-color: #9ccab5; box-shadow: 0 0 0 3px rgba(63, 143, 107, .08); }
+
+    .camera-btn {
+      position: absolute;
+      right: 8px;
+      top: 8px;
       width: 34px;
       height: 34px;
       display: grid;
       place-items: center;
-      border-radius: var(--radius);
-      color: #fff;
-      background: var(--green);
-      box-shadow: 0 8px 18px rgba(78,118,96,.24);
+      border: 0;
+      border-radius: 8px;
+      color: var(--muted);
+      background: transparent;
     }
 
-    .nav {
-      display: flex;
-      gap: 8px;
-      overflow-x: auto;
-      padding-bottom: 2px;
+    .camera-btn:hover { color: var(--green); background: var(--green-soft); }
+
+    .trend-grid,
+    .knowledge-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
     }
 
-    .nav a {
-      color: #586059;
-      text-decoration: none;
-      padding: 8px 10px;
-      border-radius: 999px;
-      font-size: 13px;
-      font-weight: 760;
-      white-space: nowrap;
-    }
-
-    .nav a:hover,
-    .nav a.active {
-      color: var(--green);
-      background: var(--green-bg);
-    }
-
-    .hero {
-      margin: 18px 0 14px;
-      padding: 22px;
+    .chart-card,
+    .knowledge-card {
+      min-width: 0;
+      padding: 13px;
       border: 1px solid var(--line);
-      border-radius: var(--radius);
-      background:
-        linear-gradient(135deg, rgba(78,118,96,.13), rgba(255,253,248,.78)),
-        var(--paper);
-      box-shadow: var(--shadow);
+      border-radius: 12px;
+      background: #fff;
     }
 
-    .eyebrow {
-      width: fit-content;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 7px 10px;
-      border-radius: 999px;
-      background: #ffffff;
-      border: 1px solid rgba(78,118,96,.18);
-      color: var(--green);
-      font-weight: 820;
-      font-size: 13px;
-    }
-
-    h1 {
-      margin: 14px 0 10px;
-      font-family: Georgia, "Times New Roman", serif;
-      font-size: 34px;
-      line-height: 1;
-      letter-spacing: 0;
-    }
-
-    .hero p {
+    .chart-card h3,
+    .knowledge-card h3 {
       margin: 0;
-      color: #596057;
-      font-size: 15px;
+      font-size: 14px;
     }
 
-    .tags {
+    .chart-card p,
+    .knowledge-card p {
+      margin: 4px 0 0;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .memova-insight {
+      display: grid;
+      grid-template-columns: 38px minmax(0, 1fr);
+      gap: 11px;
+      padding: 15px;
+      border: 1px solid #c9ddf3;
+      border-radius: 12px;
+      background: #f4f8fd;
+    }
+
+    .memova-insight .knowledge-icon {
+      color: #4177a8;
+      background: #e4effb;
+    }
+
+    .memova-insight h3 { margin: 0; color: #315e87; font-size: 14px; }
+    .memova-insight p { margin: 5px 0 0; color: #4f667a; font-size: 12px; line-height: 1.7; }
+
+    .canvas-wrap {
+      position: relative;
+      width: 100%;
+      height: 176px;
+      margin-top: 7px;
+    }
+
+    canvas { width: 100%; height: 100%; }
+
+    .chart-legend {
       display: flex;
       flex-wrap: wrap;
-      gap: 7px;
-      margin-top: 16px;
-    }
-
-    .pill {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 5px 8px;
-      border-radius: 999px;
-      font-size: 12px;
-      font-weight: 850;
-      white-space: nowrap;
-    }
-
-    .pill.green { background: var(--green-bg); color: var(--green); }
-    .pill.amber { background: var(--amber-bg); color: #806019; }
-    .pill.rose { background: var(--rose-bg); color: var(--rose); }
-    .pill.blue { background: var(--blue-bg); color: var(--blue); }
-    .pill.gray { background: #efede8; color: #66675f; }
-
-    main {
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
-    }
-
-    section {
-      padding: 16px;
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      background: rgba(255,253,248,.95);
-      box-shadow: 0 10px 26px rgba(53,48,40,.08);
-      scroll-margin-top: 92px;
-    }
-
-    .section-head {
-      display: flex;
-      justify-content: space-between;
-      gap: 12px;
-      align-items: start;
-      padding-bottom: 13px;
-      border-bottom: 1px solid var(--line);
-      margin-bottom: 13px;
-    }
-
-    .section-head h2 {
-      margin: 0;
-      font-size: 22px;
-    }
-
-    .section-head p {
-      margin: 5px 0 0;
-      color: var(--muted);
-      font-size: 14px;
-    }
-
-    .takeaway-compact {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 9px;
-    }
-
-    .mini-card,
-    .log-card,
-    .task-card,
-    .check-row {
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      background: #ffffff;
-      overflow: hidden;
-    }
-
-    .mini-card {
-      padding: 11px;
-      min-height: 108px;
-    }
-
-    .mini-card h3 {
-      margin: 0 0 7px;
-      font-size: 14px;
-      display: flex;
-      align-items: center;
-      gap: 7px;
-    }
-
-    .mini-card p {
-      margin: 0;
-      color: #596057;
-      font-size: 13px;
-    }
-
-    .mini-card.wide { grid-column: 1 / -1; }
-
-    .source-toggle {
-      margin-top: 8px;
-      border: 0;
-      padding: 0;
-      background: transparent;
-      color: var(--green);
-      font-weight: 850;
-      font-size: 13px;
-      cursor: pointer;
-    }
-
-    .source-context {
-      display: none;
-      margin-top: 8px;
-      padding: 9px;
-      border-radius: var(--radius);
-      background: #eef5ee;
-      color: #596057;
-      font-size: 12px;
-    }
-
-    .source-context.open { display: block; }
-
-    .log-card {
-      padding: 12px;
-      display: grid;
-      gap: 10px;
-      min-width: 0;
-    }
-
-    .log-top {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 8px;
-      min-width: 0;
-    }
-
-    .log-top h3 {
-      margin: 0;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 16px;
-      min-width: 0;
-    }
-
-    .log-form {
-      display: grid;
-      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-      gap: 8px;
-      min-width: 0;
-    }
-
-    .field {
-      display: flex;
-      flex-direction: column;
-      gap: 5px;
-      min-width: 0;
-    }
-
-    .field.full { grid-column: 1 / -1; }
-
-    .field label {
-      color: var(--muted);
-      font-size: 12px;
-      font-weight: 820;
-    }
-
-    .field input,
-    .field select {
-      width: 100%;
-      min-width: 0;
-      min-height: 36px;
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      background: #fffdf8;
-      color: var(--ink);
-      padding: 0 9px;
-      outline: none;
-      font-size: 14px;
-      text-overflow: ellipsis;
-    }
-
-    .progress {
-      height: 9px;
-      border-radius: 999px;
-      background: #eeeae2;
-      overflow: hidden;
-    }
-
-    .bar {
-      height: 100%;
-      width: 16%;
-      border-radius: 999px;
-      background: linear-gradient(90deg, var(--green), #7ba46f);
-      transition: width .2s ease;
-    }
-
-    .export-strip {
-      border: 1px solid #cdddcf;
-      border-radius: var(--radius);
-      background: #f4faf3;
-      padding: 11px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 12px;
-      min-width: 0;
-    }
-
-    .export-strip h3 {
-      margin: 0;
-      font-size: 15px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .export-strip p {
-      margin: 0;
-      color: #596057;
-      font-size: 13px;
-    }
-
-    .export-strip .btn { min-width: 138px; }
-
-    .btn {
-      min-height: 36px;
-      border-radius: var(--radius);
-      border: 1px solid var(--line);
-      background: #ffffff;
-      color: var(--green);
-      font-weight: 850;
-      cursor: pointer;
-      display: inline-flex;
-      justify-content: center;
-      align-items: center;
-      gap: 7px;
-      padding: 0 11px;
-    }
-
-    .btn.primary {
-      color: #ffffff;
-      background: var(--green);
-      border-color: var(--green);
-    }
-
-    .task-list {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-
-    .task-card {
-      display: grid;
-      grid-template-columns: auto 1fr auto;
       gap: 11px;
-      padding: 13px;
-      align-items: start;
+      margin-top: 8px;
+      color: var(--muted);
+      font-size: 11px;
     }
 
-    .task-check {
-      width: 24px;
-      height: 24px;
-      accent-color: var(--green);
-      cursor: pointer;
-      margin-top: 2px;
-    }
-
-    .task-card h3 {
-      margin: 0 0 7px;
-      font-size: 16px;
-    }
-
-    .task-card p {
-      margin: 0;
-      color: #596057;
-      font-size: 14px;
-    }
-
-    .status {
-      padding: 5px 8px;
-      border-radius: 999px;
-      background: var(--amber-bg);
-      color: #806019;
-      font-size: 12px;
-      font-weight: 850;
-      white-space: nowrap;
-    }
-
-    .task-card.done .status {
-      background: var(--green-bg);
-      color: var(--green);
-    }
-
-    .task-preview {
-      grid-column: 2 / -1;
-      padding: 10px;
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      background: #fffdf8;
-      color: #596057;
-      font-size: 13px;
-    }
-
-    .check-row {
+    .legend-item {
       display: flex;
-      gap: 9px;
-      padding: 11px;
-      color: #596057;
-      font-size: 14px;
-      margin-top: 10px;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .legend-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .stat {
+      padding: 10px 8px;
+      border-radius: 10px;
+      background: var(--green-soft);
+      color: var(--green);
+      font-size: 11px;
+    }
+
+    .stat strong {
+      display: block;
+      margin-top: 5px;
+      font-size: 22px;
+      line-height: 1;
+    }
+
+    .stat.blue { color: var(--blue); background: var(--blue-soft); }
+    .stat.red { color: var(--red); background: var(--red-soft); }
+    .stat.purple { color: var(--purple); background: var(--purple-soft); }
+
+    .event-list {
+      display: grid;
+      gap: 12px;
+      margin-top: 14px;
+    }
+
+    .event {
+      display: grid;
+      grid-template-columns: 20px 42px minmax(0, 1fr);
+      gap: 7px;
+      align-items: center;
+      color: #58635f;
+      font-size: 12px;
+    }
+
+    .event i { color: var(--green); }
+    .event.urgent i, .event.urgent strong { color: var(--red); }
+
+    .knowledge-card {
+      display: flex;
+      align-items: flex-start;
+      gap: 11px;
+      min-height: 112px;
+      background: linear-gradient(135deg, #f2fbf7, #ffffff);
+    }
+
+    .knowledge-icon {
+      width: 37px;
+      height: 37px;
+      display: grid;
+      place-items: center;
+      flex: 0 0 auto;
+      border-radius: 10px;
+      color: var(--green);
+      background: #e3f5ed;
+    }
+
+    .knowledge-card:nth-child(2) {
+      background: linear-gradient(135deg, #f7f3ff, #ffffff);
+    }
+
+    .knowledge-card:nth-child(2) .knowledge-icon {
+      color: var(--purple);
+      background: #eee6ff;
+    }
+
+    .knowledge-link {
+      display: inline-block;
+      margin-top: 11px;
     }
 
     .toast {
       position: fixed;
       left: 50%;
       bottom: 18px;
-      z-index: 20;
+      z-index: 30;
       display: none;
-      width: min(390px, calc(100% - 28px));
+      width: min(380px, calc(100% - 28px));
       transform: translateX(-50%);
-      padding: 12px 13px;
-      border-radius: var(--radius);
-      background: #1f211d;
-      color: #ffffff;
+      padding: 12px 14px;
+      border-radius: 11px;
+      color: #fff;
+      background: #243a33;
       box-shadow: var(--shadow);
-      font-size: 14px;
-      font-weight: 750;
+      font-size: 13px;
+      font-weight: 700;
     }
 
     .toast.show { display: block; }
 
-    @media (min-width: 900px) {
-      .page { width: min(1120px, calc(100% - 48px)); }
-      .topbar {
-        flex-direction: row;
-        justify-content: space-between;
-        align-items: center;
+    @media (max-width: 820px) {
+      .page { width: min(100% - 20px, 680px); padding-top: 12px; }
+      .header { padding-bottom: 13px; }
+      .brand h1 { font-size: 20px; }
+      .week-bar {
+        grid-template-columns: 36px minmax(0, 1fr) 36px;
+        gap: 6px;
+        padding: 8px;
       }
-      main {
-        display: grid;
-        grid-template-columns: minmax(0, .88fr) minmax(0, 1.12fr);
-        align-items: start;
+      .week-days {
+        display: flex;
+        overflow-x: auto;
+        padding-bottom: 2px;
+        scrollbar-width: none;
       }
-      #tasks { grid-column: 1 / -1; }
-      .task-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
-      .task-card.full-width { grid-column: 1 / -1; }
+      .week-days::-webkit-scrollbar { display: none; }
+      .day-btn { min-width: 72px; }
+      .panel { padding: 13px; }
+      .today-grid,
+      .trend-grid,
+      .knowledge-grid { grid-template-columns: 1fr; }
+      .severity-card,
+      .symptom-card,
+      .trigger-card,
+      .treatment-card,
+      .readiness-card,
+      .weather-card { grid-column: auto; }
+      .symptom-grid { grid-template-columns: repeat(5, minmax(58px, 1fr)); overflow-x: auto; padding-bottom: 2px; }
+      .notes { grid-column: auto; }
     }
 
-    @media (max-width: 460px) {
-      .page { width: min(100% - 18px, 440px); }
-      .hero, section { padding: 14px; }
-      h1 { font-size: 31px; }
-      .takeaway-compact, .log-form { grid-template-columns: 1fr; }
-      .field.full { grid-column: auto; }
-      .task-card { grid-template-columns: auto 1fr; }
-      .status { grid-column: 2; width: fit-content; }
-      .task-preview { grid-column: 1 / -1; }
-      .export-strip { display: grid; gap: 9px; }
-      .export-strip .btn { width: 100%; }
+    @media (max-width: 480px) {
+      .page { width: min(100% - 14px, 420px); }
+      .header { align-items: flex-start; }
+      .logo { width: 38px; height: 38px; border-radius: 11px; }
+      .brand p { max-width: 230px; font-size: 12px; }
+      .btn.pdf { min-height: 36px; padding: 0 10px; font-size: 12px; white-space: nowrap; }
+      .panel-head { align-items: flex-start; }
+      .section-title { font-size: 17px; }
+      .severity-layout { grid-template-columns: minmax(0, 1fr) 56px; }
+      .severity-result strong { font-size: 28px; }
+      .trigger-row { grid-template-columns: 94px minmax(0, 1fr) 34px; gap: 7px; }
+      .stats-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .canvas-wrap { height: 162px; }
+    }
+
+    @media print {
+      @page { margin: 12mm; }
+      body { background: #fff; }
+      .page { width: 100%; max-width: none; padding: 0; }
+      .btn, .week-bar, .camera-btn { display: none !important; }
+      .print-date { display: block; }
+      .header { padding: 0 0 8px; break-after: avoid; }
+      .logo { display: none; }
+      .panel { break-inside: auto; box-shadow: none; margin-top: 8px; }
+      .record-card, .chart-card, .knowledge-card { break-inside: avoid; }
     }
   </style>
 </head>
 <body>
   <div class="page">
-    <header class="topbar">
+    <header class="header">
       <div class="brand">
-        <div class="brand-mark"><i data-lucide="shield-plus" size="18"></i></div>
-        <span>Allergy Action Plan Card</span>
+        <div class="logo"><i data-lucide="sprout" size="24"></i></div>
+        <div>
+          <h1>Daily Allergy Tracker</h1>
+          <p>Track key signals, discover patterns, and manage your allergies</p>
+          <span class="print-date" id="printDate"></span>
+        </div>
       </div>
-      <nav class="nav" aria-label="Page sections">
-        <a class="active" href="#takeaways">Takeaways</a>
-        <a href="#log">7-Day Log</a>
-        <a href="#tasks">Refills & Forms</a>
-      </nav>
+      <button class="btn pdf" id="exportPdf"><i data-lucide="file-down" size="17"></i> Export PDF</button>
     </header>
 
-    <section class="hero" aria-label="Case summary">
-      <div class="eyebrow"><i data-lucide="leaf" size="15"></i> Allergist visit follow-up</div>
-      <h1>Maya Allergy Action Plan</h1>
-      <p>After an allergist visit, Maya's test results, quick notes, refill reminders, and possible triggers are organized into a compact plan for the next week.</p>
-      <div class="tags">
-        <span class="pill green">confirmed vs suspected</span>
-        <span class="pill amber">forms due Friday</span>
-        <span class="pill blue">PDF export</span>
+    <section class="week-bar" aria-label="Date navigation">
+      <button class="arrow-btn" id="prevWeek" aria-label="Previous week"><i data-lucide="chevron-left" size="18"></i></button>
+      <div class="week-days" id="weekDays"></div>
+      <button class="arrow-btn" id="nextWeek" aria-label="Next week"><i data-lucide="chevron-right" size="18"></i></button>
+    </section>
+
+    <section class="panel">
+      <div class="panel-head">
+        <div>
+          <h2 class="section-title"><i data-lucide="sun" size="19"></i> <span id="todayCheckTitle">Today's Allergy Check-in</span></h2>
+          <p class="section-subtitle">Track key signals in just 30 seconds</p>
+        </div>
+        <button class="btn ghost" id="clearRecord"><i data-lucide="rotate-ccw" size="15"></i> Clear Entry</button>
+      </div>
+
+      <div class="today-grid">
+        <article class="record-card severity-card">
+          <h3 class="card-title">1. Allergy Severity <i class="info" data-lucide="info" size="15"></i></h3>
+          <div class="severity-layout">
+            <div>
+              <div class="severity-labels"><span>0 No symptoms</span><span>4 Very severe</span></div>
+              <div class="severity-scale" id="severityScale">
+                <button class="severity-point" data-value="0" aria-label="No symptoms"><span class="severity-dot">😄</span></button>
+                <button class="severity-point" data-value="1" aria-label="Mild"><span class="severity-dot">😊</span></button>
+                <button class="severity-point" data-value="2" aria-label="Moderate"><span class="severity-dot">🙂</span></button>
+                <button class="severity-point active" data-value="3" aria-label="Severe"><span class="severity-dot">😔</span></button>
+                <button class="severity-point" data-value="4" aria-label="Very severe"><span class="severity-dot">😢</span></button>
+              </div>
+            </div>
+            <div class="severity-result"><strong id="severityNumber">3</strong><span id="severityText">Severe</span></div>
+          </div>
+        </article>
+
+        <article class="record-card symptom-card">
+          <h3 class="card-title">2. Main Symptom Types <i class="info" data-lucide="info" size="15"></i></h3>
+          <div class="symptom-grid" id="symptomGrid">
+            <button class="symptom-chip" data-symptom="Skin"><i data-lucide="sparkles" size="19"></i><span>Skin</span></button>
+            <button class="symptom-chip" data-symptom="Breathing"><span class="nose-icon" aria-hidden="true">👃</span><span>Breathing</span></button>
+            <button class="symptom-chip" data-symptom="Digestive"><i data-lucide="circle-dot" size="19"></i><span>Digestive</span></button>
+            <button class="symptom-chip active" data-symptom="Eyes / Nose"><i data-lucide="eye" size="19"></i><span>Eyes / Nose</span></button>
+            <button class="symptom-chip" data-symptom="Other"><i data-lucide="ellipsis" size="19"></i><span>Other</span></button>
+          </div>
+        </article>
+
+        <article class="record-card trigger-card">
+          <h3 class="card-title">3. Triggers & Environmental Data <i class="info" data-lucide="info" size="15"></i></h3>
+          <div class="trigger-list">
+            <label class="trigger-row"><span class="trigger-name"><i data-lucide="flower-2" size="15"></i> Pollen / outdoors</span><input class="trigger-range" type="range" min="0" max="3" value="3" /><span class="trigger-value">High</span></label>
+            <label class="trigger-row"><span class="trigger-name"><i data-lucide="paw-print" size="15"></i> Pet exposure</span><input class="trigger-range" type="range" min="0" max="3" value="0" /><span class="trigger-value">None</span></label>
+            <label class="trigger-row"><span class="trigger-name"><i data-lucide="spray-can" size="15"></i> Dust / cleaners</span><input class="trigger-range" type="range" min="0" max="3" value="1" /><span class="trigger-value">Low</span></label>
+          </div>
+        </article>
+
+        <article class="record-card weather-card storm">
+          <h3 class="card-title">Local Weather <i class="info" data-lucide="info" size="15"></i></h3>
+          <div class="weather-location"><i data-lucide="map-pin" size="14"></i> San Francisco, 94116</div>
+          <div class="weather-date" id="weatherDate">6.2 · Auto-synced</div>
+          <div class="weather-temperature"><span id="temperatureValue">81</span>°</div>
+          <div class="weather-details">
+            <span class="weather-detail humidity"><i data-lucide="droplets" size="12"></i> Humidity <strong id="humidityValue">100%</strong></span>
+          </div>
+          <div class="weather-status" id="weatherStatus"><i data-lucide="cloud-lightning" size="18"></i> Thunderstorm</div>
+        </article>
+
+        <article class="record-card treatment-card">
+          <h3 class="card-title">4. Medications or Actions <i class="info" data-lucide="info" size="15"></i></h3>
+          <div class="check-list" id="treatmentList">
+            <label class="check-label"><input type="checkbox" value="None" /> None</label>
+            <label class="check-label"><input type="checkbox" value="Antihistamine" checked /> Antihistamine</label>
+            <label class="check-label"><input type="checkbox" value="Inhaler (asthma)" /> Inhaler (asthma)</label>
+            <label class="check-label red"><input type="checkbox" value="EpiPen / epinephrine" /> EpiPen / epinephrine</label>
+            <label class="check-label"><input type="checkbox" value="Doctor / urgent care / ER" /> Doctor / urgent care / ER</label>
+          </div>
+        </article>
+
+        <article class="record-card readiness-card">
+          <h3 class="card-title">5. Emergency Medication Readiness <i class="info" data-lucide="info" size="15"></i></h3>
+          <div class="medicine-status" id="medicineStatus">
+            <label class="medicine-option active"><input type="radio" name="medicine" value="Carrying today" checked /> Carrying today</label>
+            <label class="medicine-option"><input type="radio" name="medicine" value="Not carrying" /> Not carrying</label>
+            <label class="medicine-option"><input type="radio" name="medicine" value="Expired / refill needed" /> Expired / refill needed</label>
+          </div>
+          <a class="manage-link" href="#medicine">Manage medications <span aria-hidden="true">›</span></a>
+        </article>
+
+        <article class="record-card notes">
+          <h3 class="card-title">Notes (optional)</h3>
+          <div class="notes-wrap">
+            <textarea id="notes" placeholder="For example: dining out, pet exposure, weather changes, new foods..."></textarea>
+            <button class="camera-btn" aria-label="Add photo"><i data-lucide="camera" size="18"></i></button>
+          </div>
+        </article>
       </div>
     </section>
 
-    <main>
-      <section id="takeaways">
-        <div class="section-head">
-          <div>
-            <h2>1. Summary Takeaways</h2>
-            <p>Compact visit summary: triggers, urgent symptoms, and medication roles.</p>
-          </div>
-          <span class="pill green"><i data-lucide="check-circle-2" size="14"></i> ready</span>
+    <section class="panel">
+      <div class="panel-head">
+        <div>
+          <h2 class="section-title"><i data-lucide="activity" size="19"></i> Trends (Past 14 Days)</h2>
         </div>
+      </div>
 
-        <div class="takeaway-compact">
-          <article class="mini-card">
-            <h3><i data-lucide="badge-check" size="16"></i> Confirmed vs suspected</h3>
-            <p>Confirmed: dust mite, spring pollen. Suspected: shrimp, detergent, cat exposure.</p>
-            <button class="source-toggle">Source</button>
-            <div class="source-context">From skin test result + Maya's phone notes. Suspected triggers stay marked as “track,” not confirmed.</div>
-          </article>
+      <div class="trend-grid">
+        <article class="chart-card">
+          <h3>Allergy Severity Trend</h3>
+          <div class="canvas-wrap"><canvas id="severityChart"></canvas></div>
+        </article>
 
-          <article class="mini-card">
-            <h3><i data-lucide="ban" size="16"></i> What to avoid</h3>
-            <p>Dust-heavy cleaning, high pollen mornings, and foods that triggered symptoms until allergist follow-up.</p>
-          </article>
-
-          <article class="mini-card">
-            <h3><i data-lucide="triangle-alert" size="16"></i> Urgent symptoms</h3>
-            <p>Breathing trouble, throat/tongue swelling, severe dizziness, or rapidly worsening reaction.</p>
-          </article>
-
-          <article class="mini-card">
-            <h3><i data-lucide="pill" size="16"></i> Daily vs rescue</h3>
-            <p>Daily antihistamine / nasal spray. Rescue meds and EpiPen stay clearly separated.</p>
-          </article>
-        </div>
-      </section>
-
-      <section id="log">
-        <div class="section-head">
-          <div>
-            <h2>2. 7-Day Trigger Log</h2>
-            <p>Daily symptom and exposure tracking for the next allergist follow-up.</p>
+        <article class="chart-card">
+          <h3>Triggers vs. Severity</h3>
+          <div class="chart-legend">
+            <span class="legend-item"><i class="legend-dot" style="background:#8d65c9"></i> Local humidity (right axis %)</span>
+            <span class="legend-item"><i class="legend-dot" style="background:#4da17c"></i> Pollen / outdoors</span>
+            <span class="legend-item"><i class="legend-dot" style="background:#f28a35"></i> Severity</span>
+            <span class="legend-item"><i class="legend-dot" style="background:#d85d56"></i> Thunderstorm event</span>
           </div>
-          <span class="pill blue"><i data-lucide="file-down" size="14"></i> PDF export</span>
-        </div>
+          <div class="canvas-wrap"><canvas id="triggerChart"></canvas></div>
+        </article>
 
-        <article class="log-card">
-          <div class="log-top">
-            <h3><i data-lucide="calendar-days" size="18"></i> Today</h3>
-            <span class="pill gray" id="logStatus">0 of 5</span>
-          </div>
-          <div class="log-form">
-            <div class="field">
-              <label for="trigger">Exposure / trigger</label>
-              <input id="trigger" type="text" placeholder="e.g. pollen, shrimp" />
-            </div>
-            <div class="field">
-              <label for="symptoms">Symptoms</label>
-              <input id="symptoms" type="text" placeholder="e.g. hives, congestion" />
-            </div>
-            <div class="field">
-              <label for="medication">Medication used</label>
-              <input id="medication" type="text" placeholder="e.g. antihistamine" />
-            </div>
-            <div class="field">
-              <label for="severity">Severity</label>
-              <select id="severity">
-                <option value="">Select</option>
-                <option>Mild</option>
-                <option>Moderate</option>
-                <option>Severe</option>
-              </select>
-            </div>
-              <div class="field full">
-                <label for="notes">Notes</label>
-              <input id="notes" type="text" placeholder="food label, pollen, pet, cleaning product" />
-              </div>
-          </div>
-          <div class="progress" aria-label="Daily allergy log completion">
-            <div class="bar" id="logBar"></div>
-          </div>
-          <div class="export-strip">
-            <h3><i data-lucide="file-down" size="18"></i> Export trigger log as PDF</h3>
-            <button class="btn primary" id="exportPdf"><i data-lucide="download" size="16"></i> Export PDF</button>
+        <article class="chart-card">
+          <h3>Medication Summary</h3>
+          <p>Medication use over the past 14 days</p>
+          <div class="stats-grid">
+            <div class="stat">Antihistamine<strong><span id="antihistamineDays">3</span> <small>days</small></strong></div>
+            <div class="stat blue">Inhaler<strong><span id="inhalerDays">1</span> <small>day</small></strong></div>
+            <div class="stat red">EpiPen<strong><span id="epipenDays">1</span> <small>day</small></strong></div>
+            <div class="stat purple">Doctor / ER<strong><span id="erDays">0</span> <small>days</small></strong></div>
           </div>
         </article>
-      </section>
 
-      <section id="tasks">
-        <div class="section-head">
+        <article class="chart-card">
+          <h3>Key Events Over Two Weeks</h3>
+          <div class="event-list" id="eventList"></div>
+        </article>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="panel-head">
+        <h2 class="section-title"><i data-lucide="sparkles" size="19"></i> Memova Insight</h2>
+      </div>
+
+      <div class="knowledge-grid">
+        <article class="memova-insight">
+          <div class="knowledge-icon"><i data-lucide="sparkles" size="20"></i></div>
           <div>
-            <h2>3. Refills & Documents</h2>
-            <p>Tasks generated from refill reminders, forms, and follow-up instructions.</p>
+            <h3>Memova Insight</h3>
+            <p>Your strongest symptom flare-up occurred on 5.30, alongside a thunderstorm, increased humidity, warm temperature, and pollen exposure. Similar but milder symptoms also appeared around other storm days.<br><br>This suggests that humid, stormy weather may be aggravating pollen-related allergy symptoms. Humidity or temperature alone may not be the main trigger; instead, thunderstorms and weather changes may make pollen particles easier to inhale.<br><br>Please consult a doctor to confirm the final diagnosis.</p>
           </div>
-          <span class="pill amber"><i data-lucide="list-checks" size="14"></i> 5 tasks</span>
-        </div>
+        </article>
 
-        <div class="task-list">
-          <article class="task-card">
-            <input class="task-check" type="checkbox" aria-label="Request EpiPen refill" />
-            <div>
-              <h3>EpiPen refill</h3>
-              <p>Confirm refill status and pharmacy pickup window.</p>
-            </div>
-            <span class="status">refill</span>
-            <div class="task-preview">Ask pharmacy whether insurance requires prior authorization or a generic alternative.</div>
-          </article>
-
-          <article class="task-card">
-            <input class="task-check" type="checkbox" aria-label="Request antihistamine refill" />
-            <div>
-              <h3>Antihistamine refill</h3>
-              <p>Set refill reminder and confirm daily medication instructions from the visit summary.</p>
-            </div>
-            <span class="status">refill</span>
-            <div class="task-preview">Keep daily meds separate from rescue meds in the medication list.</div>
-          </article>
-
-          <article class="task-card">
-            <input class="task-check" type="checkbox" aria-label="Complete work allergy action form" />
-            <div>
-              <h3>Work allergy action form</h3>
-              <p>Due before Friday. Needs confirmed trigger list and emergency contact info.</p>
-            </div>
-            <span class="status">due Friday</span>
-            <div class="task-preview">Preview includes: confirmed allergies, rescue medication location, urgent symptoms, and who to contact.</div>
-          </article>
-
-          <article class="task-card">
-            <input class="task-check" type="checkbox" aria-label="Send MyChart message to allergist" />
-            <div>
-              <h3>MyChart message to allergist</h3>
-              <p>Message is written and ready to send through MyChart.</p>
-            </div>
-            <span class="status">ready to send</span>
-            <div class="task-preview">Hi Dr. Patel, after reviewing my visit notes, should I keep shrimp and the new detergent on my suspected trigger list until our next follow-up? I’m tracking exposures, symptoms, medication use, and severity for the next 7 days and can attach the log if helpful. Thank you, Maya</div>
-          </article>
-
-          <article class="task-card full-width">
-            <input class="task-check" type="checkbox" aria-label="Send follow-up appointment email" />
-            <div>
-              <h3>Follow-up appointment</h3>
-              <p>Email is written and ready to send after the 7-day trigger log is exported.</p>
-            </div>
-            <span class="status">ready to send</span>
-            <div class="task-preview">Hi Dr. Patel’s office, I’d like to schedule the next available follow-up appointment to review my allergy symptoms and 7-day trigger log. I can attach the exported PDF with exposure notes, symptoms, medication use, and severity. Please let me know what times are available. Best, Maya</div>
-          </article>
-        </div>
-
-        <div class="check-row"><i data-lucide="shield-alert" size="18"></i> This card organizes visit follow-up only. It is not medical advice or an emergency plan.</div>
-      </section>
-    </main>
+        <article class="knowledge-card">
+          <div class="knowledge-icon"><i data-lucide="clipboard-list" size="20"></i></div>
+          <div>
+            <h3>Prepare for Your Next Appointment</h3>
+            <p>Bring your 14-day record of triggers, symptoms, medications, and timing to help your doctor make a more informed assessment.</p>
+            <a class="knowledge-link" href="#prepare">How to prepare <span aria-hidden="true">›</span></a>
+          </div>
+        </article>
+      </div>
+    </section>
   </div>
 
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
@@ -685,64 +1014,448 @@
   <script>
     lucide.createIcons();
 
-    const toast = document.getElementById('toast');
+    const severityLabels = ["No symptoms", "Mild", "Moderate", "Severe", "Very severe"];
+    const exposureLabels = ["None", "Low", "Moderate", "High"];
+    const weekdayLabels = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const severityTrend = [1, 1, 2, 2, 2, 3, 1, 1, 2, 1, 3, 2, 1, 3];
+    const temperatureTrend = [67, 69, 71, 74, 76, 78, 72, 68, 73, 70, 79, 75, 72, 81];
+    const humidityTrend = [58, 62, 68, 72, 79, 84, 76, 60, 70, 65, 86, 74, 69, 100];
+    const thunderstormTrend = [false, false, false, false, false, true, false, false, false, false, true, false, false, true];
+    const pollenTrend = [1, 2, 2, 3, 2, 2, 1, 1, 3, 1, 2, 3, 0, 3];
+    const medicationTrend = ["None", "None", "Antihistamine", "Antihistamine", "None", "Antihistamine", "None", "None", "Antihistamine", "None", "EpiPen + Antihistamine", "Inhaler", "None", "Antihistamine"];
+    const records = {};
+    let selectedDate = new Date(today);
+    let weekOffset = 0;
     let toastTimer;
-    function showToast(message) {
-      toast.textContent = message;
-      toast.classList.add('show');
-      clearTimeout(toastTimer);
-      toastTimer = setTimeout(() => toast.classList.remove('show'), 2300);
+
+    function sameDay(a, b) {
+      return a.getFullYear() === b.getFullYear() &&
+        a.getMonth() === b.getMonth() &&
+        a.getDate() === b.getDate();
     }
 
-    document.querySelectorAll('.source-toggle').forEach((button) => {
-      button.addEventListener('click', () => {
-        const panel = button.nextElementSibling;
-        panel.classList.toggle('open');
-        button.textContent = panel.classList.contains('open') ? 'Hide source' : 'Source';
+    function formatMD(date) {
+      return `${date.getMonth() + 1}.${date.getDate()}`;
+    }
+
+    function addDays(date, amount) {
+      const next = new Date(date);
+      next.setDate(next.getDate() + amount);
+      return next;
+    }
+
+    function dateKey(date) {
+      return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`;
+    }
+
+    function trendIndexFor(date) {
+      const distance = Math.round((date - today) / 86400000);
+      return distance >= -13 && distance <= 0 ? distance + 13 : -1;
+    }
+
+    function blankRecord() {
+      return {
+        severity: 0,
+        symptoms: [],
+        triggers: [0, 0, 0],
+        treatments: ["None"],
+        medicine: "Carrying today",
+        notes: ""
+      };
+    }
+
+    function readFormRecord() {
+      return {
+        severity: Number(document.getElementById("severityNumber").textContent),
+        symptoms: [...document.querySelectorAll(".symptom-chip.active")].map((chip) => chip.dataset.symptom),
+        triggers: [...document.querySelectorAll(".trigger-range")].map((range) => Number(range.value)),
+        treatments: treatmentInputs.filter((input) => input.checked).map((input) => input.value),
+        medicine: document.querySelector("#medicineStatus input:checked")?.value || "",
+        notes: document.getElementById("notes").value
+      };
+    }
+
+    function saveCurrentRecord() {
+      records[dateKey(selectedDate)] = readFormRecord();
+      updateTrendPreview();
+    }
+
+    function loadRecord(date) {
+      selectedDate = new Date(date);
+      const record = records[dateKey(selectedDate)] || blankRecord();
+      setSeverity(record.severity, false);
+      document.querySelectorAll(".symptom-chip").forEach((chip) => {
+        chip.classList.toggle("active", record.symptoms.includes(chip.dataset.symptom));
+      });
+      document.querySelectorAll(".trigger-range").forEach((range, index) => {
+        range.value = record.triggers[index];
+        range.nextElementSibling.textContent = exposureLabels[record.triggers[index]];
+      });
+      treatmentInputs.forEach((input) => { input.checked = record.treatments.includes(input.value); });
+      document.querySelectorAll("#medicineStatus input").forEach((input) => {
+        input.checked = input.value === record.medicine;
+        input.closest(".medicine-option").classList.toggle("active", input.checked);
+      });
+      document.getElementById("notes").value = record.notes;
+      updateDisplayedWeather(selectedDate);
+      updateCheckTitle();
+      updateTrendPreview();
+      renderWeek();
+    }
+
+    function updateCheckTitle() {
+      document.getElementById("todayCheckTitle").textContent = sameDay(selectedDate, today)
+        ? `Today's Allergy Check-in · ${formatMD(selectedDate)}`
+        : `Allergy Check-in · ${formatMD(selectedDate)}`;
+    }
+
+    function getMonday(date) {
+      const copy = new Date(date);
+      const day = copy.getDay();
+      const distance = day === 0 ? -6 : 1 - day;
+      copy.setDate(copy.getDate() + distance);
+      return copy;
+    }
+
+    function showToast(message) {
+      const toast = document.getElementById("toast");
+      toast.textContent = message;
+      toast.classList.add("show");
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => toast.classList.remove("show"), 2200);
+    }
+
+    function renderWeek() {
+      const start = addDays(getMonday(today), weekOffset * 7);
+      const weekDays = document.getElementById("weekDays");
+      weekDays.innerHTML = "";
+      for (let i = 0; i < 7; i += 1) {
+        const date = addDays(start, i);
+        const button = document.createElement("button");
+        button.className = `day-btn${sameDay(date, today) ? " today" : ""}${sameDay(date, selectedDate) ? " selected" : ""}`;
+        button.dataset.date = dateKey(date);
+        button.innerHTML = `<strong>${sameDay(date, today) ? "Today" : weekdayLabels[date.getDay()]}</strong><span>${formatMD(date)}</span>`;
+        button.addEventListener("click", () => {
+          saveCurrentRecord();
+          loadRecord(date);
+          showToast(`Entry for ${formatMD(date)} loaded`);
+        });
+        weekDays.appendChild(button);
+      }
+      weekDays.scrollLeft = 0;
+    }
+
+    document.getElementById("prevWeek").addEventListener("click", () => {
+      weekOffset -= 1;
+      renderWeek();
+    });
+
+    document.getElementById("nextWeek").addEventListener("click", () => {
+      weekOffset += 1;
+      renderWeek();
+    });
+
+    function setSeverity(value, sync = true) {
+      document.querySelectorAll(".severity-point").forEach((button) => {
+        button.classList.toggle("active", Number(button.dataset.value) === value);
+      });
+      document.getElementById("severityNumber").textContent = value;
+      document.getElementById("severityText").textContent = severityLabels[value];
+      if (sync) saveCurrentRecord();
+    }
+
+    document.querySelectorAll(".severity-point").forEach((button) => {
+      button.addEventListener("click", () => setSeverity(Number(button.dataset.value)));
+    });
+
+    document.querySelectorAll(".symptom-chip").forEach((button) => {
+      button.addEventListener("click", () => {
+        button.classList.toggle("active");
+        saveCurrentRecord();
       });
     });
 
-    const logInputs = Array.from(document.querySelectorAll('#log input, #log select'));
-    const logStatus = document.getElementById('logStatus');
-    const logBar = document.getElementById('logBar');
-    function updateLog() {
-      const filled = logInputs.filter((input) => input.value.trim() !== '').length;
-      logStatus.textContent = `${filled} of ${logInputs.length}`;
-      logBar.style.width = `${Math.max(16, (filled / logInputs.length) * 100)}%`;
-    }
-    logInputs.forEach((input) => input.addEventListener('input', updateLog));
-    logInputs.forEach((input) => input.addEventListener('change', updateLog));
-
-    document.getElementById('exportPdf').addEventListener('click', () => {
-      showToast('7-day trigger log PDF marked ready to export.');
+    document.querySelectorAll(".trigger-range").forEach((range) => {
+      range.addEventListener("input", () => {
+        range.nextElementSibling.textContent = exposureLabels[Number(range.value)];
+        saveCurrentRecord();
+      });
     });
 
-    document.querySelectorAll('.task-card .task-check').forEach((checkbox) => {
-      checkbox.addEventListener('change', () => {
-        const card = checkbox.closest('.task-card');
-        const status = card.querySelector('.status');
-        const original = card.dataset.originalStatus || status.textContent;
-        card.dataset.originalStatus = original;
-        card.classList.toggle('done', checkbox.checked);
-        if (checkbox.checked) {
-          status.textContent = 'sent';
-          showToast('Message marked sent.');
-        } else {
-          status.textContent = original;
-          showToast('Moved back to review.');
+    const treatmentInputs = [...document.querySelectorAll("#treatmentList input")];
+    treatmentInputs.forEach((input) => {
+      input.addEventListener("change", () => {
+        if (input.checked) {
+          if (input.value === "None") {
+            treatmentInputs.forEach((item) => { if (item !== input) item.checked = false; });
+          } else {
+            treatmentInputs.find((item) => item.value === "None").checked = false;
+          }
+        }
+        saveCurrentRecord();
+      });
+    });
+
+    document.querySelectorAll("#medicineStatus input").forEach((input) => {
+      input.addEventListener("change", () => {
+        document.querySelectorAll(".medicine-option").forEach((label) => label.classList.remove("active"));
+        input.closest(".medicine-option").classList.add("active");
+        saveCurrentRecord();
+      });
+    });
+
+    document.querySelector(".camera-btn").addEventListener("click", () => {
+      showToast("Photo upload is a demo feature and is not currently enabled");
+    });
+
+    document.getElementById("clearRecord").addEventListener("click", () => {
+      setSeverity(0, false);
+      document.querySelectorAll(".symptom-chip").forEach((chip) => chip.classList.remove("active"));
+      document.querySelectorAll(".trigger-range").forEach((range) => {
+        range.value = 0;
+        range.nextElementSibling.textContent = exposureLabels[0];
+      });
+      treatmentInputs.forEach((item) => { item.checked = item.value === "None"; });
+      document.querySelectorAll("#medicineStatus input").forEach((input) => {
+        input.checked = input.value === "Carrying today";
+        input.closest(".medicine-option").classList.toggle("active", input.checked);
+      });
+      document.getElementById("notes").value = "";
+      saveCurrentRecord();
+      showToast(`Entry for ${formatMD(selectedDate)} cleared`);
+    });
+
+    document.getElementById("notes").addEventListener("input", saveCurrentRecord);
+    updateCheckTitle();
+    document.getElementById("printDate").textContent = `Export date: ${today.getMonth() + 1}/${today.getDate()}/${today.getFullYear()}`;
+    document.getElementById("exportPdf").addEventListener("click", () => window.print());
+
+    function renderEvents() {
+      const items = [
+        { day: -8, icon: "cloud-lightning", className: "", text: "Thunderstorm event · 78°F · Local humidity 84%" },
+        { day: -3, icon: "cloud-lightning", className: "urgent", text: "Thunderstorm event · 79°F · Local humidity 86%" },
+        { day: -3, icon: "triangle-alert", className: "urgent", text: "Symptom peak: 3 · Used EpiPen + antihistamine" },
+        { day: -2, icon: "flower-2", className: "", text: "High pollen / outdoor exposure" },
+        { day: 0, icon: "cloud-lightning", className: "urgent", text: `Thunderstorm event · ${temperatureTrend[13]}°F · Local humidity ${humidityTrend[13]}%` }
+      ];
+      document.getElementById("eventList").innerHTML = items.map((item) => {
+        const date = addDays(today, item.day);
+        return `<div class="event ${item.className}"><i data-lucide="${item.icon}" size="16"></i><strong>${formatMD(date)}</strong><span>${item.text}</span></div>`;
+      }).join("");
+      lucide.createIcons();
+    }
+
+    const chartDates = Array.from({ length: severityTrend.length }, (_, index) => formatMD(addDays(today, index - 13)));
+    const chartLastIndex = chartDates.length - 1;
+
+    function setupCanvas(canvas) {
+      const ratio = window.devicePixelRatio || 1;
+      const rect = canvas.getBoundingClientRect();
+      canvas.width = Math.round(rect.width * ratio);
+      canvas.height = Math.round(rect.height * ratio);
+      const ctx = canvas.getContext("2d");
+      ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
+      return { ctx, width: rect.width, height: rect.height };
+    }
+
+    function drawAxes(ctx, width, height, options = {}) {
+      const pad = { left: 34, right: options.humidityAxis ? 58 : 30, top: options.humidityAxis ? 42 : 28, bottom: 30 };
+      const chartW = width - pad.left - pad.right;
+      const chartH = height - pad.top - pad.bottom;
+      ctx.strokeStyle = "#e8ece9";
+      ctx.fillStyle = "#8a9692";
+      ctx.font = "11px sans-serif";
+      ctx.lineWidth = 1;
+      for (let value = 0; value <= 4; value += 1) {
+        const y = pad.top + chartH - (value / 4) * chartH;
+        ctx.beginPath();
+        ctx.moveTo(pad.left, y);
+        ctx.lineTo(width - pad.right, y);
+        ctx.stroke();
+        ctx.fillText(String(value), 7, y + 4);
+        if (options.humidityAxis) {
+          ctx.textAlign = "right";
+          ctx.fillStyle = "#8d65c9";
+          ctx.fillText(`${value * 25}%`, width - 2, y + 4);
+          ctx.textAlign = "start";
+          ctx.fillStyle = "#8a9692";
+        }
+      }
+      chartDates.forEach((date, index) => {
+        const x = pad.left + (index / chartLastIndex) * chartW;
+        ctx.textAlign = "center";
+        ctx.font = "9px sans-serif";
+        ctx.fillText(date, x, height - 7);
+      });
+      ctx.textAlign = "start";
+      return { pad, chartW, chartH };
+    }
+
+    function pointsFor(data, layout) {
+      return data.map((value, index) => ({
+        x: layout.pad.left + (index / chartLastIndex) * layout.chartW,
+        y: layout.pad.top + layout.chartH - (value / 4) * layout.chartH,
+        value
+      }));
+    }
+
+    function humidityPointsFor(data, layout) {
+      return pointsFor(data.map((value) => value / 25), layout).map((point, index) => ({
+        ...point,
+        value: `${data[index]}%`
+      }));
+    }
+
+    function drawLine(ctx, points, color, options = {}) {
+      ctx.beginPath();
+      points.forEach((point, index) => index === 0 ? ctx.moveTo(point.x, point.y) : ctx.lineTo(point.x, point.y));
+      ctx.strokeStyle = color;
+      ctx.lineWidth = options.lineWidth || 2;
+      ctx.stroke();
+      points.forEach((point) => {
+        ctx.beginPath();
+        ctx.arc(point.x, point.y, 3.5, 0, Math.PI * 2);
+        ctx.fillStyle = color;
+        ctx.fill();
+        if (options.labels) {
+          ctx.fillStyle = "#4d5754";
+          ctx.font = "bold 11px sans-serif";
+          ctx.textAlign = "center";
+          ctx.fillText(String(point.value), point.x, point.y - 10);
         }
       });
-    });
+      ctx.textAlign = "start";
+    }
 
-    const sections = Array.from(document.querySelectorAll('main section'));
-    const navLinks = Array.from(document.querySelectorAll('.nav a'));
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (!entry.isIntersecting) return;
-        navLinks.forEach((link) => link.classList.toggle('active', link.getAttribute('href') === '#' + entry.target.id));
+    function drawSeverityChart() {
+      const canvas = document.getElementById("severityChart");
+      const { ctx, width, height } = setupCanvas(canvas);
+      ctx.clearRect(0, 0, width, height);
+      const layout = drawAxes(ctx, width, height);
+      const points = pointsFor(severityTrend, layout);
+      ctx.beginPath();
+      ctx.moveTo(points[0].x, layout.pad.top + layout.chartH);
+      points.forEach((point) => ctx.lineTo(point.x, point.y));
+      ctx.lineTo(points[points.length - 1].x, layout.pad.top + layout.chartH);
+      ctx.closePath();
+      const fill = ctx.createLinearGradient(0, layout.pad.top, 0, layout.pad.top + layout.chartH);
+      fill.addColorStop(0, "rgba(242,138,53,.22)");
+      fill.addColorStop(1, "rgba(242,138,53,.02)");
+      ctx.fillStyle = fill;
+      ctx.fill();
+      drawLine(ctx, points, "#f28a35", { labels: true });
+      thunderstormTrend.forEach((isThunderstorm, index) => {
+        if (!isThunderstorm) return;
+        const point = points[index];
+        ctx.fillStyle = "#d85d56";
+        ctx.font = "bold 17px sans-serif";
+        const markerX = Math.min(point.x + 7, width - 16);
+        ctx.fillText("⚡", markerX, point.y - 9);
       });
-    }, { rootMargin: '-35% 0px -55% 0px' });
-    sections.forEach((section) => observer.observe(section));
+    }
+
+    function drawTriggerChart() {
+      const canvas = document.getElementById("triggerChart");
+      const { ctx, width, height } = setupCanvas(canvas);
+      ctx.clearRect(0, 0, width, height);
+      const layout = drawAxes(ctx, width, height, { humidityAxis: true });
+      const humidityPoints = humidityPointsFor(humidityTrend, layout);
+      drawLine(ctx, humidityPoints, "#8d65c9");
+      drawLine(ctx, pointsFor(pollenTrend, layout), "#4da17c");
+      drawLine(ctx, pointsFor(severityTrend, layout), "#f28a35");
+      thunderstormTrend.forEach((isThunderstorm, index) => {
+        if (!isThunderstorm) return;
+        const humidityPoint = humidityPoints[index];
+        const x = humidityPoint.x;
+        const y = Math.max(layout.pad.top - 11, humidityPoint.y - 17);
+        ctx.beginPath();
+        ctx.arc(x, y, 6, 0, Math.PI * 2);
+        ctx.fillStyle = "#d85d56";
+        ctx.fill();
+        ctx.fillStyle = "#fff";
+        ctx.font = "bold 10px sans-serif";
+        ctx.textAlign = "center";
+        ctx.fillText("⚡", x, y + 4);
+        ctx.textAlign = "start";
+      });
+    }
+
+    function drawCharts() {
+      drawSeverityChart();
+      drawTriggerChart();
+    }
+
+    function updateMedicationStats() {
+      document.getElementById("antihistamineDays").textContent = medicationTrend.filter((item) => item.includes("Antihistamine")).length;
+      document.getElementById("inhalerDays").textContent = medicationTrend.filter((item) => item.includes("Inhaler")).length;
+      document.getElementById("epipenDays").textContent = medicationTrend.filter((item) => item.includes("EpiPen")).length;
+      document.getElementById("erDays").textContent = 0;
+    }
+
+    function updateDisplayedWeather(date) {
+      const index = trendIndexFor(date);
+      const selectedIndex = index >= 0 ? index : chartLastIndex;
+      const temperature = temperatureTrend[selectedIndex];
+      const humidity = humidityTrend[selectedIndex];
+      const thunderstorm = index >= 0 && thunderstormTrend[selectedIndex];
+      document.querySelector(".weather-card").classList.toggle("storm", thunderstorm);
+      document.getElementById("weatherDate").textContent = `${formatMD(date)} · Auto-synced`;
+      document.getElementById("temperatureValue").textContent = temperature;
+      document.getElementById("humidityValue").textContent = `${humidity}%`;
+      document.getElementById("weatherStatus").innerHTML = thunderstorm
+        ? '<i data-lucide="cloud-lightning" size="18"></i> Thunderstorm'
+        : "";
+      lucide.createIcons();
+    }
+
+    function updateTrendPreview() {
+      const index = trendIndexFor(selectedDate);
+      if (index >= 0) {
+        const record = records[dateKey(selectedDate)] || readFormRecord();
+        severityTrend[index] = record.severity;
+        pollenTrend[index] = record.triggers[0];
+        medicationTrend[index] = record.treatments.includes("EpiPen / epinephrine")
+          ? "EpiPen + Antihistamine"
+          : record.treatments.includes("Inhaler (asthma)")
+            ? "Inhaler"
+            : record.treatments.includes("Antihistamine")
+              ? "Antihistamine"
+              : "None";
+      }
+      document.getElementById("severityChart").dataset.selectedSeverity = severityTrend[index >= 0 ? index : chartLastIndex];
+      document.getElementById("triggerChart").dataset.selectedHumidity = humidityTrend[index >= 0 ? index : chartLastIndex];
+      document.getElementById("triggerChart").dataset.selectedPollen = pollenTrend[index >= 0 ? index : chartLastIndex];
+      updateMedicationStats();
+      drawCharts();
+    }
+
+    severityTrend.forEach((severity, index) => {
+      const medication = medicationTrend[index];
+      records[dateKey(addDays(today, index - 13))] = {
+        severity,
+        symptoms: severity >= 2 ? ["Eyes / Nose", "Breathing"] : ["Eyes / Nose"],
+        triggers: [pollenTrend[index], 0, 0],
+        treatments: [
+          ...(medication.includes("Antihistamine") ? ["Antihistamine"] : []),
+          ...(medication.includes("EpiPen") ? ["EpiPen / epinephrine"] : []),
+          ...(medication.includes("Inhaler") ? ["Inhaler (asthma)"] : []),
+          ...(medication === "None" ? ["None"] : [])
+        ],
+        medicine: "Carrying today",
+        notes: index === 10
+          ? "Thunderstorm conditions and increased humidity; symptoms reached the two-week peak."
+          : thunderstormTrend[index]
+            ? "Thunderstorm conditions recorded with increased humidity."
+            : ""
+      };
+    });
+    renderWeek();
+    renderEvents();
+    updateDisplayedWeather(selectedDate);
+    updateTrendPreview();
+    window.addEventListener("resize", drawCharts);
   </script>
 </body>
 </html>
