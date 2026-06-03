@@ -351,9 +351,12 @@
       display: flex;
       align-items: center;
       gap: 6px;
+      max-width: 132px;
       color: #fff;
       font-size: 12px;
       font-weight: 760;
+      line-height: 1.15;
+      text-align: right;
     }
 
     .card-title {
@@ -899,15 +902,15 @@
           </div>
         </article>
 
-        <article class="record-card weather-card storm">
+        <article class="record-card weather-card">
           <h3 class="card-title">Local Weather <i class="info" data-lucide="info" size="15"></i></h3>
           <div class="weather-location"><i data-lucide="map-pin" size="14"></i> Houston, TX 77002</div>
           <div class="weather-date" id="weatherDate">6.2 · Auto-synced</div>
-          <div class="weather-temperature"><span id="temperatureValue">77</span>°</div>
+          <div class="weather-temperature"><span id="temperatureValue">86</span>°</div>
           <div class="weather-details">
-            <span class="weather-detail humidity"><i data-lucide="droplets" size="12"></i> Humidity <strong id="humidityValue">77%</strong></span>
+            <span class="weather-detail humidity"><i data-lucide="droplets" size="12"></i> Humidity <strong id="humidityValue">83%</strong></span>
           </div>
-          <div class="weather-status" id="weatherStatus"><i data-lucide="cloud-lightning" size="18"></i> Cloudy now · storms tonight</div>
+          <div class="weather-status" id="weatherStatus"><i data-lucide="cloud-rain" size="18"></i> Moderate drizzle</div>
         </article>
 
         <article class="record-card treatment-card">
@@ -944,7 +947,7 @@
     <section class="panel">
       <div class="panel-head">
         <div>
-          <h2 class="section-title"><i data-lucide="activity" size="19"></i> Trends (Past 14 Days)</h2>
+          <h2 class="section-title"><i data-lucide="activity" size="19"></i> Trends (May 19-June 2)</h2>
         </div>
       </div>
 
@@ -960,14 +963,14 @@
             <span class="legend-item"><i class="legend-dot" style="background:#8d65c9"></i> Local humidity (right axis %)</span>
             <span class="legend-item"><i class="legend-dot" style="background:#4da17c"></i> Pollen / outdoors</span>
             <span class="legend-item"><i class="legend-dot" style="background:#f28a35"></i> Severity</span>
-            <span class="legend-item"><i class="legend-dot" style="background:#d85d56"></i> Thunderstorm event</span>
+            <span class="legend-item"><i class="legend-dot" style="background:#d85d56"></i> Houston rain event</span>
           </div>
           <div class="canvas-wrap"><canvas id="triggerChart"></canvas></div>
         </article>
 
         <article class="chart-card">
           <h3>Medication Summary</h3>
-          <p>Medication use over the past 14 days</p>
+          <p>Medication use from May 19 to June 2</p>
           <div class="stats-grid">
             <div class="stat">Antihistamine<strong><span id="antihistamineDays">3</span> <small>days</small></strong></div>
             <div class="stat blue">Inhaler<strong><span id="inhalerDays">1</span> <small>day</small></strong></div>
@@ -993,7 +996,7 @@
           <div class="knowledge-icon"><i data-lucide="sparkles" size="20"></i></div>
           <div>
             <h3>Memova Insight</h3>
-            <p>Your strongest symptom flare-up occurred on 5.30, alongside a thunderstorm, increased humidity, warm temperature, and pollen exposure. Similar but milder symptoms also appeared around other storm days.<br><br>This suggests that humid, stormy weather may be aggravating pollen-related allergy symptoms. Humidity or temperature alone may not be the main trigger; instead, thunderstorms and weather changes may make pollen particles easier to inhale.<br><br>Please consult a doctor to confirm the final diagnosis.</p>
+            <p>Your strongest symptom flare-up occurred on 5.30, during a warm and humid stretch in Houston, after several high-rain / high-humidity days earlier in the May 19-June 2 window.<br><br>This suggests that humid weather shifts, recent rain, and pollen exposure may be aggravating allergy symptoms. Humidity or temperature alone may not be the main trigger; the useful pattern is how weather changes and outdoor exposure cluster around symptoms.<br><br>Please consult a doctor to confirm the final diagnosis.</p>
           </div>
         </article>
 
@@ -1001,7 +1004,7 @@
           <div class="knowledge-icon"><i data-lucide="clipboard-list" size="20"></i></div>
           <div>
             <h3>Prepare for Your Next Appointment</h3>
-            <p>Bring your 14-day record of triggers, symptoms, medications, and timing to help your doctor make a more informed assessment.</p>
+            <p>Bring your May 19-June 2 record of triggers, symptoms, medications, and timing to help your doctor make a more informed assessment.</p>
             <a class="knowledge-link" href="#prepare">How to prepare <span aria-hidden="true">›</span></a>
           </div>
         </article>
@@ -1017,14 +1020,16 @@
     const severityLabels = ["No symptoms", "Mild", "Moderate", "Severe", "Very severe"];
     const exposureLabels = ["None", "Low", "Moderate", "High"];
     const weekdayLabels = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-    const today = new Date();
+    const today = new Date(2026, 5, 2);
     today.setHours(0, 0, 0, 0);
-    const severityTrend = [1, 1, 2, 2, 2, 3, 1, 1, 2, 1, 3, 2, 1, 3];
-    const temperatureTrend = [73, 74, 76, 78, 81, 83, 79, 75, 78, 76, 82, 80, 74, 77];
-    const humidityTrend = [72, 74, 76, 78, 80, 84, 82, 79, 81, 78, 86, 80, 76, 77];
-    const thunderstormTrend = [false, false, false, false, false, true, false, false, false, false, true, false, false, true];
-    const pollenTrend = [1, 2, 2, 3, 2, 2, 1, 1, 3, 1, 2, 3, 0, 3];
-    const medicationTrend = ["None", "None", "Antihistamine", "Antihistamine", "None", "Antihistamine", "None", "None", "Antihistamine", "None", "EpiPen + Antihistamine", "Inhaler", "None", "Antihistamine"];
+    const severityTrend = [1, 1, 1, 2, 2, 2, 3, 1, 1, 2, 1, 3, 2, 1, 3];
+    const temperatureTrend = [85, 79, 81, 86, 78, 84, 86, 87, 77, 86, 88, 89, 89, 90, 86];
+    const humidityTrend = [87, 88, 86, 86, 93, 81, 77, 79, 93, 80, 79, 78, 78, 81, 83];
+    const weatherEventTrend = [true, true, false, true, true, false, false, false, true, false, false, false, false, false, false];
+    const weatherStatusTrend = ["Heavy rain", "Heavy rain", "Light rain", "Moderate rain", "Moderate rain", "Light drizzle", "Light drizzle", "Moderate drizzle", "Moderate rain", "Overcast", "Overcast", "Light drizzle", "Overcast", "Moderate drizzle", "Moderate drizzle"];
+    const weatherIconTrend = ["cloud-rain", "cloud-rain", "cloud-rain", "cloud-rain", "cloud-rain", "cloud-drizzle", "cloud-drizzle", "cloud-drizzle", "cloud-rain", "cloud", "cloud", "cloud-drizzle", "cloud", "cloud-drizzle", "cloud-drizzle"];
+    const pollenTrend = [2, 1, 2, 2, 3, 2, 2, 1, 1, 3, 1, 2, 3, 0, 3];
+    const medicationTrend = ["None", "None", "None", "Antihistamine", "Antihistamine", "None", "Antihistamine", "None", "None", "Antihistamine", "None", "EpiPen + Antihistamine", "Inhaler", "None", "Antihistamine"];
     const records = {};
     let selectedDate = new Date(today);
     let weekOffset = 0;
@@ -1052,7 +1057,7 @@
 
     function trendIndexFor(date) {
       const distance = Math.round((date - today) / 86400000);
-      return distance >= -13 && distance <= 0 ? distance + 13 : -1;
+      return distance >= -14 && distance <= 0 ? distance + 14 : -1;
     }
 
     function blankRecord() {
@@ -1234,11 +1239,13 @@
 
     function renderEvents() {
       const items = [
-        { day: -8, icon: "cloud-lightning", className: "", text: "Houston storm event · 83°F · Local humidity 84%" },
-        { day: -3, icon: "cloud-lightning", className: "urgent", text: "Houston storm event · 82°F · Local humidity 86%" },
+        { day: -14, icon: "cloud-rain", className: "urgent", text: "Heavy rain · 85°F · Local humidity 87%" },
+        { day: -13, icon: "cloud-rain", className: "urgent", text: "Heavy rain · 79°F · Local humidity 88%" },
+        { day: -10, icon: "cloud-rain", className: "", text: "Moderate rain · 78°F · Local humidity 93%" },
+        { day: -6, icon: "cloud-rain", className: "urgent", text: "Moderate rain · 77°F · Local humidity 93%" },
         { day: -3, icon: "triangle-alert", className: "urgent", text: "Symptom peak: 3 · Used EpiPen + antihistamine" },
         { day: -2, icon: "flower-2", className: "", text: "High pollen / outdoor exposure" },
-        { day: 0, icon: "cloud-lightning", className: "urgent", text: `Cloudy now, storms tonight · ${temperatureTrend[13]}°F · Local humidity ${humidityTrend[13]}%` }
+        { day: 0, icon: "cloud-drizzle", className: "", text: `Moderate drizzle · ${temperatureTrend[14]}°F · Local humidity ${humidityTrend[14]}%` }
       ];
       document.getElementById("eventList").innerHTML = items.map((item) => {
         const date = addDays(today, item.day);
@@ -1247,7 +1254,7 @@
       lucide.createIcons();
     }
 
-    const chartDates = Array.from({ length: severityTrend.length }, (_, index) => formatMD(addDays(today, index - 13)));
+    const chartDates = Array.from({ length: severityTrend.length }, (_, index) => formatMD(addDays(today, index - 14)));
     const chartLastIndex = chartDates.length - 1;
 
     function setupCanvas(canvas) {
@@ -1346,13 +1353,13 @@
       ctx.fillStyle = fill;
       ctx.fill();
       drawLine(ctx, points, "#f28a35", { labels: true });
-      thunderstormTrend.forEach((isThunderstorm, index) => {
-        if (!isThunderstorm) return;
+      weatherEventTrend.forEach((isWeatherEvent, index) => {
+        if (!isWeatherEvent) return;
         const point = points[index];
         ctx.fillStyle = "#d85d56";
         ctx.font = "bold 17px sans-serif";
         const markerX = Math.min(point.x + 7, width - 16);
-        ctx.fillText("⚡", markerX, point.y - 9);
+        ctx.fillText("●", markerX, point.y - 9);
       });
     }
 
@@ -1365,8 +1372,8 @@
       drawLine(ctx, humidityPoints, "#8d65c9");
       drawLine(ctx, pointsFor(pollenTrend, layout), "#4da17c");
       drawLine(ctx, pointsFor(severityTrend, layout), "#f28a35");
-      thunderstormTrend.forEach((isThunderstorm, index) => {
-        if (!isThunderstorm) return;
+      weatherEventTrend.forEach((isWeatherEvent, index) => {
+        if (!isWeatherEvent) return;
         const humidityPoint = humidityPoints[index];
         const x = humidityPoint.x;
         const y = Math.max(layout.pad.top - 11, humidityPoint.y - 17);
@@ -1399,14 +1406,14 @@
       const selectedIndex = index >= 0 ? index : chartLastIndex;
       const temperature = temperatureTrend[selectedIndex];
       const humidity = humidityTrend[selectedIndex];
-      const thunderstorm = index >= 0 && thunderstormTrend[selectedIndex];
-      document.querySelector(".weather-card").classList.toggle("storm", thunderstorm);
+      const weatherEvent = index >= 0 && weatherEventTrend[selectedIndex];
+      const weatherIcon = weatherIconTrend[selectedIndex];
+      const weatherStatus = weatherStatusTrend[selectedIndex];
+      document.querySelector(".weather-card").classList.toggle("storm", weatherEvent);
       document.getElementById("weatherDate").textContent = `${formatMD(date)} · Auto-synced`;
       document.getElementById("temperatureValue").textContent = temperature;
       document.getElementById("humidityValue").textContent = `${humidity}%`;
-      document.getElementById("weatherStatus").innerHTML = thunderstorm
-        ? '<i data-lucide="cloud-lightning" size="18"></i> Cloudy now · storms tonight'
-        : "";
+      document.getElementById("weatherStatus").innerHTML = `<i data-lucide="${weatherIcon}" size="18"></i> ${weatherStatus}`;
       lucide.createIcons();
     }
 
@@ -1433,7 +1440,7 @@
 
     severityTrend.forEach((severity, index) => {
       const medication = medicationTrend[index];
-      records[dateKey(addDays(today, index - 13))] = {
+      records[dateKey(addDays(today, index - 14))] = {
         severity,
         symptoms: severity >= 2 ? ["Eyes / Nose", "Breathing"] : ["Eyes / Nose"],
         triggers: [pollenTrend[index], 0, 0],
@@ -1444,10 +1451,10 @@
           ...(medication === "None" ? ["None"] : [])
         ],
         medicine: "Carrying today",
-        notes: index === 10
-          ? "Thunderstorm conditions and increased humidity; symptoms reached the two-week peak."
-          : thunderstormTrend[index]
-            ? "Thunderstorm conditions recorded with increased humidity."
+        notes: index === 11
+          ? "Warm and humid Houston day; symptoms reached the May 19-June 2 peak."
+          : weatherEventTrend[index]
+            ? `${weatherStatusTrend[index]} with elevated humidity recorded in Houston.`
             : ""
       };
     });
