@@ -777,8 +777,12 @@
     .toast.show { display: block; }
 
     @media (max-width: 820px) {
-      .page { width: min(100% - 20px, 680px); padding-top: 12px; }
-      .header { padding-bottom: 13px; }
+      .page { width: min(100% - 20px, 420px); padding-top: 12px; }
+      .header {
+        padding-bottom: 13px;
+        flex-wrap: wrap;
+      }
+      .header .btn.pdf { margin-left: 54px; }
       .brand h1 { font-size: 20px; }
       .week-bar {
         grid-template-columns: 36px minmax(0, 1fr) 36px;
@@ -794,6 +798,7 @@
       .week-days::-webkit-scrollbar { display: none; }
       .day-btn { min-width: 72px; }
       .panel { padding: 13px; }
+      .panel-head { flex-wrap: wrap; }
       .today-grid,
       .trend-grid,
       .knowledge-grid { grid-template-columns: 1fr; }
@@ -804,6 +809,30 @@
       .readiness-card,
       .weather-card { grid-column: auto; }
       .symptom-grid { grid-template-columns: repeat(5, minmax(58px, 1fr)); overflow-x: auto; padding-bottom: 2px; }
+      .severity-layout { grid-template-columns: minmax(0, 1fr) 52px; gap: 8px; }
+      .severity-result { font-size: 11px; overflow-wrap: anywhere; }
+      .severity-result strong { font-size: 27px; }
+      .trigger-row { grid-template-columns: 86px minmax(0, 1fr) 56px; gap: 7px; }
+      .trigger-name {
+        align-items: flex-start;
+        gap: 5px;
+        line-height: 1.25;
+      }
+      .trigger-value {
+        min-width: 0;
+        font-size: 11px;
+        overflow-wrap: anywhere;
+      }
+      .weather-card { min-height: 196px; }
+      .weather-temperature { font-size: 50px; letter-spacing: -3px; }
+      .weather-detail.humidity { min-width: 128px; }
+      .weather-status {
+        position: static;
+        max-width: none;
+        margin-top: 12px;
+        justify-content: flex-start;
+        text-align: left;
+      }
       .notes { grid-column: auto; }
     }
 
@@ -814,10 +843,11 @@
       .brand p { max-width: 230px; font-size: 12px; }
       .btn.pdf { min-height: 36px; padding: 0 10px; font-size: 12px; white-space: nowrap; }
       .panel-head { align-items: flex-start; }
+      .btn.ghost { max-width: 100%; }
       .section-title { font-size: 17px; }
-      .severity-layout { grid-template-columns: minmax(0, 1fr) 56px; }
-      .severity-result strong { font-size: 28px; }
-      .trigger-row { grid-template-columns: 94px minmax(0, 1fr) 34px; gap: 7px; }
+      .severity-result strong { font-size: 26px; }
+      .severity-labels { font-size: 10px; }
+      .trigger-row { grid-template-columns: 82px minmax(0, 1fr) 56px; }
       .stats-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
       .canvas-wrap { height: 162px; }
     }
@@ -859,7 +889,7 @@
       <div class="panel-head">
         <div>
           <h2 class="section-title"><i data-lucide="sun" size="19"></i> <span id="todayCheckTitle">Today's Allergy Check-in</span></h2>
-          <p class="section-subtitle">Track key signals in just 30 seconds</p>
+          <p class="section-subtitle">Kindergarten allergy check-in for Houston, TX 77479</p>
         </div>
         <button class="btn ghost" id="clearRecord"><i data-lucide="rotate-ccw" size="15"></i> Clear Entry</button>
       </div>
@@ -885,8 +915,8 @@
         <article class="record-card symptom-card">
           <h3 class="card-title">2. Main Symptom Types <i class="info" data-lucide="info" size="15"></i></h3>
           <div class="symptom-grid" id="symptomGrid">
-            <button class="symptom-chip" data-symptom="Skin"><i data-lucide="sparkles" size="19"></i><span>Skin</span></button>
-            <button class="symptom-chip" data-symptom="Breathing"><span class="nose-icon" aria-hidden="true">👃</span><span>Breathing</span></button>
+            <button class="symptom-chip active" data-symptom="Skin"><i data-lucide="sparkles" size="19"></i><span>Skin</span></button>
+            <button class="symptom-chip active" data-symptom="Breathing"><span class="nose-icon" aria-hidden="true">👃</span><span>Breathing</span></button>
             <button class="symptom-chip" data-symptom="Digestive"><i data-lucide="circle-dot" size="19"></i><span>Digestive</span></button>
             <button class="symptom-chip active" data-symptom="Eyes / Nose"><i data-lucide="eye" size="19"></i><span>Eyes / Nose</span></button>
             <button class="symptom-chip" data-symptom="Other"><i data-lucide="ellipsis" size="19"></i><span>Other</span></button>
@@ -897,20 +927,20 @@
           <h3 class="card-title">3. Triggers & Environmental Data <i class="info" data-lucide="info" size="15"></i></h3>
           <div class="trigger-list">
             <label class="trigger-row"><span class="trigger-name"><i data-lucide="flower-2" size="15"></i> Pollen / outdoors</span><input class="trigger-range" type="range" min="0" max="3" value="3" /><span class="trigger-value">High</span></label>
-            <label class="trigger-row"><span class="trigger-name"><i data-lucide="paw-print" size="15"></i> Pet exposure</span><input class="trigger-range" type="range" min="0" max="3" value="0" /><span class="trigger-value">None</span></label>
-            <label class="trigger-row"><span class="trigger-name"><i data-lucide="spray-can" size="15"></i> Dust / cleaners</span><input class="trigger-range" type="range" min="0" max="3" value="1" /><span class="trigger-value">Low</span></label>
+            <label class="trigger-row"><span class="trigger-name"><i data-lucide="paw-print" size="15"></i> Pet exposure</span><input class="trigger-range" type="range" min="0" max="3" value="1" /><span class="trigger-value">Low</span></label>
+            <label class="trigger-row"><span class="trigger-name"><i data-lucide="spray-can" size="15"></i> Dust / cleaners</span><input class="trigger-range" type="range" min="0" max="3" value="2" /><span class="trigger-value">Moderate</span></label>
           </div>
         </article>
 
         <article class="record-card weather-card">
           <h3 class="card-title">Local Weather <i class="info" data-lucide="info" size="15"></i></h3>
-          <div class="weather-location"><i data-lucide="map-pin" size="14"></i> Houston, TX 77002</div>
+          <div class="weather-location"><i data-lucide="map-pin" size="14"></i> Houston, TX 77479</div>
           <div class="weather-date" id="weatherDate">6.2 · Auto-synced</div>
-          <div class="weather-temperature"><span id="temperatureValue">86</span>°</div>
+          <div class="weather-temperature"><span id="temperatureValue">87</span>°</div>
           <div class="weather-details">
-            <span class="weather-detail humidity"><i data-lucide="droplets" size="12"></i> Humidity <strong id="humidityValue">83%</strong></span>
+            <span class="weather-detail humidity"><i data-lucide="droplets" size="12"></i> Humidity <strong id="humidityValue">82%</strong></span>
           </div>
-          <div class="weather-status" id="weatherStatus"><i data-lucide="cloud-rain" size="18"></i> Moderate drizzle</div>
+          <div class="weather-status" id="weatherStatus"><i data-lucide="cloud-drizzle" size="18"></i> Dense drizzle</div>
         </article>
 
         <article class="record-card treatment-card">
@@ -918,7 +948,7 @@
           <div class="check-list" id="treatmentList">
             <label class="check-label"><input type="checkbox" value="None" /> None</label>
             <label class="check-label"><input type="checkbox" value="Antihistamine" checked /> Antihistamine</label>
-            <label class="check-label"><input type="checkbox" value="Inhaler (asthma)" /> Inhaler (asthma)</label>
+            <label class="check-label"><input type="checkbox" value="Inhaler (asthma)" checked /> Inhaler (asthma)</label>
             <label class="check-label red"><input type="checkbox" value="EpiPen / epinephrine" /> EpiPen / epinephrine</label>
             <label class="check-label"><input type="checkbox" value="Doctor / urgent care / ER" /> Doctor / urgent care / ER</label>
           </div>
@@ -962,8 +992,10 @@
           <div class="chart-legend">
             <span class="legend-item"><i class="legend-dot" style="background:#8d65c9"></i> Local humidity (right axis %)</span>
             <span class="legend-item"><i class="legend-dot" style="background:#4da17c"></i> Pollen / outdoors</span>
+            <span class="legend-item"><i class="legend-dot" style="background:#5d91d7"></i> Pet exposure</span>
+            <span class="legend-item"><i class="legend-dot" style="background:#9d8b6f"></i> Dust / cleaners</span>
             <span class="legend-item"><i class="legend-dot" style="background:#f28a35"></i> Severity</span>
-            <span class="legend-item"><i class="legend-dot" style="background:#d85d56"></i> Houston rain event</span>
+            <span class="legend-item"><i class="legend-dot" style="background:#d85d56"></i> Rain / storm humidity event</span>
           </div>
           <div class="canvas-wrap"><canvas id="triggerChart"></canvas></div>
         </article>
@@ -996,7 +1028,7 @@
           <div class="knowledge-icon"><i data-lucide="sparkles" size="20"></i></div>
           <div>
             <h3>Memova Insight</h3>
-            <p>Your strongest symptom flare-up occurred on 5.30, during a warm and humid stretch in Houston, after several high-rain / high-humidity days earlier in the May 19-June 2 window.<br><br>This suggests that humid weather shifts, recent rain, and pollen exposure may be aggravating allergy symptoms. Humidity or temperature alone may not be the main trigger; the useful pattern is how weather changes and outdoor exposure cluster around symptoms.<br><br>Please consult a doctor to confirm the final diagnosis.</p>
+            <p>This simulated kindergarten log shows the strongest flare-ups on 5.23 and 5.30, with another high-risk day on 6.2. The pattern clusters around rain or drizzle, high humidity, and outdoor pollen exposure; pet contact and classroom dust / cleaners appear as secondary amplifiers.<br><br>The likely story is not humidity alone. Thunderstorm or post-rain humidity can fragment pollen and keep particles airborne, so symptoms rise when wet weather, outdoor play, and indoor irritants stack together.<br><br>Please consult a doctor to confirm the final diagnosis and medication plan.</p>
           </div>
         </article>
 
@@ -1004,7 +1036,7 @@
           <div class="knowledge-icon"><i data-lucide="clipboard-list" size="20"></i></div>
           <div>
             <h3>Prepare for Your Next Appointment</h3>
-            <p>Bring your May 19-June 2 record of triggers, symptoms, medications, and timing to help your doctor make a more informed assessment.</p>
+            <p>Bring the May 19-June 2 preschool record of weather, outdoor time, pet exposure, dust / cleaners, symptoms, medications, and emergency readiness.</p>
             <a class="knowledge-link" href="#prepare">How to prepare <span aria-hidden="true">›</span></a>
           </div>
         </article>
@@ -1022,14 +1054,34 @@
     const weekdayLabels = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
     const today = new Date(2026, 5, 2);
     today.setHours(0, 0, 0, 0);
-    const severityTrend = [1, 1, 1, 2, 2, 2, 3, 1, 1, 2, 1, 3, 2, 1, 3];
-    const temperatureTrend = [85, 79, 81, 86, 78, 84, 86, 87, 77, 86, 88, 89, 89, 90, 86];
-    const humidityTrend = [87, 88, 86, 86, 93, 81, 77, 79, 93, 80, 79, 78, 78, 81, 83];
+    const severityTrend = [2, 3, 2, 3, 4, 2, 2, 1, 3, 2, 2, 4, 3, 2, 3];
+    const temperatureTrend = [88, 80, 80, 85, 76, 84, 86, 88, 77, 86, 88, 91, 90, 90, 87];
+    const humidityTrend = [86, 89, 88, 89, 95, 82, 81, 80, 93, 82, 81, 77, 76, 81, 82];
     const weatherEventTrend = [true, true, false, true, true, false, false, false, true, false, false, false, false, false, false];
-    const weatherStatusTrend = ["Heavy rain", "Heavy rain", "Light rain", "Moderate rain", "Moderate rain", "Light drizzle", "Light drizzle", "Moderate drizzle", "Moderate rain", "Overcast", "Overcast", "Light drizzle", "Overcast", "Moderate drizzle", "Moderate drizzle"];
-    const weatherIconTrend = ["cloud-rain", "cloud-rain", "cloud-rain", "cloud-rain", "cloud-rain", "cloud-drizzle", "cloud-drizzle", "cloud-drizzle", "cloud-rain", "cloud", "cloud", "cloud-drizzle", "cloud", "cloud-drizzle", "cloud-drizzle"];
-    const pollenTrend = [2, 1, 2, 2, 3, 2, 2, 1, 1, 3, 1, 2, 3, 0, 3];
-    const medicationTrend = ["None", "None", "None", "Antihistamine", "Antihistamine", "None", "Antihistamine", "None", "None", "Antihistamine", "None", "EpiPen + Antihistamine", "Inhaler", "None", "Antihistamine"];
+    const weatherStatusTrend = ["Moderate rain", "Heavy rain", "Light rain", "Moderate rain", "Heavy rain", "Light drizzle", "Moderate drizzle", "Light drizzle", "Moderate rain", "Overcast", "Light drizzle", "Overcast", "Overcast", "Moderate drizzle", "Dense drizzle"];
+    const weatherIconTrend = ["cloud-rain", "cloud-rain", "cloud-rain", "cloud-rain", "cloud-rain", "cloud-drizzle", "cloud-drizzle", "cloud-drizzle", "cloud-rain", "cloud", "cloud-drizzle", "cloud", "cloud", "cloud-drizzle", "cloud-drizzle"];
+    const pollenTrend = [2, 2, 2, 3, 3, 2, 2, 1, 2, 3, 2, 3, 3, 2, 3];
+    const petTrend = [0, 0, 1, 0, 1, 0, 0, 0, 0, 1, 0, 2, 0, 0, 1];
+    const dustTrend = [1, 1, 1, 2, 2, 1, 1, 2, 2, 1, 1, 1, 2, 1, 2];
+    const symptomTrend = [
+      ["Eyes / Nose", "Skin"],
+      ["Eyes / Nose", "Breathing"],
+      ["Eyes / Nose"],
+      ["Eyes / Nose", "Breathing"],
+      ["Eyes / Nose", "Breathing", "Skin"],
+      ["Eyes / Nose"],
+      ["Eyes / Nose"],
+      ["Eyes / Nose"],
+      ["Eyes / Nose", "Breathing"],
+      ["Eyes / Nose"],
+      ["Eyes / Nose"],
+      ["Eyes / Nose", "Breathing", "Skin"],
+      ["Eyes / Nose", "Skin"],
+      ["Eyes / Nose"],
+      ["Eyes / Nose", "Breathing", "Skin"]
+    ];
+    const medicationTrend = ["Antihistamine", "Antihistamine", "Antihistamine", "Antihistamine", "Antihistamine + Inhaler", "Antihistamine", "None", "None", "Antihistamine", "Antihistamine", "Antihistamine", "EpiPen + Antihistamine", "Antihistamine + Inhaler", "Antihistamine", "Antihistamine + Inhaler"];
+    const medicineReadinessTrend = ["Carrying today", "Carrying today", "Carrying today", "Carrying today", "Carrying today", "Carrying today", "Not carrying", "Not carrying", "Carrying today", "Carrying today", "Carrying today", "Carrying today", "Carrying today", "Expired / refill needed", "Carrying today"];
     const records = {};
     let selectedDate = new Date(today);
     let weekOffset = 0;
@@ -1239,13 +1291,13 @@
 
     function renderEvents() {
       const items = [
-        { day: -14, icon: "cloud-rain", className: "urgent", text: "Heavy rain · 85°F · Local humidity 87%" },
-        { day: -13, icon: "cloud-rain", className: "urgent", text: "Heavy rain · 79°F · Local humidity 88%" },
-        { day: -10, icon: "cloud-rain", className: "", text: "Moderate rain · 78°F · Local humidity 93%" },
-        { day: -6, icon: "cloud-rain", className: "urgent", text: "Moderate rain · 77°F · Local humidity 93%" },
-        { day: -3, icon: "triangle-alert", className: "urgent", text: "Symptom peak: 3 · Used EpiPen + antihistamine" },
-        { day: -2, icon: "flower-2", className: "", text: "High pollen / outdoor exposure" },
-        { day: 0, icon: "cloud-drizzle", className: "", text: `Moderate drizzle · ${temperatureTrend[14]}°F · Local humidity ${humidityTrend[14]}%` }
+        { day: -14, icon: "cloud-rain", className: "", text: `Moderate rain · ${temperatureTrend[0]}°F · Humidity ${humidityTrend[0]}% · Moderate pollen` },
+        { day: -13, icon: "cloud-rain", className: "urgent", text: `Heavy rain · ${temperatureTrend[1]}°F · Humidity ${humidityTrend[1]}% · Severity 3` },
+        { day: -11, icon: "cloud-rain", className: "", text: "Moderate rain + classroom cleaners · Dust exposure moderate" },
+        { day: -10, icon: "triangle-alert", className: "urgent", text: `Heavy rain · Humidity ${humidityTrend[4]}% · Peak severity 4` },
+        { day: -6, icon: "cloud-rain", className: "urgent", text: `Moderate rain · Humidity ${humidityTrend[8]}% · Breathing symptoms noted` },
+        { day: -3, icon: "triangle-alert", className: "urgent", text: "Hot outdoor play + pet exposure · Peak severity 4" },
+        { day: 0, icon: "cloud-drizzle", className: "", text: `Dense drizzle · ${temperatureTrend[14]}°F · Humidity ${humidityTrend[14]}% · Inhaler carried` }
       ];
       document.getElementById("eventList").innerHTML = items.map((item) => {
         const date = addDays(today, item.day);
@@ -1371,6 +1423,8 @@
       const humidityPoints = humidityPointsFor(humidityTrend, layout);
       drawLine(ctx, humidityPoints, "#8d65c9");
       drawLine(ctx, pointsFor(pollenTrend, layout), "#4da17c");
+      drawLine(ctx, pointsFor(petTrend, layout), "#5d91d7");
+      drawLine(ctx, pointsFor(dustTrend, layout), "#9d8b6f");
       drawLine(ctx, pointsFor(severityTrend, layout), "#f28a35");
       weatherEventTrend.forEach((isWeatherEvent, index) => {
         if (!isWeatherEvent) return;
@@ -1423,6 +1477,10 @@
         const record = records[dateKey(selectedDate)] || readFormRecord();
         severityTrend[index] = record.severity;
         pollenTrend[index] = record.triggers[0];
+        petTrend[index] = record.triggers[1];
+        dustTrend[index] = record.triggers[2];
+        symptomTrend[index] = record.symptoms;
+        medicineReadinessTrend[index] = record.medicine;
         medicationTrend[index] = record.treatments.includes("EpiPen / epinephrine")
           ? "EpiPen + Antihistamine"
           : record.treatments.includes("Inhaler (asthma)")
@@ -1434,6 +1492,8 @@
       document.getElementById("severityChart").dataset.selectedSeverity = severityTrend[index >= 0 ? index : chartLastIndex];
       document.getElementById("triggerChart").dataset.selectedHumidity = humidityTrend[index >= 0 ? index : chartLastIndex];
       document.getElementById("triggerChart").dataset.selectedPollen = pollenTrend[index >= 0 ? index : chartLastIndex];
+      document.getElementById("triggerChart").dataset.selectedPet = petTrend[index >= 0 ? index : chartLastIndex];
+      document.getElementById("triggerChart").dataset.selectedDust = dustTrend[index >= 0 ? index : chartLastIndex];
       updateMedicationStats();
       drawCharts();
     }
@@ -1442,26 +1502,29 @@
       const medication = medicationTrend[index];
       records[dateKey(addDays(today, index - 14))] = {
         severity,
-        symptoms: severity >= 2 ? ["Eyes / Nose", "Breathing"] : ["Eyes / Nose"],
-        triggers: [pollenTrend[index], 0, 0],
+        symptoms: symptomTrend[index],
+        triggers: [pollenTrend[index], petTrend[index], dustTrend[index]],
         treatments: [
           ...(medication.includes("Antihistamine") ? ["Antihistamine"] : []),
           ...(medication.includes("EpiPen") ? ["EpiPen / epinephrine"] : []),
           ...(medication.includes("Inhaler") ? ["Inhaler (asthma)"] : []),
           ...(medication === "None" ? ["None"] : [])
         ],
-        medicine: "Carrying today",
-        notes: index === 11
-          ? "Warm and humid Houston day; symptoms reached the May 19-June 2 peak."
-          : weatherEventTrend[index]
-            ? `${weatherStatusTrend[index]} with elevated humidity recorded in Houston.`
-            : ""
+        medicine: medicineReadinessTrend[index],
+        notes: index === 4
+          ? "Heavy rain + 95% humidity after outdoor preschool time; pollen symptoms escalated."
+          : index === 11
+            ? "Hot playground day with pet exposure; severe eye/nose, skin, and breathing symptoms."
+            : index === 14
+              ? "Dense drizzle + high pollen after kindergarten outdoor time; inhaler and emergency meds carried."
+              : weatherEventTrend[index]
+                ? `${weatherStatusTrend[index]} with high humidity; watch post-rain pollen fragmentation.`
+                : ""
       };
     });
     renderWeek();
     renderEvents();
-    updateDisplayedWeather(selectedDate);
-    updateTrendPreview();
+    loadRecord(selectedDate);
     window.addEventListener("resize", drawCharts);
   </script>
 </body>
