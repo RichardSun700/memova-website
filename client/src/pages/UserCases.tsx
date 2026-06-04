@@ -28,6 +28,22 @@ type UserCase = {
 
 const cases: UserCase[] = [
   {
+    title: "Gift-Style Car Shortlist",
+    category: "Sales follow-up",
+    person: "Eric + James",
+    description:
+      "A customer brief becomes a polished interactive gift page that celebrates a new Amazon role while comparing four German car options.",
+    source:
+      "James just joined Amazon in the Bay Area. Wants a German car, around $5,000 down and roughly $1,000 per month. Make it feel like a gift, not a spreadsheet.",
+    sourceImage: "/user-cases/notes/case2.1.png",
+    output:
+      "A gift-style web page with an animated ribbon, four vehicle cards, budget context, and shareable recommendations.",
+    bullets: ["Personalize the emotion", "Compare four options", "Share a polished web page"],
+    demoHref: "/user-cases/demos/amazon_german_car_gift.html",
+    image: "/user-cases/thumbs/amazon_german_car_gift.png",
+    accent: "amber",
+  },
+  {
     title: "Daily Allergy Tracker",
     category: "Health follow-up",
     person: "Maya",
