@@ -35,7 +35,7 @@ const cases: UserCase[] = [
       "A customer brief becomes a polished interactive gift page that celebrates a new Amazon role while comparing four German car options.",
     source:
       "James just joined Amazon in the Bay Area. Wants a German car, around $5,000 down and roughly $1,000 per month. Make it feel like a gift, not a spreadsheet.",
-    sourceImage: "/user-cases/notes/case2.1.png",
+    sourceImage: "/user-cases/notes/case2.1-source-note.png",
     output:
       "A gift-style web page with an animated ribbon, four vehicle cards, budget context, and shareable recommendations.",
     bullets: ["Personalize the emotion", "Compare four options", "Share a polished web page"],
