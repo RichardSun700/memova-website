@@ -246,19 +246,19 @@
       position: absolute;
       z-index: 3;
       pointer-events: none;
-      background:
-        linear-gradient(90deg, rgba(255, 234, 169, .18), transparent 18% 82%, rgba(83, 48, 14, .16)),
-        linear-gradient(135deg, rgba(215, 157, 55, .96), rgba(126, 77, 20, .94));
+      background: linear-gradient(90deg, rgba(255, 235, 171, .56), rgba(226, 178, 84, .72) 48%, rgba(188, 122, 30, .68));
       mix-blend-mode: multiply;
-      opacity: .84;
-      box-shadow: inset 0 0 18px rgba(255, 239, 184, .2), inset 0 -10px 20px rgba(72, 42, 12, .18);
+      opacity: .72;
+      box-shadow:
+        inset 10px 0 18px rgba(255, 244, 204, .34),
+        inset -10px 0 20px rgba(115, 72, 18, .16);
     }
 
     .showcase::before {
       left: 50%;
       top: 0;
       bottom: 0;
-      width: 62px;
+      width: 60px;
       transform: translateX(-50%);
       animation: ribbonGlow 3.2s ease-in-out infinite;
     }
@@ -267,8 +267,10 @@
       left: 0;
       right: 0;
       top: 50%;
-      height: 62px;
+      height: 60px;
       transform: translateY(-50%);
+      background: linear-gradient(90deg, rgba(255, 225, 138, .48), rgba(204, 128, 28, .82) 50%, rgba(223, 155, 51, .76));
+      opacity: .78;
     }
 
     .gift-knot {
@@ -276,57 +278,56 @@
       z-index: 4;
       left: 50%;
       top: 50%;
-      width: 186px;
-      height: 104px;
+      width: 116px;
+      height: 74px;
       transform: translate(-50%, -50%);
       pointer-events: none;
-      opacity: .95;
-      filter: drop-shadow(0 18px 28px rgba(55, 35, 12, .22));
+      opacity: .86;
+      filter: drop-shadow(0 14px 22px rgba(78, 48, 13, .2));
       animation: bowBreath 3.8s ease-in-out infinite;
     }
 
     .gift-knot span {
       position: absolute;
       top: 10px;
-      width: 90px;
-      height: 80px;
-      border-radius: 50% 50% 44% 44%;
-      border: 8px solid rgba(255, 247, 225, .76);
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      border: 6px solid rgba(255, 249, 232, .78);
       background:
-        radial-gradient(circle at 34% 24%, rgba(255, 230, 151, .62), transparent 30%),
-        linear-gradient(145deg, #d0902d 0%, #8a5318 58%, #5b3510 100%);
+        radial-gradient(circle at 34% 25%, rgba(255, 231, 156, .7), transparent 32%),
+        linear-gradient(145deg, rgba(209, 146, 48, .96) 0%, rgba(169, 105, 28, .94) 100%);
       box-shadow:
-        inset 10px 10px 18px rgba(255, 238, 184, .28),
-        inset -10px -12px 20px rgba(67, 38, 11, .24),
-        0 16px 40px rgba(34, 29, 20, .22);
+        inset 8px 8px 14px rgba(255, 239, 190, .28),
+        inset -8px -8px 16px rgba(91, 54, 13, .2),
+        0 10px 24px rgba(34, 29, 20, .18);
     }
 
     .gift-knot span:first-child {
-      left: 0;
-      transform: rotate(-24deg);
+      left: 8px;
+      transform: rotate(-8deg);
     }
 
     .gift-knot span:nth-child(2) {
-      right: 0;
-      transform: rotate(24deg);
+      display: none;
     }
 
     .gift-knot i {
       position: absolute;
       left: 50%;
-      top: 43px;
-      width: 54px;
-      height: 54px;
+      top: 27px;
+      width: 46px;
+      height: 46px;
       transform: translateX(-50%) rotate(45deg);
-      border-radius: 13px;
-      border: 6px solid rgba(255, 247, 225, .74);
+      border-radius: 11px;
+      border: 5px solid rgba(255, 247, 225, .74);
       background:
-        radial-gradient(circle at 30% 25%, rgba(255, 239, 184, .7), transparent 34%),
-        linear-gradient(145deg, #e0a13a 0%, #9b6927 58%, #644016 100%);
+        radial-gradient(circle at 30% 25%, rgba(255, 239, 184, .66), transparent 34%),
+        linear-gradient(145deg, rgba(220, 157, 58, .96) 0%, rgba(173, 111, 31, .94) 100%);
       box-shadow:
-        inset 8px 8px 16px rgba(255, 238, 184, .3),
-        inset -8px -8px 18px rgba(57, 34, 11, .2),
-        0 12px 30px rgba(34, 29, 20, .24);
+        inset 7px 7px 14px rgba(255, 238, 184, .28),
+        inset -7px -7px 16px rgba(82, 49, 13, .18),
+        0 10px 24px rgba(34, 29, 20, .2);
     }
 
     .collage {
