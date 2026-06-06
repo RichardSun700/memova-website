@@ -5,8 +5,9 @@
  */
 import { motion, useInView, AnimatePresence } from "framer-motion";
 import { useRef, useState } from "react";
-import { Heart, Briefcase, Code, Lock, Unlock, Mic, FileText, Camera, Sparkles, KeyRound } from "lucide-react";
+import { Heart, Briefcase, Code, Lock, Unlock, Mic, FileText, Camera, Sparkles, KeyRound, ChevronDown, ExternalLink, NotebookPen } from "lucide-react";
 import { toast } from "sonner";
+import { cases as realUserCases, type UserCase } from "@/pages/UserCases";
 
 // HEALTH: Improved - Shows disease history + drug conflict detection
 const healthOutputHTML = `
@@ -283,9 +284,13 @@ const cases = [
   },
 ];
 
+const featuredRealCases = realUserCases.slice(0, 2);
+const additionalRealCases = realUserCases.slice(2);
+
 export default function UseCasesSection() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const [realCasesExpanded, setRealCasesExpanded] = useState(false);
 
   return (
     <section id="user-cases" className="py-24 md:py-32 relative overflow-hidden bg-[#FAFCFF]" ref={ref}>
@@ -304,16 +309,91 @@ export default function UseCasesSection() {
             Use cases
           </p>
           <h2 className="font-display text-3xl md:text-4xl lg:text-5xl font-bold text-[var(--memova-navy)] leading-tight">
-            Private context.
+            Real notes.
             <br />
             <span className="bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 bg-clip-text text-transparent">Agent-ready output.</span>
           </h2>
           <p className="mt-4 text-[13px] font-medium text-[#637083] max-w-lg mx-auto leading-relaxed">
-            Three private workspaces for agents.
+            Featured real examples first, then three interactive private-workspace demos.
           </p>
         </motion.div>
 
+        <div className="mb-20">
+          <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+            {featuredRealCases.map((item, index) => (
+              <FeaturedRealCase key={item.title} item={item} index={index} isInView={isInView} />
+            ))}
+          </div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 18 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.65, delay: 0.28 }}
+            className="mt-7 rounded-3xl border border-[#DDE6FF] bg-white/85 p-4 shadow-sm shadow-[var(--memova-navy)]/[0.04] backdrop-blur-sm md:p-5"
+          >
+            <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+              <div>
+                <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-[var(--memova-blue)]">
+                  More real cases
+                </p>
+                <h3 className="mt-1 font-display text-lg font-bold text-[var(--memova-navy)]">
+                  Browse {additionalRealCases.length} more examples without making the homepage heavy.
+                </h3>
+              </div>
+              <div className="flex flex-wrap gap-2">
+                <button
+                  type="button"
+                  onClick={() => setRealCasesExpanded((value) => !value)}
+                  className="inline-flex min-h-10 items-center gap-2 rounded-full border border-[#DDE6FF] bg-[#F7FAFF] px-4 text-[12px] font-bold text-[var(--memova-navy)] transition-colors hover:bg-white"
+                >
+                  {realCasesExpanded ? "Collapse list" : "Show compact list"}
+                  <ChevronDown className={`h-4 w-4 text-[var(--memova-blue)] transition-transform ${realCasesExpanded ? "rotate-180" : ""}`} />
+                </button>
+                <a
+                  href="/user-cases"
+                  className="inline-flex min-h-10 items-center gap-2 rounded-full bg-[var(--memova-navy)] px-4 text-[12px] font-bold text-white shadow-sm transition-transform hover:-translate-y-0.5"
+                >
+                  Open all use cases
+                  <ExternalLink className="h-4 w-4" />
+                </a>
+              </div>
+            </div>
+
+            {realCasesExpanded && (
+              <motion.div
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: "auto" }}
+                className="mt-5 grid grid-cols-1 gap-2 overflow-hidden md:grid-cols-2 lg:grid-cols-3"
+              >
+                {additionalRealCases.map((item) => (
+                  <a
+                    key={item.title}
+                    href={item.demoHref || "/user-cases"}
+                    target={item.demoHref ? "_blank" : undefined}
+                    rel={item.demoHref ? "noreferrer" : undefined}
+                    className="group flex min-w-0 items-center justify-between gap-3 rounded-2xl border border-[#E8EEF7] bg-[#FAFCFF] px-4 py-3 transition-colors hover:border-[#BFD2FF] hover:bg-white"
+                  >
+                    <div className="min-w-0">
+                      <p className="truncate text-[12px] font-bold text-[var(--memova-navy)]">{item.title}</p>
+                      <p className="mt-0.5 text-[10px] font-semibold text-[#8C96A8]">{item.category}</p>
+                    </div>
+                    <ExternalLink className="h-4 w-4 shrink-0 text-[#A4B0C2] transition-colors group-hover:text-[var(--memova-blue)]" />
+                  </a>
+                ))}
+              </motion.div>
+            )}
+          </motion.div>
+        </div>
+
         {/* Stacked Cases - Optimized with Compact Desktop Multi-Column Layout */}
+        <div className="mb-12 text-center">
+          <p className="mb-2 text-[10px] font-bold uppercase tracking-[0.18em] text-[var(--memova-blue)]">
+            Interactive workspace demos
+          </p>
+          <h3 className="font-display text-2xl font-bold text-[var(--memova-navy)] md:text-3xl">
+            Three private workspaces for agents.
+          </h3>
+        </div>
         <div className="space-y-24">
           {cases.map((c, index) => (
             <CaseCard key={c.id} c={c} index={index} />
@@ -321,6 +401,74 @@ export default function UseCasesSection() {
         </div>
       </div>
     </section>
+  );
+}
+
+function FeaturedRealCase({ item, index, isInView }: { item: UserCase; index: number; isInView: boolean }) {
+  return (
+    <motion.article
+      initial={{ opacity: 0, y: 24 }}
+      animate={isInView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.72, delay: 0.12 + index * 0.12 }}
+      className="overflow-hidden rounded-[1.75rem] border border-[#DDE6FF] bg-white shadow-xl shadow-[var(--memova-navy)]/[0.05]"
+    >
+      <div className="grid min-h-full grid-cols-1 lg:grid-cols-[0.78fr_1.22fr]">
+        <div className="border-b border-[#E8EEF7] bg-gradient-to-br from-[#F8FBFF] via-white to-[#F5F7FF] p-4 lg:border-b-0 lg:border-r">
+          <div className="mb-3 flex items-center justify-between">
+            <span className="inline-flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.16em] text-[#8C96A8]">
+              <NotebookPen className="h-3.5 w-3.5" />
+              Source note
+            </span>
+            <span className="rounded-full border border-[#DDE6FF] bg-white px-2.5 py-1 text-[10px] font-bold text-[var(--memova-blue)]">
+              0{index + 1}
+            </span>
+          </div>
+          <img
+            src={item.sourceImage}
+            alt={`${item.title} source note`}
+            className="mx-auto aspect-[886/1848] max-h-[430px] w-auto rounded-2xl border border-white bg-[#F4F4FA] object-contain shadow-inner"
+            loading="lazy"
+          />
+        </div>
+
+        <div className="flex min-w-0 flex-col">
+          <div className="border-b border-[#E8EEF7] p-5">
+            <div className="flex flex-wrap items-center gap-2">
+              <span className="rounded-full bg-[#F2F6FF] px-3 py-1 text-[10px] font-bold uppercase tracking-[0.14em] text-[var(--memova-blue)]">
+                {item.category}
+              </span>
+              <span className="text-[11px] font-semibold text-[#8C96A8]">{item.person}</span>
+            </div>
+            <h3 className="mt-3 font-display text-xl font-bold leading-tight text-[var(--memova-navy)] md:text-2xl">
+              {item.title}
+            </h3>
+            <p className="mt-2 text-[13px] font-medium leading-6 text-[#637083]">{item.description}</p>
+          </div>
+
+          <a
+            href={item.demoHref || "/user-cases"}
+            target="_blank"
+            rel="noreferrer"
+            className="group relative block min-h-[300px] flex-1 overflow-hidden bg-[#F6F9FF]"
+            aria-label={`Open ${item.title}`}
+          >
+            <img
+              src={item.image || item.sourceImage}
+              alt={`${item.title} preview`}
+              className="h-full min-h-[300px] w-full object-cover object-top transition-transform duration-500 group-hover:scale-[1.02]"
+              loading="lazy"
+            />
+            <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-[var(--memova-navy)]/85 to-transparent p-5">
+              <div className="inline-flex items-center gap-2 rounded-full bg-white px-3 py-2 text-[12px] font-bold text-[var(--memova-navy)] shadow-lg">
+                <Sparkles className="h-4 w-4 text-[var(--memova-blue)]" />
+                Open interactive case
+                <ExternalLink className="h-4 w-4 text-[var(--memova-blue)]" />
+              </div>
+            </div>
+          </a>
+        </div>
+      </div>
+    </motion.article>
   );
 }
 

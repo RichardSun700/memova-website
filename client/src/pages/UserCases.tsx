@@ -12,7 +12,7 @@ import {
   UserRoundCheck,
 } from "lucide-react";
 
-type UserCase = {
+export type UserCase = {
   title: string;
   category: string;
   person: string;
@@ -26,7 +26,7 @@ type UserCase = {
   accent: string;
 };
 
-const cases: UserCase[] = [
+export const cases: UserCase[] = [
   {
     title: "Gift-Style Car Shortlist",
     category: "Sales follow-up",

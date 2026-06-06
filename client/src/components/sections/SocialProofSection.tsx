@@ -150,7 +150,7 @@ export default function SocialProofSection() {
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+        <div className="grid grid-cols-1 items-start gap-4 md:grid-cols-2 lg:grid-cols-3">
           {testimonials.map((item, index) => (
             <motion.article
               key={item.handle}
@@ -158,9 +158,7 @@ export default function SocialProofSection() {
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.65, delay: 0.08 + index * 0.06, ease: [0.23, 1, 0.32, 1] }}
               whileHover={{ y: -6, scale: 1.01 }}
-              className={`group flex min-h-[235px] flex-col justify-between rounded-[1.35rem] border border-slate-200/70 bg-white p-5 text-left shadow-sm transition-all duration-300 hover:border-indigo-300 hover:shadow-xl hover:shadow-indigo-500/[0.05] ${
-                index === 0 || index === 5 ? "lg:row-span-2 lg:min-h-[320px]" : ""
-              }`}
+              className="group flex flex-col rounded-[1.15rem] border border-slate-200/70 bg-white p-4 text-left shadow-sm transition-all duration-300 hover:border-indigo-300 hover:shadow-xl hover:shadow-indigo-500/[0.05] sm:p-5"
             >
               <div>
                 <div className="mb-4 flex items-start gap-3">
@@ -193,7 +191,7 @@ export default function SocialProofSection() {
                 </p>
               </div>
 
-              <div className="mt-6 space-y-3 border-t border-slate-100 pt-3">
+              <div className="mt-4 space-y-3 border-t border-slate-100 pt-3">
                 <div className="flex items-center justify-between gap-3">
                   <span className="rounded-full border border-[#DDE6FF] bg-[#F6F9FF] px-2.5 py-1 text-[9px] font-bold uppercase tracking-[0.12em] text-[var(--memova-blue)]">
                     {item.tag}
