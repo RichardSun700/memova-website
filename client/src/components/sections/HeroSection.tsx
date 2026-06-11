@@ -6,6 +6,8 @@ interface HeroSectionProps {
   onSeeWorkflow: () => void;
 }
 
+const DISCORD_COMMUNITY_URL = "https://discord.gg/mdB2mBBEF";
+
 export default function HeroSection({ onSeeWorkflow }: HeroSectionProps) {
   const [hoveredSide, setHoveredSide] = useState<"before" | "after" | null>(null);
   
@@ -80,6 +82,18 @@ export default function HeroSection({ onSeeWorkflow }: HeroSectionProps) {
               >
                 <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0 -translate-x-full group-hover:animate-[shimmer_1.5s_infinite] pointer-events-none" />
                 Join Waitlist
+              </motion.a>
+              <motion.a
+                href={DISCORD_COMMUNITY_URL}
+                target="_blank"
+                rel="noreferrer"
+                whileHover={{ scale: 1.03 }}
+                whileTap={{ scale: 0.97 }}
+                className="px-7 py-3 bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 text-white font-bold text-[13px] rounded-full
+                           shadow-lg shadow-indigo-500/10 hover:shadow-indigo-500/20 transition-all duration-300 relative overflow-hidden group"
+              >
+                <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0 -translate-x-full group-hover:animate-[shimmer_1.5s_infinite] pointer-events-none" />
+                Join Community
               </motion.a>
               <motion.button
                 onClick={onSeeWorkflow}

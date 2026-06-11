@@ -3,6 +3,8 @@ import { motion } from "framer-motion";
 import { LogOut, UserRound } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 
+const DISCORD_COMMUNITY_URL = "https://discord.gg/mdB2mBBEF";
+
 const navLinks = [
   { label: "Workflow", href: "/#workflow", section: "workflow" },
   { label: "Privacy", href: "/#privacy", section: "privacy" },
@@ -107,6 +109,20 @@ export default function Navbar() {
           >
             Join Waitlist
           </motion.a>
+          <motion.a
+            href={DISCORD_COMMUNITY_URL}
+            target="_blank"
+            rel="noreferrer"
+            whileHover={{ scale: 1.03 }}
+            whileTap={{ scale: 0.97 }}
+            className={`hidden px-5 py-2 text-[13px] font-semibold rounded-full transition-all duration-300 sm:inline-flex ${
+              scrolled
+                ? "bg-[var(--memova-navy)] text-white shadow-md shadow-[var(--memova-navy)]/10"
+                : "bg-[var(--memova-navy)]/90 text-white"
+            }`}
+          >
+            Join Community
+          </motion.a>
 
           {/* Mobile hamburger */}
           <button
@@ -144,6 +160,15 @@ export default function Navbar() {
                 {link.label}
               </a>
             ))}
+            <a
+              href={DISCORD_COMMUNITY_URL}
+              target="_blank"
+              rel="noreferrer"
+              onClick={() => setMobileOpen(false)}
+              className="flex items-center gap-2 rounded-lg px-3 py-2 text-[14px] font-medium text-[#637083] transition-all hover:bg-[#F6F9FF] hover:text-[var(--memova-navy)]"
+            >
+              Join Community
+            </a>
             {auth.isAuthenticated ? (
               <button
                 type="button"
