@@ -60,6 +60,22 @@ export const cases: UserCase[] = [
     accent: "emerald",
   },
   {
+    title: "Wedding Venue Shortlist",
+    category: "Wedding planning",
+    person: "Lina + Emily & Jason",
+    description:
+      "A planner's venue materials and couple preferences become a polished client-facing shortlist for choosing a San Francisco wedding venue.",
+    source:
+      "Emily & Jason want a 70-80 guest San Francisco wedding with a $90K-$130K budget, museum-inspired style, and a one-day venue tour plan.",
+    sourceImage: "/user-cases/notes/wedding_venue_shortlist_note.png",
+    output:
+      "Four venue cards, comparison context, fit notes, trade-offs, and a one-day tour plan packaged as an elegant proposal page.",
+    bullets: ["Shortlist four venues", "Compare fit and trade-offs", "Plan the venue tour"],
+    demoHref: "/user-cases/demos/wedding_venue_shortlist.html",
+    image: "/user-cases/thumbs/wedding_venue_shortlist.jpg",
+    accent: "rose",
+  },
+  {
     title: "Carlos Post-Visit Follow-up Card",
     category: "Primary care",
     person: "Carlos",
