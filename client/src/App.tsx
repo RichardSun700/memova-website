@@ -9,15 +9,30 @@ import McpConsent from "@/pages/McpConsent";
 import NotFound from "@/pages/NotFound";
 import Profile from "@/pages/Profile";
 import UserCases from "@/pages/UserCases";
+import { lazy, Suspense } from "react";
 import { Route, Switch } from "wouter";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import Home from "./pages/Home";
 
+const BayAreaAgentDemo2 = lazy(() => import("@/pages/BayAreaAgentDemo2"));
+
+function BayAreaAgentDemo2Route() {
+  return (
+    <Suspense fallback={<div className="min-h-dvh bg-[#fefcf6]" />}>
+      <BayAreaAgentDemo2 />
+    </Suspense>
+  );
+}
+
 function Router() {
   return (
     <Switch>
       <Route path={"/"} component={Home} />
+      <Route
+        path={"/bay-area-agent-demo-2"}
+        component={BayAreaAgentDemo2Route}
+      />
       <Route path={"/login"} component={Login} />
       <Route path={"/profile"} component={Profile} />
       <Route path={"/connected-clients"} component={ConnectedClients} />
