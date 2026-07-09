@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import { LogOut, UserRound } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 
-const DISCORD_COMMUNITY_URL = "https://discord.gg/mdB2mBBEF";
+const DISCORD_COMMUNITY_URL = "https://discord.gg/ZTS2XAEax";
 
 const navLinks = [
   { label: "Workflow", href: "/#workflow", section: "workflow" },

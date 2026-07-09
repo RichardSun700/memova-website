@@ -6,7 +6,7 @@ interface HeroSectionProps {
   onSeeWorkflow: () => void;
 }
 
-const DISCORD_COMMUNITY_URL = "https://discord.gg/mdB2mBBEF";
+const DISCORD_COMMUNITY_URL = "https://discord.gg/ZTS2XAEax";
 
 export default function HeroSection({ onSeeWorkflow }: HeroSectionProps) {
   const [hoveredSide, setHoveredSide] = useState<"before" | "after" | null>(null);
