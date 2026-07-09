@@ -6,6 +6,7 @@
  */
 import { useRef } from "react";
 import HeroSection from "@/components/sections/HeroSection";
+import AppDisclosureSection from "@/components/sections/AppDisclosureSection";
 import WorkflowSection from "@/components/sections/WorkflowSection";
 import PrivacySection from "@/components/sections/PrivacySection";
 import MemorySection from "@/components/sections/MemorySection";
@@ -26,6 +27,7 @@ export default function Home() {
     <div className="min-h-screen bg-[var(--memova-light)]">
       <Navbar />
       <HeroSection onSeeWorkflow={scrollToWorkflow} />
+      <AppDisclosureSection />
       <div ref={workflowRef} id="workflow">
         <WorkflowSection />
       </div>
