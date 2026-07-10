@@ -6,8 +6,6 @@ interface HeroSectionProps {
   onSeeWorkflow: () => void;
 }
 
-const DISCORD_COMMUNITY_URL = "https://discord.gg/ZTS2XAEax";
-
 export default function HeroSection({ onSeeWorkflow }: HeroSectionProps) {
   const [hoveredSide, setHoveredSide] = useState<"before" | "after" | null>(null);
   
@@ -38,7 +36,7 @@ export default function HeroSection({ onSeeWorkflow }: HeroSectionProps) {
               className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[var(--memova-blue)]/10 border border-[var(--memova-blue)]/20 w-fit"
             >
               <Sparkles className="w-3.5 h-3.5 text-[var(--memova-blue)] animate-pulse-soft" />
-              <span className="text-[11px] font-bold text-[var(--memova-navy)] uppercase tracking-wider">Personal workflow OS</span>
+              <span className="text-[11px] font-bold text-[var(--memova-navy)] uppercase tracking-wider">Agent memory for everyday context</span>
             </motion.div>
 
             <div className="space-y-4">
@@ -48,11 +46,10 @@ export default function HeroSection({ onSeeWorkflow }: HeroSectionProps) {
                 transition={{ duration: 0.9, delay: 0.1, ease: [0.23, 1, 0.32, 1] }}
                 className="max-w-[22rem] font-serif text-[2.65rem] sm:max-w-xl sm:text-5xl md:text-6xl text-[var(--memova-navy)] leading-[1.08] sm:leading-[1.12] tracking-tight font-normal"
               >
-                Your personal
-                <br className="sm:hidden" /> workflow OS
+                Your everyday context,
                 <br />
                 <span className="font-display font-bold bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 bg-clip-text text-transparent">
-                  for the agent era.
+                  ready for agents.
                 </span>
               </motion.h1>
 
@@ -62,7 +59,7 @@ export default function HeroSection({ onSeeWorkflow }: HeroSectionProps) {
                 transition={{ duration: 0.8, delay: 0.2, ease: [0.23, 1, 0.32, 1] }}
                 className="max-w-[22rem] text-base text-[#475569] sm:max-w-xl leading-relaxed"
               >
-                Capture context. Build a private wiki. Approve agent workflows.
+                Memova turns the notes, conversations, and ideas you choose to capture into private agent memory—and useful workflows you approve.
               </motion.p>
             </div>
 
@@ -81,19 +78,7 @@ export default function HeroSection({ onSeeWorkflow }: HeroSectionProps) {
                            shadow-lg shadow-indigo-500/10 hover:shadow-indigo-500/20 transition-all duration-300 relative overflow-hidden group"
               >
                 <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0 -translate-x-full group-hover:animate-[shimmer_1.5s_infinite] pointer-events-none" />
-                Join Waitlist
-              </motion.a>
-              <motion.a
-                href={DISCORD_COMMUNITY_URL}
-                target="_blank"
-                rel="noreferrer"
-                whileHover={{ scale: 1.03 }}
-                whileTap={{ scale: 0.97 }}
-                className="px-7 py-3 bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 text-white font-bold text-[13px] rounded-full
-                           shadow-lg shadow-indigo-500/10 hover:shadow-indigo-500/20 transition-all duration-300 relative overflow-hidden group"
-              >
-                <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0 -translate-x-full group-hover:animate-[shimmer_1.5s_infinite] pointer-events-none" />
-                Join Community
+                Join iOS Early Access
               </motion.a>
               <motion.button
                 onClick={onSeeWorkflow}
@@ -115,9 +100,9 @@ export default function HeroSection({ onSeeWorkflow }: HeroSectionProps) {
               className="flex max-w-[22rem] items-center gap-3 overflow-hidden flex-wrap pt-6 sm:max-w-xl"
             >
               {[
-                { icon: Shield, text: "Local-first", color: "hover:border-blue-300 hover:text-blue-600 hover:bg-blue-50/20" },
-                { icon: Lock, text: "Private knowledge base", color: "hover:border-purple-300 hover:text-purple-600 hover:bg-purple-50/20" },
-                { icon: UserCheck, text: "Consent gate", color: "hover:border-emerald-300 hover:text-emerald-600 hover:bg-emerald-50/20" },
+                { icon: Shield, text: "You choose what to capture", color: "hover:border-blue-300 hover:text-blue-600 hover:bg-blue-50/20" },
+                { icon: Lock, text: "Private, exportable memory", color: "hover:border-purple-300 hover:text-purple-600 hover:bg-purple-50/20" },
+                { icon: UserCheck, text: "Approve before action", color: "hover:border-emerald-300 hover:text-emerald-600 hover:bg-emerald-50/20" },
               ].map(({ icon: BadgeIcon, text, color }) => (
                 <motion.span
                   key={text}
@@ -389,7 +374,7 @@ export default function HeroSection({ onSeeWorkflow }: HeroSectionProps) {
               >
                 <FileText className="w-5 h-5 text-[#8C96A8]" />
               </motion.div>
-              <span className="text-[10px] font-bold text-[#8C96A8] uppercase tracking-wider">Private KB</span>
+              <span className="text-[10px] font-bold text-[#8C96A8] uppercase tracking-wider">Agent memory</span>
             </div>
 
             {/* Arrow 2 */}
@@ -411,7 +396,7 @@ export default function HeroSection({ onSeeWorkflow }: HeroSectionProps) {
               >
                 <BrainCircuit className="w-5 h-5 text-[#8B5CF6]" />
               </motion.div>
-              <span className="text-[10px] font-bold text-[#8C96A8] uppercase tracking-wider">Alignment</span>
+              <span className="text-[10px] font-bold text-[#8C96A8] uppercase tracking-wider">Workflow ready</span>
             </div>
 
             {/* Arrow 3 */}
@@ -433,7 +418,7 @@ export default function HeroSection({ onSeeWorkflow }: HeroSectionProps) {
               >
                 <ListChecks className="w-5 h-5 text-[#10B981]" />
               </motion.div>
-              <span className="text-[10px] font-bold text-[#8C96A8] uppercase tracking-wider">Agent loop</span>
+              <span className="text-[10px] font-bold text-[#8C96A8] uppercase tracking-wider">You approve</span>
             </div>
           </div>
         </motion.div>

@@ -5,12 +5,11 @@ import { useAuth } from "@/contexts/AuthContext";
 
 const DISCORD_COMMUNITY_URL = "https://discord.gg/ZTS2XAEax";
 
-const navLinks = [
-  { label: "Workflow", href: "/#workflow", section: "workflow" },
-  { label: "Privacy", href: "/#privacy", section: "privacy" },
-  { label: "Memory", href: "/#memory", section: "memory" },
+const navLinks: Array<{ label: string; href: string; section?: string }> = [
+  { label: "How It Works", href: "/how-it-works" },
+  { label: "Agent Memory", href: "/agent-memory" },
   { label: "Use Cases", href: "/user-cases" },
-  { label: "Plugins & MCP", href: "/#plugins", section: "plugins" },
+  { label: "Plugins & MCP", href: "/mcp" },
 ];
 
 export default function Navbar() {
@@ -107,7 +106,7 @@ export default function Navbar() {
                 : "bg-[var(--memova-navy)]/90 text-white"
             }`}
           >
-            Join Waitlist
+            Join iOS Early Access
           </motion.a>
           <motion.a
             href={DISCORD_COMMUNITY_URL}

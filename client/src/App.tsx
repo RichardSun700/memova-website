@@ -15,6 +15,10 @@ import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import Home from "./pages/Home";
 import SiteMetadata from "./seo/SiteMetadata";
+import AgentMemory from "./pages/AgentMemory";
+import HowItWorks from "./pages/HowItWorks";
+import IOS from "./pages/IOS";
+import { UseCaseDetailPage } from "./pages/UseCaseDetail";
 
 const BayAreaAgentDemo2 = lazy(() => import("@/pages/BayAreaAgentDemo2"));
 
@@ -30,6 +34,12 @@ function Router() {
   return (
     <Switch>
       <Route path={"/"} component={Home} />
+      <Route path={"/ios"} component={IOS} />
+      <Route path={"/agent-memory"} component={AgentMemory} />
+      <Route path={"/how-it-works"} component={HowItWorks} />
+      <Route path={"/use-cases/:slug"}>
+        {(params) => <UseCaseDetailPage slug={params.slug} />}
+      </Route>
       <Route
         path={"/bay-area-agent-demo-2"}
         component={BayAreaAgentDemo2Route}
