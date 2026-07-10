@@ -32,7 +32,7 @@ export default function CTASection() {
         headers: { "content-type": "application/json" },
         body: JSON.stringify({
           email: normalizedEmail,
-          source: "home-waitlist",
+          source: "home-ios-early-access",
         }),
       });
 
@@ -42,7 +42,7 @@ export default function CTASection() {
 
       setEmail("");
       setStatus("success");
-      setMessage("You're on the list.");
+      setMessage("You're on the iOS early access list.");
     } catch {
       setStatus("error");
       setMessage("Something went wrong. Please try again.");
@@ -58,9 +58,9 @@ export default function CTASection() {
           transition={{ duration: 0.9, ease: [0.23, 1, 0.32, 1] }}
         >
           <h2 className="font-display text-3xl md:text-5xl font-bold text-[var(--memova-navy)] leading-tight">
-            Build your workflow OS
+            Start with Memova on iPhone
             <br />
-            <span className="text-[var(--memova-blue)]">for the agent era.</span>
+            <span className="text-[var(--memova-blue)]">Your context, ready for agents.</span>
           </h2>
 
           <motion.form
@@ -86,7 +86,7 @@ export default function CTASection() {
               whileTap={status === "loading" ? undefined : { scale: 0.97 }}
               className="h-12 w-full rounded-full bg-[var(--memova-navy)] px-8 text-[14px] font-bold text-white shadow-lg shadow-[var(--memova-navy)]/15 transition-all duration-200 disabled:opacity-70 sm:w-auto"
             >
-              {status === "loading" ? "Joining..." : "Join Waitlist"}
+              {status === "loading" ? "Joining..." : "Join iOS Early Access"}
             </motion.button>
           </motion.form>
 
@@ -106,9 +106,9 @@ export default function CTASection() {
             className="mt-8 flex items-center justify-center gap-4 flex-wrap"
           >
             {[
-              { icon: Shield, text: "Private knowledge base" },
-              { icon: Zap, text: "Consent-first actions" },
-              { icon: Lock, text: "Agent-ready workflows" },
+              { icon: Shield, text: "You choose what to capture" },
+              { icon: Lock, text: "Private, exportable memory" },
+              { icon: Zap, text: "Review before action" },
             ].map(({ icon: Icon, text }) => (
               <span key={text} className="flex items-center gap-1.5 text-[11px] font-medium text-[#637083]">
                 <Icon className="w-3 h-3 text-[var(--memova-blue)]" />
@@ -165,7 +165,7 @@ export default function CTASection() {
             </a>
           </div>
           <p className="text-[10px] font-medium text-[#A9B9D8]">
-            © 2026 Memova. Personal workflow OS for the agent era.
+            © 2026 Memova. Everyday context, ready for agents.
           </p>
         </motion.div>
       </div>

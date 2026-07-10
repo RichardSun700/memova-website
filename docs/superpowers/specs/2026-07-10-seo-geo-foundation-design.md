@@ -55,3 +55,20 @@ Until the App Store listing exists, all iOS acquisition CTAs point to `/#waitlis
 
 This implementation prepares a local branch and Cloudflare Pages-compatible build artifacts. It does not push, deploy, enable Cloudflare Crawler Hints, connect GitHub, or create domain-level redirects without a separate explicit publish action.
 
+## Local Implementation Status — 2026-07-10
+
+Implemented on local branch `codex/seo-geo-foundation`:
+
+- Eleven crawlable public route artifacts with unique metadata, canonical URLs, static summaries, and JSON-LD.
+- Valid `robots.txt`, `sitemap.xml`, private-route noindex headers, and an explicit SPA route allowlist.
+- US-first homepage copy and consistent iOS early-access conversion copy.
+- `/ios`, `/agent-memory`, `/how-it-works`, and three crawlable use-case detail pages.
+- Sixteen automated tests plus a deterministic `pnpm run check:seo` build gate.
+- Desktop and 390x844 mobile browser QA with no relevant console errors or horizontal overflow.
+
+Still required before the full iOS launch experience can ship:
+
+- Final App Store product URL and numeric Apple app ID.
+- Final iPhone screenshots or product video approved for public use.
+- Confirmed public release date and minimum supported iOS version.
+- Decision on Cloudflare/GitHub production publishing, canonical `www` redirect, Crawler Hints, analytics, and Search Console ownership.

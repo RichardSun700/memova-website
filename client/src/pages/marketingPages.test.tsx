@@ -6,6 +6,7 @@ import HowItWorks from "./HowItWorks";
 import IOS from "./IOS";
 import { UseCaseDetailPage, useCaseDetails } from "./UseCaseDetail";
 import HeroSection from "@/components/sections/HeroSection";
+import CTASection from "@/components/sections/CTASection";
 
 function render(component: React.ReactElement) {
   return renderToStaticMarkup(component);
@@ -20,6 +21,15 @@ describe("US iOS acquisition pages", () => {
     expect(html).toContain("Join iOS Early Access");
     expect(html).toContain("You choose what to capture");
     expect(html).not.toContain("Your personal");
+  });
+
+  it("keeps the destination waitlist consistent with the iOS acquisition promise", () => {
+    const html = render(<CTASection />);
+
+    expect(html).toContain("Start with Memova on iPhone");
+    expect(html).toContain("Join iOS Early Access");
+    expect(html).toContain("You choose what to capture");
+    expect(html).not.toContain("Build your workflow OS");
   });
 
   it.each([
