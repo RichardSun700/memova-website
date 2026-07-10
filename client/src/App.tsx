@@ -14,6 +14,7 @@ import { Route, Switch } from "wouter";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import Home from "./pages/Home";
+import SiteMetadata from "./seo/SiteMetadata";
 
 const BayAreaAgentDemo2 = lazy(() => import("@/pages/BayAreaAgentDemo2"));
 
@@ -66,6 +67,7 @@ function App() {
       >
         <AuthProvider>
           <TooltipProvider>
+            <SiteMetadata />
             <Toaster />
             <Router />
           </TooltipProvider>
