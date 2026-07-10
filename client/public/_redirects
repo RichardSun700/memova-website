@@ -1,1 +1,8 @@
-/* /index.html 200
+/login /index.html 200
+/profile /index.html 200
+/connected-clients /index.html 200
+/settings/connected-clients /index.html 200
+/mcp/oauth/consent /index.html 200
+/mcp/consent /mcp/oauth/consent 301
+/bay-area-agent-demo-2 /index.html 200
+/404 /index.html 200
