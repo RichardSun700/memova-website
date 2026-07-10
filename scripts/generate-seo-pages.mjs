@@ -5,6 +5,7 @@ import {
   SITE_URL,
   SOCIAL_IMAGE,
   getCanonicalUrl,
+  getSitePage,
   getStructuredData,
   sitePages,
 } from "../client/src/seo/sitePages.ts";
@@ -121,6 +122,14 @@ export function generateSeoPages() {
     fs.mkdirSync(path.dirname(destination), { recursive: true });
     fs.writeFileSync(destination, renderPageHtml(template, page));
   }
+
+  // Cloudflare Pages serves the root index as a SPA fallback when no top-level
+  // 404.html exists. A real 404 document prevents unknown URLs from becoming
+  // soft-404 homepage responses while keeping the explicit private rewrites.
+  fs.writeFileSync(
+    path.join(outputDir, "404.html"),
+    renderPageHtml(template, getSitePage("/404")),
+  );
 
   fs.writeFileSync(path.join(outputDir, "robots.txt"), renderRobots());
   fs.writeFileSync(path.join(outputDir, "sitemap.xml"), renderSitemap(sitePages));

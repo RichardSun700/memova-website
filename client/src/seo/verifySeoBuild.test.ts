@@ -30,4 +30,16 @@ describe("SEO build verification", () => {
 
     expect(collectSeoBuildErrors(output, sitePages)).toEqual([]);
   });
+
+  it("requires a top-level noindex 404 document for Cloudflare Pages", () => {
+    const output = path.resolve(process.cwd(), "dist/public");
+    const directory = fs.mkdtempSync(path.join(os.tmpdir(), "memova-seo-no-404-"));
+    temporaryDirectories.push(directory);
+    fs.cpSync(output, directory, { recursive: true });
+    fs.rmSync(path.join(directory, "404.html"), { force: true });
+
+    const errors = collectSeoBuildErrors(directory, sitePages);
+
+    expect(errors.some((error) => error.includes("404.html"))).toBe(true);
+  });
 });

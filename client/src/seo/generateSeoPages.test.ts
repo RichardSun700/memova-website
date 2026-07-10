@@ -22,6 +22,14 @@ describe("SEO build generator", () => {
     expect(html).not.toContain("Old title");
   });
 
+  it("renders unknown routes as a noindex not-found document", () => {
+    const page = sitePages.find((candidate) => candidate.path === "/agent-memory")!;
+    const html = renderPageHtml(template, { ...page, path: "/404", index: false });
+
+    expect(html).toContain('name="robots" content="noindex, nofollow"');
+    expect(html).toContain('rel="canonical" href="https://memova.ai/404"');
+  });
+
   it("generates valid sitemap entries only for indexable pages", () => {
     const xml = renderSitemap(sitePages);
 

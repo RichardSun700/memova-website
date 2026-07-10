@@ -20,15 +20,18 @@ export function collectSeoBuildErrors(outputDir, pages) {
   const titles = new Map();
   const robotsPath = path.join(outputDir, "robots.txt");
   const sitemapPath = path.join(outputDir, "sitemap.xml");
+  const notFoundPath = path.join(outputDir, "404.html");
   const redirectsPath = path.join(outputDir, "_redirects");
   const headersPath = path.join(outputDir, "_headers");
   const robots = readIfPresent(robotsPath);
   const sitemap = readIfPresent(sitemapPath);
+  const notFound = readIfPresent(notFoundPath);
   const redirects = readIfPresent(redirectsPath);
   const headers = readIfPresent(headersPath);
 
   if (!robots) errors.push("Missing robots.txt");
   if (!sitemap) errors.push("Missing sitemap.xml");
+  if (!notFound) errors.push("Missing top-level 404.html required for real Cloudflare Pages 404 responses");
   if (!redirects) errors.push("Missing _redirects");
   if (!headers) errors.push("Missing _headers");
 
@@ -40,6 +43,10 @@ export function collectSeoBuildErrors(outputDir, pages) {
 
   if (redirects && /^\/\*\s/m.test(redirects)) {
     errors.push("_redirects contains a catch-all SPA rewrite that creates soft 404 responses");
+  }
+
+  if (notFound && !notFound.includes('name="robots" content="noindex, nofollow"')) {
+    errors.push("404.html must be noindex, nofollow");
   }
 
   if (headers) {
