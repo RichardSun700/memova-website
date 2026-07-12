@@ -19,6 +19,9 @@
 /odmpartnership/*
   X-Robots-Tag: noindex, nofollow
 
+/team/weilijiang/*
+  X-Robots-Tag: noindex, nofollow
+
 /user-cases/demos/*
   X-Robots-Tag: noindex, nofollow
 

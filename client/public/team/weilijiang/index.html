@@ -1,0 +1,515 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="description" content="江维力博士，Memova 首席市场官，产业教授、硕士生导师。">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Memova｜江维力博士 · 首席市场官</title>
+  <style>
+    :root {
+      --ink: #10233f;
+      --navy: #071a32;
+      --navy-2: #0c2a4f;
+      --blue: #1f69d5;
+      --sky: #7fb7ff;
+      --teal: #2ca88f;
+      --gold: #c89136;
+      --paper: #ffffff;
+      --wash: #f4f8fc;
+      --line: #d6e4f1;
+      --muted: #5f738a;
+      --soft: #dfefff;
+      --max: 1180px;
+      --font: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "SF Pro Display", "PingFang SC", "Microsoft YaHei", sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: var(--paper);
+      font-family: var(--font);
+      line-height: 1.68;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    img { display: block; max-width: 100%; }
+    .page {
+      min-height: 100vh;
+      padding: 40px 0 44px;
+      display: grid;
+      align-items: start;
+    }
+    .page--hero {
+      color: #fff;
+      background:
+        radial-gradient(circle at 86% 18%, rgba(127,183,255,.25), transparent 28%),
+        radial-gradient(circle at 72% 74%, rgba(44,168,143,.16), transparent 30%),
+        linear-gradient(115deg, #071a32 0%, #0a2342 52%, #0c2a4f 100%);
+    }
+    .page--brief { background: var(--wash); }
+    .container {
+      width: min(calc(100% - 56px), var(--max));
+      margin: 0 auto;
+    }
+    .topbar {
+      margin-bottom: 42px;
+      display: flex;
+      justify-content: space-between;
+      gap: 24px;
+      color: rgba(255,255,255,.72);
+      font-size: 12px;
+      font-weight: 780;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+    }
+    .topbar span { max-width: 100%; overflow-wrap: anywhere; }
+    .page--brief .topbar { color: var(--muted); }
+    .brand { color: var(--sky); }
+    .page--brief .brand { color: var(--blue); }
+
+    .hero-layout {
+      display: grid;
+      grid-template-columns: 1.08fr .92fr;
+      gap: 52px;
+      align-items: stretch;
+    }
+    .eyebrow {
+      margin: 0 0 16px;
+      color: var(--sky);
+      font-size: 14px;
+      font-weight: 820;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+    .page--brief .eyebrow { color: var(--blue); }
+    h1 {
+      max-width: 720px;
+      margin: 0;
+      font-size: clamp(50px, 6vw, 84px);
+      line-height: 1.02;
+      letter-spacing: 0;
+      overflow-wrap: anywhere;
+      word-break: break-word;
+    }
+    .subtitle {
+      max-width: 680px;
+      margin: 26px 0 0;
+      color: #d5e6f8;
+      font-size: clamp(19px, 2vw, 24px);
+      line-height: 1.58;
+      overflow-wrap: anywhere;
+    }
+    .role-band {
+      margin-top: 34px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      border-top: 1px solid rgba(255,255,255,.2);
+      border-bottom: 1px solid rgba(255,255,255,.2);
+    }
+    .role-item {
+      min-height: 118px;
+      padding: 23px 22px;
+      border-left: 1px solid rgba(255,255,255,.18);
+    }
+    .role-item:first-child { border-left: 0; padding-left: 0; }
+    .role-item b {
+      display: block;
+      color: #fff;
+      font-size: 20px;
+      line-height: 1.25;
+      overflow-wrap: anywhere;
+    }
+    .role-item span {
+      display: block;
+      margin-top: 10px;
+      color: #b8cbe1;
+      font-size: 13px;
+      line-height: 1.52;
+    }
+    .hero-note {
+      margin-top: 26px;
+      padding-left: 18px;
+      border-left: 3px solid var(--teal);
+      color: #d6e7f8;
+      font-size: 16px;
+      line-height: 1.62;
+      overflow-wrap: anywhere;
+    }
+
+    .executive-card {
+      min-height: 640px;
+      display: grid;
+      grid-template-rows: auto 1fr;
+      border: 1px solid rgba(255,255,255,.24);
+      background: rgba(255,255,255,.08);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 28px 70px rgba(0,0,0,.22);
+    }
+    .portrait-frame {
+      min-height: 315px;
+      display: grid;
+      place-items: center;
+      background: rgba(255,255,255,.92);
+    }
+    .portrait-monogram {
+      width: 210px;
+      height: 210px;
+      display: grid;
+      place-items: center;
+      border: 1px solid rgba(31,105,213,.22);
+      border-radius: 50%;
+      color: var(--blue);
+      background: radial-gradient(circle at 35% 30%, #fff 0%, #edf5ff 58%, #dbeaff 100%);
+      box-shadow: 0 24px 64px rgba(31,105,213,.18);
+      font-size: 58px;
+      font-weight: 820;
+      letter-spacing: -.04em;
+    }
+    .portrait-monogram span { display: block; text-align: center; }
+    .portrait-monogram small { display: block; margin-top: -20px; color: var(--muted); font-size: 13px; font-weight: 720; letter-spacing: .08em; }
+    .card-copy {
+      padding: 30px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 24px;
+    }
+    .card-copy h2 {
+      margin: 0;
+      color: #fff;
+      font-size: 29px;
+      line-height: 1.22;
+      letter-spacing: 0;
+    }
+    .card-copy p {
+      margin: 12px 0 0;
+      color: #c6d8ea;
+      font-size: 15px;
+    }
+    .tags {
+      margin-top: 20px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 9px;
+    }
+    .tag {
+      padding: 8px 10px;
+      border: 1px solid rgba(255,255,255,.22);
+      color: #eaf4ff;
+      background: rgba(255,255,255,.08);
+      font-size: 12px;
+      font-weight: 780;
+      white-space: nowrap;
+    }
+    .authority {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      border-top: 1px solid rgba(255,255,255,.2);
+    }
+    .authority li {
+      padding: 15px 0;
+      display: grid;
+      grid-template-columns: 92px 1fr;
+      gap: 18px;
+      border-bottom: 1px solid rgba(255,255,255,.16);
+      color: #c4d7ea;
+      font-size: 13px;
+    }
+    .authority b { color: var(--sky); }
+
+    .section-head {
+      margin-bottom: 34px;
+      display: grid;
+      grid-template-columns: .78fr 1.22fr;
+      gap: 54px;
+      align-items: end;
+    }
+    .section-head h2 {
+      margin: 8px 0 0;
+      color: var(--navy);
+      font-size: clamp(36px, 4.6vw, 58px);
+      line-height: 1.08;
+      letter-spacing: 0;
+    }
+    .section-head p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 18px;
+      line-height: 1.62;
+    }
+    .brief-grid {
+      display: grid;
+      grid-template-columns: .95fr 1.05fr;
+      gap: 24px;
+      align-items: stretch;
+    }
+    .cred-panel, .cmo-panel, .proof-panel {
+      border: 1px solid var(--line);
+      background: #fff;
+      box-shadow: 0 18px 44px rgba(36, 79, 125, .08);
+    }
+    .cred-panel { padding: 30px; }
+    .cred-panel h3, .cmo-panel h3, .proof-panel h3 {
+      margin: 0;
+      color: var(--navy);
+      font-size: 26px;
+      line-height: 1.24;
+      letter-spacing: 0;
+    }
+    .cred-panel p, .cmo-panel p, .proof-panel p {
+      margin: 12px 0 0;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.62;
+    }
+    .professor-block {
+      margin-top: 26px;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1px;
+      background: var(--line);
+      border: 1px solid var(--line);
+    }
+    .professor-item {
+      min-height: 152px;
+      padding: 22px;
+      background: #fff;
+    }
+    .professor-item small {
+      color: var(--gold);
+      font-size: 12px;
+      font-weight: 820;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+    .professor-item strong {
+      display: block;
+      margin-top: 12px;
+      color: var(--navy);
+      font-size: 21px;
+      line-height: 1.25;
+    }
+    .professor-item span {
+      display: block;
+      margin-top: 8px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.5;
+    }
+    .cmo-panel {
+      padding: 30px;
+      display: grid;
+      gap: 16px;
+    }
+    .cmo-row {
+      padding: 20px 0 18px;
+      display: grid;
+      grid-template-columns: 48px 1fr;
+      gap: 18px;
+      border-top: 1px solid var(--line);
+    }
+    .cmo-row:first-of-type { border-top: 0; }
+    .cmo-row b {
+      color: var(--blue);
+      font-size: 15px;
+      font-weight: 860;
+    }
+    .cmo-row strong {
+      display: block;
+      color: var(--ink);
+      font-size: 18px;
+      line-height: 1.3;
+    }
+    .cmo-row span {
+      display: block;
+      margin-top: 7px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.55;
+    }
+    .proof-strip {
+      margin-top: 24px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0;
+      border: 1px solid var(--line);
+      background: var(--line);
+    }
+    .proof-panel {
+      min-height: 214px;
+      padding: 25px;
+      box-shadow: none;
+    }
+    .proof-panel small {
+      color: var(--blue);
+      font-size: 12px;
+      font-weight: 850;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+    .quote {
+      margin-top: 24px;
+      padding: 24px 28px;
+      display: grid;
+      grid-template-columns: 175px 1fr;
+      gap: 28px;
+      align-items: center;
+      border-left: 4px solid var(--teal);
+      background: #fff;
+      box-shadow: 0 18px 44px rgba(36, 79, 125, .08);
+    }
+    .quote b {
+      color: var(--teal);
+      font-size: 13px;
+      font-weight: 850;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+    .quote p {
+      margin: 0;
+      color: var(--navy);
+      font-size: 19px;
+      font-weight: 760;
+      line-height: 1.48;
+    }
+    .sources {
+      margin: 18px 0 0;
+      color: #7890a8;
+      font-size: 12px;
+      line-height: 1.55;
+    }
+
+    @media (max-width: 980px) {
+      .page { min-height: auto; }
+      .hero-layout, .section-head, .brief-grid { grid-template-columns: 1fr; }
+      .executive-card { min-height: auto; }
+      .role-band, .proof-strip { grid-template-columns: 1fr; }
+      .role-item, .role-item:first-child { padding: 20px 0; border-left: 0; border-top: 1px solid rgba(255,255,255,.18); }
+      .role-item:first-child { border-top: 0; }
+    }
+
+    @media (max-width: 620px) {
+      .container { width: min(calc(100% - 30px), var(--max)); }
+      .topbar { flex-direction: column; gap: 8px; margin-bottom: 28px; font-size: 11px; overflow-wrap: anywhere; }
+      h1 { font-size: 34px; line-height: 1.12; }
+      .subtitle { font-size: 17px; }
+      .role-item b { font-size: 18px; }
+      .hero-note { font-size: 15px; }
+      .portrait-frame { min-height: 250px; }
+      .portrait-monogram { width: 190px; height: 190px; font-size: 52px; }
+      .card-copy, .cred-panel, .cmo-panel, .proof-panel { padding: 22px; }
+      .authority li, .cmo-row, .quote { grid-template-columns: 1fr; gap: 8px; }
+      .professor-block { grid-template-columns: 1fr; }
+      .section-head h2 { font-size: 34px; }
+      .section-head p { font-size: 16px; }
+    }
+
+    @media print {
+      @page { size: A4; margin: 12mm; }
+      body { font-size: 12px; }
+      .page { min-height: calc(297mm - 24mm); padding: 0; page-break-after: always; }
+      .page:last-child { page-break-after: auto; }
+      .container { width: 100%; }
+      h1 { font-size: 54px; }
+      .subtitle { font-size: 16px; }
+      .section-head h2 { font-size: 38px; }
+      .executive-card, .cred-panel, .cmo-panel, .proof-panel, .quote { box-shadow: none; }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <section class="page page--hero" aria-labelledby="intro-title">
+      <div class="container">
+        <div class="topbar"><span class="brand">Memova Executive Profile</span><span>Chief Marketing Officer · Consumer AI Hardware</span></div>
+        <div class="hero-layout">
+          <div>
+            <p class="eyebrow">江维力博士 · Dr. Jiang Weili</p>
+            <h1 id="intro-title">让 Memova 的 AI 硬件叙事拥有工程可信度</h1>
+            <p class="subtitle">江维力博士将深技术、消费电子、供应链工程、学术声誉与全球市场表达连接在一起，帮助 Memova 建立面向用户、合作伙伴与行业生态的长期信任。</p>
+            <div class="role-band" aria-label="核心资历">
+              <div class="role-item"><b>首席市场官 CMO</b><span>负责 Memova 面向 AI 原生硬件平台的品牌定位、市场增长、生态合作与合作伙伴关系建设。</span></div>
+              <div class="role-item"><b>产业教授 · 硕士生导师</b><span>以产学研结合的专业背景，增强 Memova 在高校、科研机构与产业合作中的可信度。</span></div>
+              <div class="role-item"><b>TUM 博士 · 德国产业经验</b><span>德国慕尼黑工业大学工程科学博士，曾在 Forward Engineering 从事储氢系统与复合材料工程项目。</span></div>
+            </div>
+            <p class="hero-note">江维力博士代表 Memova 对技术可信度与消费硬件增长的重视：把工程语言转译为用户、渠道、ODM 与高校合作方都能理解的产品价值。</p>
+          </div>
+
+          <aside class="executive-card" aria-label="江维力权威背书卡片">
+            <div class="portrait-frame" aria-label="江维力博士姓名标识"><div class="portrait-monogram"><span>JW<small>江维力博士</small></span></div></div>
+            <div class="card-copy">
+              <div>
+                <h2>以深技术背景支撑 Memova 的硬件可信度</h2>
+                <p>她同时熟悉材料、CAE、结构、工艺与可靠性，也能把这些能力转化为消费级产品价值、合作伙伴信任和国际市场表达。</p>
+                <div class="tags" aria-label="能力标签">
+                  <span class="tag">复合材料</span>
+                  <span class="tag">CAE 仿真</span>
+                  <span class="tag">3C 轻量化</span>
+                  <span class="tag">高校合作</span>
+                  <span class="tag">ODM 信任</span>
+                </div>
+              </div>
+              <ol class="authority">
+                <li><b>学术师承</b><span>师承德国工程院院士、复合材料结构轻量化权威 Drechsler 教授，以及中国工程院院士、高压容器与储氢技术专家郑津洋教授。</span></li>
+                <li><b>产业履历</b><span>2024 年回国加入卡涞科技，推动复合材料工程能力在产业场景中的应用。</span></li>
+                <li><b>成果背书</b><span>以主要完成人相关成果获 2024 年中国复合材料学会科技进步奖二等奖。</span></li>
+              </ol>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <section class="page page--brief" aria-labelledby="market-title">
+      <div class="container">
+        <div class="topbar"><span class="brand">Leadership Focus</span><span>Academic Authority · Consumer Hardware · Market Trust</span></div>
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">CMO Focus</p>
+            <h2 id="market-title">以产学研可信度建立 Memova 的市场信任</h2>
+          </div>
+          <p>Memova 面向录音卡、耳机、眼镜、智能笔等随身 AI 硬件入口，需要同时建立用户信任、硬件伙伴信任与行业生态信任。江维力博士的产业教授身份、国际工程训练和卡涞 3C 经验，共同支撑这一市场角色。</p>
+        </div>
+
+        <div class="brief-grid">
+          <article class="cred-panel">
+            <h3>产业教授与导师身份：连接科研声誉与产业落地</h3>
+            <p>“江维力博士、产业教授、硕士生导师”的复合身份，使她能够在高校科研、产业合作、技术评审和硬件生态沟通中建立高可信度连接。这一背景让 Memova 的市场表达拥有更扎实的工程与学术支撑。</p>
+            <div class="professor-block" aria-label="教授身份背书">
+              <div class="professor-item"><small>Academic Title</small><strong>产业教授</strong><span>强调其连接高校科研与产业落地的角色，而不是单纯学术研究者。</span></div>
+              <div class="professor-item"><small>Mentorship</small><strong>硕士生导师</strong><span>支撑人才培养、科研合作、产学研协同和技术评审场景中的专业可信度。</span></div>
+              <div class="professor-item"><small>Global Training</small><strong>TUM 工程科学博士</strong><span>代表严谨工程训练和国际化技术表达能力。</span></div>
+              <div class="professor-item"><small>Authority Network</small><strong>中德院士级师承</strong><span>将个人履历与复合材料、高压容器、储氢技术领域权威体系连接起来。</span></div>
+            </div>
+          </article>
+
+          <article class="cmo-panel">
+            <h3>江维力博士的 CMO 价值</h3>
+            <div class="cmo-row"><b>01</b><div><strong>把 AI 硬件表达为可信赖的消费产品</strong><span>以工程可靠性、轻量化、材料结构、隐私可见和长期软件价值，建立 Memova 在 AI 原生硬件市场中的差异化认知。</span></div></div>
+            <div class="cmo-row"><b>02</b><div><strong>连接 ODM、供应链与产品定义</strong><span>借助卡涞 3C 方案中的材料研发、结构设计、CAE 分析、工艺优化、模具 DFM、客户认证和量产线能力，形成专业对话基础。</span></div></div>
+            <div class="cmo-row"><b>03</b><div><strong>连接高校、资本、渠道与全球用户</strong><span>教授身份增强学术与科研合作入口；德国产业履历与中国供应链经验，则支撑 Memova 的全球化硬件叙事。</span></div></div>
+          </article>
+        </div>
+
+        <div class="proof-strip" aria-label="消费硬件经验参考">
+          <article class="proof-panel"><small>Consumer Electronics</small><h3>卡涞 3C 产品路径</h3><p>卡涞科技 3C 方案覆盖笔记本、平板、手机后盖、充电宝外框、智能手表表带、保护壳等应用，提供从材料研发到制造装配的一体化轻量化工程服务。</p></article>
+          <article class="proof-panel"><small>Product Evidence</small><h3>让轻薄可靠变成指标</h3><p>卡涞方案中的平板后盖优化案例显示，碳纤维替代铝合金最高可减重 47.9%，并提升弯曲性能，可迁移为 Memova 随身设备的轻量化与高级质感叙事。</p></article>
+          <article class="proof-panel"><small>Manufacturing Trust</small><h3>理解从 PVT 到量产 SOP</h3><p>相关 3C 经验覆盖手机/平板后盖、HP-RTM 工艺验证、模具评审、客户认证和量产线方案，使 Memova 的硬件市场表达更贴近真实交付路径。</p></article>
+        </div>
+
+        <div class="quote">
+          <b>Positioning Line</b>
+          <p>江维力博士以产业教授的学术声誉、工程产业化经验和消费硬件语言，帮助 Memova 建立面向下一代 AI 原生硬件的增长系统。</p>
+        </div>
+        <p class="sources">说明：本页根据团队提供的个人履历与产业资料整理。卡涞科技项目、技术指标与量产经验用于说明江维力博士相关行业背景，不代表 Memova 已完成相同产品、取得相同指标或形成对应销售业绩。正式对外使用前，奖项、师承、职务及项目数字应以本人授权口径和可核验材料为准。</p>
+        <p class="sources">© 2026 Memova. This profile is prepared for partner, ecosystem and market communications.</p>
+      </div>
+    </section>
+  </main>
+</body>
+</html>

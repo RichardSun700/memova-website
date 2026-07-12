@@ -64,7 +64,23 @@ describe("SEO build generator", () => {
     const odmPage = path.join(publicDirectory, "odmpartnership", "index.html");
 
     expect(fs.existsSync(odmPage)).toBe(true);
+    const odmHtml = fs.readFileSync(odmPage, "utf8");
+    expect(odmHtml).toContain("Memova × ODM｜公司实力与首个 SKU 合作方案");
+    expect(odmHtml.match(/class=\"team-card/g)).toHaveLength(5);
+    expect(odmHtml.indexOf("杜天蔚")).toBeLessThan(odmHtml.indexOf("江维力"));
+    expect(odmHtml.indexOf("江维力")).toBeLessThan(odmHtml.indexOf("陈晨"));
     expect(redirects).toMatch(/^\/odmpartnership \/odmpartnership\/ 301$/m);
     expect(headers).toContain("/odmpartnership/*\n  X-Robots-Tag: noindex, nofollow");
+  });
+
+  it("publishes the hidden Jiang Weili CMO profile at the canonical team path", () => {
+    const publicDirectory = path.resolve(process.cwd(), "client/public");
+    const redirects = fs.readFileSync(path.join(publicDirectory, "_redirects"), "utf8");
+    const headers = fs.readFileSync(path.join(publicDirectory, "_headers"), "utf8");
+    const profilePage = path.join(publicDirectory, "team", "weilijiang", "index.html");
+
+    expect(fs.existsSync(profilePage)).toBe(true);
+    expect(redirects).toMatch(/^\/team\/weilijiang \/team\/weilijiang\/ 301$/m);
+    expect(headers).toContain("/team/weilijiang/*\n  X-Robots-Tag: noindex, nofollow");
   });
 });
