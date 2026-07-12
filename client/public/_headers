@@ -16,6 +16,9 @@
 /bay-area-agent-demo-2
   X-Robots-Tag: noindex, nofollow
 
+/odmpartnership/*
+  X-Robots-Tag: noindex, nofollow
+
 /user-cases/demos/*
   X-Robots-Tag: noindex, nofollow
 

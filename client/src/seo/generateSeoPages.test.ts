@@ -56,4 +56,15 @@ describe("SEO build generator", () => {
 
     expect(redirects).not.toMatch(/^\/\*\s/m);
   });
+
+  it("keeps the hidden ODM partnership page reachable without indexing it", () => {
+    const publicDirectory = path.resolve(process.cwd(), "client/public");
+    const redirects = fs.readFileSync(path.join(publicDirectory, "_redirects"), "utf8");
+    const headers = fs.readFileSync(path.join(publicDirectory, "_headers"), "utf8");
+    const odmPage = path.join(publicDirectory, "odmpartnership", "index.html");
+
+    expect(fs.existsSync(odmPage)).toBe(true);
+    expect(redirects).toMatch(/^\/odmpartnership \/odmpartnership\/ 301$/m);
+    expect(headers).toContain("/odmpartnership/*\n  X-Robots-Tag: noindex, nofollow");
+  });
 });
