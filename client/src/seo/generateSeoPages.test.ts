@@ -66,6 +66,14 @@ describe("SEO build generator", () => {
     expect(fs.existsSync(odmPage)).toBe(true);
     const odmHtml = fs.readFileSync(odmPage, "utf8");
     expect(odmHtml).toContain("Memova × ODM｜公司实力与首个 SKU 合作方案");
+    expect(odmHtml).toContain("首轮合作产品：录音卡、夹耳式耳机、智能眼镜");
+    expect(odmHtml).toContain("录音卡、夹耳式耳机和智能眼镜工程样机");
+    expect(odmHtml).toContain('<h3>录音卡</h3><div class="hardware-price">入门级</div>');
+    expect(odmHtml).toContain('<h3>手表扣</h3><div class="hardware-price">主流级</div>');
+    expect(odmHtml).toContain('<h3>夹耳式耳机</h3><div class="hardware-price">主流级</div>');
+    expect(odmHtml).toContain('<h3>智能眼镜</h3><div class="hardware-price">专业级</div>');
+    expect(odmHtml).toContain('<h3>Memova Pen</h3><div class="hardware-price">奢侈品级</div>');
+    expect(odmHtml).not.toMatch(/US\$(90|120|150|200|500)/);
     expect(odmHtml.match(/class=\"team-card/g)).toHaveLength(5);
     expect(odmHtml.indexOf("杜天蔚")).toBeLessThan(odmHtml.indexOf("江维力"));
     expect(odmHtml.indexOf("江维力")).toBeLessThan(odmHtml.indexOf("陈晨"));
