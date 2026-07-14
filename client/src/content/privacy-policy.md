@@ -1,6 +1,6 @@
 # Privacy Policy
 
-*Last updated: May 31, 2026*
+*Last updated: July, 2026*
 
 
 
@@ -250,11 +250,28 @@ We may update this Privacy Policy from time to time\. If we make material change
 
 
 
-## 17\. Contact Us
+## 17\. Google Sign\-In and Google Workspace Permissions
+
+- **Google sign\-in\.** Memova may use Google sign\-in to help you securely access your account and identify the workspace associated with your account\. When you sign in with Google, we may receive basic Google profile information, such as your name, email address, and profile image\.
+
+- **Gmail permissions\.** Memova uses Gmail permissions only if you choose to connect Google Workspace features and confirm a related email action\. Depending on the action, Gmail permissions may allow Memova to process email draft content, recipients, subject lines, message bodies, attachments you choose to provide, and related metadata only as needed to help you draft, review, and send emails from within Memova\. Memova will not send emails without your authorization and explicit confirmation\.
+
+- **Google Calendar permissions\.** Memova uses Google Calendar permissions only if you choose to connect Google Workspace features and confirm a related calendar action\. Depending on the action, Google Calendar permissions may allow Memova to read existing calendar availability and event information to help detect scheduling conflicts, avoid duplicate events, show relevant calendar context, and help you create or update calendar events from within Memova\. Memova will not create, update, delete, or share calendar events without your authorization and explicit confirmation\.
+
+- **Use limits for Google user data\.** We do not use Google user data for advertising, unrelated purposes, or to train generalized AI models\. Google user data is used only to provide the Google Workspace features you request and confirm\. Memova will not automatically send emails or create calendar events without your authorization and explicit confirmation\. Sending an email or creating or changing a calendar event requires your permission and a clear user\-confirmed action\.
+
+- **Limited use\.** Memova’s use and transfer of information received from Google APIs will adhere to the Google API Services User Data Policy, including the Limited Use requirements\.
+
+- **Service providers\.** Google user data may be processed by our service providers only as necessary to provide user\-requested Memova features, such as authentication, secure infrastructure, AI\-assisted drafting, email actions, calendar actions, support, security, and similar services\. These providers are not permitted to use Google user data for advertising, model training, or unrelated purposes\.
+
+- **User controls and deletion\.** You can disconnect Google authorization from Memova at any time through your Google account permissions or Memova account settings, where available\. You may also contact us at hello@memova\.ai to request deletion or removal of Google\-related data associated with your account, or to request deletion of your account data\.
+
+
+
+## 18\. Contact Us
 
 If you have questions, requests, or concerns about this Privacy Policy or our privacy practices, please contact us at:
 
 MEMOVA LLC  
 
 hello@memova\.ai
-
