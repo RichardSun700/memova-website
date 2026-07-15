@@ -29,6 +29,16 @@ export function collectSeoBuildErrors(outputDir, pages) {
   const redirects = readIfPresent(redirectsPath);
   const headers = readIfPresent(headersPath);
 
+  for (const legalRoute of ["/privacy-policy", "/privacy"]) {
+    const legalShellPath = path.join(
+      outputDir,
+      `${legalRoute.replace(/^\//, "")}.html`,
+    );
+    if (!readIfPresent(legalShellPath)) {
+      errors.push(`Missing static legal route shell: ${legalRoute}`);
+    }
+  }
+
   if (!robots) errors.push("Missing robots.txt");
   if (!sitemap) errors.push("Missing sitemap.xml");
   if (!notFound) errors.push("Missing top-level 404.html required for real Cloudflare Pages 404 responses");

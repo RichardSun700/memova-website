@@ -110,6 +110,18 @@ Sitemap: ${SITE_URL}/sitemap.xml
 `;
 }
 
+export const LEGAL_SPA_ROUTES = ["/privacy-policy", "/privacy"];
+
+export function writeLegalSpaShells(template, destinationDir) {
+  for (const route of LEGAL_SPA_ROUTES) {
+    const destination = path.join(
+      destinationDir,
+      `${route.replace(/^\//, "")}.html`,
+    );
+    fs.writeFileSync(destination, template);
+  }
+}
+
 export function generateSeoPages() {
   const templatePath = path.join(outputDir, "index.html");
   const template = fs.readFileSync(templatePath, "utf8");
@@ -122,6 +134,11 @@ export function generateSeoPages() {
     fs.mkdirSync(path.dirname(destination), { recursive: true });
     fs.writeFileSync(destination, renderPageHtml(template, page));
   }
+
+  // Cloudflare Pages serves top-level HTML files at extensionless URLs.
+  // Dedicated legal shells preserve /privacy-policy and /privacy while the
+  // React router renders the corresponding LegalPage content client-side.
+  writeLegalSpaShells(template, outputDir);
 
   // Cloudflare Pages serves the root index as a SPA fallback when no top-level
   // 404.html exists. A real 404 document prevents unknown URLs from becoming
