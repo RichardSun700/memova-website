@@ -7,12 +7,17 @@ import IOS from "./IOS";
 import { UseCaseDetailPage, useCaseDetails } from "./UseCaseDetail";
 import HeroSection from "@/components/sections/HeroSection";
 import CTASection from "@/components/sections/CTASection";
+import { privacyPolicyPaths } from "@/App";
 
 function render(component: React.ReactElement) {
   return renderToStaticMarkup(component);
 }
 
 describe("US iOS acquisition pages", () => {
+  it("keeps both public privacy policy URLs mapped to the legal page", () => {
+    expect(privacyPolicyPaths).toEqual(["/privacy", "/privacy-policy"]);
+  });
+
   it("makes US iOS acquisition and the agent-memory promise primary on the homepage", () => {
     const html = render(<HeroSection onSeeWorkflow={() => undefined} />);
 
