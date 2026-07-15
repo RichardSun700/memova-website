@@ -42,4 +42,18 @@ describe("SEO build verification", () => {
 
     expect(errors.some((error) => error.includes("404.html"))).toBe(true);
   });
+
+  it("requires direct static shells for both legal routes", () => {
+    const output = path.resolve(process.cwd(), "dist/public");
+    const directory = fs.mkdtempSync(path.join(os.tmpdir(), "memova-seo-no-legal-shells-"));
+    temporaryDirectories.push(directory);
+    fs.cpSync(output, directory, { recursive: true });
+    fs.rmSync(path.join(directory, "privacy-policy.html"), { force: true });
+    fs.rmSync(path.join(directory, "privacy.html"), { force: true });
+
+    const errors = collectSeoBuildErrors(directory, sitePages);
+
+    expect(errors).toContain("Missing static legal route shell: /privacy-policy");
+    expect(errors).toContain("Missing static legal route shell: /privacy");
+  });
 });
