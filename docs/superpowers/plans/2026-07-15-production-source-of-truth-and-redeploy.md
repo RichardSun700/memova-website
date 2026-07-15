@@ -24,7 +24,7 @@
 ## File Structure
 
 - Create `scripts/verify-production-source.mjs`: pure status parser plus CLI that rejects dirty production inputs and missing required tracked pages.
-- Create `scripts/verify-production-source.test.ts`: unit tests for clean, dirty, untracked, renamed, and missing-required-path cases.
+- Create `client/src/seo/verifyProductionSource.test.mjs`: unit tests for clean, dirty, untracked, renamed, and missing-required-path cases.
 - Create `scripts/deploy-production.sh`: guarded production sequence for future deployments from a clean local `main`.
 - Modify `package.json`: expose `check:production-source` and `deploy:production` commands.
 - Modify `client/src/seo/generateSeoPages.test.ts`: retain route/content assertions after integrating `origin/main`.
@@ -82,7 +82,7 @@ Expected: both hidden pages are tracked and all content markers are present.
 ### Task 2: Add a Failing Production-Source Gate Test
 
 **Files:**
-- Create: `scripts/verify-production-source.test.ts`
+- Create: `client/src/seo/verifyProductionSource.test.mjs`
 - Create later: `scripts/verify-production-source.mjs`
 
 **Interfaces:**
@@ -110,7 +110,7 @@ The required tracked-path list must include the ODM page, Jiang Weili page, `_he
 Run:
 
 ```bash
-./node_modules/.bin/vitest run scripts/verify-production-source.test.ts
+./node_modules/.bin/vitest run client/src/seo/verifyProductionSource.test.mjs
 ```
 
 Expected: FAIL because `scripts/verify-production-source.mjs` does not exist.
@@ -118,7 +118,7 @@ Expected: FAIL because `scripts/verify-production-source.mjs` does not exist.
 - [ ] **Step 3: Commit the validated RED checkpoint**
 
 ```bash
-git add scripts/verify-production-source.test.ts
+git add client/src/seo/verifyProductionSource.test.mjs docs/superpowers/plans/2026-07-15-production-source-of-truth-and-redeploy.md
 git commit -m "test: reproduce dirty production source deployment"
 ```
 
@@ -183,7 +183,7 @@ Add:
 Run:
 
 ```bash
-./node_modules/.bin/vitest run scripts/verify-production-source.test.ts
+./node_modules/.bin/vitest run client/src/seo/verifyProductionSource.test.mjs
 ./node_modules/.bin/pnpm run check:production-source
 ```
 
@@ -373,4 +373,3 @@ git rev-parse origin/main
 ```
 
 Expected: clean worktree and identical local/GitHub commits.
-
