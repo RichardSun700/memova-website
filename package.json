@@ -9,6 +9,7 @@
     "test": "vitest run",
     "check:seo": "node --import tsx scripts/verify-seo-build.mjs",
     "check:production-source": "node scripts/verify-production-source.mjs",
+    "deploy:production": "bash scripts/deploy-production.sh",
     "start": "NODE_ENV=production node dist/index.js",
     "preview": "vite preview --host",
     "check": "tsc --noEmit",
