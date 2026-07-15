@@ -67,10 +67,16 @@ describe("SEO build generator", () => {
     try {
       writeLegalSpaShells(template, directory);
 
-      expect(fs.readFileSync(path.join(directory, "privacy-policy.html"), "utf8"))
-        .toBe(template);
-      expect(fs.readFileSync(path.join(directory, "privacy.html"), "utf8"))
-        .toBe(template);
+      const aliasHtml = fs.readFileSync(path.join(directory, "privacy-policy.html"), "utf8");
+      const privacyHtml = fs.readFileSync(path.join(directory, "privacy.html"), "utf8");
+
+      expect(aliasHtml).toBe(privacyHtml);
+      expect(privacyHtml).toContain("1. Information We Collect");
+      expect(privacyHtml).toContain("17. Google Sign-In and Google Workspace Permissions");
+      expect(privacyHtml).toContain("Gmail permissions.");
+      expect(privacyHtml).toContain("Google Calendar permissions.");
+      expect(privacyHtml).toContain("18. Contact Us");
+      expect(privacyHtml).toContain('data-seo-snapshot="true"');
     } finally {
       fs.rmSync(directory, { recursive: true, force: true });
     }

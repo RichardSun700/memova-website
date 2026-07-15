@@ -34,8 +34,11 @@ export function collectSeoBuildErrors(outputDir, pages) {
       outputDir,
       `${legalRoute.replace(/^\//, "")}.html`,
     );
-    if (!readIfPresent(legalShellPath)) {
+    const legalShell = readIfPresent(legalShellPath);
+    if (!legalShell) {
       errors.push(`Missing static legal route shell: ${legalRoute}`);
+    } else if (!legalShell.includes("17. Google Sign-In and Google Workspace Permissions")) {
+      errors.push(`Static legal route shell requires JavaScript: ${legalRoute}`);
     }
   }
 

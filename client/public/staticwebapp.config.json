@@ -1,6 +1,16 @@
 {
+  "routes": [
+    {
+      "route": "/privacy",
+      "rewrite": "/privacy/index.html"
+    },
+    {
+      "route": "/privacy/",
+      "rewrite": "/privacy/index.html"
+    }
+  ],
   "navigationFallback": {
     "rewrite": "/index.html",
-    "exclude": ["/assets/*", "/manus-storage/*", "/__manus__/*"]
+    "exclude": ["/assets/*", "/manus-storage/*", "/__manus__/*", "/privacy/*"]
   }
 }
