@@ -57,6 +57,16 @@ describe("SEO build generator", () => {
     expect(redirects).not.toMatch(/^\/\*\s/m);
   });
 
+  it("keeps legal SPA routes reachable after enabling a real 404 page", () => {
+    const redirects = fs.readFileSync(
+      path.resolve(process.cwd(), "client/public/_redirects"),
+      "utf8",
+    );
+
+    expect(redirects).toMatch(/^\/privacy-policy \/index\.html 200$/m);
+    expect(redirects).toMatch(/^\/privacy \/index\.html 200$/m);
+  });
+
   it("keeps the hidden ODM partnership page reachable without indexing it", () => {
     const publicDirectory = path.resolve(process.cwd(), "client/public");
     const redirects = fs.readFileSync(path.join(publicDirectory, "_redirects"), "utf8");
