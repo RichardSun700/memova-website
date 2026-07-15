@@ -1,7 +1,12 @@
 import fs from "node:fs";
 import path from "node:path";
 import { describe, expect, it } from "vitest";
-import { renderPageHtml, renderRobots, renderSitemap } from "../../../scripts/generate-seo-pages.mjs";
+import {
+  renderPageHtml,
+  renderRobots,
+  renderSitemap,
+  writeLegalSpaShells,
+} from "../../../scripts/generate-seo-pages.mjs";
 import { sitePages } from "./sitePages";
 
 const template = `<!doctype html>
@@ -57,14 +62,28 @@ describe("SEO build generator", () => {
     expect(redirects).not.toMatch(/^\/\*\s/m);
   });
 
-  it("keeps legal SPA routes reachable after enabling a real 404 page", () => {
+  it("generates direct static shells for legal SPA routes", () => {
+    const directory = fs.mkdtempSync(path.join(process.cwd(), ".tmp-legal-routes-"));
+    try {
+      writeLegalSpaShells(template, directory);
+
+      expect(fs.readFileSync(path.join(directory, "privacy-policy.html"), "utf8"))
+        .toBe(template);
+      expect(fs.readFileSync(path.join(directory, "privacy.html"), "utf8"))
+        .toBe(template);
+    } finally {
+      fs.rmSync(directory, { recursive: true, force: true });
+    }
+  });
+
+  it("does not proxy legal routes through root index.html", () => {
     const redirects = fs.readFileSync(
       path.resolve(process.cwd(), "client/public/_redirects"),
       "utf8",
     );
 
-    expect(redirects).toMatch(/^\/privacy-policy \/index\.html 200$/m);
-    expect(redirects).toMatch(/^\/privacy \/index\.html 200$/m);
+    expect(redirects).not.toMatch(/^\/privacy-policy \/index\.html 200$/m);
+    expect(redirects).not.toMatch(/^\/privacy \/index\.html 200$/m);
   });
 
   it("keeps the hidden ODM partnership page reachable without indexing it", () => {
