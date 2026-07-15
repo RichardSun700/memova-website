@@ -22,6 +22,8 @@ import { UseCaseDetailPage } from "./pages/UseCaseDetail";
 
 const BayAreaAgentDemo2 = lazy(() => import("@/pages/BayAreaAgentDemo2"));
 
+export const privacyPolicyPaths = ["/privacy", "/privacy-policy"] as const;
+
 function BayAreaAgentDemo2Route() {
   return (
     <Suspense fallback={<div className="min-h-dvh bg-[#fefcf6]" />}>
@@ -47,7 +49,9 @@ function Router() {
       <Route path={"/login"} component={Login} />
       <Route path={"/profile"} component={Profile} />
       <Route path={"/connected-clients"} component={ConnectedClients} />
-      <Route path={"/privacy"} component={PrivacyPolicyPage} />
+      {privacyPolicyPaths.map((path) => (
+        <Route key={path} path={path} component={PrivacyPolicyPage} />
+      ))}
       <Route path={"/terms"} component={TermsOfServicePage} />
       <Route path={"/user-cases"} component={UserCases} />
       <Route
