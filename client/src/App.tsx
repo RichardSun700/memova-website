@@ -1,4 +1,5 @@
 import { Toaster } from "@/components/ui/sonner";
+import AnalyticsTracker from "@/analytics/AnalyticsTracker";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { AuthProvider } from "@/contexts/AuthContext";
 import ConnectedClients from "@/pages/ConnectedClients";
@@ -82,6 +83,7 @@ function App() {
         <AuthProvider>
           <TooltipProvider>
             <SiteMetadata />
+            <AnalyticsTracker />
             <Toaster />
             <Router />
           </TooltipProvider>

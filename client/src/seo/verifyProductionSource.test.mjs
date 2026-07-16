@@ -1,3 +1,6 @@
+import fs from "node:fs";
+import path from "node:path";
+
 import { describe, expect, it } from "vitest";
 
 import {
@@ -50,5 +53,47 @@ describe("findProductionSourceViolations", () => {
         `Required tracked path is missing: ${requiredPath}`,
       );
     }
+  });
+});
+
+describe("production verification pipelines", () => {
+  const expectedCommands = [
+    "pnpm run check",
+    "pnpm run build",
+    "pnpm test",
+    "pnpm run check:seo",
+  ];
+
+  function expectCommandsInOrder(source) {
+    let previousIndex = -1;
+
+    for (const command of expectedCommands) {
+      const commandIndex = source.indexOf(command);
+      expect(commandIndex, `${command} should be present`).toBeGreaterThan(-1);
+      expect(commandIndex, `${command} should run after the previous check`).toBeGreaterThan(
+        previousIndex,
+      );
+      previousIndex = commandIndex;
+    }
+  }
+
+  it("builds before running tests in the production deploy script", () => {
+    const source = fs.readFileSync(
+      path.resolve(process.cwd(), "scripts/deploy-production.sh"),
+      "utf8",
+    );
+
+    expectCommandsInOrder(source);
+  });
+
+  it("runs the same build-first checks for pull requests and main", () => {
+    const source = fs.readFileSync(
+      path.resolve(process.cwd(), ".github/workflows/ci.yml"),
+      "utf8",
+    );
+
+    expect(source).toContain("pull_request:");
+    expect(source).toContain("branches: [main]");
+    expectCommandsInOrder(source);
   });
 });

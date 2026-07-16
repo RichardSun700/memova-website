@@ -22,6 +22,7 @@ export function IosEarlyAccessCta() {
       </p>
       <a
         href="/#waitlist"
+        data-analytics-event="ios_early_access_click"
         className="mt-7 inline-flex rounded-full bg-white px-7 py-3 text-sm font-bold text-[var(--memova-navy)] shadow-lg transition-transform hover:-translate-y-0.5"
       >
         Join iOS Early Access
@@ -50,6 +51,7 @@ export default function MarketingPage({ eyebrow, title, intro, children }: Marke
           </nav>
           <a
             href="/#waitlist"
+            data-analytics-event="ios_early_access_click"
             className="rounded-full bg-[var(--memova-navy)] px-4 py-2 text-[12px] font-bold text-white sm:px-5 sm:text-[13px]"
           >
             Join iOS Early Access

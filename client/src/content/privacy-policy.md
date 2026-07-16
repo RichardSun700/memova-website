@@ -56,6 +56,14 @@ We may collect limited technical information necessary to provide, secure, and o
 
 - Cookies or similar technologies if you use our website or web\-based services
 
+### Website Analytics and Cookies
+
+We use Google Analytics 4, with measurement ID G\-9YJQ994J98, to understand how people find and use our public website and whether iOS early\-access journeys are useful\. Google Analytics may process page URLs and titles, referral information, interaction events, browser and device information, IP\-derived approximate location, and cookie or consent status\. We do not send the private notes, recordings, transcripts, documents, or agent memory you provide to Memova as analytics event content\.
+
+Advertising storage, advertising user data, and ad personalization are disabled in our Google tag configuration\. Where consent is required, analytics storage defaults to denied until you allow it\. Our website provides an Analytics privacy choices panel where you can allow or reject analytics\. After making a choice, use the persistent Privacy choices button to change or withdraw that choice at any time\.
+
+We use analytics information to measure website performance, diagnose navigation problems, understand acquisition sources, and improve the public iOS early\-access funnel\. Google acts as an analytics service provider and may process data in countries other than your own\. Analytics retention is controlled through our Google Analytics property settings; aggregated reports may be retained longer than event\-level data\. You may contact hello@memova\.ai with questions or requests about website analytics\.
+
 ## 2\. Audio and Recording Data
 
 Memova may process audio when you choose to record, transcribe, or analyze a conversation\.
