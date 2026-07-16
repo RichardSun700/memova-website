@@ -94,6 +94,8 @@ describe("production verification pipelines", () => {
 
     expect(source).toContain("pull_request:");
     expect(source).toContain("branches: [main]");
+    expect(source).toContain("uses: pnpm/action-setup@v4");
+    expect(source).not.toContain("version: 10.4.1");
     expectCommandsInOrder(source);
   });
 });
