@@ -5,6 +5,7 @@
 import { motion, useInView } from "framer-motion";
 import { useRef, useState } from "react";
 import { Shield, Lock, Zap } from "lucide-react";
+import { trackAnalyticsEvent } from "@/analytics/events";
 
 export default function CTASection() {
   const ref = useRef(null);
@@ -43,6 +44,9 @@ export default function CTASection() {
       setEmail("");
       setStatus("success");
       setMessage("You're on the iOS early access list.");
+      trackAnalyticsEvent("waitlist_submit_success", {
+        source: "home-ios-early-access",
+      });
     } catch {
       setStatus("error");
       setMessage("Something went wrong. Please try again.");
@@ -81,6 +85,7 @@ export default function CTASection() {
             />
             <motion.button
               type="submit"
+              data-analytics-event="ios_early_access_click"
               disabled={status === "loading"}
               whileHover={status === "loading" ? undefined : { scale: 1.03 }}
               whileTap={status === "loading" ? undefined : { scale: 0.97 }}

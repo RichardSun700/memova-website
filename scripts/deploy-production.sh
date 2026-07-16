@@ -25,9 +25,9 @@ git merge-base --is-ancestor origin/main HEAD || \
   fail "local main is behind or has diverged from origin/main"
 
 npx wrangler whoami >/dev/null
-pnpm test
 pnpm run check
 pnpm run build
+pnpm test
 pnpm run check:seo
 
 git push origin HEAD:main

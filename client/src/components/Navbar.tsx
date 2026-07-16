@@ -98,6 +98,7 @@ export default function Navbar() {
           )}
           <motion.a
             href="/#waitlist"
+            data-analytics-event="ios_early_access_click"
             whileHover={{ scale: 1.03 }}
             whileTap={{ scale: 0.97 }}
             className={`hidden px-5 py-2 text-[13px] font-semibold rounded-full transition-all duration-300 sm:inline-flex ${

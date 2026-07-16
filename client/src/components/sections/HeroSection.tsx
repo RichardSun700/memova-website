@@ -72,6 +72,7 @@ export default function HeroSection({ onSeeWorkflow }: HeroSectionProps) {
             >
               <motion.a
                 href="#waitlist"
+                data-analytics-event="ios_early_access_click"
                 whileHover={{ scale: 1.03 }}
                 whileTap={{ scale: 0.97 }}
                 className="px-7 py-3 bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 text-white font-bold text-[13px] rounded-full

@@ -12,6 +12,13 @@ import { sitePages } from "./sitePages";
 const template = `<!doctype html>
 <html lang="en"><head><title>Old title</title></head><body><div id="root"></div><script type="module" src="/assets/app.js"></script></body></html>`;
 
+function listHtmlFiles(directory: string): string[] {
+  return fs.readdirSync(directory, { withFileTypes: true }).flatMap((entry) => {
+    const entryPath = path.join(directory, entry.name);
+    return entry.isDirectory() ? listHtmlFiles(entryPath) : entryPath.endsWith(".html") ? [entryPath] : [];
+  });
+}
+
 describe("SEO build generator", () => {
   it("injects route metadata, structured data, and visible matching copy", () => {
     const page = sitePages.find((candidate) => candidate.path === "/agent-memory")!;
@@ -90,6 +97,40 @@ describe("SEO build generator", () => {
 
     expect(redirects).not.toMatch(/^\/privacy-policy \/index\.html 200$/m);
     expect(redirects).not.toMatch(/^\/privacy \/index\.html 200$/m);
+  });
+
+  it("uses one shared consent-aware GA4 bootstrap in every source HTML document", () => {
+    const projectRoot = path.resolve(process.cwd());
+    const htmlFiles = [
+      path.join(projectRoot, "client", "index.html"),
+      ...listHtmlFiles(path.join(projectRoot, "client", "public")),
+    ];
+
+    expect(htmlFiles.length).toBeGreaterThan(10);
+    for (const file of htmlFiles) {
+      const html = fs.readFileSync(file, "utf8");
+      expect(html.match(/\/analytics\/ga4-consent\.js/g), file).toHaveLength(1);
+      expect(html, file).not.toContain("googletagmanager.com/gtag/js");
+      expect(html, file).not.toContain("gtag('config', 'G-9YJQ994J98')");
+    }
+  });
+
+  it("sets regional analytics consent before loading GA4 and disables automatic page views", () => {
+    const bootstrap = fs.readFileSync(
+      path.resolve(process.cwd(), "client/public/analytics/ga4-consent.js"),
+      "utf8",
+    );
+
+    expect(bootstrap).toContain('const MEASUREMENT_ID = "G-9YJQ994J98"');
+    expect(bootstrap).toContain('analytics_storage: "denied"');
+    expect(bootstrap).toContain('ad_storage: "denied"');
+    expect(bootstrap).toContain('ad_user_data: "denied"');
+    expect(bootstrap).toContain('ad_personalization: "denied"');
+    expect(bootstrap).toContain("PROTECTED_REGIONS");
+    expect(bootstrap).toContain("send_page_view: false");
+    expect(bootstrap.indexOf('gtag("consent", "default"')).toBeLessThan(
+      bootstrap.indexOf("\n  addGoogleTag();"),
+    );
   });
 
   it("keeps the hidden ODM partnership page reachable without indexing it", () => {
