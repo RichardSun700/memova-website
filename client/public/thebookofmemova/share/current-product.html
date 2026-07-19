@@ -1,0 +1,432 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex,nofollow" />
+  <meta name="description" content="Memova Product Book — 从完整 Context 到书页、书与个人图书馆。" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='18' fill='%234f8fc8'/%3E%3Ctext x='32' y='43' text-anchor='middle' font-size='34' fill='white' font-family='Arial'%3EM%3C/text%3E%3C/svg%3E" />
+  <title>Memova Product Book · Volume 01</title>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "TechArticle",
+    "headline": "Memova Product Book · Volume 01",
+    "alternativeHeadline": "从完整 Context 到书页、书与个人图书馆",
+    "dateModified": "2026-07-19",
+    "inLanguage": "zh-CN",
+    "about": ["Memova", "personal publishing", "private knowledge library", "HTML pages"],
+    "version": "0.1"
+  }
+  </script>
+  <style>
+    :root {
+      --ink: #17344e;
+      --muted: #61778a;
+      --paper: #fbfdff;
+      --paper-2: #f0f6fb;
+      --line: #dce8f1;
+      --blue: #4f8fc8;
+      --blue-dark: #2e5b82;
+      --blue-soft: #dcecf8;
+      --green: #2f7667;
+      --amber: #9a6b1f;
+      --shadow: 0 22px 70px rgba(28, 67, 99, .13);
+      --serif: ui-serif, Georgia, Cambria, "Times New Roman", serif;
+      --sans: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 10% 0%, rgba(157,196,232,.25), transparent 34rem),
+        linear-gradient(180deg, #edf5fc 0, #f5f9fc 34rem, #edf3f7 100%);
+      font-family: var(--sans);
+      line-height: 1.72;
+    }
+    a { color: var(--blue-dark); text-decoration-thickness: 1px; text-underline-offset: 3px; }
+    button { font: inherit; }
+    .shell { width: min(1440px, 100%); margin: 0 auto; display: grid; grid-template-columns: 280px minmax(0, 1fr); gap: 34px; padding: 28px; }
+    .rail { position: sticky; top: 20px; align-self: start; height: calc(100vh - 40px); padding: 22px 18px; display: flex; flex-direction: column; }
+    .brand { display: flex; align-items: center; gap: 11px; margin-bottom: 28px; }
+    .mark { width: 38px; height: 38px; border-radius: 12px; display: grid; place-items: center; color: white; background: linear-gradient(145deg, #9dc4e8, #5c98cc); box-shadow: 0 10px 24px rgba(79,143,200,.28); }
+    .brand strong { display: block; letter-spacing: -.02em; }
+    .brand small { color: var(--muted); display: block; font-size: 11px; letter-spacing: .08em; text-transform: uppercase; }
+    .nav { display: grid; gap: 4px; overflow: auto; padding-right: 6px; }
+    .nav a { color: var(--muted); text-decoration: none; font-size: 13px; padding: 7px 10px; border-radius: 9px; border-left: 2px solid transparent; }
+    .nav a:hover, .nav a.active { color: var(--blue-dark); background: rgba(255,255,255,.72); border-left-color: var(--blue); }
+    .rail-foot { margin-top: auto; padding-top: 18px; border-top: 1px solid var(--line); color: var(--muted); font-size: 12px; }
+    .actions { display: flex; gap: 8px; margin-top: 12px; }
+    .action { border: 1px solid var(--line); background: rgba(255,255,255,.75); color: var(--ink); padding: 7px 10px; border-radius: 9px; cursor: pointer; }
+    .action:hover { border-color: #9dc4e8; background: white; }
+    .book { min-width: 0; background: var(--paper); border: 1px solid rgba(255,255,255,.9); box-shadow: var(--shadow); border-radius: 26px; overflow: clip; }
+    .hero { min-height: 610px; padding: 72px clamp(30px, 7vw, 96px); display: grid; align-content: space-between; background:
+      linear-gradient(135deg, rgba(255,255,255,.97), rgba(237,245,252,.88)),
+      repeating-linear-gradient(90deg, transparent 0 79px, rgba(79,143,200,.08) 80px);
+      border-bottom: 1px solid var(--line);
+    }
+    .kicker { display: inline-flex; align-items: center; gap: 8px; color: var(--blue-dark); font-size: 12px; font-weight: 700; letter-spacing: .15em; text-transform: uppercase; }
+    .kicker::before { content: ""; width: 28px; height: 2px; background: var(--blue); }
+    h1 { max-width: 900px; margin: 28px 0 18px; font: 600 clamp(48px, 7.2vw, 94px)/.98 var(--serif); letter-spacing: -.055em; }
+    .subtitle { max-width: 770px; color: var(--muted); font-size: clamp(18px, 2.2vw, 26px); line-height: 1.45; }
+    .hero-bottom { display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: 20px; padding-top: 70px; }
+    .edition { display: grid; gap: 4px; font-size: 13px; color: var(--muted); }
+    .edition strong { color: var(--ink); }
+    .hero-quote { max-width: 500px; padding-left: 20px; border-left: 3px solid var(--blue); font: 500 19px/1.55 var(--serif); }
+    .chapter { padding: 76px clamp(28px, 7vw, 96px); border-bottom: 1px solid var(--line); scroll-margin-top: 20px; }
+    .chapter:nth-child(even) { background: rgba(240,246,251,.45); }
+    .chapter-head { display: grid; grid-template-columns: 92px minmax(0, 1fr); gap: 24px; margin-bottom: 42px; }
+    .chapter-no { color: var(--blue); font: 600 14px/1 var(--sans); letter-spacing: .1em; padding-top: 12px; }
+    h2 { margin: 0; font: 600 clamp(34px, 4vw, 54px)/1.08 var(--serif); letter-spacing: -.035em; }
+    h3 { margin: 36px 0 12px; font-size: 20px; letter-spacing: -.015em; }
+    h4 { margin: 26px 0 8px; font-size: 15px; text-transform: uppercase; letter-spacing: .08em; color: var(--blue-dark); }
+    p { margin: 0 0 16px; }
+    .lead { color: var(--muted); font-size: 20px; max-width: 840px; }
+    .grid-2, .grid-3, .grid-4 { display: grid; gap: 16px; margin: 26px 0; }
+    .grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .grid-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .card { padding: 22px; border: 1px solid var(--line); border-radius: 16px; background: rgba(255,255,255,.88); }
+    .card .label { color: var(--blue-dark); font-size: 11px; font-weight: 750; letter-spacing: .12em; text-transform: uppercase; }
+    .card h3 { margin: 9px 0 9px; font-size: 19px; }
+    .card p, .card li { color: var(--muted); font-size: 14px; }
+    .status { display: inline-flex; align-items: center; padding: 5px 9px; border-radius: 999px; font-size: 11px; font-weight: 700; }
+    .confirmed { color: var(--green); background: #e6f3ef; }
+    .later { color: var(--amber); background: #fbf1dc; }
+    .open { color: var(--blue-dark); background: var(--blue-soft); }
+    .flow { margin: 30px 0; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 10px; }
+    .flow-step { position: relative; min-height: 118px; padding: 17px; border-radius: 15px; background: #fff; border: 1px solid var(--line); }
+    .flow-step:not(:last-child)::after { content: "→"; position: absolute; z-index: 2; right: -13px; top: 44%; color: var(--blue); font-weight: 800; }
+    .flow-step b { display: block; margin-bottom: 5px; }
+    .flow-step span { color: var(--muted); font-size: 12px; line-height: 1.5; display: block; }
+    .quote { margin: 34px 0; padding: 28px 30px; border-radius: 0 18px 18px 0; border-left: 4px solid var(--blue); background: linear-gradient(90deg, var(--blue-soft), rgba(220,236,248,.25)); font: 500 23px/1.55 var(--serif); }
+    .code { margin: 22px 0; padding: 22px 24px; overflow: auto; border-radius: 14px; background: #16324a; color: #eaf4fb; font: 13px/1.75 ui-monospace, SFMono-Regular, Menlo, monospace; white-space: pre; }
+    .rule-list { display: grid; gap: 11px; margin: 24px 0; padding: 0; list-style: none; }
+    .rule-list li { position: relative; padding: 14px 16px 14px 44px; border: 1px solid var(--line); border-radius: 12px; background: rgba(255,255,255,.75); }
+    .rule-list li::before { content: "✓"; position: absolute; left: 16px; color: var(--green); font-weight: 800; }
+    .rule-list.questions li::before { content: "?"; color: var(--blue); }
+    .table-wrap { overflow-x: auto; margin: 26px 0; border: 1px solid var(--line); border-radius: 15px; }
+    table { width: 100%; border-collapse: collapse; min-width: 680px; background: white; }
+    th, td { text-align: left; vertical-align: top; padding: 14px 16px; border-bottom: 1px solid var(--line); font-size: 13px; }
+    th { color: var(--blue-dark); background: var(--paper-2); font-size: 11px; text-transform: uppercase; letter-spacing: .08em; }
+    tr:last-child td { border-bottom: 0; }
+    .callout { margin: 26px 0; padding: 22px; border-radius: 16px; border: 1px solid #bcd8ed; background: #edf7ff; }
+    .callout strong { display: block; margin-bottom: 6px; }
+    .two-paths { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin: 28px 0; }
+    .path { padding: 24px; border-radius: 18px; border: 1px solid var(--line); background: white; }
+    .path.private { box-shadow: inset 0 4px 0 var(--blue); }
+    .path.public { box-shadow: inset 0 4px 0 #78a795; }
+    .path ol { margin: 14px 0 0; padding-left: 20px; color: var(--muted); font-size: 14px; }
+    .footer { padding: 52px clamp(28px, 7vw, 96px); background: #17344e; color: #eaf3f9; }
+    .footer p { color: #b9ccda; max-width: 720px; }
+    .sources { columns: 2; column-gap: 30px; padding-left: 20px; }
+    .sources li { break-inside: avoid; margin-bottom: 7px; color: var(--muted); font-size: 12px; }
+    .sources a { color: var(--blue-dark); }
+    .mobile-bar { display: none; }
+    @media (max-width: 1020px) {
+      .shell { display: block; padding: 0; }
+      .rail { display: none; }
+      .book { border-radius: 0; border: 0; }
+      .mobile-bar { position: sticky; top: 0; z-index: 20; display: flex; justify-content: space-between; align-items: center; padding: 10px 16px; background: rgba(251,253,255,.94); backdrop-filter: blur(14px); border-bottom: 1px solid var(--line); }
+      .mobile-bar strong { font-size: 14px; }
+      .mobile-bar button { border: 1px solid var(--line); background: white; border-radius: 8px; padding: 6px 9px; }
+    }
+    @media (max-width: 760px) {
+      .hero { min-height: 560px; padding: 52px 24px; }
+      h1 { font-size: 52px; }
+      .chapter { padding: 54px 22px; }
+      .chapter-head { grid-template-columns: 1fr; gap: 8px; }
+      .chapter-no { padding: 0; }
+      .grid-2, .grid-3, .grid-4, .two-paths { grid-template-columns: 1fr; }
+      .flow { grid-template-columns: 1fr; }
+      .flow-step { min-height: auto; }
+      .flow-step:not(:last-child)::after { content: "↓"; right: auto; left: 50%; top: auto; bottom: -17px; }
+      .sources { columns: 1; }
+    }
+    @media print {
+      body { background: white; }
+      .shell { display: block; padding: 0; }
+      .rail, .mobile-bar, .actions { display: none !important; }
+      .book { box-shadow: none; border: 0; }
+      .chapter { break-inside: avoid; }
+      a { color: inherit; text-decoration: none; }
+    }
+  </style>
+  <script defer src="/analytics/ga4-consent.js"></script>
+</head>
+<body>
+  <div class="mobile-bar"><strong>Memova Product Book</strong><button onclick="window.print()">打印 / PDF</button></div>
+  <div class="shell">
+    <aside class="rail" aria-label="章节导航">
+      <div class="brand">
+        <div class="mark" aria-hidden="true">M</div>
+        <div><strong>Memova</strong><small>Product Book · 01</small></div>
+      </div>
+      <nav class="nav">
+        <a href="#quick">Agent Quick Context</a>
+        <a href="#方向">01 · 第一把尖刀</a>
+        <a href="#user">02 · First User</a>
+        <a href="#model">03 · Product Model</a>
+        <a href="#flow">04 · User Flow</a>
+        <a href="#privacy">05 · Privacy</a>
+        <a href="#distribution">06 · Distribution</a>
+        <a href="#feedback">07 · Feedback</a>
+        <a href="#mvp">08 · MVP Scope</a>
+        <a href="#position">09 · Position</a>
+        <a href="#success">10 · Success</a>
+        <a href="#architecture">11 · Book Architecture</a>
+        <a href="#open">12 · Open Decisions</a>
+      </nav>
+      <div class="rail-foot">
+        Direct Link · Noindex<br />Team review · v0.1 · 2026-07-19
+        <div class="actions"><button class="action" onclick="window.print()">打印 / PDF</button><button class="action" onclick="copySummary(this)">复制摘要</button></div>
+      </div>
+    </aside>
+
+    <main class="book">
+      <header class="hero">
+        <div>
+          <div class="kicker">Memova Product Book · Volume 01</div>
+          <h1>从完整 Context<br />到个人图书馆</h1>
+          <p class="subtitle">把创业者每天产生的语音、会议、想法和项目进展，变成可以保存、私域分享或公开发行的书页。</p>
+        </div>
+        <div class="hero-bottom">
+          <div class="edition"><strong>Direct Link · Noindex · Team Review Edition</strong><span>Version 0.1 · 19 July 2026</span><span>Canonical source: Markdown</span></div>
+          <div class="hero-quote">Memova 不是另一个社媒 scheduler。它是创业者的个人出版社和私人图书馆。</div>
+        </div>
+      </header>
+
+      <section class="chapter" id="quick">
+        <div class="chapter-head"><div class="chapter-no">QUICK READ</div><div><h2>Agent Quick Context</h2></div></div>
+        <p class="lead">本页是人类可读投影；同目录 Markdown 是 agent-readable 权威源。</p>
+        <div class="callout"><strong>一句话</strong>Memova 从“笔记 → 记忆 → 行动”扩展为“Context → 书页 → 分享/发行 → 书 → 个人图书馆”。HTML 是书页，不是知识源本身。</div>
+        <div class="grid-3">
+          <div class="card"><span class="status confirmed">CONFIRMED</span><h3>第一位用户</h3><p>创业者。后续扩展到学生和 SMB 老板。</p></div>
+          <div class="card"><span class="status confirmed">CONFIRMED</span><h3>第一种输入</h3><p>约三分钟语音和文字，图片作为补充素材。</p></div>
+          <div class="card"><span class="status confirmed">CONFIRMED</span><h3>第一种价值</h3><p>得到一张愿意保存或分享给某个人的书页。</p></div>
+        </div>
+        <div class="code">Private Page → Shared HTML → Optional Social Assets
+      ↓                ↓
+     Book        LinkedIn · TikTok · X
+      ↓
+ Personal Library</div>
+      </section>
+
+      <section class="chapter" id="方向">
+        <div class="chapter-head"><div class="chapter-no">CHAPTER 01</div><div><h2>第一把尖刀</h2></div></div>
+        <p class="lead">这是一个增长闭环的扩展，不是对原有 Memova 的推翻。</p>
+        <div class="flow">
+          <div class="flow-step"><b>完整 Context</b><span>语音、会议、项目、人物与历史决策</span></div>
+          <div class="flow-step"><b>私密书页</b><span>完整扩展笔记与来源，只对本人可见</span></div>
+          <div class="flow-step"><b>分享 / 发行</b><span>HTML、长图、多图，以及平台版本</span></div>
+          <div class="flow-step"><b>自动归书</b><span>按项目、主题、人物和时间组织</span></div>
+          <div class="flow-step"><b>个人图书馆</b><span>成为下一张书页的长期 context</span></div>
+        </div>
+        <div class="quote">Memova 是创业者的个人出版社：把每天产生的语音、会议、想法和项目进展，变成可以保存或分享的书页，并逐渐积累成一本本个人知识之书。</div>
+      </section>
+
+      <section class="chapter" id="user">
+        <div class="chapter-head"><div class="chapter-no">CHAPTER 02</div><div><h2>First User, First Value</h2></div></div>
+        <p class="lead">第一位用户不是社媒运营者，而是每天产生大量高价值 context、却没有时间把它整理为成果的创业者。</p>
+        <div class="grid-3">
+          <div class="card"><div class="label">Founder · MVP</div><h3>创始人表达</h3><p>会后复盘、产品判断、行业观察、项目进展和尚未整理的观点。</p></div>
+          <div class="card"><div class="label">Student · Next</div><h3>学习成果</h3><p>课堂、论文、读书和项目变成学习书页与作品集。</p></div>
+          <div class="card"><div class="label">SMB · Next</div><h3>经营知识</h3><p>产品知识、客户故事和经营经验变成案例与教育型内容。</p></div>
+        </div>
+        <div class="quote">MVP 的成功时刻：用户第一次从约三分钟语音得到一张愿意保存或分享给某个人的书页。</div>
+      </section>
+
+      <section class="chapter" id="model">
+        <div class="chapter-head"><div class="chapter-no">CHAPTER 03</div><div><h2>The Minimal Product Model</h2></div></div>
+        <p class="lead">MVP 只有四个用户能理解的对象。复杂的多受众版本以后再做。</p>
+        <div class="grid-4">
+          <div class="card"><div class="label">01 · Source</div><h3>私密书页</h3><p>完整语音、资料、项目 context、扩展笔记、来源和敏感信息。</p></div>
+          <div class="card"><div class="label">02 · Snapshot</div><h3>分享书页</h3><p>每页最多一个分享快照；支持好友、密码或公开访问。</p></div>
+          <div class="card"><div class="label">03 · Formats</div><h3>发行素材</h3><p>HTML、长图、多图、LinkedIn、TikTok、X 和图文视频。</p></div>
+          <div class="card"><div class="label">04 · Memory</div><h3>书</h3><p>按项目、主题、人物和时间自动归书，用户掌握最终编辑权。</p></div>
+        </div>
+        <div class="callout"><strong>Source-of-truth rule</strong>私密书页是知识源；分享页是确认后的快照；平台素材只是发行格式，不能反向污染知识源。</div>
+      </section>
+
+      <section class="chapter" id="flow">
+        <div class="chapter-head"><div class="chapter-no">CHAPTER 04</div><div><h2>Core User Flow</h2></div></div>
+        <div class="grid-2">
+          <div class="card"><div class="label">1–3</div><h3>Capture → Understand → Page</h3><p>用户说约三分钟，补充文字或媒体。Memova 调用项目历史，识别人物、事实、决策和敏感信息，生成私密书页。</p></div>
+          <div class="card"><div class="label">4–6</div><h3>Choose → Review → Access</h3><p>用户选择只保存、私域分享或公域发行；确认分享内容后，设置好友、密码、失效时间或公开。</p></div>
+          <div class="card"><div class="label">7</div><h3>Optional Social Distribution</h3><p>逐个平台预览账号、文案、素材顺序和声明，再分别确认。任何平台失败都不影响 HTML。</p></div>
+          <div class="card"><div class="label">8–9</div><h3>Auto-book → Feedback</h3><p>私密书页自动归书。永远保存发行记录；权限允许时再异步同步基础指标。</p></div>
+        </div>
+        <div class="two-paths">
+          <div class="path private"><span class="status confirmed">PRIVATE VALUE</span><h3>不发公域也成立</h3><ol><li>只保存到私人图书馆</li><li>好友登录查看</li><li>外部收件人输入密码</li></ol></div>
+          <div class="path public"><span class="status confirmed">OPTIONAL REACH</span><h3>需要时再发行</h3><ol><li>公开 HTML</li><li>LinkedIn 知识内容</li><li>TikTok 图文与 X Thread</li></ol></div>
+        </div>
+      </section>
+
+      <section class="chapter" id="privacy">
+        <div class="chapter-head"><div class="chapter-no">CHAPTER 05</div><div><h2>Privacy and Version Rules</h2></div></div>
+        <p class="lead">完整 context 是产品优势，也是最高风险。分享必须是一次明确的人类决策。</p>
+        <ul class="rule-list">
+          <li>私密书页默认仅用户本人可见。</li>
+          <li>每张私密书页在 MVP 中最多一个分享快照。</li>
+          <li>私密页变化不会静默更新外部 HTML。</li>
+          <li>分享页可由 Memova 好友登录访问，也可由持有密码的访客访问。</li>
+          <li>密码不以明文保存；链接可撤回、改密或设置失效。</li>
+          <li>私域页面默认 noindex；媒体资源不能绕过页面权限。</li>
+          <li>一页多受众版本明确放入后续路线，不进入 MVP。</li>
+        </ul>
+      </section>
+
+      <section class="chapter" id="distribution">
+        <div class="chapter-head"><div class="chapter-no">CHAPTER 06</div><div><h2>Distribution Strategy</h2></div></div>
+        <div class="grid-3">
+          <div class="card"><div class="label">Priority 01</div><h3>LinkedIn</h3><p>最符合创业者知识型内容。支持文字、视频、多图和 PDF 文档。</p></div>
+          <div class="card"><div class="label">Priority 02</div><h3>TikTok</h3><p>支持视频和图片轮播；Direct Post 需要平台审核并遵守显式发布选项。</p></div>
+          <div class="card"><div class="label">Priority 03</div><h3>X</h3><p>文字、图片和视频发布可行，但 API 按量付费，应进入套餐成本。</p></div>
+        </div>
+        <h3>每个平台都必须优雅降级</h3>
+        <div class="table-wrap"><table><thead><tr><th>模式</th><th>用户体验</th><th>适用情况</th></tr></thead><tbody>
+          <tr><td><b>Direct Publish</b></td><td>Memova 内确认后直接发布</td><td>官方接口可用且应用已获批准</td></tr>
+          <tr><td><b>Assisted Publish</b></td><td>素材准备完成，打开平台由用户完成最后确认</td><td>审核中或平台功能必须原生完成</td></tr>
+          <tr><td><b>Export Only</b></td><td>下载图片、视频并复制平台文案</td><td>接口不可用或用户未连接账号</td></tr>
+        </tbody></table></div>
+        <div class="callout"><strong>Video boundary</strong>可以处理用户已有视频，或把图片做成图文视频；不直接生成新的动态画面或视频帧。</div>
+      </section>
+
+      <section class="chapter" id="feedback">
+        <div class="chapter-head"><div class="chapter-no">CHAPTER 07</div><div><h2>Feedback Without Blocking</h2></div></div>
+        <p class="lead">数据权限是增强项，不是发布前提。</p>
+        <div class="grid-2">
+          <div class="card"><span class="status confirmed">ALWAYS · A</span><h3>发行记录</h3><p>平台、账号、状态、时间、Post ID、链接、错误和重试状态。</p></div>
+          <div class="card"><span class="status open">WHEN ALLOWED · B</span><h3>基础指标</h3><p>浏览或曝光、点赞、评论数、转发数与最近同步时间。</p></div>
+        </div>
+        <p>X 的公开指标相对直接；TikTok 授权视频可读取基础指标但图片轮播需验证；LinkedIn 指标需要额外 Community Management 权限。拿不到时退回 A，不能把“无权限”显示成“零表现”。</p>
+      </section>
+
+      <section class="chapter" id="mvp">
+        <div class="chapter-head"><div class="chapter-no">CHAPTER 08</div><div><h2>MVP Scope</h2></div></div>
+        <div class="grid-2">
+          <div class="card"><span class="status confirmed">MUST HAVE</span><h3>第一版必须完成</h3><ul><li>语音/文字 → 私密书页</li><li>单一分享快照</li><li>好友和密码访问</li><li>HTML、长图和多图</li><li>三平台适配预览</li><li>至少一个真实直接发布</li><li>其他平台 fallback</li><li>自动归书建议</li><li>发行记录与可选指标</li></ul></div>
+          <div class="card"><span class="status later">NOT NOW</span><h3>明确延后</h3><ul><li>多受众分享版本</li><li>完整社媒日历</li><li>九平台全部直发</li><li>评论正文和自动回复</li><li>复杂团队审批</li><li>生成式视频画面</li><li>以分析仪表盘为主的首页</li></ul></div>
+        </div>
+      </section>
+
+      <section class="chapter" id="position">
+        <div class="chapter-head"><div class="chapter-no">CHAPTER 09</div><div><h2>Competitive Position</h2></div></div>
+        <p class="lead">iOS 多平台发布已经被验证。它是基础设施，不是 Memova 的护城河。</p>
+        <div class="table-wrap"><table><thead><tr><th>产品</th><th>值得学习</th><th>Memova 的差异</th></tr></thead><tbody>
+          <tr><td>Hookle</td><td>移动优先、多平台同时发布、多图</td><td rowspan="3">从完整 context 生成值得保存的 Page；分享与社媒只是 Page 的出口；Page 会自动归书并构成长期图书馆。</td></tr>
+          <tr><td>Crosspost</td><td>逐平台预览、统一发布、Master Profile</td></tr>
+          <tr><td>Socialync</td><td>轻量一键发布、平台专属 caption、视频 transcript</td></tr>
+          <tr><td>Buffer / Publer / Later</td><td>成熟平台接入、排程、内容库与分析</td><td>不以 Calendar 为核心，不要求用户先成为内容运营者。</td></tr>
+        </tbody></table></div>
+        <div class="code">Existing tools:  Asset → Post → Calendar → Platform
+Memova:         Context → Page → Book → Library
+                              └→ Private share / Social distribution</div>
+        <div class="quote">竞品是多平台邮局。Memova 应成为个人出版社和私人图书馆。</div>
+      </section>
+
+      <section class="chapter" id="success">
+        <div class="chapter-head"><div class="chapter-no">CHAPTER 10</div><div><h2>Success Criteria</h2></div></div>
+        <div class="grid-2">
+          <div class="card"><div class="label">Activation</div><h3>第一次价值</h3><p>完成三分钟语音；得到愿意保存或分享的书页；完成一次私域分享或平台发布。</p></div>
+          <div class="card"><div class="label">Quality</div><h3>可信与可控</h3><p>无未经确认的敏感信息；用户清楚私密与分享边界；移动端无裁切。</p></div>
+          <div class="card"><div class="label">Retention</div><h3>第二张书页</h3><p>一周内再次生成；能复用项目历史；开始看到一本书自然形成。</p></div>
+          <div class="card"><div class="label">Distribution</div><h3>真实分享</h3><p>愿意把 HTML 发给同事、朋友、家人或投资人，或把发行版本发布到平台。</p></div>
+        </div>
+      </section>
+
+      <section class="chapter" id="architecture">
+        <div class="chapter-head"><div class="chapter-no">CHAPTER 11</div><div><h2>Product Book Architecture</h2></div></div>
+        <p class="lead">这本书本身就是 Memova 工作方式的第一个例子。</p>
+        <div class="flow" style="grid-template-columns:repeat(3,minmax(0,1fr))">
+          <div class="flow-step"><b>Canonical Markdown</b><span>agent-readable 权威源，包含结构化决策与边界</span></div>
+          <div class="flow-step"><b>Generated HTML</b><span>适合团队快速阅读、打印和私域分享</span></div>
+          <div class="flow-step"><b>Review and Evolve</b><span>团队反馈进入源文件，再生成下一版书页</span></div>
+        </div>
+        <h3>Planned chapters</h3>
+        <ol>
+          <li><b>Page-first Personal Publisher</b> — 本页，产品方向 与 MVP。</li>
+          <li><b>Capture and Context</b> — 语音、文字、图片与视频进入私密书页。</li>
+          <li><b>Page Generation Protocol</b> — 事实、推断、引用、敏感信息和确认。</li>
+          <li><b>Sharing and Permissions</b> — 好友、密码、撤回、失效和媒体访问。</li>
+          <li><b>Books and Library</b> — 自动归书、跨页关联、策展和长期检索。</li>
+          <li><b>Distribution Adapters</b> — LinkedIn、TikTok、X 与 fallback。</li>
+          <li><b>Evaluation and Safety</b> — 质量、隐私、失败和回归测试。</li>
+        </ol>
+      </section>
+
+      <section class="chapter" id="open">
+        <div class="chapter-head"><div class="chapter-no">CHAPTER 12</div><div><h2>Open Decisions</h2></div></div>
+        <ul class="rule-list questions">
+          <li>第一版真实直接发布最终是 LinkedIn，还是 LinkedIn + X？</li>
+          <li>TikTok Content Posting 审核在原型前还是原型后启动？</li>
+          <li>分享链接默认是否必须设置失效时间？</li>
+          <li>Memova 好友关系如何建立和撤销？</li>
+          <li>自动归书的置信度低于多少时必须询问用户？</li>
+          <li>第一版“书”的首页需要哪些最小信息？</li>
+        </ul>
+        <h3>Primary official references</h3>
+        <ul class="sources">
+          <li><a href="https://learn.microsoft.com/en-us/linkedin/marketing/community-management/shares/posts-api">LinkedIn Posts API</a></li>
+          <li><a href="https://learn.microsoft.com/en-us/linkedin/marketing/community-management/members/post-statistics">LinkedIn Post Statistics</a></li>
+          <li><a href="https://developers.tiktok.com/products/content-posting-api">TikTok Content Posting API</a></li>
+          <li><a href="https://developers.tiktok.com/doc/content-sharing-guidelines">TikTok Sharing Guidelines</a></li>
+          <li><a href="https://developers.tiktok.com/doc/tiktok-api-v2-video-query">TikTok Video Query</a></li>
+          <li><a href="https://docs.x.com/x-api/posts/create-post">X Create Post</a></li>
+          <li><a href="https://docs.x.com/x-api/fundamentals/metrics">X Metrics</a></li>
+          <li><a href="https://apps.apple.com/us/app/hookle-social-media-manager/id1330557977">Hookle iOS</a></li>
+          <li><a href="https://apps.apple.com/us/app/crosspost-social-media-tool/id6740201285">Crosspost iOS</a></li>
+          <li><a href="https://apps.apple.com/us/app/socialync/id6758737546">Socialync iOS</a></li>
+        </ul>
+      </section>
+
+      <footer class="footer">
+        <div class="kicker" style="color:#b9d8ef">End of Volume 01</div>
+        <h2 style="margin:24px 0 16px;color:white">A page worth keeping.<br />A library that grows by itself.</h2>
+        <p>本 HTML 是团队评审书页。修改应先进入同目录 Markdown 权威源，再生成下一版 HTML。</p>
+      </footer>
+    </main>
+  </div>
+
+  <script id="memova-product-book-data" type="application/json">
+  {
+    "title": "Memova Product Book",
+    "volume": "01",
+    "version": "0.1",
+    "status": "team-review",
+    "primary_user": "founder",
+    "core_model": ["private_page", "shared_page", "distribution_assets", "book"],
+    "direct_publish_priority": ["linkedin", "tiktok", "x"],
+    "confirmed": [
+      "private page by default",
+      "one shared snapshot per private page in MVP",
+      "friend login or password access",
+      "public distribution is optional",
+      "automatic book assignment",
+      "analytics degrade to publication records when unavailable"
+    ]
+  }
+  </script>
+  <script>
+    const links = [...document.querySelectorAll('.nav a')];
+    const sections = links.map(a => document.querySelector(a.getAttribute('href'))).filter(Boolean);
+    const observer = new IntersectionObserver(entries => {
+      const visible = entries.filter(e => e.isIntersecting).sort((a,b) => b.intersectionRatio - a.intersectionRatio)[0];
+      if (!visible) return;
+      links.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + visible.target.id));
+    }, { rootMargin: '-20% 0px -65%', threshold: [0, .2, .5] });
+    sections.forEach(s => observer.observe(s));
+
+    function copySummary(button) {
+      const text = 'Memova Product Book v0.1：从 Context 生成私密书页；用户可生成单一分享 HTML，通过 Memova 好友登录或密码访问，也可选择生成 LinkedIn、TikTok、X 发行版本。书页自动归书，长期形成个人图书馆。';
+      navigator.clipboard.writeText(text).then(() => {
+        const old = button.textContent;
+        button.textContent = '已复制';
+        setTimeout(() => button.textContent = old, 1400);
+      });
+    }
+  </script>
+</body>
+</html>

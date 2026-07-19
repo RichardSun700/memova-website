@@ -1,0 +1,294 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex,nofollow" />
+  <meta name="description" content="Memova MVP 的四对象产品模型：Private Page、Shared Page、Distribution Assets 与 Book。" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='18' fill='%234f8fc8'/%3E%3Ctext x='32' y='43' text-anchor='middle' font-size='34' fill='white' font-family='Arial'%3EM%3C/text%3E%3C/svg%3E" />
+  <link rel="stylesheet" href="../assets/book.css" />
+  <title>The Product Model · Memova Company Memory Book</title>
+  <script defer src="../assets/book.js"></script>
+  <script defer src="/analytics/ga4-consent.js"></script>
+</head>
+<body data-page-id="product-model" data-summary="Memova MVP 由 Private Page、Shared Page、Distribution Assets 和 Book 四个对象组成。Private Page 是默认私密的知识源；Shared Page 是确认后的单一 HTML 快照；Distribution Assets 是渠道适配投影；Book 组织相互关联的 Private Pages。分享与发行不反向污染私人记忆。">
+  <div class="reading-progress" data-reading-progress aria-hidden="true"></div>
+
+  <details class="mobile-menu">
+    <summary>Memova Company Memory Book · 目录</summary>
+    <nav aria-label="移动端全书导航">
+      <a href="../index.html" data-nav-id="library-home">Library Home</a>
+      <a href="../company/user-manifesto-future-of-being-remembered.html" data-nav-id="user-manifesto-future-of-being-remembered">01 · 用户宣言</a>
+      <a href="../current/index.html" data-nav-id="memova-now">02.1 · 第一把尖刀</a>
+      <a href="../current/product-model.html" data-nav-id="product-model">02.2 · Product Model</a>
+      <a href="../current/experience-sharing.html" data-nav-id="experience-sharing">02.3 · Experience &amp; Sharing</a>
+      <a href="../company/foundations.html" data-nav-id="company-foundations">03.1 · Foundations</a>
+      <a href="../company/product-system.html" data-nav-id="product-system">03.2 · Product System</a>
+      <a href="../company/memory-interfaces.html" data-nav-id="memory-interfaces">03.3 · Memory &amp; Interfaces</a>
+      <a href="../company/evolution.html" data-nav-id="evolution">04.1 · Evolution</a>
+      <a href="../company/open-questions.html" data-nav-id="open-questions">04.2 · Open Questions</a>
+    </nav>
+  </details>
+
+  <div class="book-shell">
+    <aside class="book-nav" aria-label="全书导航">
+      <a class="brand" href="../index.html">
+        <span class="brand-mark" aria-hidden="true">M</span>
+        <span><strong>Memova</strong><small>Company Memory Book</small></span>
+      </a>
+      <div class="nav-scroll">
+        <section class="nav-book">
+          <p class="nav-book-title">Library</p>
+          <ul class="nav-list"><li><a href="../index.html" data-nav-id="library-home">Home · Start here</a></li></ul>
+        </section>
+        <section class="nav-book">
+          <p class="nav-book-title">Chapter 01 · 用户宣言</p>
+          <ul class="nav-list"><li><a href="../company/user-manifesto-future-of-being-remembered.html" data-nav-id="user-manifesto-future-of-being-remembered">被记住的未来</a></li></ul>
+        </section>
+        <section class="nav-book">
+          <p class="nav-book-title">Chapter 02 · 第一把尖刀</p>
+          <ul class="nav-list">
+            <li><a href="../current/index.html" data-nav-id="memova-now">02.1 · Current Direction</a></li>
+            <li><a href="../current/product-model.html" data-nav-id="product-model">02.2 · Product Model</a></li>
+            <li><a href="../current/experience-sharing.html" data-nav-id="experience-sharing">02.3 · Experience &amp; Sharing</a></li>
+          </ul>
+        </section>
+        <section class="nav-book">
+          <p class="nav-book-title">Chapter 03 · Why Memova</p>
+          <ul class="nav-list">
+            <li><a href="../company/foundations.html" data-nav-id="company-foundations">03.1 · Foundations</a></li>
+            <li><a href="../company/product-system.html" data-nav-id="product-system">03.2 · Product System</a></li>
+            <li><a href="../company/memory-interfaces.html" data-nav-id="memory-interfaces">03.3 · Memory &amp; Interfaces</a></li>
+          </ul>
+        </section>
+        <section class="nav-book">
+          <p class="nav-book-title">Chapter 04 · How We Got Here</p>
+          <ul class="nav-list">
+            <li><a href="../company/evolution.html" data-nav-id="evolution">04.1 · Evolution &amp; Evidence</a></li>
+            <li><a href="../company/open-questions.html" data-nav-id="open-questions">04.2 · Open Questions</a></li>
+          </ul>
+        </section>
+      </div>
+      <div class="nav-foot">
+        Direct Link · Noindex<br />Version 0.5 · 2026-07-19
+        <div class="summary-actions"><button class="quiet-button" type="button" data-print>打印</button></div>
+      </div>
+    </aside>
+
+    <main class="book-page">
+      <header class="page-hero">
+        <div class="hero-copy">
+          <div class="page-meta">
+            <span class="state-label state-current">CURRENT</span>
+            <span class="page-id">PAGE · product-model</span>
+            <span>Updated 2026-07-19</span>
+            <span>3 min read</span>
+            <span class="visibility">Direct Link · Noindex</span>
+          </div>
+          <h1 class="hero-title page-title">一个知识源<br />多个受控投影</h1>
+          <p class="hero-subtitle">Private Page、Shared Page、Distribution Assets 与 Book 不是四份平行副本，而是有清楚权威和生命周期的产品对象。</p>
+        </div>
+        <div class="hero-bottom">
+          <div class="page-meta"><span>Chapter 02 · Page 02</span><span>Four-object model</span></div>
+          <p class="hero-note">Page → Book → Library 是长期记忆结构；社媒只是一个可选出口。</p>
+        </div>
+      </header>
+
+      <noscript><p class="noscript-note">JavaScript 已关闭。全部正文和导航仍可阅读；复制摘要与阅读进度功能不可用。</p></noscript>
+
+      <section class="page-section" aria-labelledby="quick-title">
+        <div class="section-grid">
+          <div class="section-label">30 Seconds</div>
+          <div class="reading-column">
+            <article class="agent-summary">
+              <h2 id="quick-title">Agent Quick Read</h2>
+              <p>Memova 的核心对象是 Private Page。它保存原始输入、相关 Context、来源、推断、待确认表达和不适合外传的信息。用户确认后，可以产生一个 Shared Page；MVP 每张私密书页最多一个分享快照，私密页更新不会静默改变已分享 HTML。Distribution Assets 从同一分享内容派生为长图、多图、平台文案或已有视频的适配版本，但不成为新的知识源。Private Pages 按项目、主题、人物和时间自动归入 Book，用户保留确认、改名、移动、合并和拆分权。</p>
+              <div class="summary-actions"><button class="quiet-button" type="button" data-copy-summary>复制 Agent Summary</button><a class="quiet-button" href="../manifest.json">打开机器索引</a></div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="page-section tint" aria-labelledby="objects-title">
+        <div class="section-grid">
+          <div class="section-label">Model</div>
+          <div class="reading-column wide">
+            <h2 id="objects-title">四个用户可理解的核心对象</h2>
+            <div class="flow-line">
+              <div class="flow-step"><strong>Private Page</strong><span>最完整、默认私密的个人 Context</span></div>
+              <div class="flow-step"><strong>Shared Page</strong><span>用户确认后的单一 HTML 快照</span></div>
+              <div class="flow-step"><strong>Distribution</strong><span>针对渠道的内容与媒体适配</span></div>
+              <div class="flow-step"><strong>Book</strong><span>组织相关 Private Pages 的主题叙事</span></div>
+              <div class="flow-step"><strong>Library</strong><span>多本书构成可持续使用的个人记忆</span></div>
+            </div>
+            <p class="lead">知识只在一处保持完整；对外内容都从它产生，并服从用户确认与版本隔离。</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="page-section" aria-labelledby="private-title">
+        <div class="section-grid">
+          <div class="section-label">Object 01</div>
+          <div class="reading-column">
+            <span class="state-label state-current">CURRENT · SOURCE</span>
+            <h2 id="private-title">Private Page · 私密书页</h2>
+            <p class="lead">Private Page 是个人记忆与知识源，责任是忠实保存并组织 Context，而不是提前把一切改写成对外内容。</p>
+            <div class="object-list">
+              <article class="object"><span class="object-no">CAPTURE</span><h3>原始输入</h3><p>语音及转录、文字、图片、已有视频和用户补充的文件。</p></article>
+              <article class="object"><span class="object-no">CONTEXT</span><h3>长期背景</h3><p>相关项目、人物、历史决策、前序书页与当前阶段。</p></article>
+              <article class="object"><span class="object-no">REASONING</span><h3>来源与判断</h3><p>可追溯事实、明确标记的推断、待确认表达和行动线索。</p></article>
+              <article class="object"><span class="object-no">PRIVATE</span><h3>敏感内容</h3><p>可以保存不适合外传的信息；默认仅用户本人可见。</p></article>
+            </div>
+            <ul class="decision-list confirmed">
+              <li>生成分享页不等于公开，连接社媒账号不等于允许发布。</li>
+              <li>撤回分享不会删除 Private Page。</li>
+              <li>平台编辑不会反向覆盖 Private Page。</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section class="page-section tint" aria-labelledby="shared-title">
+        <div class="section-grid">
+          <div class="section-label">Object 02</div>
+          <div class="reading-column">
+            <span class="state-label state-current">CURRENT · PROJECTION</span>
+            <h2 id="shared-title">Shared Page · 分享书页</h2>
+            <p class="lead">用户选择展示内容，并确认敏感信息与表达后，Memova 才生成一个 HTML 书页。</p>
+            <h3>四种可见性</h3>
+            <ul class="decision-list confirmed">
+              <li>仅自己。</li>
+              <li>已获授权的 Memova 好友。</li>
+              <li>持有密码的外部收件人。</li>
+              <li>用户明确设置的完全公开页面。</li>
+            </ul>
+            <p>好友与密码可以同时开启；满足其中一种授权条件即可进入。私域页面默认不被搜索引擎收录。</p>
+            <h3>一个分享快照</h3>
+            <ul class="decision-list confirmed">
+              <li>每张 Private Page 在 MVP 中最多对应一个 Shared Page。</li>
+              <li>Private Page 更新后，Shared Page 保持原状。</li>
+              <li>用户点击更新并再次确认后，外部内容才变化。</li>
+              <li>修改平台文案不会改变 Shared Page。</li>
+            </ul>
+            <p class="small"><span class="eyebrow">Explicitly later</span> 团队版、投资人版、家人版等多受众内容分支不属于 MVP。</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="page-section" aria-labelledby="distribution-title">
+        <div class="section-grid">
+          <div class="section-label">Object 03</div>
+          <div class="reading-column wide">
+            <span class="state-label state-current">CURRENT · ADAPTERS</span>
+            <h2 id="distribution-title">Distribution Assets · 发行素材</h2>
+            <p class="lead">发行素材从已确认的分享内容派生。平台格式是呈现层决策，不改变长期记忆中的事实与结构。</p>
+            <div class="object-list">
+              <article class="object"><span class="object-no">WEB</span><h3>HTML</h3><p>单文件或稳定链接，适合直接阅读、私域分享与打印。</p></article>
+              <article class="object"><span class="object-no">IMAGE</span><h3>长图与多图</h3><p>一张长图、多张知识卡或图文页，成为主要视觉输出。</p></article>
+              <article class="object"><span class="object-no">SOCIAL</span><h3>平台内容</h3><p>LinkedIn 多图与文案、TikTok 图文轮播、X 单帖或 Thread。</p></article>
+              <article class="object"><span class="object-no">VIDEO</span><h3>已有媒体适配</h3><p>剪裁、比例、字幕、封面、配文，或用图片与简单转场制作图文视频。</p></article>
+            </div>
+            <div class="source-rule">MVP 不直接生成全新的动态画面或新视频帧。平台标题、字符限制、标签、裁切和比例不会反向污染 Private Page。</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="page-section tint" aria-labelledby="book-title">
+        <div class="section-grid">
+          <div class="section-label">Object 04</div>
+          <div class="reading-column">
+            <span class="state-label state-current">CURRENT · MEMORY</span>
+            <h2 id="book-title">Book · 持续演化的主题叙事</h2>
+            <p class="lead">Memova 根据项目、主题、人物和时间，建议把 Private Page 归入一本书；用户保留最终控制权。</p>
+            <div class="object-list">
+              <article class="object"><span class="object-no">AUTO</span><h3>自动建议</h3><p>从 Context 和页面关系中提出归书位置，减少用户维护文件夹的负担。</p></article>
+              <article class="object"><span class="object-no">HUMAN</span><h3>用户决定</h3><p>接受、改名、移动、合并或拆分；自动化不剥夺最终控制。</p></article>
+              <article class="object"><span class="object-no">RELATION</span><h3>保留关系</h3><p>页面之间保留先后、来源、人物、项目和决策关系，而非只存放在同一目录。</p></article>
+              <article class="object"><span class="object-no">REUSE</span><h3>成为新 Context</h3><p>新页面可以调用此前页面提供的项目历史，让长期记忆持续增值。</p></article>
+            </div>
+            <p><span class="eyebrow">Explicitly later</span> 从部分 Shared Pages 策展成一册可分享的书，是紧随其后的能力，不是当前 MVP 必须完成的对象。</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="page-section" aria-labelledby="authority-title">
+        <div class="section-grid">
+          <div class="section-label">Lifecycle</div>
+          <div class="reading-column wide">
+            <h2 id="authority-title">权威与更新关系</h2>
+            <table class="authority-table">
+              <thead><tr><th>对象</th><th>主要用途</th><th>默认可见性</th><th>知识源</th><th>更新方式</th></tr></thead>
+              <tbody>
+                <tr><td><strong>Private Page</strong></td><td>完整 Context 与记忆</td><td>仅自己</td><td>是</td><td>在私人空间持续完善</td></tr>
+                <tr><td><strong>Shared Page</strong></td><td>给指定读者的 HTML 快照</td><td>私域；可明确公开</td><td>否</td><td>用户确认后创建或更新</td></tr>
+                <tr><td><strong>Distribution Assets</strong></td><td>面向渠道的内容包</td><td>发布前仅自己</td><td>否</td><td>逐平台预览和确认</td></tr>
+                <tr><td><strong>Book</strong></td><td>组织相关 Private Pages</td><td>默认私密</td><td>组织层</td><td>自动建议、用户调整</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <section class="page-section tint" aria-labelledby="projection-title">
+        <div class="section-grid">
+          <div class="section-label">Dogfooding</div>
+          <div class="reading-column">
+            <h2 id="projection-title">为什么 HTML 是投影</h2>
+            <p class="lead">HTML 适合人类阅读、私域分享、打印和跨设备打开，但它不应成为唯一知识源。</p>
+            <ul class="decision-list">
+              <li>HTML 可能为某个受众删减敏感信息。</li>
+              <li>页面样式与平台格式会改变。</li>
+              <li>同一知识源需要供 Agent 结构化读取。</li>
+              <li>分享快照必须与持续演化的私人记忆解耦。</li>
+            </ul>
+            <div class="source-rule">本产品书采用相同模型：Markdown 保存 canonical content，HTML 是可重新生成的人类阅读书页。</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="page-section" aria-labelledby="source-title">
+        <div class="section-grid">
+          <div class="section-label">Provenance</div>
+          <div class="reading-column wide">
+            <h2 id="source-title">来源与权威</h2>
+            <div class="provenance">
+              <article class="source-box"><strong>Source of truth</strong><code>docs/product-book/memova-product-book.md</code><p class="small">四对象模型、版本规则与归书定义。</p></article>
+              <article class="source-box"><strong>Canonical page</strong><code>docs/product-book/content/product-model.md</code><p class="small">本 HTML 的 Agent-readable 内容源。</p></article>
+              <article class="source-box"><strong>HTML projection</strong><code>docs/product-book/current/product-model.html</code><p class="small">本页可重新生成，不覆盖 Markdown 权威源。</p></article>
+              <article class="source-box"><strong>Related context</strong><code>product-system · memory-interfaces</code><p class="small">解释对象如何接入更大的 Memova 产品系统。</p></article>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div class="page-links">
+        <a class="page-link" href="index.html"><small>Previous · Page 01</small><strong>返回 Memova Now</strong></a>
+        <a class="page-link" href="experience-sharing.html"><small>Next · Page 03</small><strong>阅读 Experience &amp; Sharing</strong></a>
+      </div>
+      <footer class="site-footer"><p>Canonical source: <code>content/product-model.md</code> · Page ID: <code>product-model</code> · CURRENT · Direct Link · Noindex</p></footer>
+    </main>
+  </div>
+
+  <script class="page-data" type="application/json">
+{
+  "page_id": "product-model",
+  "book_id": "memova-company-memory-book",
+  "chapter_id": "first-wedge",
+  "state": "CURRENT",
+  "updated": "2026-07-19",
+  "reading_time": "3 min",
+  "visibility": "Direct Link · Noindex",
+  "summary": "The MVP contains four objects: Private Page, Shared Page, Distribution Assets, and Book; private memory remains the source while sharing and distribution are controlled projections.",
+  "canonical_markdown": "content/product-model.md",
+  "reading_priority": 3,
+  "related_pages": [
+    "memova-now",
+    "experience-sharing",
+    "library-home",
+    "product-system",
+    "memory-interfaces"
+  ]
+}
+  </script>
+</body>
+</html>

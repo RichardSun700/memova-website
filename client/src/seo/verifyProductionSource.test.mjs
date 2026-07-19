@@ -11,11 +11,18 @@ import {
 const allRequiredPaths = new Set([
   "client/public/odmpartnership/index.html",
   "client/public/team/weilijiang/index.html",
+  "client/public/thebookofmemova/index.html",
   "client/public/_headers",
   "client/public/_redirects",
 ]);
 
 describe("findProductionSourceViolations", () => {
+  it("requires the Book of Memova homepage in every production source", () => {
+    expect(REQUIRED_TRACKED_PATHS).toContain(
+      "client/public/thebookofmemova/index.html",
+    );
+  });
+
   it("accepts a clean source when every required page is tracked", () => {
     expect(findProductionSourceViolations("", allRequiredPaths)).toEqual([]);
   });

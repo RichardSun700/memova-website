@@ -1,0 +1,316 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex,nofollow" />
+  <meta name="description" content="Memova 从输入、私密书页、确认分享、平台发行到自动归书的端到端 MVP 体验。" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='18' fill='%234f8fc8'/%3E%3Ctext x='32' y='43' text-anchor='middle' font-size='34' fill='white' font-family='Arial'%3EM%3C/text%3E%3C/svg%3E" />
+  <link rel="stylesheet" href="../assets/book.css" />
+  <title>Experience &amp; Sharing · Memova Company Memory Book</title>
+  <script defer src="../assets/book.js"></script>
+  <script defer src="/analytics/ga4-consent.js"></script>
+</head>
+<body data-page-id="experience-sharing" data-summary="Memova 先结合历史 Context 生成默认私密的完整书页，再由用户决定只保存、分享 HTML 或生成平台素材。分享必须经过确认并与 Private Page 版本隔离；直发不可用时降级为 Assisted Publish 或 Export Only。Private Page 自动归书，发行记录始终保存，平台指标只在官方权限允许时同步。">
+  <div class="reading-progress" data-reading-progress aria-hidden="true"></div>
+
+  <details class="mobile-menu">
+    <summary>Memova Company Memory Book · 目录</summary>
+    <nav aria-label="移动端全书导航">
+      <a href="../index.html" data-nav-id="library-home">Library Home</a>
+      <a href="../company/user-manifesto-future-of-being-remembered.html" data-nav-id="user-manifesto-future-of-being-remembered">01 · 用户宣言</a>
+      <a href="../current/index.html" data-nav-id="memova-now">02.1 · 第一把尖刀</a>
+      <a href="../current/product-model.html" data-nav-id="product-model">02.2 · Product Model</a>
+      <a href="../current/experience-sharing.html" data-nav-id="experience-sharing">02.3 · Experience &amp; Sharing</a>
+      <a href="../company/foundations.html" data-nav-id="company-foundations">03.1 · Foundations</a>
+      <a href="../company/product-system.html" data-nav-id="product-system">03.2 · Product System</a>
+      <a href="../company/memory-interfaces.html" data-nav-id="memory-interfaces">03.3 · Memory &amp; Interfaces</a>
+      <a href="../company/evolution.html" data-nav-id="evolution">04.1 · Evolution</a>
+      <a href="../company/open-questions.html" data-nav-id="open-questions">04.2 · Open Questions</a>
+    </nav>
+  </details>
+
+  <div class="book-shell">
+    <aside class="book-nav" aria-label="全书导航">
+      <a class="brand" href="../index.html">
+        <span class="brand-mark" aria-hidden="true">M</span>
+        <span><strong>Memova</strong><small>Company Memory Book</small></span>
+      </a>
+      <div class="nav-scroll">
+        <section class="nav-book">
+          <p class="nav-book-title">Library</p>
+          <ul class="nav-list"><li><a href="../index.html" data-nav-id="library-home">Home · Start here</a></li></ul>
+        </section>
+        <section class="nav-book">
+          <p class="nav-book-title">Chapter 01 · 用户宣言</p>
+          <ul class="nav-list"><li><a href="../company/user-manifesto-future-of-being-remembered.html" data-nav-id="user-manifesto-future-of-being-remembered">被记住的未来</a></li></ul>
+        </section>
+        <section class="nav-book">
+          <p class="nav-book-title">Chapter 02 · 第一把尖刀</p>
+          <ul class="nav-list">
+            <li><a href="../current/index.html" data-nav-id="memova-now">02.1 · Current Direction</a></li>
+            <li><a href="../current/product-model.html" data-nav-id="product-model">02.2 · Product Model</a></li>
+            <li><a href="../current/experience-sharing.html" data-nav-id="experience-sharing">02.3 · Experience &amp; Sharing</a></li>
+          </ul>
+        </section>
+        <section class="nav-book">
+          <p class="nav-book-title">Chapter 03 · Why Memova</p>
+          <ul class="nav-list">
+            <li><a href="../company/foundations.html" data-nav-id="company-foundations">03.1 · Foundations</a></li>
+            <li><a href="../company/product-system.html" data-nav-id="product-system">03.2 · Product System</a></li>
+            <li><a href="../company/memory-interfaces.html" data-nav-id="memory-interfaces">03.3 · Memory &amp; Interfaces</a></li>
+          </ul>
+        </section>
+        <section class="nav-book">
+          <p class="nav-book-title">Chapter 04 · How We Got Here</p>
+          <ul class="nav-list">
+            <li><a href="../company/evolution.html" data-nav-id="evolution">04.1 · Evolution &amp; Evidence</a></li>
+            <li><a href="../company/open-questions.html" data-nav-id="open-questions">04.2 · Open Questions</a></li>
+          </ul>
+        </section>
+      </div>
+      <div class="nav-foot">
+        Direct Link · Noindex<br />Version 0.5 · 2026-07-19
+        <div class="summary-actions"><button class="quiet-button" type="button" data-print>打印</button></div>
+      </div>
+    </aside>
+
+    <main class="book-page">
+      <header class="page-hero">
+        <div class="hero-copy">
+          <div class="page-meta">
+            <span class="state-label state-current">CURRENT</span>
+            <span class="page-id">PAGE · experience-sharing</span>
+            <span>Updated 2026-07-19</span>
+            <span>4 min read</span>
+            <span class="visibility">Direct Link · Noindex</span>
+          </div>
+          <h1 class="hero-title page-title">先私密<br />再决定分享</h1>
+          <p class="hero-subtitle">Memova 先生成完整的 Private Page。用户可以停在这里，也可以确认一个分享快照、设置访问方式，再选择是否发行到具体平台。</p>
+        </div>
+        <div class="hero-bottom">
+          <div class="page-meta"><span>Chapter 02 · Page 03</span><span>End-to-end MVP</span></div>
+          <p class="hero-note">HTML 不依赖社交平台成立；平台失败也不能破坏用户的书页与记忆。</p>
+        </div>
+      </header>
+
+      <noscript><p class="noscript-note">JavaScript 已关闭。全部正文和导航仍可阅读；复制摘要与阅读进度功能不可用。</p></noscript>
+
+      <section class="page-section" aria-labelledby="quick-title">
+        <div class="section-grid">
+          <div class="section-label">30 Seconds</div>
+          <div class="reading-column">
+            <article class="agent-summary">
+              <h2 id="quick-title">Agent Quick Read</h2>
+              <p>用户以约三分钟语音或文字开始，并可补充图片、已有视频与项目资料。Memova 结合历史 Context 识别项目、人物、来源、敏感信息和需要确认的表达，先生成默认私密的完整书页。用户可以到此为止，也可以确认一个 Shared Page，并设置 Memova 好友、密码、失效时间或明确公开。用户还可为 LinkedIn、TikTok、X 分别预览并确认平台素材；直发不可用时降级为 Assisted Publish 或 Export Only，不阻塞 HTML。Private Page 自动获得归书建议。发行事实始终保存，基础互动指标只在官方权限允许时同步。</p>
+              <div class="summary-actions"><button class="quiet-button" type="button" data-copy-summary>复制 Agent Summary</button><a class="quiet-button" href="../manifest.json">打开机器索引</a></div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="page-section tint" aria-labelledby="flow-title">
+        <div class="section-grid">
+          <div class="section-label">Experience</div>
+          <div class="reading-column wide">
+            <h2 id="flow-title">从一次输入到一本书</h2>
+            <p class="lead">分享不是强制漏斗。用户可以只保存、私域分享 HTML、明确公开 HTML，或生成社媒发行素材。</p>
+            <div class="timeline">
+              <article class="timeline-item"><div class="timeline-date">STEP 01</div><div class="timeline-body"><h3>Capture</h3><p>录制约三分钟语音或输入文字，也可补充图片、已有视频与项目资料。</p></div></article>
+              <article class="timeline-item"><div class="timeline-date">STEP 02</div><div class="timeline-body"><h3>Understand</h3><p>关联项目、人物、前序书页和历史决策；识别来源、推断、敏感信息与待确认表达。</p></div></article>
+              <article class="timeline-item"><div class="timeline-date">STEP 03</div><div class="timeline-body"><h3>Generate the Private Page</h3><p>生成完整扩展笔记，用户可以编辑、补充或只保存到私人图书馆。到这里已完成核心价值。</p></div></article>
+              <article class="timeline-item"><div class="timeline-date">STEP 04</div><div class="timeline-body"><h3>Choose a Destination</h3><p>选择只保存、私域分享 HTML、公域分享 HTML，或生成社媒发行素材。</p></div></article>
+              <article class="timeline-item"><div class="timeline-date">STEP 05</div><div class="timeline-body"><h3>Review the Shared Page</h3><p>查看最终外部内容以及姓名、客户信息、内部数字、未公开计划、推断与缺少来源的强陈述，确认后才创建或更新快照。</p></div></article>
+              <article class="timeline-item"><div class="timeline-date">STEP 06</div><div class="timeline-body"><h3>Set Access</h3><p>授权 Memova 好友、设置密码与可选失效时间，或明确公开；访问可以撤回。</p></div></article>
+              <article class="timeline-item"><div class="timeline-date">STEP 07</div><div class="timeline-body"><h3>Optional Social Distribution</h3><p>分别预览 LinkedIn、TikTok、X 的账号、文案、素材顺序、可见范围和声明，再逐个平台确认。</p></div></article>
+              <article class="timeline-item"><div class="timeline-date">STEP 08</div><div class="timeline-body"><h3>Auto-book</h3><p>Private Page 获得归书建议，用户接受、改名或移动；长期由相互关联的 Page 形成个人图书馆。</p></div></article>
+              <article class="timeline-item"><div class="timeline-date">STEP 09</div><div class="timeline-body"><h3>Optional Feedback</h3><p>始终保存发行事实；权限允许时异步补充指标，权限不可用时保留未知而不是显示错误零值。</p></div></article>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="page-section" aria-labelledby="privacy-title">
+        <div class="section-grid">
+          <div class="section-label">Privacy</div>
+          <div class="reading-column wide">
+            <span class="state-label state-current">CURRENT</span>
+            <h2 id="privacy-title">Human-led by default</h2>
+            <div class="object-list">
+              <article class="object"><span class="object-no">PRIVATE</span><h3>默认私密</h3><p>Private Page 创建后仅用户本人可见；连接账号、生成素材或生成 Shared Page 都不会自动公开。</p></article>
+              <article class="object"><span class="object-no">REVIEW</span><h3>对外前确认</h3><p>分享快照和每个平台分别展示最终内容、账号、可见范围与必要声明。</p></article>
+              <article class="object"><span class="object-no">VERSION</span><h3>版本隔离</h3><p>Private Page 更新不会静默改变外部页面；用户再次确认后才更新 Shared Page。</p></article>
+              <article class="object"><span class="object-no">REVOCATION</span><h3>可以撤回</h3><p>撤回链接、修改密码或移除好友权限，不删除私人记忆。</p></article>
+            </div>
+            <h3>Minimal version rule</h3>
+            <ul class="decision-list confirmed">
+              <li>每张 Private Page 最多一个 Shared Page 快照。</li>
+              <li>修改某个平台文案不会改变 Shared Page 或其他平台版本。</li>
+              <li>同一 Page 的团队版、投资人版、家人版等多受众分支不属于 MVP。</li>
+            </ul>
+            <h3>Access rule</h3>
+            <ul class="decision-list confirmed">
+              <li>好友访问每次检查当前 Memova 权限。</li>
+              <li>密码不以明文保存，并可修改、撤销或设置失效时间。</li>
+              <li>好友与密码可以同时开启；满足任一授权条件即可进入。</li>
+              <li>私域页面默认 <code>noindex, nofollow</code>，媒体地址不能绕过页面权限。</li>
+            </ul>
+            <p class="small">本内部产品书只演示这些规则的结构与叙事，不声称本地静态网站已实现真实登录、密码或生产访问控制。</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="page-section tint" aria-labelledby="distribution-title">
+        <div class="section-grid">
+          <div class="section-label">Distribution</div>
+          <div class="reading-column wide">
+            <h2 id="distribution-title">直发是优先级，不是依赖</h2>
+            <p class="lead">当前直接发布优先级是 LinkedIn → TikTok → X。具体实现必须服从当时的官方文档、应用审核、账户权限与成本。</p>
+            <table class="authority-table">
+              <thead><tr><th>状态</th><th>成立条件</th><th>用户得到什么</th></tr></thead>
+              <tbody>
+                <tr><td><strong>Direct Publish</strong></td><td>官方接口可用、应用已获批准、用户已授权</td><td>在 Memova 预览并确认后直接发布</td></tr>
+                <tr><td><strong>Assisted Publish</strong></td><td>直发暂不可用，但可以准备完整素材</td><td>打开目标平台，由用户完成最终确认</td></tr>
+                <tr><td><strong>Export Only</strong></td><td>平台无可用发布路径</td><td>下载或复制平台适配包</td></tr>
+              </tbody>
+            </table>
+            <div class="object-list">
+              <article class="object"><span class="object-no">01 · LINKEDIN</span><h3>知识型内容优先</h3><p>与创业者的产品进展、行业观点和专业表达最接近。</p></article>
+              <article class="object"><span class="object-no">02 · TIKTOK</span><h3>图文与已有视频</h3><p>适配图片轮播和已有视频；直发取决于官方审核与权限。</p></article>
+              <article class="object"><span class="object-no">03 · X</span><h3>短观点与 Thread</h3><p>适配简短观点和连续表达；接口成本属于实现约束。</p></article>
+              <article class="object"><span class="object-no">FALLBACK</span><h3>HTML 永远独立</h3><p>任一平台失败都不影响 Shared Page、Private Page 或其他渠道。</p></article>
+            </div>
+            <div class="source-rule">平台审核、权限与成本不能阻塞核心 HTML 书页体验。</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="page-section" aria-labelledby="video-title">
+        <div class="section-grid">
+          <div class="section-label">Media Boundary</div>
+          <div class="reading-column">
+            <h2 id="video-title">重组已有媒体，不生成新动态帧</h2>
+            <p class="lead">MVP 可以处理用户上传的已有视频，也可以把图片、文字、可选配音与简单转场组合成图文视频。</p>
+            <ul class="decision-list confirmed">
+              <li>支持已有视频剪裁、比例适配、字幕、封面与配文。</li>
+              <li>支持图片序列生成图文视频。</li>
+              <li>MVP 不生成全新的动态画面或新视频帧。</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section class="page-section tint" aria-labelledby="feedback-title">
+        <div class="section-grid">
+          <div class="section-label">Feedback</div>
+          <div class="reading-column wide">
+            <h2 id="feedback-title">先保存发行事实，再补充平台指标</h2>
+            <div class="object-list">
+              <article class="object"><span class="object-no">A · GUARANTEED</span><h3>发行记录</h3><p>平台、账号、发布状态、发布时间、Post ID、公开链接、错误信息与重试状态始终保存。</p></article>
+              <article class="object"><span class="object-no">B · PERMISSION</span><h3>指标补充</h3><p>仅在官方接口、应用权限与用户授权允许时，同步平台实际返回的基础互动指标与最近同步时间。</p></article>
+            </div>
+            <ul class="decision-list confirmed">
+              <li>权限不可用时自动退回 A，不阻塞分享或发布。</li>
+              <li>不显示虚假的零数据，也不把“未知”解释成“没有互动”。</li>
+              <li>不通过非官方抓取绕过平台权限。</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section class="page-section" aria-labelledby="scope-title">
+        <div class="section-grid">
+          <div class="section-label">MVP Scope</div>
+          <div class="reading-column wide">
+            <h2 id="scope-title">当前必须成立什么</h2>
+            <div class="object-list">
+              <article class="object"><span class="object-no">CAPTURE → PAGE</span><h3>生成并确认 Private Page</h3><p>创业者语音/文字输入，结合项目 Context，支持编辑、敏感信息提示和最终确认。</p></article>
+              <article class="object"><span class="object-no">PAGE → SHARE</span><h3>一个受控分享快照</h3><p>单文件或稳定链接 HTML，支持好友和密码访问、撤回与可选失效时间。</p></article>
+              <article class="object"><span class="object-no">PAGE → MEDIA</span><h3>长图、多图与平台预览</h3><p>LinkedIn、TikTok、X 适配预览；至少一个平台完成真实直发，其他平台可降级。</p></article>
+              <article class="object"><span class="object-no">PAGE → BOOK</span><h3>归书与发行记录</h3><p>自动建议归书，用户可确认或移动；保存发行事实，权限允许时同步指标。</p></article>
+            </div>
+            <h3>Explicitly later · 不是当前承诺</h3>
+            <ul class="decision-list">
+              <li>同一 Private Page 的多受众版本，以及复杂团队审批和权限矩阵。</li>
+              <li>完整社媒日历、批量排程和九个平台全部 Direct Publish。</li>
+              <li>评论正文回流、总结、自动回复和自动社交互动。</li>
+              <li>AI 生成全新动态视频画面。</li>
+              <li>以分析仪表盘为主的首页。</li>
+              <li>从多张 Shared Pages 策展公开书籍的完整体验。</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section class="page-section tint" aria-labelledby="success-title">
+        <div class="section-grid">
+          <div class="section-label">Success</div>
+          <div class="reading-column wide">
+            <h2 id="success-title">验证 Page 是否真的有价值</h2>
+            <div class="object-list">
+              <article class="object"><span class="object-no">ACTIVATION</span><h3>愿意保存或分享</h3><p>用户完成一次约三分钟输入，得到一张愿意保存或分享的书页，并完成私域分享或至少一次平台发布。</p></article>
+              <article class="object"><span class="object-no">QUALITY</span><h3>隐私边界清楚</h3><p>没有未经确认的敏感信息；用户知道什么私密、什么正在分享；移动端内容不被关键裁切。</p></article>
+              <article class="object"><span class="object-no">RETENTION</span><h3>第二张 Page 更聪明</h3><p>用户在一周内生成第二张书页，新 Page 能复用前一页和项目历史 Context，并开始形成一本书。</p></article>
+              <article class="object"><span class="object-no">DISTRIBUTION</span><h3>愿意交给真实读者</h3><p>用户愿意把 HTML 发给同事、朋友、家人或投资人，或发布到 LinkedIn、TikTok、X。</p></article>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="page-section" aria-labelledby="demo-title">
+        <div class="section-grid">
+          <div class="section-label">Dogfooding</div>
+          <div class="reading-column">
+            <h2 id="demo-title">这本书就是一次体验验证</h2>
+            <p class="lead">Memova 自己成为第一个被整理的用户：公司 Context 变成 canonical Markdown；主题成为带 ID、状态、来源和关系的 Page；Page 组成三本 Book；HTML 成为团队可读的投影。</p>
+            <p>团队评审的不只是产品说明，也是在验证 Page → Book → Library 能否让人和 Agent 更快理解一个复杂主体。</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="page-section tint" aria-labelledby="source-title">
+        <div class="section-grid">
+          <div class="section-label">Provenance</div>
+          <div class="reading-column wide">
+            <h2 id="source-title">来源与权威</h2>
+            <div class="provenance">
+              <article class="source-box"><strong>Source of truth</strong><code>docs/product-book/memova-product-book.md</code><p class="small">流程、隐私、发行、反馈、MVP 与成功标准。</p></article>
+              <article class="source-box"><strong>Canonical page</strong><code>docs/product-book/content/experience-sharing.md</code><p class="small">本 HTML 的 Agent-readable 内容源。</p></article>
+              <article class="source-box"><strong>Platform evidence</strong><code>Official LinkedIn · TikTok · X documentation</code><p class="small">实现时必须重新核对官方文档、审核状态和实际权限。</p></article>
+              <article class="source-box"><strong>Open decisions</strong><code>docs/product-book/content/open-questions.md</code><p class="small">未确认选择不在本页作为产品承诺。</p></article>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div class="page-links">
+        <a class="page-link" href="product-model.html"><small>Previous · Page 02</small><strong>返回 The Product Model</strong></a>
+        <a class="page-link" href="../company/foundations.html"><small>Next · Chapter 03</small><strong>继续阅读 Why Memova</strong></a>
+      </div>
+      <footer class="site-footer"><p>Canonical source: <code>content/experience-sharing.md</code> · Page ID: <code>experience-sharing</code> · CURRENT · Direct Link · Noindex</p></footer>
+    </main>
+  </div>
+
+  <script class="page-data" type="application/json">
+{
+  "page_id": "experience-sharing",
+  "book_id": "memova-company-memory-book",
+  "chapter_id": "first-wedge",
+  "state": "CURRENT",
+  "updated": "2026-07-19",
+  "reading_time": "4 min",
+  "visibility": "Direct Link · Noindex",
+  "summary": "Memova generates a private Page first; saving, private sharing, and public distribution are user choices protected by confirmation, version isolation, access control, fallback publishing, and automatic Book formation.",
+  "canonical_markdown": "content/experience-sharing.md",
+  "reading_priority": 4,
+  "related_pages": [
+    "product-model",
+    "memova-now",
+    "library-home",
+    "evolution",
+    "open-questions"
+  ]
+}
+  </script>
+</body>
+</html>

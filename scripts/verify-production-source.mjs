@@ -5,6 +5,7 @@ import path from "node:path";
 export const REQUIRED_TRACKED_PATHS = [
   "client/public/odmpartnership/index.html",
   "client/public/team/weilijiang/index.html",
+  "client/public/thebookofmemova/index.html",
   "client/public/_headers",
   "client/public/_redirects",
 ];

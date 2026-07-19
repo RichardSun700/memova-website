@@ -1,0 +1,325 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex,nofollow" />
+  <meta name="description" content="Memova 产品系统：Page → Book → Library 如何扩展 Inbox &amp; Brief → Knowledge Base → Agent Hands → Outputs，而不是替代它。" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='18' fill='%234f8fc8'/%3E%3Ctext x='32' y='43' text-anchor='middle' font-size='34' fill='white' font-family='Arial'%3EM%3C/text%3E%3C/svg%3E" />
+  <link rel="stylesheet" href="../assets/book.css" />
+  <title>Product System · Why Memova · Memova Company Memory Book</title>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "TechArticle",
+    "name": "Why Memova · Product System",
+    "description": "How Page, Book, and Library extend Memova's stable context and action architecture.",
+    "dateModified": "2026-07-19",
+    "inLanguage": "zh-CN",
+    "isAccessibleForFree": false
+  }
+  </script>
+  <script defer src="../assets/book.js"></script>
+  <script defer src="/analytics/ga4-consent.js"></script>
+</head>
+<body data-page-id="product-system" data-summary="Memova 仍然遵循 Human ↔ Inbox &amp; Brief ↔ Knowledge Base ↔ Agent Hands → Outputs。Inbox &amp; Brief 捕捉自然交互并组织成对齐的 Context；Knowledge Base 保存结构化、用户拥有的记忆；Agent Hands 使用这些 Context 准备或执行经批准的工作；Outputs 把结果交还给人。Page → Book → Library 增加一个可见循环：结构化 Context 成为 Private Page，相关 Page 组成 Book 与 Library，经过用户确认的快照再成为 Shared Page 和平台发行素材。">
+  <div class="reading-progress" data-reading-progress aria-hidden="true"></div>
+
+  <details class="mobile-menu">
+    <summary>Memova Company Memory Book · 目录</summary>
+    <nav aria-label="移动端全书导航">
+      <a href="../index.html" data-nav-id="library-home">Library Home</a>
+      <a href="../company/user-manifesto-future-of-being-remembered.html" data-nav-id="user-manifesto-future-of-being-remembered">01 · 用户宣言</a>
+      <a href="../current/index.html" data-nav-id="memova-now">02.1 · 第一把尖刀</a>
+      <a href="../current/product-model.html" data-nav-id="product-model">02.2 · Product Model</a>
+      <a href="../current/experience-sharing.html" data-nav-id="experience-sharing">02.3 · Experience &amp; Sharing</a>
+      <a href="../company/foundations.html" data-nav-id="company-foundations">03.1 · Foundations</a>
+      <a href="../company/product-system.html" data-nav-id="product-system">03.2 · Product System</a>
+      <a href="../company/memory-interfaces.html" data-nav-id="memory-interfaces">03.3 · Memory &amp; Interfaces</a>
+      <a href="../company/evolution.html" data-nav-id="evolution">04.1 · Evolution</a>
+      <a href="../company/open-questions.html" data-nav-id="open-questions">04.2 · Open Questions</a>
+    </nav>
+  </details>
+
+  <div class="book-shell">
+    <aside class="book-nav" aria-label="全书导航">
+      <a class="brand" href="../index.html">
+        <span class="brand-mark" aria-hidden="true">M</span>
+        <span><strong>Memova</strong><small>Company Memory Book</small></span>
+      </a>
+      <div class="nav-scroll">
+        <section class="nav-book">
+          <p class="nav-book-title">Library</p>
+          <ul class="nav-list"><li><a href="../index.html" data-nav-id="library-home">Home · Start here</a></li></ul>
+        </section>
+        <section class="nav-book">
+          <p class="nav-book-title">Chapter 01 · 用户宣言</p>
+          <ul class="nav-list"><li><a href="../company/user-manifesto-future-of-being-remembered.html" data-nav-id="user-manifesto-future-of-being-remembered">被记住的未来</a></li></ul>
+        </section>
+        <section class="nav-book">
+          <p class="nav-book-title">Chapter 02 · 第一把尖刀</p>
+          <ul class="nav-list">
+            <li><a href="../current/index.html" data-nav-id="memova-now">02.1 · Current Direction</a></li>
+            <li><a href="../current/product-model.html" data-nav-id="product-model">02.2 · Product Model</a></li>
+            <li><a href="../current/experience-sharing.html" data-nav-id="experience-sharing">02.3 · Experience &amp; Sharing</a></li>
+          </ul>
+        </section>
+        <section class="nav-book">
+          <p class="nav-book-title">Chapter 03 · Why Memova</p>
+          <ul class="nav-list">
+            <li><a href="../company/foundations.html" data-nav-id="company-foundations">03.1 · Foundations</a></li>
+            <li><a href="../company/product-system.html" data-nav-id="product-system">03.2 · Product System</a></li>
+            <li><a href="../company/memory-interfaces.html" data-nav-id="memory-interfaces">03.3 · Memory &amp; Interfaces</a></li>
+          </ul>
+        </section>
+        <section class="nav-book">
+          <p class="nav-book-title">Chapter 04 · How We Got Here</p>
+          <ul class="nav-list">
+            <li><a href="../company/evolution.html" data-nav-id="evolution">04.1 · Evolution &amp; Evidence</a></li>
+            <li><a href="../company/open-questions.html" data-nav-id="open-questions">04.2 · Open Questions</a></li>
+          </ul>
+        </section>
+      </div>
+      <div class="nav-foot">
+        Direct Link · Noindex<br />Version 0.5 · 2026-07-19
+        <div class="summary-actions"><button class="quiet-button" type="button" data-print>打印</button></div>
+      </div>
+    </aside>
+
+    <main class="book-page">
+      <article>
+        <header class="page-hero">
+          <div class="hero-copy">
+            <div class="page-meta">
+              <span class="state-label state-foundation">FOUNDATION</span>
+              <span class="page-id">PAGE · product-system</span>
+              <span class="visibility">Direct Link · Noindex</span>
+            </div>
+            <h1 class="hero-title page-title">The Memova<br />Product System</h1>
+            <p class="hero-subtitle">把稳定的 Context + Action 架构与新的 Page → Book → Library 产品表面放进同一张系统图。</p>
+          </div>
+          <div class="hero-bottom">
+            <div class="page-meta"><span>Chapter 03 · Page 02</span><span>Updated 2026-07-19</span><span>5 min read</span></div>
+            <p class="hero-note">Page 是新增的可见价值单元；Inbox、Knowledge Base 和 Agent Hands 没有被替换。</p>
+          </div>
+        </header>
+
+        <noscript><p class="noscript-note">JavaScript 已关闭。全部正文、来源和导航仍可阅读；复制摘要与阅读进度功能不可用。</p></noscript>
+
+        <section class="page-section" aria-labelledby="quick-read-title">
+          <div class="section-grid">
+            <div class="section-label">30 Seconds</div>
+            <div class="reading-column">
+              <article class="agent-summary">
+                <h2 id="quick-read-title">Agent Quick Read</h2>
+                <p>Memova 仍然遵循 Human ↔ Inbox &amp; Brief ↔ Knowledge Base ↔ Agent Hands → Outputs。Inbox &amp; Brief 捕捉自然交互并组织成对齐的 Context；Knowledge Base 保存结构化、用户拥有的记忆；Agent Hands 使用这些 Context 准备或执行经批准的工作；Outputs 把结果交还给人。Page → Book → Library 增加一个可见循环：结构化 Context 成为 Private Page，相关 Page 组成 Book 与 Library，经过用户确认的快照再成为 Shared Page 和平台发行素材。</p>
+                <div class="summary-actions"><button class="quiet-button" type="button" data-copy-summary>复制 Agent Summary</button></div>
+              </article>
+            </div>
+          </div>
+        </section>
+
+        <section class="page-section tint" aria-labelledby="scope-title">
+          <div class="section-grid">
+            <div class="section-label">Authority</div>
+            <div class="reading-column wide">
+              <h2 id="scope-title">两套模型，一套系统</h2>
+              <div class="provenance">
+                <article class="source-box"><span class="state-label state-foundation">FOUNDATION</span><h3>稳定系统</h3><p>Human ↔ Inbox &amp; Brief ↔ Knowledge Base ↔ Agent Hands → Outputs，来自 2026-05 的产品基础。</p></article>
+                <article class="source-box"><span class="state-label state-current">CURRENT DEFINITION</span><h3>当前对象</h3><p>Private Page、Shared Page、Distribution Assets 与 Book，来自 2026-07-19 的 Chapter 02。</p></article>
+                <article class="source-box"><span class="state-label state-evidence">INTERPRETATION</span><h3>本页组合图</h3><p>解释两者如何嵌套，是内部系统视图，不是最终数据库 Schema。</p></article>
+                <article class="source-box"><strong>Conflict rule</strong><h3>Chapter 02 wins</h3><p>若 MVP、隐私、版本或发行行为冲突，以当前产品定义为准。</p></article>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="page-section" aria-labelledby="stable-system-title">
+          <div class="section-grid">
+            <div class="section-label">Stable System</div>
+            <div class="reading-column wide">
+              <span class="state-label state-foundation">FOUNDATION</span>
+              <h2 id="stable-system-title">Context 把自然输入连接到有用结果</h2>
+              <div class="flow-line">
+                <div class="flow-step"><strong>Human</strong><span>保持自然地思考、说话、书写、开会和决定</span></div>
+                <div class="flow-step"><strong>Inbox &amp; Brief</strong><span>捕捉输入，组织目标、约束与执行意图</span></div>
+                <div class="flow-step"><strong>Knowledge Base</strong><span>持久保存人、项目、决定、承诺与来源</span></div>
+                <div class="flow-step"><strong>Agent Hands</strong><span>选择合适工具，准备或执行已授权的工作</span></div>
+                <div class="flow-step"><strong>Outputs</strong><span>把可读、可分享或可执行的结果交还给人</span></div>
+              </div>
+              <p class="lead">用户通过自然活动进入系统，而不是通过 Agent 列表；Memory 是 Capture 与 Outcome 之间的连接层，而不是流程末端的 Archive。</p>
+            </div>
+          </div>
+        </section>
+
+        <section class="page-section tint" aria-labelledby="layers-title">
+          <div class="section-grid">
+            <div class="section-label">Four Layers</div>
+            <div class="reading-column wide">
+              <h2 id="layers-title">四个稳定产品层</h2>
+              <div class="object-list">
+                <article class="object">
+                  <span class="object-no">01 · ENTRY</span>
+                  <h3>Inbox &amp; Brief</h3>
+                  <p><strong>Inbox</strong> 接收快速想法、文字、语音、会议、图片、白板、手写、已有视频与项目材料。<strong>Brief</strong> 把原始输入组织成相关人物、项目、目标、约束、未决问题与期望结果。</p>
+                  <p>创业者约三分钟语音是当前最清晰的第一入口，但不是 Entry Layer 的永久边界。</p>
+                </article>
+                <article class="object">
+                  <span class="object-no">02 · MEMORY</span>
+                  <h3>Knowledge Base</h3>
+                  <p>保存人物和关系、项目状态、决定与原因、承诺与负责人、事件、偏好、重复模式，以及来源、纠正和权威状态。</p>
+                  <p>应当 local-first、可导出、用户拥有，并可由获得授权的 Agent 阅读。</p>
+                </article>
+                <article class="object">
+                  <span class="object-no">03 · EXECUTION</span>
+                  <h3>Agent Hands</h3>
+                  <p>使用 Memova Context 准备日历、跟进消息、任务、研究、代码、Brief 或发行包。内部可以连接多个工具，用户不需要负责路由。</p>
+                  <p>默认顺序：观察和结构化 → 建议和准备 → 展示后果 → 请求确认 → 行动。</p>
+                </article>
+                <article class="object">
+                  <span class="object-no">04 · VALUE</span>
+                  <h3>Outputs</h3>
+                  <p>原有输出包括计划、草稿、日历、任务、提醒、报告与 Agent 完成的工作。当前定义新增 HTML、长图、多图、平台适配内容与用户视频包装。</p>
+                  <p>输出是派生物；修改平台文案不能静默改写 Private Page。</p>
+                </article>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="page-section" aria-labelledby="extension-title">
+          <div class="section-grid">
+            <div class="section-label">Current Extension</div>
+            <div class="reading-column wide">
+              <span class="state-label state-current">CURRENT DEFINITION</span>
+              <h2 id="extension-title">Page → Book → Library 是记忆循环，不是第五个孤立模块</h2>
+              <div class="flow-line">
+                <div class="flow-step"><strong>Structured Context</strong><span>Inbox 与 Knowledge Base 提供完整背景</span></div>
+                <div class="flow-step"><strong>Private Page</strong><span>可编辑、可检查的权威私人记忆对象</span></div>
+                <div class="flow-step"><strong>Book</strong><span>按项目、主题、人物与时间形成演化叙事</span></div>
+                <div class="flow-step"><strong>Library</strong><span>人类阅读界面与授权 Agent Context Surface</span></div>
+                <div class="flow-step"><strong>Future Context</strong><span>过去书页提高下一次 Brief、Page 与 Action</span></div>
+              </div>
+              <div class="source-rule">Knowledge Base → Private Page → Book → Library → future Context<br />Private Page → 用户检查与确认 → Shared Page → Distribution Assets<br />Knowledge Base ↔ Agent Hands → operational Outputs</div>
+              <p>这个组合增加三个能力：Page 是可见的第一价值单元；Book 与 Library 让积累自然出现；Shared Page 在私人记忆与外部输出之间建立可审查的确认边界。</p>
+            </div>
+          </div>
+        </section>
+
+        <section class="page-section tint" aria-labelledby="objects-title">
+          <div class="section-grid">
+            <div class="section-label">Object Contract</div>
+            <div class="reading-column wide">
+              <h2 id="objects-title">每个对象只承担一种责任</h2>
+              <div class="object-list">
+                <article class="object"><span class="object-no">PRIVATE · CANONICAL</span><h3>Private Page</h3><p>由原始输入与既有 Context 形成的持久记忆对象；可含来源、推断、敏感信息、纠正与行动可能。默认私密，属于 Knowledge Base。</p></article>
+                <article class="object"><span class="object-no">SHARED · SNAPSHOT</span><h3>Shared Page</h3><p>经过用户确认的投影。MVP 中一张 Private Page 最多一个分享快照；私人源更新不会静默改变外部页面。</p></article>
+                <article class="object"><span class="object-no">DERIVED · PLATFORM</span><h3>Distribution Assets</h3><p>平台特定派生物；可以改变长度、裁剪、顺序和文案，但不会成为新的知识源。</p></article>
+                <article class="object"><span class="object-no">RELATED · EVOLVING</span><h3>Book</h3><p>相关 Private Pages 形成的持续叙事，不是静态 Folder。Memova 建议归书，用户可确认、改名、移动、合并或拆分。</p></article>
+                <article class="object"><span class="object-no">OWNED · RETRIEVABLE</span><h3>Library</h3><p>Book 与关系的用户空间；同时服务人类阅读和 Agent Context，必须保留来源、状态与权限。</p></article>
+                <article class="object"><span class="object-no">ACTION · AUTHORIZED</span><h3>Operational Output</h3><p>由 Agent Hands 准备的任务、日历、消息、代码或报告；依风险匹配确认，不与分享素材混为同一对象。</p></article>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="page-section" aria-labelledby="change-title">
+          <div class="section-grid">
+            <div class="section-label">Continuity</div>
+            <div class="reading-column wide">
+              <h2 id="change-title">这个具体方向 改变什么，又保留什么</h2>
+              <div class="provenance">
+                <article class="source-box">
+                  <span class="state-label state-current">CHANGED</span>
+                  <h3>新增可见价值与积累模型</h3>
+                  <ul>
+                    <li>Page 成为第一个用户可见价值单元。</li>
+                    <li>Memory 可先生成完整作品，再触发外部 Action。</li>
+                    <li>私域分享是完整结果，公域发行可选。</li>
+                    <li>Book 让长期积累无需人工维护 Folder。</li>
+                    <li>Sharing 拥有明确的 Snapshot Boundary。</li>
+                  </ul>
+                </article>
+                <article class="source-box">
+                  <span class="state-label state-foundation">UNCHANGED</span>
+                  <h3>Context 与人类控制仍是基础</h3>
+                  <ul>
+                    <li>自然交互仍是入口。</li>
+                    <li>Knowledge Base 仍为人和 Agent 提供 Context。</li>
+                    <li>Agent Hands 仍是执行伙伴，不是主界面。</li>
+                    <li>重要动作仍然 Human-led。</li>
+                    <li>私人记忆仍与外部 Output 分离。</li>
+                    <li>Useful Action 仍是长期承诺的一部分。</li>
+                  </ul>
+                </article>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="page-section tint" aria-labelledby="invariants-title">
+          <div class="section-grid">
+            <div class="section-label">Invariants</div>
+            <div class="reading-column">
+              <h2 id="invariants-title">实现时不能丢失的七条规则</h2>
+              <ol class="decision-list confirmed">
+                <li>Raw Input、Canonical Memory、Shared Projection 与 Platform Derivative 拥有不同身份。</li>
+                <li>每个外部投影都能追溯到 Private Page 与确认事件。</li>
+                <li>发布失败不能污染或阻塞 Private Page 与 Shared Page。</li>
+                <li>Book 组织 Canonical Pages，而不只是它们的公开版本。</li>
+                <li>Library 改善未来 Context，但不静默改变已经分享的快照。</li>
+                <li>Agent 只获得其任务所需的 Context 与权限。</li>
+                <li>用户能检查、纠正、移动、撤回与导出自己的记忆。</li>
+              </ol>
+            </div>
+          </div>
+        </section>
+
+        <section class="page-section" aria-labelledby="sources-title">
+          <div class="section-grid">
+            <div class="section-label">Provenance</div>
+            <div class="reading-column wide">
+              <h2 id="sources-title">来源与关联书页</h2>
+              <div class="provenance">
+                <article class="source-box"><strong>Current authority</strong><code>docs/product-book/memova-product-book.md</code><p class="small">Private Page、Shared Page、Distribution Assets、Book 与 MVP 边界。</p></article>
+                <article class="source-box"><strong>Product foundation</strong><code>memova_product_layer_concept_2026-05-20.md</code><p class="small">Inbox &amp; Brief、Knowledge Base、Agent Hands 与 Outputs。</p></article>
+                <article class="source-box"><strong>Company thesis</strong><code>memova-personal-superalignment-essay-en-paragraph-aligned.md</code><p class="small">个人 Context 与持续对齐的长期意义。</p></article>
+                <article class="source-box"><strong>Canonical page</strong><code>docs/product-book/content/product-system.md</code><p class="small">本 HTML 的 Agent-readable 权威源。</p></article>
+              </div>
+              <h3>Related Pages</h3>
+              <p><a href="foundations.html">Foundations</a> · <a href="memory-interfaces.html">Memory &amp; Interfaces</a> · <a href="../current/product-model.html">Product Model</a> · <a href="../current/experience-sharing.html">Experience &amp; Sharing</a></p>
+            </div>
+          </div>
+        </section>
+      </article>
+
+      <nav class="page-links" aria-label="前后书页">
+        <a class="page-link" href="foundations.html"><small>Previous · Chapter 03</small><strong>Why Memova: Foundations</strong></a>
+        <a class="page-link" href="memory-interfaces.html"><small>Next · Chapter 03</small><strong>Memory &amp; Interfaces</strong></a>
+      </nav>
+      <footer class="site-footer"><p>Canonical source: <code>content/product-system.md</code> · Direct Link · Noindex · Hosted at memova.ai/thebookofmemova</p></footer>
+    </main>
+  </div>
+
+  <script class="page-data" type="application/json">
+{
+  "page_id": "product-system",
+  "book_id": "memova-company-memory-book",
+  "chapter_id": "why-memova",
+  "state": "FOUNDATION",
+  "updated": "2026-07-19",
+  "reading_time": "5 min",
+  "visibility": "Direct Link · Noindex",
+  "summary": "Page to Book to Library adds a visible memory and sharing loop to Inbox and Brief, Knowledge Base, Agent Hands, and Outputs rather than replacing that system.",
+  "canonical_markdown": "content/product-system.md",
+  "reading_priority": 6,
+  "related_pages": [
+    "company-foundations",
+    "memory-interfaces",
+    "product-model",
+    "experience-sharing"
+  ]
+}
+  </script>
+</body>
+</html>

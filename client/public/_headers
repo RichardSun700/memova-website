@@ -22,6 +22,9 @@
 /team/weilijiang/*
   X-Robots-Tag: noindex, nofollow
 
+/thebookofmemova/*
+  X-Robots-Tag: noindex, nofollow
+
 /user-cases/demos/*
   X-Robots-Tag: noindex, nofollow
 

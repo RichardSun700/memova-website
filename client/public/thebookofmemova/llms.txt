@@ -1,0 +1,54 @@
+# Memova Company Memory Book v0.5
+
+Audience: internal Memova team and authorized agents
+Visibility: Direct Link · Noindex
+Updated: 2026-07-19
+Human entry: index.html
+Machine contract: manifest.json
+
+## What this artifact is
+
+This website is both a company product book and a Memova product demo. It turns company Context into canonical Markdown Pages and readable HTML projections. Pages are grouped into four Chapters inside one Book; the Book is a seed of the company Memory Library.
+
+## Read in this order
+
+0. content/library-home.md
+1. content/user-manifesto-future-of-being-remembered.md
+2. content/memova-now.md
+3. content/product-model.md
+4. content/experience-sharing.md
+5. content/foundations.md
+6. content/product-system.md
+7. content/memory-interfaces.md
+8. content/evolution.md
+9. content/open-questions.md
+
+## Chapters
+
+- Chapter 01 / user-manifesto / MANIFESTO
+  - user-manifesto-future-of-being-remembered
+- Chapter 02 / first-wedge / CURRENT
+  - memova-now
+  - product-model
+  - experience-sharing
+- Chapter 03 / why-memova / FOUNDATION
+  - company-foundations
+  - product-system
+  - memory-interfaces
+- Chapter 04 / how-we-got-here / EVIDENCE and OPEN
+  - evolution
+  - open-questions
+
+## Authority rule
+
+CURRENT > MANIFESTO > FOUNDATION > EVIDENCE > HISTORICAL > OPEN
+
+When statements conflict, follow `manifest.json`. CURRENT pages define confirmed scope. The manifesto defines the durable user promise but does not silently expand MVP scope. OPEN pages are questions, not facts.
+
+## Current product in one paragraph
+
+Memova’s first sharp wedge is for founders: turn voice, meetings, ideas, and project Context into a private Page worth saving or sharing. The user may keep it private, create an isolated HTML share, or generate platform-ready distribution assets after confirmation. Related Pages automatically form Books and feed a personal Memory Library. Multi-platform posting is a capability; the product is a personal publisher and memory system.
+
+## Exclusion
+
+The raw Memo #000001 philosophy archive is deliberately excluded from v0.5 navigation, manifest, sources, and package. Historical copies remain preserved outside this version.
