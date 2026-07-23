@@ -27,8 +27,26 @@ describe("US iOS acquisition pages", () => {
     expect(html).toContain("ready for agents");
     expect(html).toContain("Join iOS Early Access");
     expect(html).toContain('data-analytics-event="ios_early_access_click"');
+    expect(html).toContain("View Demo Preview");
+    expect(html).toContain('href="/demo/index.html"');
+    expect(html).toContain('data-analytics-event="investor_demo_click"');
+    expect(html).toContain('target="_blank"');
     expect(html).toContain("You choose what to capture");
     expect(html).not.toContain("Your personal");
+  });
+
+  it("ships the complete investor demo as a private static preview", () => {
+    const demoRoot = path.resolve(process.cwd(), "client/public/demo");
+    const demoIndex = fs.readFileSync(path.join(demoRoot, "index.html"), "utf8");
+
+    expect(demoIndex).toContain("<title>Memova · 3-Minute YC Demo</title>");
+    expect(demoIndex).toContain('name="robots" content="noindex, nofollow"');
+    expect(
+      fs.existsSync(path.join(demoRoot, "recordings/chapter-02-note-workflow-final.mp4")),
+    ).toBe(true);
+    expect(
+      fs.existsSync(path.join(demoRoot, "recordings/chapter-03-project-book-final.mp4")),
+    ).toBe(true);
   });
 
   it("keeps the destination waitlist consistent with the iOS acquisition promise", () => {

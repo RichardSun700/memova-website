@@ -91,6 +91,19 @@ export default function HeroSection({ onSeeWorkflow }: HeroSectionProps) {
               >
                 See the workflow
               </motion.button>
+              <motion.a
+                href="/demo/index.html"
+                target="_blank"
+                rel="noopener noreferrer"
+                data-analytics-event="investor_demo_click"
+                whileHover={{ scale: 1.03 }}
+                whileTap={{ scale: 0.97 }}
+                className="px-7 py-3 bg-[var(--memova-blue)]/10 text-indigo-700 font-bold text-[13px] rounded-full
+                           border border-[var(--memova-blue)]/25 shadow-sm transition-all duration-200
+                           hover:border-indigo-400 hover:bg-indigo-50 hover:shadow-indigo-500/5"
+              >
+                View Demo Preview
+              </motion.a>
             </motion.div>
 
             {/* Trust badges */}
