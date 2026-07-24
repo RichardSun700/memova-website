@@ -3774,7 +3774,7 @@ button:focus-visible {
   align-content: center;
 }
 .kb-recording-stage .recording-frame video {
-  height: min(480px, calc(100svh - 240px));
+  height: min(620px, calc(100svh - 180px));
 }
 .kb-recording-caption {
   position: absolute;
@@ -4300,6 +4300,11 @@ button:focus-visible {
   font-size: 7px;
 }
 .recording-column {
+  --recording-focus: 0;
+  --recording-opacity: 0.68;
+  --recording-scale: 0.78;
+  position: relative;
+  z-index: 1;
   width: 100%;
   min-width: 0;
   display: grid;
@@ -4314,6 +4319,9 @@ button:focus-visible {
   transform-origin: center;
   will-change: opacity, transform;
 }
+.recording-column[data-recording-focus=active] {
+  z-index: 8;
+}
 .recording-frame {
   grid-area: frame;
   width: fit-content;
@@ -4327,7 +4335,7 @@ button:focus-visible {
 }
 .recording-column[data-recording-focus=active] .recording-frame {
   border-color: rgba(142, 156, 199, 0.62);
-  box-shadow: 0 30px 76px rgba(45, 58, 92, 0.2), 0 0 0 7px rgba(255, 255, 255, 0.46);
+  box-shadow: 0 34px 88px rgba(45, 58, 92, 0.22), 0 0 0 9px rgba(255, 255, 255, 0.5);
 }
 .recording-frame video {
   display: block;
@@ -4918,15 +4926,15 @@ button:focus-visible {
 }
 .recording-beat .recording-frame video,
 .recording-beat .recording-placeholder {
-  height: min(330px, calc(100svh - 335px));
+  height: min(520px, calc(100svh - 250px));
 }
 .project-recording-beat .recording-frame video,
 .project-recording-beat .recording-placeholder {
-  height: min(520px, calc(100svh - 200px));
+  height: min(650px, calc(100svh - 160px));
 }
 .alignment-recording-beat .recording-frame video,
 .alignment-recording-beat .recording-placeholder {
-  height: min(480px, calc(100svh - 240px));
+  height: min(600px, calc(100svh - 200px));
 }
 .html-output-beat {
   background:
@@ -5185,7 +5193,7 @@ button:focus-visible {
 }
 .output-single-recording-stage .recording-frame video,
 .output-single-recording-stage .recording-placeholder {
-  height: min(430px, calc(100svh - 275px));
+  height: min(560px, calc(100svh - 220px));
   min-height: 280px;
 }
 .output-recording-context {
@@ -20509,13 +20517,22 @@ body:has(#knowledge-base) .folio {
     }, [reducedMotion, sectionRef]);
     return reducedMotion ? 1 : progress;
   }
-  function useRecordingFocus(columnRef, reducedMotion) {
-    const [focus, setFocus] = (0, import_react.useState)(1);
+  function useRecordingFocus(columnRef, videoRef, reducedMotion) {
     (0, import_react.useEffect)(() => {
-      if (reducedMotion) return void 0;
       const column = columnRef.current;
       const scrollRoot = column?.closest(".chapter-scroll");
       if (!column || !scrollRoot) return void 0;
+      if (reducedMotion) {
+        column.style.setProperty("--recording-focus", "1");
+        column.style.setProperty("--recording-scale", "1");
+        column.style.setProperty("--recording-opacity", "1");
+        column.dataset.recordingFocus = "active";
+        return () => {
+          column.style.removeProperty("--recording-focus");
+          column.style.removeProperty("--recording-scale");
+          column.style.removeProperty("--recording-opacity");
+        };
+      }
       let frame = 0;
       const update = () => {
         frame = 0;
@@ -20524,11 +20541,23 @@ body:has(#knowledge-base) .folio {
         const rootCenter = rootRect.top + rootRect.height / 2;
         const columnCenter = columnRect.top + columnRect.height / 2;
         const distance = Math.abs(columnCenter - rootCenter);
-        const focusDistance = Math.max(1, rootRect.height * 0.9);
-        const next = easeInOutCubic(clampProgress(1 - distance / focusDistance));
-        setFocus(
-          (current) => Math.abs(current - next) > 2e-3 ? next : current
+        const focusDistance = Math.max(1, rootRect.height * 0.78);
+        const focus = easeInOutCubic(clampProgress(1 - distance / focusDistance));
+        const restingScale = 0.78;
+        const availableHeight = rootRect.height * 0.94;
+        const focusedScale = clampProgress(
+          availableHeight / Math.max(1, column.offsetHeight),
+          1,
+          1.36
         );
+        const scale = restingScale + (focusedScale - restingScale) * focus;
+        const opacity = 0.68 + focus * 0.32;
+        column.style.setProperty("--recording-focus", focus.toFixed(4));
+        column.style.setProperty("--recording-scale", scale.toFixed(4));
+        column.style.setProperty("--recording-opacity", opacity.toFixed(4));
+        column.dataset.recordingFocus = focus > 0.9 ? "active" : "transition";
+        const video = videoRef.current;
+        if (focus < 0.08 && video && !video.paused) video.pause();
       };
       const requestUpdate = () => {
         if (!frame) frame = window.requestAnimationFrame(update);
@@ -20540,9 +20569,11 @@ body:has(#knowledge-base) .folio {
         if (frame) window.cancelAnimationFrame(frame);
         scrollRoot.removeEventListener("scroll", requestUpdate);
         window.removeEventListener("resize", requestUpdate);
+        column.style.removeProperty("--recording-focus");
+        column.style.removeProperty("--recording-scale");
+        column.style.removeProperty("--recording-opacity");
       };
-    }, [columnRef, reducedMotion]);
-    return reducedMotion ? 1 : focus;
+    }, [columnRef, videoRef, reducedMotion]);
   }
   function DirectionArrow({ direction }) {
     const rotation = direction === "left" ? "rotate(90 12 12)" : direction === "right" ? "rotate(-90 12 12)" : void 0;
@@ -20577,16 +20608,8 @@ body:has(#knowledge-base) .folio {
     const videoRef = (0, import_react.useRef)(null);
     const columnRef = (0, import_react.useRef)(null);
     const reducedMotion = useMediaQuery("(prefers-reduced-motion: reduce)");
-    const focus = useRecordingFocus(columnRef, reducedMotion);
+    useRecordingFocus(columnRef, videoRef, reducedMotion);
     const [playbackState, setPlaybackState] = (0, import_react.useState)("idle");
-    const focusStyle = {
-      "--recording-scale": (0.72 + focus * 0.28).toFixed(4),
-      "--recording-opacity": (0.72 + focus * 0.28).toFixed(4)
-    };
-    (0, import_react.useEffect)(() => {
-      const video = videoRef.current;
-      if (focus < 0.12 && video && !video.paused) video.pause();
-    }, [focus]);
     const playVideo = async () => {
       const video = videoRef.current;
       if (!video || !src) return;
@@ -20611,8 +20634,7 @@ body:has(#knowledge-base) .folio {
         ref: columnRef,
         className: `recording-column${src ? "" : " is-placeholder"}`,
         "data-recording-slot": true,
-        "data-recording-focus": focus > 0.92 ? "active" : "transition",
-        style: focusStyle,
+        "data-recording-focus": "transition",
         children: [
           /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: `recording-frame${src ? "" : " is-placeholder"}`, children: src ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
             "video",
@@ -21708,8 +21730,8 @@ body:has(#knowledge-base) .folio {
   }
   function DemoFramework() {
     const [activePage, setActivePage] = (0, import_react.useState)(0);
-    const [scrollProgress, setScrollProgress] = (0, import_react.useState)(0);
     const scrollRef = (0, import_react.useRef)(null);
+    const progressRef = (0, import_react.useRef)(null);
     const goToPage = (0, import_react.useCallback)((index) => {
       const nextIndex = Math.max(0, Math.min(PAGES.length - 1, index));
       setActivePage(nextIndex);
@@ -21721,13 +21743,13 @@ body:has(#knowledge-base) .folio {
       scrollRoot.style.scrollBehavior = "auto";
       scrollRoot.scrollTop = 0;
       scrollRoot.style.scrollBehavior = previousBehavior;
-      setScrollProgress(0);
+      progressRef.current?.style.setProperty("width", "0%");
     }, [activePage]);
     const active = PAGES[activePage];
     const footer = /* @__PURE__ */ (0, import_jsx_runtime.jsx)(ChapterNavigation, { activePage, onNavigate: goToPage });
     const chapterContent = active.id === "knowledge-base" ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)(KnowledgeBaseChapter, { footer, onOpenCase: () => goToPage(1) }) : active.id === "note" ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)(ContextMorphNoteChapter, { footer }) : active.id === "book" ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)(BookChapter, { footer }) : active.id === "output-share" ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)(OutputShareChapter, { footer }) : active.id === "alignment" ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)(AlignmentChapter, { footer }) : active.id === "end" ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)(EndChapter, { footer }) : /* @__PURE__ */ (0, import_jsx_runtime.jsx)(EmptyChapter, { page: active, footer });
     return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("main", { className: "framework-shell", children: [
-      /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "scroll-progress", "aria-hidden": "true", children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: { width: `${scrollProgress}%` } }) }),
+      /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "scroll-progress", "aria-hidden": "true", children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { ref: progressRef }) }),
       /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("header", { className: "top-nav", children: [
         /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { className: "brand-lockup", children: [
           /* @__PURE__ */ (0, import_jsx_runtime.jsx)("img", { className: "official-logo", src: "./brand/memova-logo.png", alt: "Memova", width: "716", height: "527" }),
@@ -21767,7 +21789,8 @@ body:has(#knowledge-base) .folio {
             onScroll: (event) => {
               const element = event.currentTarget;
               const scrollable = element.scrollHeight - element.clientHeight;
-              setScrollProgress(scrollable > 0 ? element.scrollTop / scrollable * 100 : 0);
+              const progress = scrollable > 0 ? element.scrollTop / scrollable * 100 : 0;
+              progressRef.current?.style.setProperty("width", `${progress}%`);
             },
             children: chapterContent
           }
