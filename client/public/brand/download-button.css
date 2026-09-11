@@ -1,0 +1,42 @@
+/* Shared App Store CTA, matching the production homepage. */
+a.memova-download-button[href] {
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 42px;
+  padding: 0 19px;
+  border: 1px solid rgba(36, 54, 93, .52);
+  border-radius: 11px;
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, .14), transparent 36%),
+    linear-gradient(135deg, #455e93, #6b86e8);
+  box-shadow: 0 15px 34px rgba(69, 94, 147, .24), inset 0 1px rgba(255, 255, 255, .34);
+  color: #fff !important;
+  font-family: "DM Sans", sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: normal;
+  letter-spacing: normal;
+  text-align: center;
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: transform .22s ease, box-shadow .22s ease;
+}
+
+a.memova-download-button[href]:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 18px 38px rgba(69, 94, 147, .3), inset 0 1px rgba(255, 255, 255, .34);
+}
+
+a.memova-download-button[href]:focus-visible {
+  outline: 3px solid #6b86e8;
+  outline-offset: 4px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  a.memova-download-button[href] { transition: none; }
+  a.memova-download-button[href]:hover { transform: none; }
+}

@@ -686,26 +686,26 @@
     if (["progress", "timeout"].includes(state)) {
       return `
         <div class="agent-job-ticket is-live"><small>ACCOUNT POLLING</small><strong>${state === "timeout" ? "PAUSED" : "LIVE"}</strong><span>Authenticated website session</span></div>
-        <div class="agent-wait-app-card" role="note" aria-disabled="true" data-app-download-placeholder="true" aria-label="Download the Memova app to find your Personal Manual in Notes when generation finishes">
+        <div class="agent-wait-app-card" role="note" aria-label="Download the Memova app to find your Personal Manual in Notes when generation finishes">
           <small>CONTINUE IN MEMOVA</small>
-          <strong>Download the app <i aria-hidden="true">→</i></strong>
+          <a class="memova-download-button" href="https://apps.apple.com/us/app/memova-ai/id6796284954" target="_blank" rel="noopener noreferrer">Download the app</a>
           <span>No need to wait here. When generation finishes, your Personal Manual will appear automatically in Notes.</span>
         </div>
       `;
     }
     if (state === "result") {
       return `
-        <div class="agent-wait-app-card agent-result-app-card" role="note" aria-disabled="true" data-app-download-placeholder="true" aria-label="Download the Memova app and find your Personal Manual in Notes">
+        <div class="agent-wait-app-card agent-result-app-card" role="note" aria-label="Download the Memova app and find your Personal Manual in Notes">
           <small>OPEN IN MEMOVA</small>
-          <strong>Download the app <i aria-hidden="true">→</i></strong>
+          <a class="memova-download-button" href="https://apps.apple.com/us/app/memova-ai/id6796284954" target="_blank" rel="noopener noreferrer">Download the app</a>
           <span>Your Personal Manual is ready in Notes.</span>
         </div>
       `;
     }
     return `
-      <div class="agent-wait-app-card agent-result-app-card" role="note" aria-disabled="true" data-app-download-placeholder="true" aria-label="Download the Memova app and find your Personal Manual in Notes">
+      <div class="agent-wait-app-card agent-result-app-card" role="note" aria-label="Download the Memova app and find your Personal Manual in Notes">
         <small>OPEN IN MEMOVA</small>
-        <strong>Download the app <i aria-hidden="true">→</i></strong>
+        <a class="memova-download-button" href="https://apps.apple.com/us/app/memova-ai/id6796284954" target="_blank" rel="noopener noreferrer">Download the app</a>
         <span>Your Personal Manual is ready in Notes.</span>
       </div>
     `;

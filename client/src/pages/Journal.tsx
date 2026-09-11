@@ -10,6 +10,7 @@ import {
 import { useMemo, useState } from "react";
 
 import SiteFooter from "@/components/SiteFooter";
+import SiteHeader from "@/components/SiteHeader";
 import { type JournalCategory, journalEntries } from "@/content/journalEntries";
 import "@/styles/journal.css";
 
@@ -37,30 +38,7 @@ export default function Journal() {
 
   return (
     <div className="memova-home-theme memova-journal-page">
-      <header className="memova-journal-header">
-        <div className="memova-journal-header-inner">
-          <a href="/" aria-label="Memova home" className="memova-journal-brand">
-            <img src="/memova-logo-transparent.png" alt="Memova" />
-          </a>
-
-          <nav className="memova-journal-nav" aria-label="Primary navigation">
-            <a href="/#capture">Product</a>
-            <a href="/#act">How it works</a>
-            <a href="/product-demo/">Product demo</a>
-            <a href="/journal" aria-current="page">
-              Journal
-            </a>
-          </nav>
-
-          <a className="memova-journal-cta" href="/#waitlist">
-            Join Early Access
-          </a>
-          <a className="memova-journal-mobile-home" href="/#top">
-            <ArrowLeft aria-hidden="true" />
-            Memova
-          </a>
-        </div>
-      </header>
+      <SiteHeader current="journal" />
 
       <main className="memova-journal-main">
         <section

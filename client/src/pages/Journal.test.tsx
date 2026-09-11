@@ -1,11 +1,44 @@
-import { renderToStaticMarkup } from "react-dom/server";
+import { renderToStaticMarkup as renderMarkup } from "react-dom/server";
+import type { ReactNode } from "react";
+import { AuthProvider } from "@/contexts/AuthContext";
 import { describe, expect, it } from "vitest";
 
 import { journalEntries, latestJournalEntry } from "@/content/journalEntries";
 import Journal from "./Journal";
 import JournalArticle from "./JournalArticle";
 
+function renderToStaticMarkup(page: ReactNode) {
+  return renderMarkup(<AuthProvider>{page}</AuthProvider>);
+}
+
 describe("Memova Journal", () => {
+  it("keeps the full homepage navigation on both the index and article pages", () => {
+    for (const page of [
+      <Journal />,
+      <JournalArticle slug={latestJournalEntry.slug} />,
+    ]) {
+      const html = renderToStaticMarkup(page);
+      const navigation =
+        html.match(
+          /<nav[^>]*aria-label="Primary navigation"[\s\S]*?<\/nav>/
+        )?.[0] ?? "";
+      for (const href of [
+        "/#capture",
+        "/#act",
+        "/product-demo/",
+        "/journal/",
+        "/pricing/",
+      ]) {
+        expect(navigation).toContain(`href="${href}"`);
+      }
+      expect(navigation).toContain('aria-current="page">Journal');
+      expect(navigation).toContain('class="memova-download-button"');
+      expect(navigation).toContain("Join Community");
+      expect(navigation).toContain("Sign in");
+      expect(html).not.toContain("Join Early Access");
+      expect(html).toContain('aria-controls="site-navigation"');
+    }
+  });
   it("lists the product note and the linked dream case with their authors", () => {
     const html = renderToStaticMarkup(<Journal />);
     const dreamEntry = journalEntries.find(entry => entry.href);

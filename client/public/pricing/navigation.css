@@ -1,0 +1,15 @@
+/* Leave room for Pricing and the signed-in account in the homepage header. */
+.five-header{gap:clamp(24px,2.4vw,42px)}
+.five-nav{gap:24px}
+.five-nav>div{gap:clamp(18px,1.65vw,32px)}
+.five-nav a{white-space:nowrap}
+@media(min-width:821px) and (max-width:1280px){
+  .five-menu{width:40px;height:40px;display:grid;place-items:center;border:1px solid var(--five-line);border-radius:10px;background:rgba(255,255,255,.72)}
+  .five-nav{position:absolute;top:72px;left:0;right:0;padding:24px;display:none;align-items:stretch;flex-direction:column;border-bottom:1px solid var(--five-line);background:rgba(238,242,250,.98);box-shadow:0 20px 40px rgba(36,54,93,.1)}
+  .five-nav.is-open{display:flex}
+  .five-nav>div{align-items:stretch;flex-direction:column;gap:19px}
+  .five-community-button,.five-account-menu{width:100%}
+  .five-account-trigger{width:100%;max-width:none;justify-content:flex-start}
+  .five-account-trigger .five-account-chevron{margin-left:auto}
+  .five-account-popover{position:static;width:100%;margin-top:7px}
+}

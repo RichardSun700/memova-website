@@ -278,6 +278,12 @@ export default defineConfig(({ command, isPreview }) => ({
   build: {
     outDir: path.resolve(import.meta.dirname, "dist/public"),
     emptyOutDir: true,
+    rollupOptions: {
+      input: {
+        main: path.resolve(import.meta.dirname, "client/index.html"),
+        pricing: path.resolve(import.meta.dirname, "client/pricing/index.html"),
+      },
+    },
   },
   server: {
     port: 3000,

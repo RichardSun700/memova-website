@@ -19,6 +19,8 @@ export type SitePage = {
   priority: number;
   summary: string;
   schemaType: SchemaType;
+  /** Authored HTML entry after Vite has resolved its module assets. */
+  staticHtml?: string;
   hero?: {
     eyebrow: string;
     title: string;
@@ -61,6 +63,24 @@ const publicPages: SitePage[] = [
       title: "Building Memova in Public",
       intro:
         "Notes from what we are learning as we build, published only after editorial, privacy, and team review.",
+    },
+  },
+  {
+    path: "/pricing",
+    title: "Pricing — Memova Free & Pro",
+    description:
+      "Compare Memova Free and Pro: 300 shared audio minutes and 10 HTML Pages each month for free, or unlimited usage and AI Report for $20 USD per month.",
+    index: true,
+    changeFrequency: "monthly",
+    priority: 0.85,
+    summary:
+      "Start free with 300 shared audio minutes and 10 HTML Pages each month, or get unlimited usage and AI Report for $20 USD per month.",
+    schemaType: "WebPage",
+    staticHtml: "pricing/index.html",
+    hero: {
+      eyebrow: "Pricing",
+      title: "A little more room to think.",
+      intro: "Start free. Go unlimited when your ideas need more space.",
     },
   },
   {

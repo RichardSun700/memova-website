@@ -767,7 +767,13 @@ export function generateSeoPages() {
         ? templatePath
         : path.join(outputDir, page.path.replace(/^\//, ""), "index.html");
     fs.mkdirSync(path.dirname(destination), { recursive: true });
-    fs.writeFileSync(destination, renderPageHtml(template, page));
+    const pageTemplate = page.staticHtml
+      ? fs.readFileSync(
+          path.join(outputDir, page.staticHtml),
+          "utf8"
+        )
+      : template;
+    fs.writeFileSync(destination, renderPageHtml(pageTemplate, page));
   }
 
   // Cloudflare Pages serves top-level HTML files at extensionless URLs.

@@ -7,6 +7,7 @@ import {
 } from "lucide-react";
 
 import SiteFooter from "@/components/SiteFooter";
+import SiteHeader from "@/components/SiteHeader";
 import { getJournalEntry } from "@/content/journalEntries";
 import "@/styles/journal.css";
 
@@ -41,29 +42,7 @@ export default function JournalArticle({ slug }: JournalArticleProps) {
 
   return (
     <div className="memova-home-theme min-h-screen overflow-x-clip bg-[var(--home-canvas)] text-[var(--home-ink)]">
-      <header className="border-b border-[var(--home-border)]/80 bg-white/90 backdrop-blur-xl">
-        <div className="mx-auto flex h-[4.75rem] max-w-6xl items-center justify-between px-5 sm:px-8">
-          <a
-            href="/"
-            aria-label="Memova home"
-            className="inline-flex items-center rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--home-blue)] focus-visible:ring-offset-4"
-          >
-            <img
-              src="/memova-logo-transparent.png"
-              alt="Memova"
-              className="h-12 w-auto object-contain sm:h-14"
-            />
-          </a>
-
-          <a
-            href="/journal"
-            className="inline-flex min-h-11 items-center gap-2 rounded-full border border-[var(--home-border)] bg-white px-4 text-sm font-semibold text-[var(--home-body)] shadow-[0_8px_22px_rgba(45,58,92,0.07)] transition hover:-translate-y-0.5 hover:border-[rgba(40,100,245,0.35)] hover:text-[var(--home-blue)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--home-blue)] focus-visible:ring-offset-2"
-          >
-            <ArrowLeft aria-hidden="true" className="h-4 w-4" />
-            Back to Journal
-          </a>
-        </div>
-      </header>
+      <SiteHeader current="journal" />
 
       {entry ? (
         <main>

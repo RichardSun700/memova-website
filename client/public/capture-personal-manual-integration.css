@@ -1586,38 +1586,20 @@
 #capture.integrated-agent-manual .agent-wait-app-card {
   width: min(100%, 350px);
   display: grid;
-  gap: 4px;
+  gap: 10px;
   margin-top: 12px;
   padding: 15px 17px 16px;
-  border: 1px solid #24365d;
+  border: 1px solid rgba(36, 54, 93, .16);
   border-radius: 16px;
-  color: rgba(255, 255, 255, .76);
-  background: #24365d;
-  box-shadow: 0 15px 32px rgba(36, 54, 93, .18);
-  cursor: default;
-  pointer-events: none;
-  user-select: none;
+  color: #626e84;
+  background: #fff;
 }
 
 #capture.integrated-agent-manual .agent-wait-app-card small {
-  color: rgba(255, 255, 255, .58);
+  color: #626e84;
   font-size: 7px;
   font-weight: 820;
   letter-spacing: .13em;
-}
-
-#capture.integrated-agent-manual .agent-wait-app-card strong {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  color: #fff;
-  font-size: 15px;
-  font-weight: 760;
-}
-
-#capture.integrated-agent-manual .agent-wait-app-card strong i {
-  font-style: normal;
 }
 
 #capture.integrated-agent-manual .agent-wait-app-card span {

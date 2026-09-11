@@ -69,18 +69,19 @@ describe("production homepage", () => {
     expect(homepage).not.toContain("setSubmitted(true)");
   });
 
-  it("shows the community invitation immediately before the inert app download placeholder", () => {
+  it("links to Memova AI on the App Store immediately after the community invitation", () => {
     const communityButton = homepage.indexOf('"Join Community"');
-    const appDownloadPlaceholder = homepage.indexOf(
+    const appDownloadLink = homepage.indexOf(
       '"Download the app"',
       communityButton
     );
 
     expect(communityButton).toBeGreaterThan(-1);
-    expect(appDownloadPlaceholder).toBeGreaterThan(communityButton);
+    expect(appDownloadLink).toBeGreaterThan(communityButton);
     expect(homepage).toContain(
-      'h("span", { className: "five-button five-button-small five-app-download-placeholder", "aria-disabled": "true", "data-app-download-placeholder": "true" }, "Download the app")'
+      'h("a", { className: "memova-download-button", href: "https://apps.apple.com/us/app/memova-ai/id6796284954", target: "_blank", rel: "noopener noreferrer", "aria-label": "Download Memova AI on the App Store", onClick: () => setOpen(false) }, "Download the app")'
     );
+    expect(homepage).not.toContain("data-app-download-placeholder");
     expect(homepage).not.toContain(
       'href: "#waitlist", onClick: () => setOpen(false) }, "Download the app"'
     );
@@ -91,7 +92,7 @@ describe("production homepage", () => {
 
   it("shows the signed-in Memova account in the standalone homepage header", () => {
     const appDownloadControl = homepage.indexOf(
-      'h("span", { className: "five-button five-button-small five-app-download-placeholder"'
+      'h("a", { className: "memova-download-button", href: "https://apps.apple.com/us/app/memova-ai/id6796284954"'
     );
     const accountControl = homepage.indexOf(
       'authUser\n                    ? h("div", { className: "five-account-menu"'
@@ -395,7 +396,7 @@ describe("production homepage", () => {
     expect(captureScript).toContain("No need to wait here.");
     expect(captureScript).toContain("Download the app");
     expect(captureScript).toContain("appear automatically in Notes");
-    expect(captureScript).toContain('data-app-download-placeholder="true"');
+    expect(captureScript).not.toContain('data-app-download-placeholder="true"');
     expect(captureScript).not.toContain("Keep this page open.");
     expect(captureStyles).toContain(".agent-wait-app-card");
     expect(captureStyles).toContain("pointer-events: none;");
@@ -407,7 +408,7 @@ describe("production homepage", () => {
       captureScript.indexOf('if (state === "result")', progressActionsStart)
     );
     expect(progressActions).toContain('class="agent-wait-app-card"');
-    expect(progressActions).not.toContain("href=");
+    expect(progressActions).toContain('href="https://apps.apple.com/us/app/memova-ai/id6796284954"');
     expect(progressActions).not.toContain("<button");
     expect(captureScript).toContain("Open the app.<br>Find it in<br>Notes.");
     expect(captureScript).toContain("Your Personal Manual is ready in Notes.");

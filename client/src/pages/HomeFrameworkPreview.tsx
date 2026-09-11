@@ -607,18 +607,22 @@ function HomeV2Header() {
           <a href="#product">Product</a>
           <a href="#use-cases">Use Cases</a>
           <a href="/journal">Journal</a>
+          <a href="/pricing/">Pricing</a>
           <a href="#trust">Trust</a>
         </nav>
 
         <div className="home-v2-header-actions">
-          <span
-            className="home-v2-button home-v2-header-cta home-v2-app-download-placeholder"
-            aria-disabled="true"
-            data-app-download-placeholder="true"
+          <a
+            className="memova-download-button home-v2-header-cta"
+            href="https://apps.apple.com/us/app/memova-ai/id6796284954"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Download Memova AI on the App Store"
+            onClick={closeMobileMenu}
           >
             <span className="home-v2-header-cta-long">Download the app</span>
             <span className="home-v2-header-cta-short">Download</span>
-          </span>
+          </a>
           {auth.isAuthenticated ? (
             <div className="home-v2-account-menu" ref={accountMenuRef}>
               <button
@@ -701,6 +705,9 @@ function HomeV2Header() {
             </a>
             <a href="/journal" onClick={closeMobileMenu}>
               Journal <ChevronRight aria-hidden="true" />
+            </a>
+            <a href="/pricing/" onClick={closeMobileMenu}>
+              Pricing <ChevronRight aria-hidden="true" />
             </a>
             <a href="#trust" onClick={closeMobileMenu}>
               Trust <ChevronRight aria-hidden="true" />
