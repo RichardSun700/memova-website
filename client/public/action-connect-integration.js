@@ -68,7 +68,7 @@
 
     section.dataset.actionIntegration = "granola-prd";
     section.classList.add("action-connect-ready");
-    section.classList.add("ac-scroll-sequence");
+    section.classList.add("ac-play-sequence");
 
     const shell = document.createElement("div");
     shell.className = "ac-granola-shell";
@@ -81,10 +81,10 @@
 
       <div class="ac-granola-feature">
         <nav class="ac-output-tabs" role="tablist" aria-label="Suggested Action output types">
-          ${OUTPUTS.map((item, index) => `<button class="ac-output-tab${index === 0 ? " is-active" : ""}" type="button" role="tab" aria-selected="${index === 0 ? "true" : "false"}" data-output="${item.id}"><span>${item.tab}</span><small>0${index + 1}</small></button>`).join("")}
+          ${OUTPUTS.map((item, index) => `<button class="ac-output-tab${index === 0 ? " is-active" : ""}" id="ac-tab-${item.id}" type="button" role="tab" aria-controls="ac-output-panel" aria-selected="${index === 0 ? "true" : "false"}" tabindex="${index === 0 ? "0" : "-1"}" data-output="${item.id}"><span>${item.tab}</span><small>0${index + 1}</small></button>`).join("")}
         </nav>
 
-        <div class="ac-feature-main">
+        <div class="ac-feature-main" id="ac-output-panel" role="tabpanel" aria-labelledby="ac-tab-html">
           <div class="ac-feature-copy">
             <h3 data-ac-title></h3>
             <p data-ac-body></p>
@@ -92,10 +92,6 @@
 
           <figure class="ac-product-stage" data-ac-stage>
             <img class="ac-stage-background" data-ac-background alt="">
-            <div class="ac-scroll-cue" aria-hidden="true">
-              <span data-ac-scroll-index>01 / 03</span>
-              <strong>Scroll to reveal</strong>
-            </div>
             <div class="ac-meeting-focus" aria-label="A real meeting voice connected to the selected Memova Action">
               <span class="ac-meeting-kicker">Apollo 11 · Technical Crew Debriefing · 31 Jul 1969</span>
               <img class="ac-meeting-cutout" data-ac-cutout alt="">
@@ -141,127 +137,89 @@
     const quote = shell.querySelector("[data-ac-quote]");
     const link = shell.querySelector("[data-ac-link]");
     const markerOutput = shell.querySelector("[data-ac-marker-output]");
-    const scrollIndex = shell.querySelector("[data-ac-scroll-index]");
-    let activeId = OUTPUTS[0].id;
-    let swapTimer = null;
-    let scrollFrame = 0;
-    let activeIndex = 0;
+    const panel = shell.querySelector(".ac-feature-main");
+    let activeId;
+    let hasEntered = false;
+    let imagesReady = false;
+    let renderVersion = 0;
+    let playFrame = 0;
 
-    function render(id, animate) {
+    function playSequence() {
+      if (!hasEntered || !imagesReady) return;
+      window.cancelAnimationFrame(playFrame);
+      stage.classList.remove("is-playing");
+      // Give the reset one paint so a tab change restarts only the short sequence.
+      playFrame = window.requestAnimationFrame(function () {
+        playFrame = window.requestAnimationFrame(function () {
+          stage.classList.add("is-playing");
+        });
+      });
+    }
+
+    function render(id) {
       const item = OUTPUTS.find(output => output.id === id) || OUTPUTS[0];
+      if (item.id === activeId) return;
+      const version = ++renderVersion;
       activeId = item.id;
+      imagesReady = false;
+      window.cancelAnimationFrame(playFrame);
+      stage.classList.remove("is-playing");
       section.dataset.actionMode = item.id;
+      panel.setAttribute("aria-labelledby", `ac-tab-${item.id}`);
 
       tabs.forEach(tab => {
         const selected = tab.dataset.output === item.id;
         tab.classList.toggle("is-active", selected);
         tab.setAttribute("aria-selected", selected ? "true" : "false");
+        tab.tabIndex = selected ? 0 : -1;
       });
 
-      const apply = function () {
-        title.textContent = item.title;
-        body.textContent = item.body;
-        ui.src = item.ui;
-        ui.alt = item.uiAlt;
-        background.src = item.background;
-        background.alt = item.backgroundAlt;
-        rule.textContent = item.rule;
-        cutout.src = item.cutout;
-        cutout.alt = item.cutoutAlt;
-        voice.textContent = item.voice;
-        quote.textContent = item.quote;
-        link.textContent = item.link;
-        markerOutput.textContent = item.markerOutput;
-        stage.classList.remove("is-changing");
-      };
+      title.textContent = item.title;
+      body.textContent = item.body;
+      ui.src = item.ui;
+      ui.alt = item.uiAlt;
+      background.src = item.background;
+      background.alt = item.backgroundAlt;
+      rule.textContent = item.rule;
+      cutout.src = item.cutout;
+      cutout.alt = item.cutoutAlt;
+      voice.textContent = item.voice;
+      quote.textContent = item.quote;
+      link.textContent = item.link;
+      markerOutput.textContent = item.markerOutput;
 
-      window.clearTimeout(swapTimer);
-      if (animate) {
-        stage.classList.add("is-changing");
-        swapTimer = window.setTimeout(apply, 180);
-      } else {
-        apply();
-      }
-    }
-
-    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const mobileQuery = window.matchMedia("(max-width: 720px)");
-
-    function sectionTop() {
-      return window.scrollY + section.getBoundingClientRect().top;
-    }
-
-    function scrollToOutput(index) {
-      const travel = Math.max(1, section.offsetHeight - window.innerHeight);
-      const phase = (index + .08) / OUTPUTS.length;
-      window.scrollTo({
-        top: sectionTop() + travel * phase,
-        behavior: reducedMotion ? "auto" : "smooth"
+      // Start with decoded artwork, and ignore stale loads after rapid tab changes.
+      Promise.all([ui, background, cutout].map(img => img.decode().catch(() => {}))).then(function () {
+        if (version !== renderVersion) return;
+        imagesReady = true;
+        playSequence();
       });
     }
 
-    tabs.forEach((tab, index) => tab.addEventListener("click", function () {
-      if (index !== activeIndex) {
-        activeIndex = index;
-        render(tab.dataset.output, false);
-      }
-      if (mobileQuery.matches) return;
-      scrollToOutput(index);
-    }));
-
-    function setRevealState(localProgress) {
-      const reveal = reducedMotion || mobileQuery.matches ? 1 : localProgress;
-      section.classList.toggle("is-reveal-copy", reveal >= .10);
-      section.classList.toggle("is-reveal-stage", reveal >= .18);
-      section.classList.toggle("is-reveal-cutout", reveal >= .30);
-      section.classList.toggle("is-reveal-quote", reveal >= .44);
-      section.classList.toggle("is-reveal-marker", reveal >= .58);
-      section.classList.toggle("is-reveal-ui", reveal >= .72);
-    }
-
-    function updateScrollSequence() {
-      scrollFrame = 0;
-      const rect = section.getBoundingClientRect();
-      const travel = Math.max(1, section.offsetHeight - window.innerHeight);
-      const distance = window.scrollY - sectionTop();
-      const progress = Math.min(1, Math.max(0, distance / travel));
-      const scaled = Math.min(.999999, progress) * OUTPUTS.length;
-      const nextIndex = mobileQuery.matches
-        ? activeIndex
-        : Math.min(OUTPUTS.length - 1, Math.floor(scaled));
-      const localProgress = scaled - nextIndex;
-      const visible = rect.bottom > 0 && rect.top < window.innerHeight;
-
-      section.style.setProperty("--ac-sequence-progress", progress.toFixed(4));
-      section.style.setProperty("--ac-local-progress", localProgress.toFixed(4));
-      section.dataset.actionStep = String(nextIndex + 1);
-      scrollIndex.textContent = `0${nextIndex + 1} / 03`;
-      stage.classList.toggle("is-in-view", visible);
-
-      tabs.forEach((tab, index) => {
-        const discovered = reducedMotion || mobileQuery.matches || index <= nextIndex;
-        tab.classList.toggle("is-discovered", discovered);
-        tab.style.setProperty("--ac-tab-delay", `${Math.max(0, index - nextIndex) * 60}ms`);
+    tabs.forEach((tab, index) => {
+      tab.addEventListener("click", function () { render(tab.dataset.output); });
+      tab.addEventListener("keydown", function (event) {
+        let nextIndex;
+        if (event.key === "ArrowRight" || event.key === "ArrowDown") nextIndex = (index + 1) % tabs.length;
+        if (event.key === "ArrowLeft" || event.key === "ArrowUp") nextIndex = (index + tabs.length - 1) % tabs.length;
+        if (event.key === "Home") nextIndex = 0;
+        if (event.key === "End") nextIndex = tabs.length - 1;
+        if (nextIndex === undefined) return;
+        event.preventDefault();
+        tabs[nextIndex].focus({ preventScroll: true });
+        render(tabs[nextIndex].dataset.output);
       });
+    });
 
-      if (!mobileQuery.matches && nextIndex !== activeIndex) {
-        activeIndex = nextIndex;
-        render(OUTPUTS[activeIndex].id, false);
-      }
+    const observer = new IntersectionObserver(function (entries) {
+      if (!entries.some(entry => entry.isIntersecting)) return;
+      hasEntered = true;
+      playSequence();
+      observer.disconnect();
+    }, { threshold: .12, rootMargin: "-72px 0px 0px" });
 
-      setRevealState(localProgress);
-    }
-
-    function requestScrollUpdate() {
-      if (scrollFrame) return;
-      scrollFrame = window.requestAnimationFrame(updateScrollSequence);
-    }
-
-    window.addEventListener("scroll", requestScrollUpdate, { passive: true });
-    window.addEventListener("resize", requestScrollUpdate, { passive: true });
-
-    render(activeId, false);
-    updateScrollSequence();
+    render(OUTPUTS[0].id);
+    observer.observe(stage);
   }
 
   if (document.readyState === "loading") {
