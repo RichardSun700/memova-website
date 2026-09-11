@@ -60,7 +60,7 @@ const publicPages: SitePage[] = [
     schemaType: "WebPage",
     hero: {
       eyebrow: "Memova Journal",
-      title: "Building Memova in Public",
+      title: "Journal",
       intro:
         "Notes from what we are learning as we build, published only after editorial, privacy, and team review.",
     },

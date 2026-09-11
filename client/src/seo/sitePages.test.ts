@@ -106,7 +106,7 @@ describe("sitePages", () => {
       index: true,
       schemaType: "WebPage",
       hero: {
-        title: "Building Memova in Public",
+        title: "Journal",
       },
     });
     expect(getSitePage("/product-journal").title).not.toBe(

@@ -9,6 +9,8 @@ import Mcp from "@/pages/Mcp";
 import McpConsent from "@/pages/McpConsent";
 import NotFound from "@/pages/NotFound";
 import Profile from "@/pages/Profile";
+import Journal from "@/pages/Journal";
+import JournalArticle from "@/pages/JournalArticle";
 import Support from "@/pages/Support";
 import { lazy, Suspense, useEffect } from "react";
 import { Redirect, Route, Switch } from "wouter";
@@ -18,8 +20,6 @@ import SiteMetadata from "./seo/SiteMetadata";
 import SpaNavigation from "./navigation/SpaNavigation";
 
 const HomeFrameworkPreview = lazy(() => import("@/pages/HomeFrameworkPreview"));
-const Journal = lazy(() => import("@/pages/Journal"));
-const JournalArticle = lazy(() => import("@/pages/JournalArticle"));
 const ProductJournal = lazy(() => import("@/pages/ProductJournal"));
 
 export const privacyPolicyPaths = ["/privacy", "/privacy-policy"] as const;
@@ -28,22 +28,6 @@ function ProductJournalRoute() {
   return (
     <Suspense fallback={<div className="min-h-dvh bg-[#f8faff]" />}>
       <ProductJournal />
-    </Suspense>
-  );
-}
-
-function JournalRoute() {
-  return (
-    <Suspense fallback={<div className="min-h-dvh bg-[#fafcff]" />}>
-      <Journal />
-    </Suspense>
-  );
-}
-
-function JournalArticleRoute({ slug }: { slug: string }) {
-  return (
-    <Suspense fallback={<div className="min-h-dvh bg-[#fafcff]" />}>
-      <JournalArticle slug={slug} />
     </Suspense>
   );
 }
@@ -83,9 +67,9 @@ function Router() {
         <Redirect to="/#act" replace />
       </Route>
       <Route path={"/journal/:slug"}>
-        {params => <JournalArticleRoute slug={params.slug} />}
+        {params => <JournalArticle slug={params.slug} />}
       </Route>
-      <Route path={"/journal"} component={JournalRoute} />
+      <Route path={"/journal"} component={Journal} />
       <Route path={"/product-journal"} component={ProductJournalRoute} />
       <Route path={"/use-cases/:slug"}>
         <Redirect to="/#capture" replace />

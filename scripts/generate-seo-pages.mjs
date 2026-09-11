@@ -1,6 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
+import { build } from "esbuild";
 import {
   SITE_URL,
   SOCIAL_IMAGE,
@@ -595,7 +596,7 @@ function stripManagedHead(html) {
     );
 }
 
-export function renderPageHtml(template, page) {
+export function renderPageHtml(template, page, options = {}) {
   const canonical = getCanonicalUrl(page);
   const robots = page.index
     ? "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
@@ -616,10 +617,11 @@ export function renderPageHtml(template, page) {
     <meta property="og:url" content="${escapeAttribute(canonical)}" />
     <meta property="og:image" content="${escapeAttribute(SOCIAL_IMAGE)}" />
     <meta name="twitter:card" content="summary_large_image" />
-    <style id="${SEO_SHELL_STYLE_ID}">${SEO_SHELL_STYLES}</style>
+    <style id="${SEO_SHELL_STYLE_ID}">${options.journalMarkup ? "html, body { min-height: 100%; margin: 0; background: #fff; }" : SEO_SHELL_STYLES}</style>
     <script id="memova-structured-data" type="application/ld+json">${structuredData}</script>`;
-  const snapshot =
-    page.path === "/privacy"
+  const snapshot = options.journalMarkup
+    ? `<div id="root"><div class="memova-seo-shell memova-seo-journal-shell" data-seo-snapshot="true" data-seo-shell-version="${SEO_SHELL_VERSION}" data-page-summary="${escapeAttribute(page.summary)}">${options.journalMarkup}</div></div>`
+    : page.path === "/privacy"
       ? renderPrivacyPolicySnapshot(page)
       : page.path === "/terms"
         ? renderTermsOfServiceSnapshot(page)
@@ -757,9 +759,25 @@ export function writePrivateSpaShells(template, destinationDir) {
   }
 }
 
-export function generateSeoPages() {
+export async function generateSeoPages() {
   const templatePath = path.join(outputDir, "index.html");
   const template = fs.readFileSync(templatePath, "utf8");
+  // Reuse the real Journal components without shipping a second design or an
+  // extra server runtime. Client CSS is already included by Vite in the head.
+  const journalRendererPath = path.join(projectRoot, "dist", "ssr", "journal.mjs");
+  await build({
+    entryPoints: [path.join(projectRoot, "scripts", "render-journal-snapshot.tsx")],
+    outfile: journalRendererPath,
+    bundle: true,
+    platform: "node",
+    format: "esm",
+    packages: "external",
+    jsx: "automatic",
+    loader: { ".css": "empty" },
+    define: { "import.meta.env": "{}" },
+    tsconfig: path.join(projectRoot, "tsconfig.json"),
+  });
+  const { renderJournalSnapshot } = await import(pathToFileURL(journalRendererPath).href);
 
   for (const page of sitePages.filter(candidate => candidate.index)) {
     const destination =
@@ -773,7 +791,10 @@ export function generateSeoPages() {
           "utf8"
         )
       : template;
-    fs.writeFileSync(destination, renderPageHtml(pageTemplate, page));
+    const journalMarkup = page.path === "/journal" || page.path.startsWith("/journal/")
+      ? renderJournalSnapshot(page.path)
+      : undefined;
+    fs.writeFileSync(destination, renderPageHtml(pageTemplate, page, { journalMarkup }));
   }
 
   // Cloudflare Pages serves top-level HTML files at extensionless URLs.
@@ -801,5 +822,5 @@ const invokedPath = process.argv[1]
   ? pathToFileURL(path.resolve(process.argv[1])).href
   : "";
 if (import.meta.url === invokedPath) {
-  generateSeoPages();
+  await generateSeoPages();
 }

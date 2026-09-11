@@ -14,6 +14,31 @@ afterEach(() => {
 });
 
 describe("SEO build verification", () => {
+  it("serves the current Journal UI and article content before JavaScript loads", () => {
+    const outputDir = path.resolve(process.cwd(), "dist/public");
+    const pages = [
+      path.join(outputDir, "journal/index.html"),
+      path.join(outputDir, "journal/why-we-changed-our-onboarding-story/index.html"),
+    ];
+    for (const file of pages) {
+      const html = fs.readFileSync(file, "utf8");
+      expect(html).toContain('class="five-header"');
+      expect(html).toContain('class="memova-download-button"');
+      expect(html).toContain('href="/pricing/"');
+      expect(html).toContain('aria-current="page">Journal');
+      expect(html).not.toContain('class="memova-seo-shell__nav"');
+      expect(html).not.toContain("Join Early Access");
+      expect(html).not.toContain('href="/#use-cases"');
+      const stylesheet = html.match(/href="(\/assets\/main-[^"]+\.css)"/)?.[1];
+      expect(stylesheet).toBeDefined();
+      expect(fs.readFileSync(path.join(outputDir, stylesheet!), "utf8"))
+        .toContain(".memova-journal-index");
+    }
+    expect(fs.readFileSync(pages[0], "utf8"))
+      .toContain('aria-label="Filter journal notes"');
+    expect(fs.readFileSync(pages[1], "utf8"))
+      .toContain("The problem was not a missing tour.");
+  });
   it("rejects an incomplete static output", () => {
     const directory = fs.mkdtempSync(
       path.join(os.tmpdir(), "memova-seo-empty-")
