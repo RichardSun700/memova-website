@@ -123,7 +123,7 @@
         </div>
         <figure>
           <iframe
-            src="./personal-manual/neil-armstrong/index.html?embed=1&v=neil-v7-modified-flat1"
+            src="./personal-manual/neil-armstrong/index.html?embed=1&v=neil-v8-20260914"
             title="Neil Armstrong historical Personal Work Manual"
             loading="eager"
             sandbox="allow-scripts allow-same-origin allow-modals allow-downloads"

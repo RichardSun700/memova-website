@@ -311,7 +311,7 @@
 
               <div class="agent-manual-browser__viewport agent-learning-browser__viewport--neil">
                 <iframe
-                  src="./personal-manual/neil-armstrong/index.html?embed=1&v=neil-v7-modified-flat1"
+                  src="./personal-manual/neil-armstrong/index.html?embed=1&v=neil-v8-20260914"
                   title="Neil Armstrong historical Personal Work Manual"
                   loading="eager"
                   sandbox="allow-scripts allow-same-origin allow-modals allow-downloads"
@@ -320,7 +320,7 @@
 
               <footer class="agent-manual-browser__footer">
                 <span>Historical reconstruction from mission records and public archives.</span>
-                <a href="./personal-manual/neil-armstrong/" target="_blank" rel="noopener">Explore all 8 sections →</a>
+                <a href="./personal-manual/neil-armstrong/" target="_blank" rel="noopener">Explore the full manual →</a>
               </footer>
             </article>
           </div>

@@ -1,0 +1,341 @@
+{
+  "schema_version": "1.0-historical",
+  "language": "en",
+  "subject": {
+    "name": "Neil A. Armstrong",
+    "life_dates": "1930–2012",
+    "reconstruction_scope": "Naval aviator; NACA/NASA research engineer and test pilot; Gemini 8 and Apollo 11 astronaut; NASA aeronautics administrator; engineering professor and aerospace adviser.",
+    "evidence_cutoff": "Public sources accessed 2026-08-25"
+  },
+  "historical_reconstruction": {
+    "is_self_authored": false,
+    "method": "Triangulation of first-person oral history, mission transcripts and debriefs, institutional records, speech manuscripts, and named colleague or student recollections.",
+    "voice_policy": "First person is used to preserve the supplied template style. Every statement is an evidence-bounded reconstruction, not a quotation unless explicitly marked.",
+    "exclusions": [
+      "No clinical or psychiatric inference",
+      "No claim about private inner states without behavioral or first-person evidence",
+      "No inference from the fame of Apollo 11 alone",
+      "No posthumous claim presented as a current self-report"
+    ]
+  },
+  "work_archetype": {
+    "name": "The Builder",
+    "breed": "Rottweiler",
+    "magical_artifact": "The Keystone of Binding",
+    "overall_archetype_confidence_0_100": 37,
+    "interpretation": "A moderately separated four-pole pattern. Evidence quality is generally high, but the result remains a historical model and several dimensions contain meaningful counterevidence."
+  },
+  "dimensions": [
+    {
+      "id": "thinking",
+      "name": "Think it through - Talk it through",
+      "right_pole_score_0_100": 34,
+      "evidence_confidence_0_1": 0.76,
+      "selected_pole": "Think it through",
+      "tendency": "I usually make an internal model first, then use expert exchange to test it—not to discover every thought aloud.",
+      "explanation": "This dimension describes how thoughts become clear enough to use or share. The record shows substantial private preparation and concise conclusions, balanced by close technical dialogue with specialists and crews."
+    },
+    {
+      "id": "navigation",
+      "name": "Find the path - Map the path",
+      "right_pole_score_0_100": 78,
+      "evidence_confidence_0_1": 0.9,
+      "selected_pole": "Map the path",
+      "tendency": "I build procedures, simulations, contingencies, and decision thresholds before commitment—then change course when the real vehicle disproves the model.",
+      "explanation": "This dimension describes how I move when the next step is not obvious. Thousands of test and simulation hours support a strong mapping preference; Gemini 8 and Apollo 11 show that the map never replaced judgment."
+    },
+    {
+      "id": "scope",
+      "name": "Go deeper - Go wider",
+      "right_pole_score_0_100": 41,
+      "evidence_confidence_0_1": 0.79,
+      "selected_pole": "Go deeper",
+      "tendency": "I range broadly enough to understand the system, then stay with the operational thread until the interfaces, failure modes, and tradeoffs hold together.",
+      "explanation": "This dimension describes how attention moves while understanding a problem. Broad reading and systems work are real counterweights, but repeated depth in engineering, simulation fidelity, and mission preparation dominates."
+    },
+    {
+      "id": "expression",
+      "name": "Understated - Expressive",
+      "right_pole_score_0_100": 29,
+      "evidence_confidence_0_1": 0.75,
+      "selected_pole": "Understated",
+      "tendency": "I prefer exact, low-drama language and distribute credit to the team. Public visibility is acceptable when it serves the work, not when it turns the work into self-display.",
+      "explanation": "This dimension describes how visibly preferences, reactions, and standards are communicated. The record shows reserve and self-effacement, alongside researched speeches and clear command decisions when visibility was necessary."
+    }
+  ],
+  "sections": [
+    {
+      "id": "how_i_operate",
+      "number": 1,
+      "title": "How I Operate",
+      "content": [
+        {
+          "id": "how_i_think",
+          "heading": "How I think",
+          "type": "paragraph",
+          "text": "I build an engineering picture of the whole system, test it against operations, and keep asking where the simulation stops matching the vehicle. Preparation narrows uncertainty; it does not eliminate judgment. When risk crosses a defined threshold, the objective changes from completing the mission to protecting the crew and craft."
+        },
+        {
+          "id": "how_i_read",
+          "heading": "How I read",
+          "type": "paragraph",
+          "text": "I read widely, but with a working purpose: aviation, engineering, history, fiction, and whatever helps connect principle to operation. Checklists and concrete use cases teach me more than long abstractions detached from what an operator must actually do."
+        },
+        {
+          "id": "how_i_write",
+          "heading": "How I write",
+          "type": "paragraph",
+          "text": "I write to make a decision or event inspectable: what happened, what the system did, where fidelity failed, and what should change. Public speeches receive research and revision, but the language stays economical, precise, and resistant to heroic inflation."
+        }
+      ]
+    },
+    {
+      "id": "what_moves_and_grounds_me",
+      "number": 2,
+      "title": "What Moves and Grounds Me",
+      "content": [
+        {
+          "id": "what_gives_me_energy",
+          "heading": "What gives me energy",
+          "type": "bullets",
+          "items": [
+            "Turning an unknown flight problem into a testable model, procedure, or design change.",
+            "Learning a system deeply enough to act when the instruments, simulation, and physical world disagree.",
+            "Working with a capable team whose attention is fixed on a demanding, meaningful objective."
+          ]
+        },
+        {
+          "id": "what_i_care_about",
+          "heading": "What I care about",
+          "type": "bullets",
+          "items": [
+            "Protecting the crew and craft when continuing the objective is no longer justified.",
+            "Competence, preparation, and knowing when a task exceeds one’s qualifications.",
+            "Shared reliability: complex missions work because every contributor treats individual quality as consequential."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "relationships_and_collaboration",
+      "number": 3,
+      "title": "Relationships and Collaboration",
+      "content": [
+        {
+          "id": "how_i_communicate",
+          "heading": "How I communicate",
+          "type": "paragraph",
+          "text": "I communicate briefly and without theater, but I expect the underlying work to be deep. I listen to subsystem experts, make responsibilities explicit, and treat crew and Mission Control as one team. Disagreement belongs in tests, simulations, data, and clear decision ownership—not status contests."
+        },
+        {
+          "id": "how_to_work_with_me",
+          "heading": "How to work with me",
+          "type": "bullets",
+          "items": [
+            "Bring the data, physical constraints, failure modes, and an explicit definition of success.",
+            "Rehearse the basics and contingencies; give every decision a clear owner and threshold.",
+            "Challenge the model with evidence. Avoid authority, celebrity, or reassurance as substitutes for engineering."
+          ]
+        },
+        {
+          "id": "people_that_help_me_thrive",
+          "heading": "People that help me thrive",
+          "type": "keywords_and_paragraph",
+          "keywords": [
+            "Competent",
+            "Steady",
+            "Candid",
+            "Diligent",
+            "Mission-minded"
+          ],
+          "text": "I thrive with people who know their systems, surface bad news early, and keep working until the result is dependable. The best collaborators can own a specialty deeply while respecting the integrated mission and the commander’s final responsibility."
+        },
+        {
+          "id": "environments_that_help_me_thrive",
+          "heading": "Environments that help me thrive",
+          "type": "keywords_and_paragraph",
+          "keywords": [
+            "Purpose",
+            "Autonomy",
+            "Rigor",
+            "Simulation",
+            "Shared ownership"
+          ],
+          "text": "I work best around a difficult objective, excellent specialists, realistic practice, and room for operational judgment inside clear procedures. The environment should reward accurate reporting, repair weak interfaces, and keep attention on the mission rather than personal rank or visibility."
+        }
+      ]
+    },
+    {
+      "id": "what_makes_me_distinctive",
+      "number": 4,
+      "title": "What Makes Me Distinctive",
+      "content": [
+        {
+          "id": "my_strengths",
+          "heading": "My strengths",
+          "type": "paragraph",
+          "text": "I combine an engineer’s system model with a pilot’s feel for the real vehicle. That lets me prepare methodically, notice when reality departs from the plan, and make calm operational decisions without confusing bravery with persistence or personal credit with mission success."
+        },
+        {
+          "id": "current_growth_edge",
+          "heading": "Current growth edge",
+          "type": "paragraph",
+          "text": "I protected useful work from the distortions of celebrity by limiting public exposure. The cost is that restraint can leave necessary institutional arguments to others. Growth means entering important public or policy conversations earlier, while keeping claims bounded by evidence and actual expertise."
+        },
+        {
+          "id": "internal_conflicts",
+          "heading": "Internal conflicts",
+          "type": "bullets",
+          "items": [
+            "I prepare for the map to hold, yet train for the moment when the vehicle proves it wrong.",
+            "I accept serious risk in service of exploration, yet become conservative at the crew-survival threshold.",
+            "I became a global public symbol, while insisting that the achievement belonged to a vast team."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "moving_forward",
+      "number": 5,
+      "title": "Moving Forward",
+      "content": [
+        {
+          "id": "person_i_am_trying_to_become",
+          "heading": "The person I am trying to become",
+          "type": "paragraph",
+          "text": "I want exploration to remain a disciplined human project: ambitious enough to extend capability, rigorous enough to deserve trust, and humble enough to remember the thousands of hands inside every success. Teaching and public service let hard-earned operational knowledge become part of the next generation’s work."
+        },
+        {
+          "id": "advice_from_memova",
+          "heading": "Advice from Memova",
+          "type": "practices",
+          "items": [
+            {
+              "practice": "Simulation mismatch review",
+              "instruction": "After every simulation, record the mismatch, decision threshold, and unmodeled condition; feed each finding into the next test."
+            },
+            {
+              "practice": "Safety-threshold review",
+              "instruction": "After each high-stakes decision, record the abandoned objective, triggering signal, and safety rationale; compare patterns across missions."
+            },
+            {
+              "practice": "Interface ownership review",
+              "instruction": "After each team review, record specialist concerns, unresolved interfaces, and named owners; revisit every item before commitment."
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "disclaimer": "Historical reconstruction: written in first person from public records, speeches, interviews, mission documents, and later recollections. It is neither Neil Armstrong’s self-authored manual nor a clinical assessment. Patterns may differ across roles and periods; disputed or inferential claims are identified in the accompanying evidence audit.",
+  "related_files": {
+    "evidence_audit": "neil_armstrong_evidence_audit.xlsx",
+    "source_audit_csv": "neil_armstrong_source_audit.csv",
+    "scoring_data": "neil_armstrong_work_archetype_scores.csv",
+    "claim_map": "neil_armstrong_claims_map.csv"
+  },
+  "template_version": "v8-2026-09-14",
+  "template_sha256": "517ae9777251278792742d37b7346aff7dac613e9840dd98465952629d446a86",
+  "display_dimensions": [
+    {
+      "id": "thinking",
+      "name": "Think it through - Talk it through",
+      "right_pole_score_0_100": 34,
+      "evidence_confidence_0_1": 0.76,
+      "selected_pole": "Think it through",
+      "tendency": "I usually make an internal model first, then use expert exchange to test it—not to discover every thought aloud.",
+      "explanation": "This dimension describes how thoughts become clear enough to use or share. The record shows substantial private preparation and concise conclusions, balanced by close technical dialogue with specialists and crews.",
+      "label": "Clarity",
+      "selected": "Think it through",
+      "other": "Talk it through",
+      "score": 66
+    },
+    {
+      "id": "navigation",
+      "name": "Find the path - Map the path",
+      "right_pole_score_0_100": 78,
+      "evidence_confidence_0_1": 0.9,
+      "selected_pole": "Map the path",
+      "tendency": "I build procedures, simulations, contingencies, and decision thresholds before commitment—then change course when the real vehicle disproves the model.",
+      "explanation": "This dimension describes how I move when the next step is not obvious. Thousands of test and simulation hours support a strong mapping preference; Gemini 8 and Apollo 11 show that the map never replaced judgment.",
+      "label": "Navigation",
+      "selected": "Map the path",
+      "other": "Find the path",
+      "score": 78
+    },
+    {
+      "id": "scope",
+      "name": "Go deeper - Go wider",
+      "right_pole_score_0_100": 41,
+      "evidence_confidence_0_1": 0.79,
+      "selected_pole": "Go deeper",
+      "tendency": "I range broadly enough to understand the system, then stay with the operational thread until the interfaces, failure modes, and tradeoffs hold together.",
+      "explanation": "This dimension describes how attention moves while understanding a problem. Broad reading and systems work are real counterweights, but repeated depth in engineering, simulation fidelity, and mission preparation dominates.",
+      "label": "Scope",
+      "selected": "Go deeper",
+      "other": "Go wider",
+      "score": 59
+    },
+    {
+      "id": "expression",
+      "name": "Understated - Expressive",
+      "right_pole_score_0_100": 29,
+      "evidence_confidence_0_1": 0.75,
+      "selected_pole": "Understated",
+      "tendency": "I prefer exact, low-drama language and distribute credit to the team. Public visibility is acceptable when it serves the work, not when it turns the work into self-display.",
+      "explanation": "This dimension describes how visibly preferences, reactions, and standards are communicated. The record shows reserve and self-effacement, alongside researched speeches and clear command decisions when visibility was necessary.",
+      "label": "Expression",
+      "selected": "Understated",
+      "other": "Expressive",
+      "score": 71
+    }
+  ],
+  "dimension_icon_rules": {
+    "circled": "Full-color original artwork in every colored or yellow circle.",
+    "unselected_uncircled": "Preserve the existing gray-white artwork.",
+    "source": "User-supplied 8个维度形象icons-cutout-square-1x1.zip"
+  },
+  "similar_paths": {
+    "people": [
+      {
+        "name": "Henry Ford",
+        "role": "Industrialist and founder of Ford Motor Company",
+        "description": "By reorganizing tools, people, and production flow, he turned complex manufacturing into a system that could run reliably and repeatedly at scale.",
+        "image": "./assets/henry-ford.webp"
+      },
+      {
+        "name": "Bill Gates",
+        "role": "Co-founder of Microsoft",
+        "description": "He spent decades building software platforms, organizations, and infrastructure designed to scale and remain useful over time.",
+        "image": "./assets/bill-gates.webp"
+      },
+      {
+        "name": "Batman",
+        "role": "DC superhero",
+        "description": "He relies on long-term systems—tools, contingency plans, intelligence networks, and partnerships—to turn a complex mission into something that can keep operating under pressure.",
+        "image": "./assets/batman.webp"
+      },
+      {
+        "name": "Neil Armstrong",
+        "role": "Astronaut and first person to walk on the Moon",
+        "description": "Working within one of the most complex engineering systems ever built, he helped turn years of preparation, technical coordination, and disciplined execution into a reliable real-world outcome.",
+        "image": "./assets/neil-armstrong.webp"
+      }
+    ],
+    "jobs": [
+      "Chief technology officer (CTO)",
+      "Security engineer",
+      "Architect",
+      "Electrician",
+      "Pharmacist",
+      "Craftsperson"
+    ],
+    "intro": "As a Builder, you may be good at building the structure underneath the work, deciding how the different parts connect, and preparing for what should happen if one part fails.",
+    "source": "Supplied v8 archetype asset library; fixed The Builder entries."
+  },
+  "migration_notes": [
+    "The original evidence selects Map the path (78). The old v7 website incorrectly displayed Find the path. This v8 page restores the evidence-backed label.",
+    "One static content tree serves desktop, mobile and the homepage embed.",
+    "No additional biographical sources or scoring changes were introduced."
+  ]
+}

@@ -175,10 +175,10 @@ describe("production homepage", () => {
       'src="./personal-manual/work-types/index.html?embed=1"'
     );
     expect(captureScript).toContain(
-      'src="./personal-manual/neil-armstrong/index.html?embed=1&v=neil-v7-modified-flat1"'
+      'src="./personal-manual/neil-armstrong/index.html?embed=1&v=neil-v8-20260914"'
     );
     expect(scatterScript).toContain(
-      'src="./personal-manual/neil-armstrong/index.html?embed=1&v=neil-v7-modified-flat1"'
+      'src="./personal-manual/neil-armstrong/index.html?embed=1&v=neil-v8-20260914"'
     );
     expect(captureScript).not.toContain("neil-armstrong-v7-preview");
     expect(captureScript).not.toContain("neil-armstrong-v7-remake");
@@ -187,13 +187,13 @@ describe("production homepage", () => {
     expect(captureScript).not.toContain("neil-v7-score-2");
     expect(scatterScript).not.toContain("neil-v7-score-2");
     expect(homepage).toContain(
-      "capture-personal-manual-integration.js?v=20260902-desktop-guide2"
+      "capture-personal-manual-integration.js?v=20260914-neil-v8"
     );
     expect(homepage).toContain(
       "capture-personal-manual-integration.css?v=20260902-desktop-guide2"
     );
     expect(homepage).toContain(
-      "scatter-relations.js?v=20260828-observer-root1"
+      "scatter-relations.js?v=20260914-neil-v8"
     );
     expect(scatterScript).toContain(
       "const observationRoot = document.body || document.documentElement;"
@@ -212,7 +212,7 @@ describe("production homepage", () => {
     const neilManual = fs.readFileSync(neilManualPage, "utf8");
     const selectedPoles = new Map([
       ["Clarity", "Think it through"],
-      ["Navigation", "Find the path"],
+      ["Navigation", "Map the path"],
       ["Scope", "Go deeper"],
       ["Expression", "Understated"],
     ]);
@@ -235,19 +235,17 @@ describe("production homepage", () => {
     }
 
     expect(neilManual).toContain(
-      '<meta name="memova-manual-version" content="neil-armstrong-v7-modified" />'
+      '<meta name="memova-manual-version" content="neil-armstrong-v8" />'
     );
     expect(neilManual).toContain(
-      '<meta name="memova-website-embed" content="flat-1" />'
+      '<meta name="memova-website-embed" content="flat-2" />'
     );
     expect(neilManual.match(/<iframe/g) ?? []).toHaveLength(0);
     expect(neilManual).not.toContain("mobile-card-cover");
     expect(neilManual).not.toContain("phone-specific v5 homepage");
     expect(neilManual).not.toContain("mobileCardSource");
     expect(neilManual.match(/id="dimensions"/g) ?? []).toHaveLength(1);
-    expect(neilManual).toContain(
-      'html:not([data-memova-app-ready="true"]) body[data-memova-embed="app"]'
-    );
+    expect(neilManual).not.toContain("visibility: hidden");
     expect(neilManual).not.toContain(
       'name="robots" content="noindex,nofollow"'
     );
