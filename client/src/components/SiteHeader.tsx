@@ -3,7 +3,6 @@ import { useEffect, useRef, useState } from "react";
 import { useAuth } from "@/contexts/AuthContext";
 
 const navigation = [
-  ["Product", "/#capture", "product"],
   ["How it works", "/#act", "how-it-works"],
   ["Product demo", "/product-demo/", "demo"],
   ["Journal", "/journal/", "journal"],

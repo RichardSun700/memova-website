@@ -23,7 +23,6 @@ describe("Memova Journal", () => {
           /<nav[^>]*aria-label="Primary navigation"[\s\S]*?<\/nav>/
         )?.[0] ?? "";
       for (const href of [
-        "/#capture",
         "/#act",
         "/product-demo/",
         "/journal/",
@@ -31,6 +30,7 @@ describe("Memova Journal", () => {
       ]) {
         expect(navigation).toContain(`href="${href}"`);
       }
+      expect(navigation).not.toMatch(/<a\b[^>]*>Product<\/a>/);
       expect(navigation).toContain('aria-current="page">Journal');
       expect(navigation).toContain('class="memova-download-button"');
       expect(navigation).toContain("Join Community");
@@ -58,7 +58,6 @@ describe("Memova Journal", () => {
     );
     expect(html).toContain("More notes are being prepared.");
     expect(html).not.toContain("data-product-journal");
-    expect(html).toContain('href="/#capture"');
     expect(html).toContain('href="/#act"');
     expect(html).toContain('href="/product-demo/"');
     expect(html).not.toContain('href="/#product"');
