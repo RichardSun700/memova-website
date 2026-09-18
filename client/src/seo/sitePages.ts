@@ -74,13 +74,13 @@ const publicPages: SitePage[] = [
     changeFrequency: "monthly",
     priority: 0.85,
     summary:
-      "Free includes 10 webpages per month and 300 minutes of Spark live transcription. Pro adds unlimited webpages, unlimited Spark live transcription, and Meeting AI Report.",
+      "Free includes 10 webpages and 300 minutes of Spark live transcription per month. Pro adds unlimited webpages, unlimited Spark live transcription, and Meeting AI Report.",
     schemaType: "WebPage",
     staticHtml: "pricing/index.html",
     hero: {
       eyebrow: "Pricing",
       title: "A little more room to think.",
-      intro: "Start free. Go unlimited when your ideas need more space.",
+      intro: "Start free. Upgrade for unlimited webpages and Spark live transcription.",
     },
   },
   {
