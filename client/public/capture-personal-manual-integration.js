@@ -277,7 +277,7 @@
 
               <div class="agent-manual-browser__viewport agent-learning-browser__viewport agent-learning-browser__viewport--types">
                 <iframe
-                  data-src="./personal-manual/work-types/index.html?embed=1"
+                  data-src="./personal-manual/work-types/index.html?embed=1&v=work-types-v3-20260918"
                   title="Memova Work Types guide"
                   loading="lazy"
                   sandbox="allow-scripts allow-same-origin allow-modals allow-downloads"

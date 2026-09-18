@@ -172,7 +172,7 @@ describe("production homepage", () => {
     expect(discoveryStyles).toContain("width: 145%;");
     expect(discoveryStyles).toContain("transform: scale(.69);");
     expect(captureScript).toContain(
-      'src="./personal-manual/work-types/index.html?embed=1"'
+      'data-src="./personal-manual/work-types/index.html?embed=1&v=work-types-v3-20260918"'
     );
     expect(captureScript).toContain(
       'src="./personal-manual/neil-armstrong/index.html?embed=1&v=neil-v8-20260914"'
@@ -200,7 +200,7 @@ describe("production homepage", () => {
     );
     expect(fs.existsSync(workTypesPage)).toBe(true);
     expect(fs.readFileSync(workTypesPage, "utf8")).toContain(
-      "MEMOVA Work Types · Understand Your Personal Manual"
+      "MEMOVA Work Types · Dog Work Archetypes"
     );
     expect(fs.readFileSync(neilManualPage, "utf8")).toContain(
       "Neil Armstrong’s Personal Manual · Memova"

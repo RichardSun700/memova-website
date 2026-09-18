@@ -1,0 +1,69 @@
+html.memova-app-download-open { overflow: hidden; }
+
+dialog.memova-app-download {
+  box-sizing: border-box;
+  width: min(420px, calc(100vw - 32px));
+  max-width: none;
+  max-height: calc(100vh - 32px);
+  max-height: calc(100dvh - 32px);
+  margin: auto;
+  padding: 0;
+  overflow: auto;
+  border: 1px solid rgba(255, 255, 255, .85);
+  border-radius: 26px;
+  color: #24365d;
+  background: linear-gradient(145deg, #fff 25%, #f1f4ff);
+  box-shadow: 0 32px 100px rgba(26, 39, 73, .24);
+  font-family: "DM Sans", sans-serif;
+  text-align: center;
+}
+
+dialog.memova-app-download::backdrop {
+  background: rgba(23, 34, 60, .34);
+  backdrop-filter: blur(6px);
+}
+
+.memova-app-download-content {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding: 30px 28px 26px;
+}
+
+.memova-app-download-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border: 1px solid #e1e6f2;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, .85);
+  color: #526282;
+  cursor: pointer;
+}
+
+.memova-app-download-close:focus-visible {
+  outline: 3px solid #6b86e8;
+  outline-offset: 3px;
+}
+
+.memova-app-download-icon { flex: none; border-radius: 15px; }
+.memova-app-download-eyebrow { font-size: 10px; font-weight: 700; letter-spacing: .17em; color: #6a7da5; }
+.memova-app-download h2 { margin: 0; font-family: Georgia, serif; font-size: clamp(25px, 6vw, 30px); font-weight: 400; line-height: 1.15; letter-spacing: -.025em; }
+.memova-app-download p { margin: -4px 0 0; font-size: 13px; line-height: 1.65; color: #64718c; }
+.memova-app-download-code { padding: 8px; border: 1px solid #e5eaf4; border-radius: 18px; background: #fff; box-shadow: 0 8px 22px rgba(46, 67, 107, .04); }
+.memova-app-download-code img { display: block; width: min(240px, 62vw); height: auto; }
+.memova-app-download-direct { width: 100%; min-height: 46px !important; }
+.memova-app-download-note { font-size: 11px; line-height: 1.5; color: #78849c; }
+
+@media (max-height: 650px) {
+  .memova-app-download-content { gap: 12px; padding: 22px 24px; }
+  .memova-app-download-icon { width: 40px; height: 40px; }
+  .memova-app-download-code img { width: min(192px, 55vw); }
+}
