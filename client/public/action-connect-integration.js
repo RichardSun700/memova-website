@@ -91,12 +91,12 @@
           </div>
 
           <figure class="ac-product-stage" data-ac-stage>
-            <img class="ac-stage-background" data-ac-background alt="">
+            <img loading="lazy" decoding="async" class="ac-stage-background" data-ac-background alt="">
             <div class="ac-meeting-focus" aria-label="A real meeting voice connected to the selected Memova Action">
               <span class="ac-meeting-kicker">Apollo 11 · Technical Crew Debriefing · 31 Jul 1969</span>
-              <img class="ac-meeting-cutout" data-ac-cutout alt="">
+              <img loading="lazy" decoding="async" class="ac-meeting-cutout" data-ac-cutout alt="">
               <div class="ac-action-quote" aria-live="polite">
-                <img class="ac-quote-frame" src="./action-connect-assets/speech-bubble-handdrawn.png" alt="">
+                <img loading="lazy" decoding="async" class="ac-quote-frame" src="./action-connect-assets/speech-bubble-handdrawn.png" alt="">
                 <span class="ac-quote-content">
                   <small data-ac-voice></small>
                   <q data-ac-quote></q>
@@ -106,13 +106,13 @@
             </div>
 
             <div class="ac-input-output-marker" role="img" aria-label="Meeting evidence is understood by Memova and becomes an action only after approval">
-              <img class="ac-input-output-marker__wave" src="./action-connect-assets/action-flow-wave-v3.svg" alt="" aria-hidden="true">
+              <img loading="lazy" decoding="async" class="ac-input-output-marker__wave" src="./action-connect-assets/action-flow-wave-v3.svg" alt="" aria-hidden="true">
               <span class="ac-input-output-marker__node ac-input-output-marker__node--input"><small>01</small><b>MEETING EVIDENCE</b></span>
               <span class="ac-input-output-marker__node ac-input-output-marker__node--understand"><small>02</small><b>MEMOVA UNDERSTANDS</b></span>
               <strong class="ac-input-output-marker__node ac-input-output-marker__node--output"><small>03 · AFTER APPROVAL</small><b data-ac-marker-output>HTML PAGE</b></strong>
             </div>
 
-            <div class="ac-stage-ui-wrap"><img class="ac-stage-ui" data-ac-ui alt=""></div>
+            <div class="ac-stage-ui-wrap"><img loading="lazy" decoding="async" class="ac-stage-ui" data-ac-ui alt=""></div>
             <figcaption>One meeting becomes three source-grounded actions. Nothing runs until you confirm.</figcaption>
           </figure>
 

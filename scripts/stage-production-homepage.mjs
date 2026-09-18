@@ -1,6 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { optimizeProductionHomepage } from "./optimize-production-homepage.mjs";
 
 const projectRoot = path.resolve(
   path.dirname(fileURLToPath(import.meta.url)),
@@ -36,11 +37,10 @@ if (sourceSize >= cloudflareFileLimit) {
 }
 
 fs.mkdirSync(path.dirname(outputPath), { recursive: true });
-fs.copyFileSync(sourcePath, outputPath);
+const report = await optimizeProductionHomepage(source,
+  path.join(projectRoot, "client", "public"), path.dirname(outputPath));
 console.log(
-  `Staged production homepage: ${path.relative(projectRoot, outputPath)} (${(
-    sourceSize /
-    1024 /
-    1024
-  ).toFixed(1)} MiB)`,
+  `Staged production homepage: ${path.relative(projectRoot, outputPath)} ` +
+  `(${report.sizes.html} bytes; gzip ${report.sizes.htmlGzip} bytes; ` +
+  `${report.images.length} independently cached images)`,
 );

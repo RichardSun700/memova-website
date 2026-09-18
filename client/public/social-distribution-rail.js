@@ -68,7 +68,7 @@
     else shell.setAttribute("aria-hidden", "true");
     shell.innerHTML = `
       <div class="memova-social-rail__card" data-social-card="true">
-        <img src="${platform.icon}" alt="" width="64" height="64" loading="lazy" decoding="async" draggable="false">
+        <img loading="lazy" decoding="async" src="${platform.icon}" alt="" width="64" height="64" loading="lazy" decoding="async" draggable="false">
         ${primary ? `<span class="memova-social-rail__sr-only">${platform.name}</span>` : ""}
       </div>
     `;
@@ -104,13 +104,13 @@
                 <b data-share-status>Ready</b>
               </div>
               <div class="memova-share-prototype__account">
-                <img src="./brand/memova-app-icon-liquid-blue.svg" alt="" aria-hidden="true">
+                <img loading="lazy" decoding="async" src="./brand/memova-app-icon-liquid-blue.svg" alt="" aria-hidden="true">
                 <span><strong>@memova_demo</strong><small>Voice and source context connected</small></span>
               </div>
               <div class="memova-share-prototype__platforms" role="tablist" aria-label="Preview social platform">
                 ${["x", "linkedin", "tiktok"].map((id, index) => {
                   const platform = sharePlatforms[id];
-                  return `<button type="button" role="tab" aria-selected="${index === 0}" data-share-platform="${id}"><img src="${platform.icon}" alt=""><span>${platform.name}</span></button>`;
+                  return `<button type="button" role="tab" aria-selected="${index === 0}" data-share-platform="${id}"><img loading="lazy" decoding="async" src="${platform.icon}" alt=""><span>${platform.name}</span></button>`;
                 }).join("")}
               </div>
               <label class="memova-share-prototype__format">
@@ -123,14 +123,14 @@
               </label>
               <article class="memova-share-prototype__preview" data-share-preview>
                 <header>
-                  <img data-share-preview-icon src="${sharePlatforms.x.icon}" alt="">
+                  <img loading="lazy" decoding="async" data-share-preview-icon src="${sharePlatforms.x.icon}" alt="">
                   <span><strong data-share-preview-name>Memova</strong><small data-share-preview-handle>${sharePlatforms.x.handle} · 2m</small></span>
-                  <img class="memova-share-prototype__native-logo" data-share-native-logo src="${sharePlatforms.x.icon}" alt="X">
+                  <img loading="lazy" decoding="async" class="memova-share-prototype__native-logo" data-share-native-logo src="${sharePlatforms.x.icon}" alt="X">
                   <em data-share-format-label>Link post</em>
                 </header>
                 <p data-share-copy>${sharePlatforms.x.copy}</p>
                 <figure data-share-card>
-                  <img data-share-card-image src="./final-history-assets/apollo11-launch-s69-39529.jpg" alt="Saturn V launching Apollo 11">
+                  <img loading="lazy" decoding="async" data-share-card-image src="./final-history-assets/apollo11-launch-s69-39529.jpg" alt="Saturn V launching Apollo 11">
                   <figcaption><small>memova.ai</small><strong data-share-card-title>${sharePlatforms.x.title}</strong><span>One connected Page, adapted for every channel.</span></figcaption>
                 </figure>
                 <footer class="memova-share-prototype__engagement" data-share-engagement>

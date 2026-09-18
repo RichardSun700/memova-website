@@ -62,7 +62,7 @@
 
   const feedbackView = () => `
     <section class="memova-return-view memova-return-view--feedback is-active" aria-label="Feedback received from a shared Page">
-      <img class="memova-return-blocks memova-return-blocks--feedback" src="./return-knowledge-blocks-v1.png" alt="" aria-hidden="true">
+      <img loading="lazy" decoding="async" class="memova-return-blocks memova-return-blocks--feedback" src="./return-knowledge-blocks-v1.png" alt="" aria-hidden="true">
       <div class="memova-return-view__copy">
         <span>NEW RESPONSE · SHARED PAGE</span>
         <h3>A useful detail came back.</h3>
@@ -78,7 +78,7 @@
         </div>
       </div>
       <figure class="memova-return-source-preview">
-        <img src="./action-connect-assets/action-html.png" alt="Apollo 11 HTML Page preview">
+        <img loading="lazy" decoding="async" src="./action-connect-assets/action-html.png" alt="Apollo 11 HTML Page preview">
         <figcaption><span>PUBLIC PAGE</span><strong>After the Giant Leap</strong><small>Source-linked · 1 new response</small></figcaption>
       </figure>
     </section>
@@ -86,7 +86,7 @@
 
   const reviewView = () => `
     <section class="memova-return-view memova-return-view--review is-active" aria-label="Review feedback before it returns to memory">
-      <img class="memova-return-blocks memova-return-blocks--review" src="./return-knowledge-blocks-v1.png" alt="" aria-hidden="true">
+      <img loading="lazy" decoding="async" class="memova-return-blocks memova-return-blocks--review" src="./return-knowledge-blocks-v1.png" alt="" aria-hidden="true">
       <div class="memova-return-review-card">
         <header><span>REVIEW BEFORE REMEMBERING</span><strong>Choose what returns to your memory.</strong></header>
         <blockquote>“Keep Neil's simulator-fidelity finding attached to the training recommendation…”</blockquote>
@@ -106,7 +106,7 @@
 
   const bookView = () => `
     <section class="memova-return-view memova-return-view--book is-active" aria-label="Feedback saved to the Living Book">
-      <img class="memova-return-blocks memova-return-blocks--book" src="./return-knowledge-blocks-v1.png" alt="" aria-hidden="true">
+      <img loading="lazy" decoding="async" class="memova-return-blocks memova-return-blocks--book" src="./return-knowledge-blocks-v1.png" alt="" aria-hidden="true">
       <header class="memova-return-book-header">
         <div><span>NEIL'S LIVING BOOK</span><h3>Apollo 11</h3></div>
         <b>Updated just now</b>

@@ -79,6 +79,7 @@
         videos.push(video);
       } else {
         const image = document.createElement("img");
+        image.loading = "lazy";
         image.src = item.src;
         image.alt = `${item.label} Page preview`;
         image.decoding = "async";

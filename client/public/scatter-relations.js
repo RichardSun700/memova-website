@@ -90,7 +90,7 @@
     crewManual.innerHTML = `
       <div class="memova-crew-manual__portrait" data-selected="">
         <button type="button" class="memova-crew-manual__portrait-button" data-astronaut="armstrong" aria-pressed="false" aria-label="View an imagined Neil Armstrong Personal Manual sample">
-          <img src="./action-connect-assets/comic-astronaut-cutout-v1.png" alt="Comic astronaut illustration representing the imagined Personal Manual sample" draggable="false">
+          <img loading="lazy" decoding="async" src="./action-connect-assets/comic-astronaut-cutout-v1.png" alt="Comic astronaut illustration representing the imagined Personal Manual sample" draggable="false">
           <span class="memova-crew-manual__click-hint" aria-hidden="true">
             <i></i><b>Click to enter Neil&rsquo;s Manual</b><em>↗</em>
           </span>
@@ -123,9 +123,9 @@
         </div>
         <figure>
           <iframe
-            src="./personal-manual/neil-armstrong/index.html?embed=1&v=neil-v8-20260914"
+            data-src="./personal-manual/neil-armstrong/index.html?embed=1&v=neil-v8-20260914"
             title="Neil Armstrong historical Personal Work Manual"
-            loading="eager"
+            loading="lazy"
             sandbox="allow-scripts allow-same-origin allow-modals allow-downloads"
           ></iframe>
         </figure>
@@ -157,6 +157,11 @@
         crewManual.classList.add("is-previewing");
         crewPortrait.dataset.selected = astronaut;
         samplePanel.setAttribute("aria-hidden", "false");
+        const previewFrame = samplePanel.querySelector("iframe[data-src]");
+        if (previewFrame) {
+          previewFrame.src = previewFrame.dataset.src;
+          delete previewFrame.dataset.src;
+        }
         sampleName.textContent = astronautNames[astronaut] || "Apollo 11 crew member";
         astronautButtons.forEach(item => item.setAttribute("aria-pressed", String(item === button)));
       });

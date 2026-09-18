@@ -277,7 +277,7 @@
 
               <div class="agent-manual-browser__viewport agent-learning-browser__viewport agent-learning-browser__viewport--types">
                 <iframe
-                  src="./personal-manual/work-types/index.html?embed=1"
+                  data-src="./personal-manual/work-types/index.html?embed=1"
                   title="Memova Work Types guide"
                   loading="lazy"
                   sandbox="allow-scripts allow-same-origin allow-modals allow-downloads"
@@ -311,9 +311,9 @@
 
               <div class="agent-manual-browser__viewport agent-learning-browser__viewport--neil">
                 <iframe
-                  src="./personal-manual/neil-armstrong/index.html?embed=1&v=neil-v8-20260914"
+                  data-src="./personal-manual/neil-armstrong/index.html?embed=1&v=neil-v8-20260914"
                   title="Neil Armstrong historical Personal Work Manual"
-                  loading="eager"
+                  loading="lazy"
                   sandbox="allow-scripts allow-same-origin allow-modals allow-downloads"
                 ></iframe>
               </div>
@@ -438,7 +438,7 @@
 
             <aside class="agent-desktop-app-notice" role="note" aria-label="Desktop app required">
               <span class="agent-desktop-app-notice__dog" aria-hidden="true">
-                <img src="/personal-manual/work-types/assets/dogs/12_引导者_The_Guide.png" alt="">
+                <img loading="lazy" decoding="async" src="/personal-manual/work-types/assets/dogs/12_引导者_The_Guide.png" alt="">
               </span>
               <span class="agent-desktop-app-notice__copy">
                 <strong>Start in your AI client’s desktop app.</strong>
@@ -510,7 +510,7 @@
             <span class="agent-live-badge"><i></i> SECURE</span>
           </header>
           <div class="agent-flow-window__body agent-flow-window__body--progress">
-            <div class="agent-progress-orbit" aria-hidden="true"><i></i><i></i><i></i><img src="./brand/memova-app-icon-liquid-blue.svg" alt=""></div>
+            <div class="agent-progress-orbit" aria-hidden="true"><i></i><i></i><i></i><img loading="lazy" decoding="async" src="./brand/memova-app-icon-liquid-blue.svg" alt=""></div>
             <div class="agent-progress-copy">
               <span>BASELINE VERSION</span>
               <h3>${error ? "Couldn’t read your current version" : "Checking your current Manual…"}</h3>
@@ -541,7 +541,7 @@
           </header>
 
           <div class="agent-flow-window__body agent-flow-window__body--progress">
-            <div class="agent-progress-orbit" aria-hidden="true"><i></i><i></i><i></i><img src="./brand/memova-app-icon-liquid-blue.svg" alt=""></div>
+            <div class="agent-progress-orbit" aria-hidden="true"><i></i><i></i><i></i><img loading="lazy" decoding="async" src="./brand/memova-app-icon-liquid-blue.svg" alt=""></div>
             <div class="agent-progress-copy">
               <span>AUTHENTICATED VERSION CHECK</span>
               <h3 data-progress-title>${timedOut ? (pausedByChoice ? "Checking is paused" : "Still waiting for a new version") : "Waiting for your published Manual…"}</h3>
@@ -606,7 +606,7 @@
             <iframe
               srcdoc="${escapeHtml(previewHtml)}"
               title="Published Memova Personal Manual"
-              loading="eager"
+              loading="lazy"
               sandbox=""
               referrerpolicy="no-referrer"
             ></iframe>
@@ -735,6 +735,7 @@
   function renderCapture(section, state = getViewState()) {
     const copy = copyForState(state.state);
     stopProgress();
+    section.__previewObserver?.disconnect();
 
     section.dataset.agentManualIntegrated = "true";
     section.dataset.manualState = state.state;
@@ -806,6 +807,18 @@
       const previewFrame = panel.querySelector("iframe");
       if (previewFrame) previewFrame.tabIndex = active ? 0 : -1;
     });
+    loadActiveLearningPreview(section);
+  }
+
+  function loadActiveLearningPreview(section) {
+    const rect = section.getBoundingClientRect();
+    if (rect.top > window.innerHeight + 800 || rect.bottom < -800) return false;
+    const previewFrame = section.querySelector('[data-learning-card].is-active iframe[data-src]');
+    if (previewFrame) {
+      previewFrame.src = previewFrame.dataset.src;
+      delete previewFrame.dataset.src;
+    }
+    return true;
   }
 
   async function ensureAuthenticatedFlow(setupFlow, session = readAuthSession()) {
@@ -827,7 +840,22 @@
       });
     });
 
-    if (state.state === "sample") setLearningView(section, "neil");
+    if (state.state === "sample") {
+      setLearningView(section, "neil");
+      if ("IntersectionObserver" in window) {
+        section.__previewObserver = new IntersectionObserver((entries, observer) => {
+          if (entries.some(entry => entry.isIntersecting) && loadActiveLearningPreview(section)) {
+            observer.disconnect();
+          }
+        }, { rootMargin: "800px 0px" });
+        section.__previewObserver.observe(section);
+      } else {
+        section.querySelectorAll("iframe[data-src]").forEach(frame => {
+          frame.src = frame.dataset.src;
+          delete frame.dataset.src;
+        });
+      }
+    }
 
     section.querySelector("[data-create-manual]")?.addEventListener("click", () => {
       const session = readAuthSession();
