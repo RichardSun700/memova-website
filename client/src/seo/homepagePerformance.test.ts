@@ -5,6 +5,7 @@ import { createHash } from "node:crypto";
 import { Script, runInNewContext } from "node:vm";
 import { afterEach, describe, expect, it } from "vitest";
 import sharp from "sharp";
+import { parseHTML } from "linkedom";
 import { optimizeProductionHomepage } from "../../../scripts/optimize-production-homepage.mjs";
 
 const temporaryDirectories: string[] = [];
@@ -17,9 +18,21 @@ describe("production homepage performance", () => {
     const output = path.resolve("dist/public");
     const html = fs.readFileSync(path.join(output, "index.html"), "utf8");
     const report = JSON.parse(fs.readFileSync(path.join(output, "homepage-assets.json"), "utf8"));
-    expect(Buffer.byteLength(html)).toBeLessThan(12 * 1024);
+    expect(Buffer.byteLength(html)).toBeLessThan(512 * 1024);
     expect(html).toContain('id="memova-static-snapshot"');
-    expect(html).toContain("Your context, finally understood.");
+    const { document } = parseHTML(html);
+    const snapshot = document.getElementById("memova-static-snapshot")!;
+    expect(snapshot.querySelector("h1")?.textContent).toBe("Your context,finally understood.");
+    expect(snapshot.querySelector(".five-header")).not.toBeNull();
+    expect(snapshot.querySelector(".kb-lunar-backdrop")?.getAttribute("src")).toBe(report.heroImage);
+    expect(snapshot.querySelectorAll(".kb-orbit-card")).toHaveLength(7);
+    expect([...snapshot.querySelectorAll(".five-page-rail a")].map(link => link.getAttribute("href")))
+      .toEqual(["#top", "#capture", "#act", "#share", "#return", "#waitlist"]);
+    expect(snapshot.textContent).not.toContain("Personal superalignment");
+    expect(document.querySelector('link[rel="stylesheet"]')).toBeNull();
+    const initialStyles = document.querySelector("head > style#memova-seo-shell-styles")?.textContent;
+    expect(initialStyles).toContain(".kb-lunar-backdrop");
+    expect(initialStyles).toContain("--snapshot-compact-left");
     expect(html).not.toContain("?.remove()");
     expect(html).not.toContain("data:image/");
     expect(html.match(/<script defer src=/g)).toHaveLength(1);
@@ -53,7 +66,9 @@ describe("production homepage performance", () => {
     }
     const png = await sharp(pixels, { raw: { width: 64, height: 64, channels: 4 } }).png().toBuffer();
     fs.writeFileSync(path.join(publicDir, "last.js"), 'window.order.push("last");');
-    fs.writeFileSync(path.join(publicDir, "last.css"), ".existing-design { color: blue; }");
+    const svg = "<svg xmlns='http://www.w3.org/2000/svg'><filter id='n'/><rect filter='url(#n)'/></svg>";
+    fs.writeFileSync(path.join(publicDir, "last.css"),
+      `.existing-design { color: blue; background: url("data:image/svg+xml,${encodeURIComponent(svg)}"); }`);
     const source = `<html><head><style>.existing-design { color: red; }</style></head>
       <body><main id="memova-static-snapshot">Visible while loading</main>
       <script>window.order = ["first"]; window.image = "data:image/png;base64,${png.toString("base64")}";</script>
@@ -66,5 +81,8 @@ describe("production homepage performance", () => {
     expect(decoded).toEqual(pixels);
     const css = fs.readFileSync(path.join(output, result.cssUrl), "utf8");
     expect(css.indexOf("color: red")).toBeLessThan(css.indexOf("color: blue"));
+    const svgAsset = result.images.find((image: { url: string }) => image.url.endsWith(".svg"));
+    expect(fs.readFileSync(path.join(output, svgAsset!.url), "utf8")).toBe(svg);
+    expect(css).not.toContain("data:image/");
   });
 });

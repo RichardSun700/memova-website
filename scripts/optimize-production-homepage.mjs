@@ -4,6 +4,7 @@ import { createHash } from "node:crypto";
 import { gzipSync } from "node:zlib";
 import { transform } from "esbuild";
 import sharp from "sharp";
+import { prerenderProductionHomepage } from "./prerender-production-homepage.mjs";
 
 const digest = value => createHash("sha256").update(value).digest("hex");
 const imageExtension = /\.(png|jpe?g|webp|svg)$/i;
@@ -76,9 +77,13 @@ export async function optimizeProductionHomepage(source, publicDir, outputDir) {
     return extractInlineImages(text);
   };
   const optimizeCss = async (text, base) => {
-    text = await replaceAsync(text, /url\(\s*(["']?)([^\s)"']+)\1\s*\)/g,
+    text = await replaceAsync(text, /url\(\s*(?:"([^"]*)"|'([^']*)'|([^\s)"']+))\s*\)/g,
       async match => {
-        const url = match[2];
+        const url = match[1] ?? match[2] ?? match[3];
+        if (url.startsWith("data:image/svg+xml,")) {
+          const svg = Buffer.from(decodeURIComponent(url.slice("data:image/svg+xml,".length)));
+          return `url("${await emitImage(svg, "svg", `inline:${digest(url).slice(0, 20)}`)}")`;
+        }
         if (/^(?:data:|https?:|\/\/|#)/.test(url)) return match[0];
         const resolved = new URL(url, `https://memova.ai${base}`);
         const target = imageExtension.test(resolved.pathname)
@@ -118,7 +123,15 @@ export async function optimizeProductionHomepage(source, publicDir, outputDir) {
     });
   styles.sort((a, b) => a.position - b.position);
   scripts.sort((a, b) => a.position - b.position);
-  const css = styles.map(entry => entry.css).join("\n");
+  const productionScript = scripts.find(entry => entry.code.includes("function ApolloHomepagePreview()"));
+  const snapshot = productionScript ? prerenderProductionHomepage(productionScript.code) : null;
+  if (source.includes('data-production-homepage="apollo-living-book-v1"') && !snapshot) {
+    throw new Error("Cannot prerender the production homepage");
+  }
+  if (snapshot) {
+    html = html.replace(/<main id="memova-static-snapshot"[\s\S]*?<\/main>/, () => snapshot.markup);
+  }
+  const css = styles.map(entry => entry.css).join("\n") + (snapshot?.css || "");
   const code = scripts.map(entry => entry.code).join("\n;\n");
   const js = (await transform(code, {
     loader: "js", target: "es2020", format: "iife", minify: true,
@@ -128,8 +141,10 @@ export async function optimizeProductionHomepage(source, publicDir, outputDir) {
   const jsUrl = writeAsset(Buffer.from(js), "js", "app");
   const heroImage = code.match(/className: "kb-lunar-backdrop",[^\n]*?src: "([^"]+)"/)?.[1];
   html = html.replace("</head>", [
-    `<link id="memova-seo-shell-styles" rel="stylesheet" href="${cssUrl}">`,
     heroImage ? `<link rel="preload" as="image" href="${heroImage}" fetchpriority="high">` : "",
+    // Inline the existing styles so even a delayed/failed JS or CSS request
+    // cannot expose the old plain-text SEO fallback or an unstyled hero.
+    `<style id="memova-seo-shell-styles">${css}</style>`,
     `<script defer src="${jsUrl}"></script>`,
     "</head>",
   ].filter(Boolean).join("\n"));
