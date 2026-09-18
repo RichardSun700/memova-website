@@ -69,12 +69,12 @@ const publicPages: SitePage[] = [
     path: "/pricing",
     title: "Pricing — Memova Free & Pro",
     description:
-      "Compare Memova Free and Pro: 300 shared audio minutes and 10 HTML Pages each month for free, or unlimited usage and AI Report for $20 USD per month.",
+      "Compare Memova Free and Pro: webpages, social posts, your knowledge base, Spark live transcription, and Meeting AI Report. Start free or upgrade in the app.",
     index: true,
     changeFrequency: "monthly",
     priority: 0.85,
     summary:
-      "Start free with 300 shared audio minutes and 10 HTML Pages each month, or get unlimited usage and AI Report for $20 USD per month.",
+      "Free includes 10 webpages per month and 300 minutes of Spark live transcription. Pro adds unlimited webpages, unlimited Spark live transcription, and Meeting AI Report.",
     schemaType: "WebPage",
     staticHtml: "pricing/index.html",
     hero: {
