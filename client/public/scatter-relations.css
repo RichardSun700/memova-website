@@ -8,6 +8,13 @@
   touch-action: none;
 }
 
+/* Hidden scenes should not keep Safari rasterizing SVG glow and pulse layers. */
+.kb-corner-pair-phase[aria-hidden="true"] { visibility: hidden; }
+.memova-pair-scatter__stage[data-scatter-active="false"] .memova-scatter-relations * {
+  animation-play-state: paused !important;
+}
+
+
 .memova-scatter-scroll-anchor {
   position: absolute;
   top: 38%;

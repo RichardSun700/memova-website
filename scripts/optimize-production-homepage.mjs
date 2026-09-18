@@ -63,6 +63,24 @@ export async function optimizeProductionHomepage(source, publicDir, outputDir) {
     return emitImage(fs.readFileSync(file), path.extname(file).slice(1).toLowerCase(),
       path.relative(publicDir, file));
   };
+  const responsiveCache = new Map();
+  const responsiveScatterImage = async url => {
+    if (!responsiveCache.has(url)) responsiveCache.set(url, (async () => {
+      const input = fs.readFileSync(path.join(outputDir, url));
+      const metadata = await sharp(input).metadata();
+      const candidates = [];
+      for (const width of [640, 1024]) {
+        if (metadata.width <= width) continue;
+        const bytes = await sharp(input).resize({ width }).webp({ lossless: true, effort: 4 }).toBuffer();
+        const variant = writeAsset(bytes, "webp", "image");
+        images.push({ origin: `responsive:${url}:${width}`, url: variant, sourceBytes: input.length, bytes: bytes.length });
+        candidates.push(`${variant} ${width}w`);
+      }
+      candidates.push(`${url} ${metadata.width}w`);
+      return candidates.join(", ");
+    })());
+    return responsiveCache.get(url);
+  };
   const extractInlineImages = text => replaceAsync(text,
     /data:image\/(png|jpeg|webp|svg\+xml);base64,([A-Za-z0-9+/=]+)/g,
     match => emitImage(Buffer.from(match[2], "base64"),
@@ -74,7 +92,10 @@ export async function optimizeProductionHomepage(source, publicDir, outputDir) {
     text = await replaceAsync(text,
       /(["'])((?:\.\/|\/)[^"'\s<>`$?#]+\.(?:png|jpe?g|webp|svg))\1/gi,
       async match => `${match[1]}${await emitLocalImage(match[2])}${match[1]}`);
-    return extractInlineImages(text);
+    text = await extractInlineImages(text);
+    // Keep original desktop artwork; phones select a correctly sized card image.
+    return replaceAsync(text, /filename: "(\/assets\/homepage\/[^"\s]+)"(?=, alt: "Page [1-4] )/g,
+      async match => `${match[0]}, srcSet: "${await responsiveScatterImage(match[1])}"`);
   };
   const optimizeCss = async (text, base) => {
     text = await replaceAsync(text, /url\(\s*(?:"([^"]*)"|'([^']*)'|([^\s)"']+))\s*\)/g,

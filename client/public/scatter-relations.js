@@ -25,8 +25,7 @@
     return element;
   };
 
-  const pointOnCard = (card, anchor, stageRect) => {
-    const rect = card.getBoundingClientRect();
+  const pointOnCard = (rect, anchor, stageRect) => {
     return {
       x: rect.left - stageRect.left + rect.width * anchor[0],
       y: rect.top - stageRect.top + rect.height * anchor[1]
@@ -48,12 +47,26 @@
       x: start.x + dx * 0.68 + normalX * offset,
       y: start.y + dy * 0.68 + normalY * offset
     };
-    return `M ${start.x.toFixed(2)} ${start.y.toFixed(2)} C ${c1.x.toFixed(2)} ${c1.y.toFixed(2)}, ${c2.x.toFixed(2)} ${c2.y.toFixed(2)}, ${end.x.toFixed(2)} ${end.y.toFixed(2)}`;
+    // Measure the curve numerically instead of forcing SVG layout after each write.
+    let length = 0;
+    let previous = start;
+    for (let step = 1; step <= 16; step += 1) {
+      const t = step / 16;
+      const u = 1 - t;
+      const point = {
+        x: u ** 3 * start.x + 3 * u * u * t * c1.x + 3 * u * t * t * c2.x + t ** 3 * end.x,
+        y: u ** 3 * start.y + 3 * u * u * t * c1.y + 3 * u * t * t * c2.y + t ** 3 * end.y
+      };
+      length += Math.hypot(point.x - previous.x, point.y - previous.y);
+      previous = point;
+    }
+    return { d: `M ${start.x.toFixed(2)} ${start.y.toFixed(2)} C ${c1.x.toFixed(2)} ${c1.y.toFixed(2)}, ${c2.x.toFixed(2)} ${c2.y.toFixed(2)}, ${end.x.toFixed(2)} ${end.y.toFixed(2)}`, length };
   };
 
   const install = stage => {
     if (stage.dataset.relationsReady === "true") return;
     stage.dataset.relationsReady = "true";
+    const hero = stage.closest(".homepage-kb-hero");
 
     const svg = createSvgElement("svg", {
       class: "memova-scatter-relations",
@@ -90,7 +103,7 @@
     crewManual.innerHTML = `
       <div class="memova-crew-manual__portrait" data-selected="">
         <button type="button" class="memova-crew-manual__portrait-button" data-astronaut="armstrong" aria-pressed="false" aria-label="View an imagined Neil Armstrong Personal Manual sample">
-          <img loading="lazy" decoding="async" src="./action-connect-assets/comic-astronaut-cutout-v1.png" alt="Comic astronaut illustration representing the imagined Personal Manual sample" draggable="false">
+          <img loading="eager" decoding="async" fetchpriority="high" width="1304" height="1206" data-src="./action-connect-assets/comic-astronaut-cutout-v1.png" alt="Comic astronaut illustration representing the imagined Personal Manual sample" draggable="false">
           <span class="memova-crew-manual__click-hint" aria-hidden="true">
             <i></i><b>Click to enter Neil&rsquo;s Manual</b><em>↗</em>
           </span>
@@ -254,7 +267,6 @@
     let renderFrame = 0;
 
     const renderCrewPhase = () => {
-      const hero = stage.closest(".homepage-kb-hero");
       const heroProgress = Number.parseFloat(hero?.dataset.scrollProgress || "0");
       // The chapter's final composition starts while the peripheral Pages are
       // still travelling. Copy clears first; the crew then joins the same
@@ -332,21 +344,31 @@
     const updateGeometry = () => {
       geometryFrame = 0;
       const stageRect = stage.getBoundingClientRect();
+      const progress = Number.parseFloat(hero?.dataset.scrollProgress || "0");
+      const active = (!hero || progress > 0.21) && stageRect.bottom > 0 && stageRect.top < window.innerHeight;
+      stage.dataset.scatterActive = String(active);
+      if (!active) {
+        svg.pauseAnimations?.();
+        return;
+      }
+      svg.unpauseAnimations?.();
+      // Read every card once before any SVG/style writes to avoid layout thrashing.
+      const cardRects = new Map(Array.from(stage.querySelectorAll(CARD_SELECTOR), card => [card.dataset.scatterCard, card.getBoundingClientRect()]));
       svg.setAttribute("viewBox", `0 0 ${Math.max(1, stageRect.width)} ${Math.max(1, stageRect.height)}`);
       pathEntries.forEach(entry => {
-        const fromCard = stage.querySelector(`[data-scatter-card="${entry.relation.from}"]`);
-        const toCard = stage.querySelector(`[data-scatter-card="${entry.relation.to}"]`);
+        const fromCard = cardRects.get(entry.relation.from);
+        const toCard = cardRects.get(entry.relation.to);
         if (!fromCard || !toCard) return;
         const start = pointOnCard(fromCard, entry.relation.fromAnchor, stageRect);
         const end = pointOnCard(toCard, entry.relation.toAnchor, stageRect);
         const curve = makeCurve(start, end, entry.relation.bend);
-        entry.glowPath.setAttribute("d", curve);
-        entry.mainPath.setAttribute("d", curve);
-        entry.signalPath.setAttribute("d", curve);
-        entry.length = Math.max(1, entry.mainPath.getTotalLength());
+        entry.glowPath.setAttribute("d", curve.d);
+        entry.mainPath.setAttribute("d", curve.d);
+        entry.signalPath.setAttribute("d", curve.d);
+        entry.length = Math.max(1, curve.length);
       });
       nodeEntries.forEach(entry => {
-        const card = stage.querySelector(`[data-scatter-card="${entry.cardId}"]`);
+        const card = cardRects.get(entry.cardId);
         if (!card) return;
         const point = pointOnCard(card, entry.anchor, stageRect);
         entry.group.setAttribute("transform", `translate(${point.x.toFixed(2)} ${point.y.toFixed(2)})`);
@@ -358,8 +380,33 @@
       if (!geometryFrame) geometryFrame = requestAnimationFrame(updateGeometry);
     };
 
+    const syncHeroProgress = () => {
+      const progress = Number.parseFloat(hero?.dataset.scrollProgress || "0");
+      if (!hero || progress >= 0.12) {
+        // Fetch the next scene before it appears, not while the initial hero loads.
+        stage.querySelectorAll("img[data-src]").forEach(image => {
+          if (image.dataset.srcset) {
+            image.srcset = image.dataset.srcset;
+            delete image.dataset.srcset;
+          }
+          image.src = image.dataset.src;
+          delete image.dataset.src;
+        });
+      }
+      renderCrewPhase();
+      requestGeometry();
+    };
+    // Scroll listeners run before Preact commits its progress attribute. Observe
+    // that committed value so stopping a swipe cannot leave the astronaut hidden.
+    if (hero) {
+      const progressObserver = new MutationObserver(syncHeroProgress);
+      progressObserver.observe(hero, { attributes: true, attributeFilter: ["data-scroll-progress"] });
+    }
+    stage.addEventListener("memova:scatter-frame", requestGeometry);
+
     const handlePointerDown = event => {
       if (event.target.closest?.(".memova-crew-manual")) return;
+      if (event.pointerType === "touch") return;
       if (reducedMotion.matches || event.button !== 0) return;
       pointerId = event.pointerId;
       lastX = event.clientX;
@@ -369,6 +416,7 @@
     };
 
     const handlePointerMove = event => {
+      if (event.pointerType === "touch") return;
       requestGeometry();
       if (event.pointerId !== pointerId) return;
       const dx = event.clientX - lastX;
@@ -417,7 +465,7 @@
     crewManual.addEventListener("keydown", event => {
       if (event.key === "Escape") closeSample();
     });
-    requestGeometry();
+    syncHeroProgress();
   };
 
   const boot = () => {

@@ -14,6 +14,31 @@ afterEach(() => {
 });
 
 describe("production homepage performance", () => {
+  it("keeps later hero images out of the first paint and provides smaller mobile assets", async () => {
+    const output = path.resolve("dist/public");
+    const html = fs.readFileSync(path.join(output, "index.html"), "utf8");
+    const { document } = parseHTML(html);
+    const cards = [...document.querySelectorAll("[data-scatter-card] img")];
+    expect(cards).toHaveLength(8);
+    expect(document.querySelector(".kb-linked-wiki")).toBeNull();
+    let originalBytes = 0;
+    let mobileBytes = 0;
+    for (const card of cards) {
+      expect(card.hasAttribute("src")).toBe(false);
+      expect(card.hasAttribute("srcset")).toBe(false);
+      const original = card.getAttribute("data-src")!;
+      const mobile = card.getAttribute("data-srcset")!.split(", ").find(candidate => candidate.endsWith(" 1024w"))!.split(" ")[0];
+      const originalFile = path.join(output, original);
+      const mobileFile = path.join(output, mobile);
+      const metadata = await sharp(mobileFile).metadata();
+      expect(metadata.width).toBe(1024);
+      expect(metadata.width! / metadata.height!).toBeCloseTo(Number(card.getAttribute("width")) / Number(card.getAttribute("height")), 2);
+      originalBytes += fs.statSync(originalFile).size;
+      mobileBytes += fs.statSync(mobileFile).size;
+    }
+    expect(mobileBytes).toBeLessThan(originalBytes * 0.6);
+  });
+
   it("ships a small, renderable HTML shell and cacheable assets within the budgets", () => {
     const output = path.resolve("dist/public");
     const html = fs.readFileSync(path.join(output, "index.html"), "utf8");
