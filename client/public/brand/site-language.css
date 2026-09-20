@@ -1,0 +1,26 @@
+memova-language-switch{position:relative;display:block;flex:0 0 auto;order:2;font:500 12px/1.3 "DM Sans",-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;letter-spacing:normal;color:#66758e}
+.memova-language-trigger{display:flex;align-items:center;justify-content:center;gap:5px;width:56px;min-height:40px;padding:0 6px;border:0;border-radius:8px;background:transparent;color:inherit;font:inherit;cursor:pointer;white-space:nowrap}
+.memova-language-trigger:hover,.memova-language-trigger[aria-expanded="true"]{color:#24365d;background:rgba(69,94,147,.06)}
+.memova-language-trigger [data-language-label]{display:none}
+.memova-language-trigger [data-language-label].is-selected{display:inline}
+.memova-language-options{position:absolute;top:calc(100% + 8px);right:0;z-index:150;width:164px;padding:6px;background:#fffefa;border:1px solid #dfe5ef;border-radius:13px;box-shadow:0 16px 40px rgba(36,54,93,.15)}
+.memova-language-options[hidden]{display:none!important}
+.memova-language-options button{display:flex;align-items:center;justify-content:space-between;width:100%;min-height:44px;border:0;border-radius:8px;padding:0 12px;background:transparent;color:#455e93;font:500 13px/1.4 -apple-system,BlinkMacSystemFont,"PingFang SC",sans-serif;text-align:left;cursor:pointer}
+.memova-language-options button:hover,.memova-language-options button[aria-pressed="true"]{background:#eef2fb;color:#24365d}
+.memova-language-options button span{visibility:hidden}.memova-language-options button[aria-pressed="true"] span{visibility:visible}
+memova-language-switch button:focus-visible{outline:3px solid #6b86e8;outline-offset:3px}
+.five-header{gap:clamp(12px,1.4vw,24px)}.five-header .five-nav{order:1}.five-header .five-menu{order:3;margin-left:0}
+@media(min-width:1281px) and (max-width:1500px){.five-header .five-nav{gap:16px}.five-header .five-nav>div{gap:14px}.five-header .five-community-button{padding-inline:12px}}
+@media(max-width:1280px){.five-header memova-language-switch{margin-left:auto}.five-header .five-menu{flex-shrink:0}.memova-language-trigger{min-height:44px}}
+@media(max-width:420px){.five-header{gap:8px}}
+/* System Chinese fonts avoid another font download; retain the original art,
+ * section geometry and motion. CJK headings need normal tracking to stay legible. */
+html[lang="zh-CN"] .five-home,html[lang="zh-CN"] .pricing-shell{font-family:"DM Sans",-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif}
+html[lang="zh-CN"] :is(.kb-hero h1,.agent-manual-copy h2,.ac-granola-intro h2,.memova-social-rail__heading h2,.memova-return__intro h2,.five-final h2,.pricing-intro h1,.section-heading h2,.faq-heading h2){letter-spacing:0;line-height:1.2}
+html[lang="zh-CN"] .pricing-intro h1{font-size:clamp(34px,4.3vw,56px)}
+html[lang="zh-CN"] .plan-features p{line-height:1.8}
+html[lang="zh-CN"] .homepage-kb-hero .kb-cosmos-hero h1{font-family:"Songti SC","STSong",serif;letter-spacing:0;line-height:1.12;font-size:clamp(48px,5.8vw,84px);max-width:900px}
+@media(max-width:900px){html[lang="zh-CN"] .homepage-kb-hero .kb-cosmos-hero h1{font-size:clamp(34px,8.5vw,62px)}}
+html[lang="zh-CN"] #capture.integrated-agent-manual .agent-manual-copy h2{font-size:clamp(36px,4.1vw,60px);line-height:1.2;letter-spacing:0}
+html[lang="zh-CN"] #act .ac-granola-intro h2,html[lang="zh-CN"] #social-distribution h2,html[lang="zh-CN"] #return .memova-return-story__intro h2,html[lang="zh-CN"] #waitlist h2{line-height:1.2;letter-spacing:0}
+@media(max-width:700px){html[lang="zh-CN"] #capture.integrated-agent-manual .agent-manual-copy h2{font-size:clamp(30px,8.4vw,44px)}}

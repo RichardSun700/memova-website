@@ -1,5 +1,5 @@
 import { ChevronDown, LogOut, Menu, UserRound, X } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { createElement, useEffect, useRef, useState } from "react";
 import { useAuth } from "@/contexts/AuthContext";
 
 const navigation = [
@@ -175,6 +175,7 @@ export default function SiteHeader({ current }: { current: string }) {
             )}
           </div>
         </nav>
+        {createElement("memova-language-switch")}
         <dialog
           ref={communityRef}
           className="five-community-overlay"

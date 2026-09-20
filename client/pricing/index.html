@@ -14,6 +14,10 @@
 <link rel="stylesheet" href="/brand/site-header.css">
 <link rel="stylesheet" href="/brand/download-button.css">
 <script type="module" src="/src/pricing-header.tsx"></script>
+<link rel="stylesheet" href="/brand/site-language.css">
+<script defer src="/brand/site-language.js"></script>
+<link rel="stylesheet" href="/brand/app-download.css">
+<script defer src="/brand/app-download.js"></script>
 </head>
 <body>
 <div class="memova-seo-shell pricing-shell" data-seo-snapshot="true" data-seo-shell-version="2" data-page-summary="Free includes 10 webpages and 300 minutes of Spark live transcription per month. Pro adds unlimited webpages, unlimited Spark live transcription, and Meeting AI Report.">
@@ -25,6 +29,7 @@
         <div><a href="/#capture">Product</a><a href="/#act">How it works</a><a class="five-demo-link" href="/product-demo/">Product demo</a><a href="/journal/">Journal</a><a href="/pricing/" aria-current="page">Pricing</a></div>
         <div><a class="five-community-button" href="https://discord.gg/wAeCmpy86" target="_blank" rel="noopener noreferrer">Join Community</a><a class="memova-download-button" href="https://apps.apple.com/us/app/memova-ai/id6796284954" target="_blank" rel="noopener noreferrer" aria-label="Download Memova AI on the App Store">Download the app</a><a href="/login">Sign in</a></div>
       </nav>
+      <memova-language-switch></memova-language-switch>
     </header>
     <div class="memova-site-header-space" aria-hidden="true"></div>
   </div>
@@ -36,42 +41,36 @@
         <h1 id="pricing-title">A little more room to think.</h1>
         <p>Start free. Upgrade for unlimited webpages and Spark live transcription.</p>
       </div>
-      <div class="plans-grid"><article class="plan-card free-card" aria-labelledby="free-title">
-          <div class="plan-heading"><h2 id="free-title">Free</h2><span class="plan-tag">A place to begin</span></div>
-          <p class="plan-description">Start capturing ideas and see what you can create.</p>
-          <p class="price"><span class="price-amount">$0</span><span class="price-period"><span>USD / month</span></span></p>
+      <div class="plans-grid">
+        <article class="plan-card free-card" aria-labelledby="free-title">
+          <div class="plan-heading"><h2 id="free-title">Free</h2></div>
+          <p class="price"><span class="price-amount">$0</span><span class="price-period">USD / month</span></p>
           <a class="plan-button memova-download-button" href="https://apps.apple.com/us/app/memova-ai/id6796284954" target="_blank" rel="noopener noreferrer">Get started for free</a>
           <p class="features-label">What’s included</p>
           <ul class="plan-features">
-            <li><span class="check" aria-hidden="true">✓</span><div><strong>10 webpages per month</strong><p>Turn your conversations and notes into clear, beautifully designed webpages you can share.</p></div></li>
-            <li><span class="check" aria-hidden="true">✓</span><div><strong>Social posts that sound like you</strong><p>Create posts and images that fit the tone and visual style of X and LinkedIn. Memova can also learn from your past posts to reflect your own voice and visual style. Publish with one click.</p></div></li>
-            <li><span class="check" aria-hidden="true">✓</span><div><strong>Build and manage your knowledge base</strong><p>Keep useful ideas, decisions, and preferences in one place. Connect your AI assistant to search your knowledge base. Your assistant can add or update information only with your approval.</p></div></li>
-            <li><span class="check" aria-hidden="true">✓</span><div><strong>300 minutes of Spark live transcription per month</strong><p>Turn speech into text as you record in Spark. Your 300-minute allowance resets each month.</p></div></li>
+            <li><span class="check" aria-hidden="true">✓</span><div><strong>10 webpages / month</strong><p>Turn conversations and notes into shareable webpages.</p></div></li>
+            <li><span class="check" aria-hidden="true">✓</span><div><strong>300 minutes of Spark live transcription / month</strong><p>Turn speech into text as you record.</p></div></li>
+            <li><span class="check" aria-hidden="true">✓</span><div><strong>Social posts for X &amp; LinkedIn</strong><p>Create posts and images in your style. Publish with one click.</p></div></li>
+            <li><span class="check" aria-hidden="true">✓</span><div><strong>Build and manage your knowledge base</strong><p>Save ideas for your AI assistant to find and update with your approval.</p></div></li>
           </ul>
-          <p class="plan-note"><span>Upgrade to Pro for Meeting AI Report, or </span><a href="https://discord.gg/wAeCmpy86" target="_blank" rel="noopener noreferrer">join our community</a><span> to get trial access.</span></p>
-        </article><article class="plan-card pro-card" aria-labelledby="pro-title">
-          <div class="plan-heading"><h2 id="pro-title">Pro</h2><span class="plan-tag pro-tag">More room to create</span></div>
-          <p class="plan-description">Everything in Free, with more room to capture and create.</p>
-          <p class="price"><span class="price-amount">$20</span><span class="price-period"><span>USD / month</span><br><span>Billed monthly</span></span></p>
+          <p class="plan-note"><span>Upgrade to Pro for Meeting AI Report, or </span><a href="https://discord.gg/wAeCmpy86" target="_blank" rel="noopener noreferrer">join our community</a><span> for trial access.</span></p>
+        </article>
+        <article class="plan-card pro-card" aria-labelledby="pro-title">
+          <div class="plan-heading"><h2 id="pro-title">Pro</h2></div>
+          <p class="price"><span class="price-amount">$20</span><span class="price-period">USD / month</span></p>
           <a class="plan-button memova-download-button" href="https://apps.apple.com/us/app/memova-ai/id6796284954" target="_blank" rel="noopener noreferrer">Upgrade to Pro in the app</a>
           <p class="features-label">What’s included</p>
           <ul class="plan-features">
-            <li><span class="check" aria-hidden="true">✓</span><div><strong>Unlimited webpages</strong><p>Turn your conversations and notes into shareable webpages, with no monthly page limit.</p></div></li>
-            <li><span class="check" aria-hidden="true">✓</span><div><strong>Social posts that sound like you</strong><p>Create posts and images that fit the tone and visual style of X and LinkedIn. Memova can also learn from your past posts to reflect your own voice and visual style. Publish with one click.</p></div></li>
-            <li><span class="check" aria-hidden="true">✓</span><div><strong>Build and manage your knowledge base</strong><p>Keep useful ideas, decisions, and preferences in one place. Connect your AI assistant to search your knowledge base. Your assistant can add or update information only with your approval.</p></div></li>
-            <li><span class="check" aria-hidden="true">✓</span><div><strong>Unlimited Spark live transcription</strong><p>Turn speech into text as you record in Spark, with no limit on transcription minutes.</p></div></li>
-            <li><span class="check" aria-hidden="true">✓</span><div><strong>Meeting AI Report</strong><p>Turn it on when you need it. AI captures excerpts from your meeting conversation and corrects the transcript in real time for more accurate meeting notes.</p></div></li>
+            <li><span class="check" aria-hidden="true">✓</span><div><strong>Unlimited webpages</strong><p>Create and share with no monthly page limit.</p></div></li>
+            <li><span class="check" aria-hidden="true">✓</span><div><strong>Unlimited Spark live transcription</strong><p>Record and transcribe with no limit on transcription minutes.</p></div></li>
+            <li><span class="check" aria-hidden="true">✓</span><span><span class="shared-feature-name">Social posts for X &amp; LinkedIn</span><span class="shared-feature-status" aria-hidden="true">Included</span></span></li>
+            <li><span class="check" aria-hidden="true">✓</span><span><span class="shared-feature-name">Build and manage your knowledge base</span><span class="shared-feature-status" aria-hidden="true">Included</span></span></li>
           </ul>
-
-        </article></div>
-      <p class="recording-note"><strong>For both plans:</strong> <span>Each Meeting or Spark recording can last up to 4 hours.</span></p>
-      <div class="plans-footnote"><span>Current beta plans. Prices in USD.</span><span>Subscriptions are managed in the Memova app.</span></div>
-    </section>
-    <section class="comparison-section content-width" aria-labelledby="comparison-title">
-      <div class="section-heading"><p class="eyebrow">THE DETAILS</p><h2 id="comparison-title">Compare your plans.</h2><p>Your recording and creation benefits, side by side.</p></div>
-      <div class="comparison-scroll" tabindex="0" role="region" aria-label="Plan comparison table, scroll horizontally on small screens">
-        <table class="comparison-table"><caption class="sr-only">Memova Free and Pro benefits</caption><colgroup><col class="feature-col"><col><col></colgroup><thead><tr><th scope="col">What’s included</th><th scope="col"><b>Free</b><span>$0 / month</span></th><th scope="col"><b>Pro</b><span>$20 / month</span></th></tr></thead><tbody><tr><th scope="row">Webpages</th><td>10 per month</td><td>Unlimited</td></tr><tr><th scope="row">Social posts for X &amp; LinkedIn</th><td>Included</td><td>Included</td></tr><tr><th scope="row">Build and manage your knowledge base</th><td>Included</td><td>Included</td></tr><tr><th scope="row">Spark live transcription</th><td>300 minutes / month<small>Resets each month</small></td><td>Unlimited minutes</td></tr><tr><th scope="row">Meeting AI Report</th><td>Not included<br><small>Trial access available through our community</small></td><td>Included · Turn on as needed</td></tr><tr><th scope="row">Maximum recording length</th><td>4 hours per Meeting or Spark</td><td>4 hours per Meeting or Spark</td></tr></tbody></table>
+          <div class="report-feature"><span class="check" aria-hidden="true">✓</span><div><strong>Meeting AI Report</strong><p>Turn on AI to capture meeting excerpts and correct the transcript in real time.</p></div></div>
+        </article>
       </div>
+      <p class="recording-note"><span>Free Spark minutes reset each month.</span><span>Each Meeting or Spark recording can last up to 4 hours.</span></p>
+      <div class="plans-footnote"><span>Prices in USD.</span><span>Subscriptions are managed in the Memova app.</span></div>
     </section>
     <section class="faq-section content-width" aria-labelledby="faq-title"><div class="faq-heading"><p class="eyebrow">GOOD TO KNOW</p><h2 id="faq-title">A few details before you start.</h2></div><div class="faq-list"><details><summary><span>How does the free transcription allowance work?</span><span aria-hidden="true">+</span></summary><p>Free includes 300 minutes of Spark live transcription per month. Your allowance resets each month. Spark turns speech into text while you record.</p></details><details><summary><span>How many webpages can I create?</span><span aria-hidden="true">+</span></summary><p>Free includes 10 webpages per month. Pro has no monthly page limit. Both plans turn your conversations and notes into webpages you can share.</p></details><details><summary><span>How does Meeting AI Report work?</span><span aria-hidden="true">+</span></summary><p>Meeting AI Report is off by default. Turn it on in the app to let AI capture excerpts from your meeting conversation and correct the transcript in real time. The feature is included with Pro. Free users can join our community for trial access.</p></details><details><summary><span>How long can a recording be?</span><span aria-hidden="true">+</span></summary><p>On both Free and Pro, each Meeting or Spark recording can last up to 4 hours.</p></details><details><summary><span>Where do I upgrade to Pro?</span><span aria-hidden="true">+</span></summary><p>Upgrade in the Memova app. If you haven’t installed Memova yet, download it from the App Store first.</p></details></div></section>
   </main>

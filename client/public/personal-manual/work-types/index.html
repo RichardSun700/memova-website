@@ -3609,13 +3609,34 @@ window.WORK_TYPES = [{"n":1,"name":"The Refiner","animal":"Miniature Schnauzer",
       }
     };
 
-    toggle?.addEventListener("click", () => setLanguage(language === "en" ? "zh" : "en"));
+    const siteLanguageKey = "memova.site-language.v1";
+    const validLanguage = value => value === "zh" || value === "en";
+    const readSiteLanguage = () => {
+      const requested = new URLSearchParams(location.search).get("lang");
+      if (validLanguage(requested)) return requested;
+      try { return localStorage.getItem(siteLanguageKey) === "zh" ? "zh" : "en"; } catch { return "en"; }
+    };
+    toggle?.addEventListener("click", () => {
+      setLanguage(language === "en" ? "zh" : "en");
+      try { localStorage.setItem(siteLanguageKey, language); } catch {}
+      const url = new URL(location.href);
+      url.searchParams.set("lang", language);
+      history.replaceState(history.state, "", url.pathname + url.search + url.hash);
+      if (window.parent !== window) window.parent.postMessage({ type: "memova:work-types-language", language }, location.origin);
+    });
+    window.addEventListener("message", event => {
+      if (event.origin !== location.origin || event.source !== window.parent || event.data?.type !== "memova:site-language" || !validLanguage(event.data.language)) return;
+      if (language !== event.data.language) setLanguage(event.data.language);
+    });
+    window.addEventListener("storage", event => {
+      if (event.key === siteLanguageKey && validLanguage(event.newValue) && language !== event.newValue) setLanguage(event.newValue);
+    });
     document.addEventListener("click", (event) => {
       if (language !== "zh" || !event.target.closest(".type-card, .page-control, [data-filter], [role='tab']")) return;
       requestAnimationFrame(() => { replaceText(language); syncModal(language); syncDimensionsSection(language); syncFilterStatus(language); });
     });
 
-    setLanguage("en");
+    setLanguage(readSiteLanguage());
   })();
 })();
   </script>
