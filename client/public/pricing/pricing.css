@@ -15,31 +15,22 @@
 @media(max-width:700px){.content-width,.plans-section{width:calc(100% - 36px)}.pricing-intro{padding:45px 2px 32px}.pricing-intro h1{font-size:43px;max-width:450px;margin-inline:auto}.pricing-intro>p:last-child{font-size:15px;max-width:320px;margin-inline:auto}.plans-grid{grid-template-columns:1fr;gap:20px}.plan-card{padding:29px 27px}.price{margin-top:24px}.plan-description{font-size:15px}.plan-tag{font-size:11px}.plan-features{gap:20px}.plans-footnote{flex-direction:column;gap:4px;padding-top:16px;font-size:12px}.ai-report-section{grid-template-columns:1fr;gap:26px;padding-block:57px}.ai-report-copy h2,.section-heading h2,.faq-heading h2{font-size:37px}.ai-report-copy>p:not(.eyebrow){font-size:15px}.ai-report-control{padding:25px}.comparison-section{padding-block:56px}.section-heading{margin-bottom:26px}.comparison-table th,.comparison-table td{padding:18px 20px}.faq-section{grid-template-columns:1fr;gap:17px;padding:52px 0 55px}.faq-heading{padding:0}.faq-heading h2 br{display:none}.faq-list summary{font-size:15px;padding-block:20px}.pricing-footer{flex-wrap:wrap;gap:20px;padding-block:27px}.pricing-footer .brand{width:auto}.pricing-footer p{margin-left:auto;margin-right:0}.pricing-footer nav{width:100%;gap:25px}.dialog-plan{padding:15px}#upgrade-dialog{padding-inline:25px}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{transition:none!important}}
 
-/* Plan notes and the shared recording limit. */
+/* Plan notes. */
 .plan-description{min-height:3.4em}
 .plan-note{margin:24px 0 0;padding-top:20px;border-top:1px solid var(--line);color:var(--muted);font-size:13px;line-height:1.8}
 .plan-note a{text-decoration:underline!important;text-underline-offset:3px;color:var(--blue)!important}
-.recording-note{margin:22px 0 0;border:1px solid var(--line);border-radius:12px;padding:16px 20px;font-size:14px;color:#52627f;background:#f5f7fc;text-align:center}
-@media(max-width:700px){.plan-description{min-height:0}.recording-note{text-align:left;padding:16px 18px}}
+@media(max-width:700px){.plan-description{min-height:0}}
 
 .price-period>span:first-child{font-size:14px;color:var(--muted)}
 
-/* Concise, two-plan comparison. Shared benefit names remain accessible and
-   become visible when the cards stack, so "Included" always has context. */
+/* Two-plan comparison with complete benefit names on every screen size. */
 .plan-card .price{margin-top:24px}
 .plan-features{gap:16px}
 .plan-features li{font-size:15px;line-height:1.6;min-height:24px}
 .plan-features li>span:last-child,.plan-features li>strong,.plan-features li>div{min-width:0}
-.shared-feature-name{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
 .report-feature{display:flex;align-items:flex-start;gap:12px;margin:24px 0 0;padding-top:20px;border-top:1px solid var(--line);font-size:15px;line-height:1.6}
-.recording-note{display:flex;flex-wrap:wrap;justify-content:center;column-gap:8px;row-gap:4px}
 @media(max-width:700px){
   .plan-features li:nth-child(2){min-height:24px}
-  .shared-feature-name{position:static;width:auto;height:auto;padding:0;margin:0;overflow:visible;clip:auto;white-space:normal}
-  .shared-feature-status{display:none}
-  .recording-note{display:block}
-  .recording-note>span{display:block}
-  .recording-note>span+span{margin-top:4px}
 }
 
 /* Brief supporting copy; align matching benefits without fixed row heights. */
@@ -49,9 +40,5 @@
     .plans-grid{row-gap:0}
     .plan-card{display:grid;grid-template-rows:subgrid;grid-row:span 9;row-gap:0}
     .plan-features{grid-row:span 4;grid-template-rows:subgrid;row-gap:18px}
-  }
-  @supports not (grid-template-rows:subgrid){
-    .shared-feature-name{position:static;width:auto;height:auto;margin:0;overflow:visible;clip:auto;white-space:normal}
-    .shared-feature-status{display:none}
   }
 }
