@@ -7,6 +7,7 @@ const navigation = [
   ["Product demo", "/product-demo/", "demo"],
   ["Journal", "/journal/", "journal"],
   ["Pricing", "/pricing/", "pricing"],
+  ["Support", "/support/", "support"],
 ] as const;
 
 export default function SiteHeader({ current }: { current: string }) {

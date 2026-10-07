@@ -8,6 +8,7 @@
   "Product": "产品",
   "Journal": "产品日志",
   "Pricing": "价格与权益",
+  "Support": "帮助与支持",
   "Join Community": "加入社群",
   "Download the app": "下载 App",
   "Sign in": "登录",
