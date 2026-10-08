@@ -64,6 +64,29 @@ export async function optimizeProductionHomepage(source, publicDir, outputDir) {
       path.relative(publicDir, file));
   };
   const responsiveCache = new Map();
+  let heroAssets;
+  const responsiveHeroImage = async url => {
+    const input = fs.readFileSync(path.join(outputDir, url));
+    const metadata = await sharp(input).metadata();
+    const variants = [];
+    for (const width of [800, 1200, metadata.width]) {
+      if (variants.some(variant => variant.width === width)) continue;
+      const bytes = await sharp(input).resize({ width, withoutEnlargement: true })
+        .webp({ quality: 80, effort: 4 }).toBuffer();
+      const variantUrl = writeAsset(bytes, "webp", "image");
+      images.push({ origin: `hero:${url}:${width}`, url: variantUrl, sourceBytes: input.length, bytes: bytes.length });
+      variants.push({ width, url: variantUrl, bytes: bytes.length });
+    }
+    heroAssets = {
+      src: variants.at(-1).url,
+      srcSet: variants.map(variant => `${variant.url} ${variant.width}w`).join(", "),
+      sizes: "(max-width: 900px) 108vw, 136vw",
+      width: metadata.width,
+      height: metadata.height,
+      variants,
+    };
+    return heroAssets;
+  };
   const responsiveScatterImage = async url => {
     if (!responsiveCache.has(url)) responsiveCache.set(url, (async () => {
       const input = fs.readFileSync(path.join(outputDir, url));
@@ -93,6 +116,14 @@ export async function optimizeProductionHomepage(source, publicDir, outputDir) {
       /(["'])((?:\.\/|\/)[^"'\s<>`$?#]+\.(?:png|jpe?g|webp|svg))\1/gi,
       async match => `${match[1]}${await emitLocalImage(match[2])}${match[1]}`);
     text = await extractInlineImages(text);
+    // Use the same responsive candidates for the first paint, client render and
+    // preload, so phones never download the desktop fallback as a second image.
+    text = await replaceAsync(text,
+      /(className: "kb-lunar-backdrop",[^\n]*?src: )"([^"]+)"/g,
+      async match => {
+        const hero = await responsiveHeroImage(match[2]);
+        return `${match[1]}"${hero.src}", srcset: "${hero.srcSet}", sizes: "${hero.sizes}", width: ${hero.width}, height: ${hero.height}`;
+      });
     // Keep original desktop artwork; phones select a correctly sized card image.
     return replaceAsync(text, /filename: "(\/assets\/homepage\/[^"\s]+)"(?=, alt: "Page [1-4] )/g,
       async match => `${match[0]}, srcSet: "${await responsiveScatterImage(match[1])}"`);
@@ -152,7 +183,9 @@ export async function optimizeProductionHomepage(source, publicDir, outputDir) {
   if (snapshot) {
     html = html.replace(/<main id="memova-static-snapshot"[\s\S]*?<\/main>/, () => snapshot.markup);
   }
-  const css = styles.map(entry => entry.css).join("\n") + (snapshot?.css || "");
+  const css = (await transform(styles.map(entry => entry.css).join("\n") + (snapshot?.css || ""), {
+    loader: "css", minify: true, legalComments: "none", charset: "utf8",
+  })).code;
   const code = scripts.map(entry => entry.code).join("\n;\n");
   const js = (await transform(code, {
     loader: "js", target: "es2020", format: "iife", minify: true,
@@ -162,7 +195,7 @@ export async function optimizeProductionHomepage(source, publicDir, outputDir) {
   const jsUrl = writeAsset(Buffer.from(js), "js", "app");
   const heroImage = code.match(/className: "kb-lunar-backdrop",[^\n]*?src: "([^"]+)"/)?.[1];
   html = html.replace("</head>", [
-    heroImage ? `<link rel="preload" as="image" href="${heroImage}" fetchpriority="high">` : "",
+    heroImage ? `<link rel="preload" as="image" href="${heroImage}" fetchpriority="high"${heroAssets ? ` imagesrcset="${heroAssets.srcSet}" imagesizes="${heroAssets.sizes}"` : ""}>` : "",
     // Inline the existing styles so even a delayed/failed JS or CSS request
     // cannot expose the old plain-text SEO fallback or an unstyled hero.
     `<style id="memova-seo-shell-styles">${css}</style>`,
@@ -181,7 +214,7 @@ export async function optimizeProductionHomepage(source, publicDir, outputDir) {
   }
   if (html.includes("data:image/")) throw new Error("Homepage still contains inline image payloads");
   fs.writeFileSync(path.join(outputDir, "index.html"), html);
-  const report = { sizes, cssUrl, jsUrl, heroImage, images: images.sort((a, b) => a.url.localeCompare(b.url)) };
+  const report = { sizes, cssUrl, jsUrl, heroImage, heroAssets, images: images.sort((a, b) => a.url.localeCompare(b.url)) };
   fs.writeFileSync(path.join(outputDir, "homepage-assets.json"), JSON.stringify(report, null, 2));
   return report;
 }

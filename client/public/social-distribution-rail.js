@@ -91,7 +91,7 @@
           <div class="memova-social-rail__left">
             <div class="memova-social-rail__heading">
               <p>ONE PAGE · EVERY CHANNEL</p>
-              <h2 id="memova-social-rail-title">Publish once.<br><em>Feel native everywhere.</em></h2>
+              <h2 id="memova-social-rail-title">Publish once. <br><em>Feel native everywhere.</em></h2>
             </div>
             <div class="memova-social-rail__explanation-copy">
               <p>Memova matches your social voice and each platform’s native tone, then flexibly adapts the copy, imagery, crop, and visual style—while keeping the source context intact.</p>

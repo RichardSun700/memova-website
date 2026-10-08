@@ -654,7 +654,7 @@
     };
     return {
       bridge: "Two references before you create",
-      title: "Let your Agent<br>write the first<br>manual of you.",
+      title: "Let your Agent <br>write the first <br>manual of you.",
       body: "First, explore Neil's imagined Manual and the Work Type framework behind it. Then let your Agent read only the context you approve and shape a Personal Manual of your own."
     };
   }

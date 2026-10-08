@@ -1,0 +1,220 @@
+/* Phone layouts follow content height; desktop chapter compositions stay intact. */
+@media (max-width: 760px) {
+  .homepage-kb-hero .kb-story-concept {
+    display: grid;
+    grid-template-rows: auto minmax(184px, 1fr);
+    gap: 16px;
+    padding: 114px 20px 64px;
+  }
+
+  .homepage-kb-chapter-label {
+    top: 84px;
+    left: 20px;
+    font-size: 7px;
+    line-height: 12px;
+  }
+
+  .homepage-kb-hero .kb-cosmos-hero {
+    position: relative;
+    grid-row: 1;
+    top: auto;
+    left: auto;
+    width: 100%;
+  }
+
+  .homepage-kb-hero .kb-cosmos-hero > span {
+    font-size: 8px;
+    line-height: 14px;
+  }
+
+  .homepage-kb-hero .kb-cosmos-hero h1,
+  html[lang="zh-CN"] .homepage-kb-hero .kb-cosmos-hero h1 {
+    max-width: none;
+    margin-top: 12px;
+    font-size: clamp(32px, 9.8vw, 44px);
+    line-height: 1.08;
+    text-wrap: balance;
+  }
+
+  .homepage-kb-hero .kb-cosmos-hero .kb-hero-hypothesis {
+    margin-top: 14px;
+    font-size: 12px;
+    line-height: 1.5;
+  }
+
+  html[lang="zh-CN"] .homepage-kb-hero .kb-cosmos-hero h1 {
+    word-break: keep-all;
+    text-wrap: wrap;
+  }
+
+  .homepage-kb-hero .kb-cosmos-hero .kb-hero-hypothesis strong {
+    font-size: 8px;
+    line-height: 1.4;
+  }
+
+  .homepage-kb-hero .kb-orbit-field {
+    position: relative;
+    grid-row: 2;
+    inset: auto;
+    display: block;
+    overflow: visible;
+  }
+
+  .homepage-kb-hero .kb-orbit-card {
+    position: absolute;
+    width: clamp(96px, 28vw, 116px);
+    min-height: 36px;
+  }
+
+  .homepage-kb-hero .kb-orbit-card strong {
+    overflow: visible;
+    font-size: 9px;
+    white-space: normal;
+    text-overflow: clip;
+    line-height: 1.25;
+  }
+
+  /* Keep words separated when the desktop line breaks are hidden. */
+  :is(.kb-cosmos-hero h1, .agent-manual-copy h2,
+      .share-social-fan__intro h2, .memova-social-rail__heading h2,
+      .memova-return-story__intro h2, .five-waitlist-copy h2) br {
+    display: none;
+  }
+
+  #capture.integrated-agent-manual .agent-manual-copy h2,
+  #act .ac-granola-intro h2,
+  .share-social-fan-active .share-social-fan__intro h2,
+  #social-distribution .memova-social-rail__heading h2,
+  #return .memova-return-story__intro h2,
+  #waitlist .five-waitlist-copy h2 {
+    font-size: clamp(30px, 9vw, 40px);
+    line-height: 1.12;
+    text-wrap: balance;
+  }
+
+  #act .ac-granola-intro p,
+  #act .ac-feature-copy p {
+    font-size: 14px;
+    line-height: 1.6;
+  }
+
+  #act .ac-feature-copy {
+    min-height: 0;
+    gap: 16px;
+  }
+
+  #act .ac-feature-copy h3 {
+    font-size: clamp(22px, 5.8vw, 25px);
+    line-height: 1.25;
+    text-wrap: pretty;
+  }
+
+  #act .ac-output-tab {
+    min-height: 48px;
+    font-size: 11px;
+    line-height: 1.3;
+    white-space: normal;
+  }
+
+  /* Guide, portrait/button and disclosure each have their own grid row. */
+  .memova-crew-manual {
+    inset: 62px 0 64px;
+    display: grid;
+    grid-template-rows: auto minmax(200px, 1fr) auto;
+    gap: 12px;
+    padding: 18px 20px 0;
+    overflow-y: auto;
+  }
+
+  .memova-crew-manual__guide {
+    position: relative;
+    grid-row: 1;
+    top: auto;
+    left: auto;
+    width: 100%;
+    gap: 6px;
+    transform: none;
+  }
+
+  .memova-crew-manual__guide strong {
+    max-width: none;
+    font-size: 16px;
+    line-height: 1.25;
+    text-wrap: balance;
+  }
+
+  .memova-crew-manual__guide p {
+    max-width: none;
+    font-size: 11px;
+    line-height: 1.5;
+  }
+
+  .memova-crew-manual__guide em {
+    max-width: 100%;
+    font-size: 8px;
+    line-height: 1.4;
+  }
+
+  .memova-crew-manual__portrait {
+    position: relative;
+    grid-row: 2;
+    left: auto;
+    bottom: auto;
+    width: 100%;
+    height: 100%;
+    min-height: 0;
+    aspect-ratio: auto;
+    transform: none;
+  }
+
+  .memova-crew-manual__portrait-button > img {
+    height: calc(100% - 44px);
+    object-position: center;
+  }
+
+  .memova-crew-manual__click-hint,
+  .memova-crew-manual__portrait-button:hover .memova-crew-manual__click-hint {
+    bottom: 0;
+    min-height: 32px;
+    width: max-content;
+    max-width: 100%;
+    transform: translateX(-50%);
+  }
+
+  .memova-crew-manual__click-hint b {
+    font-size: 8px;
+    line-height: 1.4;
+    white-space: normal;
+    text-align: center;
+  }
+
+  .memova-crew-manual__disclosure {
+    position: relative;
+    grid-row: 3;
+    left: auto;
+    bottom: auto;
+    width: 100%;
+    padding: 12px 14px;
+  }
+
+  .memova-crew-manual__disclosure span {
+    font-size: 8px;
+    line-height: 1.4;
+  }
+
+  .memova-crew-manual__disclosure p {
+    margin: 6px 0 8px;
+    font-size: 11px;
+    line-height: 1.5;
+  }
+
+  .memova-crew-manual__disclosure a {
+    display: inline-block;
+    font-size: 11px;
+    line-height: 1.5;
+  }
+
+  .memova-crew-manual.is-previewing .memova-crew-manual__portrait {
+    transform: scale(.96);
+  }
+}

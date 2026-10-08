@@ -153,7 +153,7 @@
 
       <header class="memova-return-story__intro">
         <p>05 · FEEDBACK + LIVING BOOK</p>
-        <h2 id="memova-return-title">What comes back<br>becomes context.</h2>
+        <h2 id="memova-return-title">What comes back <br>becomes context.</h2>
         <div>In this imagined Neil Armstrong account, feedback from a shared Page stays attached to its source. Neil chooses what returns as a private Note in his Living Book.</div>
       </header>
 

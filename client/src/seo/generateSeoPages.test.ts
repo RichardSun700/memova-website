@@ -323,7 +323,7 @@ describe("SEO build generator", () => {
     expect(bootstrap).toContain("PROTECTED_REGIONS");
     expect(bootstrap).toContain("send_page_view: false");
     expect(bootstrap.indexOf('gtag("consent", "default"')).toBeLessThan(
-      bootstrap.indexOf("\n  addGoogleTag();")
+      bootstrap.indexOf("\n  scheduleGoogleTag();")
     );
   });
 

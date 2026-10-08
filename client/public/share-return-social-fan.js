@@ -34,7 +34,7 @@
       <div class="share-social-fan__sticky">
         <header class="share-social-fan__intro">
           <p>04 · SHARE + RETURN</p>
-          <h2>Share what matters.<br><em>Keep the context.</em></h2>
+          <h2>Share what matters. <br><em>Keep the context.</em></h2>
         </header>
         <figure class="share-social-fan__visual" aria-labelledby="share-social-fan-caption">
           <figcaption id="share-social-fan-caption" class="share-social-fan__sr-only">
@@ -68,19 +68,19 @@
 
       if (item.kind === "video") {
         const video = document.createElement("video");
-        video.src = item.src;
-        video.poster = item.poster;
+        video.dataset.src = item.src;
+        video.dataset.poster = item.poster;
         video.muted = true;
         video.loop = true;
         video.playsInline = true;
-        video.preload = "metadata";
+        video.preload = "none";
         video.setAttribute("aria-hidden", "true");
         media.append(video);
         videos.push(video);
       } else {
         const image = document.createElement("img");
         image.loading = "lazy";
-        image.src = item.src;
+        image.dataset.src = item.src;
         image.alt = `${item.label} Page preview`;
         image.decoding = "async";
         media.append(image);
@@ -110,12 +110,29 @@
     let visible = false;
     let reducedMotion = false;
     let lastProgress = -1;
+    let mediaLoaded = false;
+
+    const loadMedia = () => {
+      if (mediaLoaded) return;
+      mediaLoaded = true;
+      phoneList.querySelectorAll("img[data-src]").forEach(image => {
+        image.src = image.dataset.src;
+      });
+      videos.forEach(video => { video.poster = video.dataset.poster; });
+    };
 
     const syncVideos = () => {
+      if (visible) loadMedia();
       const shouldPlay = visible && !reducedMotion && document.visibilityState !== "hidden";
       videos.forEach(video => {
         video.muted = true;
-        if (shouldPlay) video.play().catch(() => undefined);
+        if (shouldPlay) {
+          if (!video.getAttribute("src")) {
+            video.src = video.dataset.src;
+            video.preload = "metadata";
+          }
+          video.play().catch(() => undefined);
+        }
         else video.pause();
       });
     };
@@ -202,6 +219,13 @@
       queueUpdate();
     });
     resizeObserver.observe(stage);
+
+    const mediaObserver = new IntersectionObserver((entries, observer) => {
+      if (!entries.some(entry => entry.isIntersecting)) return;
+      loadMedia();
+      observer.disconnect();
+    }, { rootMargin: "240px 0px" });
+    mediaObserver.observe(section);
 
     const intersectionObserver = new IntersectionObserver(entries => {
       visible = entries[0]?.isIntersecting || false;

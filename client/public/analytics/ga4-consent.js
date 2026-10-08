@@ -71,6 +71,20 @@ function addGoogleTag() {
   document.head.appendChild(script);
 }
 
+function scheduleGoogleTag() {
+  // Consent and events are queued immediately; the external download starts
+  // after the page's load event so it cannot delay the initial page load.
+  const whenLoaded = () => {
+    if (typeof root.requestIdleCallback === "function") {
+      root.requestIdleCallback(addGoogleTag, { timeout: 2000 });
+    } else {
+      root.setTimeout(addGoogleTag, 200);
+    }
+  };
+  if (document.readyState === "complete") whenLoaded();
+  else root.addEventListener("load", whenLoaded, { once: true });
+}
+
 function installChoiceSurface() {
   if (!root || document.getElementById("memova-analytics-choices")) return;
 
@@ -169,7 +183,7 @@ function install() {
   const savedChoice = readChoice();
   if (savedChoice) updateConsent(savedChoice);
 
-  addGoogleTag();
+  scheduleGoogleTag();
   gtag("js", new Date());
   gtag("config", MEASUREMENT_ID, {
     send_page_view: false,

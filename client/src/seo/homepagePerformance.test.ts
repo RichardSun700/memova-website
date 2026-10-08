@@ -47,7 +47,7 @@ describe("production homepage performance", () => {
     expect(html).toContain('id="memova-static-snapshot"');
     const { document } = parseHTML(html);
     const snapshot = document.getElementById("memova-static-snapshot")!;
-    expect(snapshot.querySelector("h1")?.textContent).toBe("Your context,finally understood.");
+    expect(snapshot.querySelector("h1")?.textContent).toBe("Your context, finally understood.");
     expect(snapshot.querySelector(".five-header")).not.toBeNull();
     expect(snapshot.querySelector(".kb-lunar-backdrop")?.getAttribute("src")).toBe(report.heroImage);
     expect(snapshot.querySelectorAll(".kb-orbit-card")).toHaveLength(7);
@@ -62,6 +62,13 @@ describe("production homepage performance", () => {
     expect(html).not.toContain("data:image/");
     expect(html.match(/<script defer src=/g)).toHaveLength(1);
     expect(html).toContain(`as="image" href="${report.heroImage}" fetchpriority="high"`);
+    const hero = snapshot.querySelector(".kb-lunar-backdrop")!;
+    const preload = document.querySelector('link[rel="preload"][as="image"]')!;
+    expect(hero.getAttribute("srcset")).toBe(report.heroAssets.srcSet);
+    expect(preload.getAttribute("imagesrcset")).toBe(hero.getAttribute("srcset"));
+    expect(preload.getAttribute("imagesizes")).toBe(hero.getAttribute("sizes"));
+    expect(report.heroAssets.variants.find((variant: { width: number }) => variant.width === 1200).bytes)
+      .toBeLessThan(50 * 1024);
     for (const metric of ["htmlGzip", "javascriptGzip", "cssGzip"]) {
       expect(report.sizes[metric]).toBeLessThan(100 * 1024);
     }
@@ -105,7 +112,7 @@ describe("production homepage performance", () => {
     const decoded = await sharp(fs.readFileSync(path.join(output, window.image!))).ensureAlpha().raw().toBuffer();
     expect(decoded).toEqual(pixels);
     const css = fs.readFileSync(path.join(output, result.cssUrl), "utf8");
-    expect(css.indexOf("color: red")).toBeLessThan(css.indexOf("color: blue"));
+    expect(css.indexOf("color:red")).toBeLessThan(css.indexOf("color:#00f"));
     const svgAsset = result.images.find((image: { url: string }) => image.url.endsWith(".svg"));
     expect(fs.readFileSync(path.join(output, svgAsset!.url), "utf8")).toBe(svg);
     expect(css).not.toContain("data:image/");
