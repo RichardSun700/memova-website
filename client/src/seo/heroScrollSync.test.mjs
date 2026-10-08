@@ -51,7 +51,8 @@ describe('homepage scroll-driven astronaut', () => {
     await f.commit(0.8);
     expect(f.document.querySelector('.memova-crew-manual').style.opacity).toBe('1.000');
     expect(f.stage.dataset.crewPhase).toBe('active');
-    expect(f.document.querySelector('[data-astronaut]').getAttribute('aria-pressed')).toBe('false');
+    expect(f.document.querySelector('.memova-crew-manual__portrait-button').getAttribute('href')).toBe('./personal-manual/neil-armstrong/');
+    expect(f.document.querySelectorAll('.memova-crew-manual iframe')).toHaveLength(0);
     await f.commit(0.4);
     expect(f.document.querySelector('.memova-crew-manual').style.opacity).toBe('0.000');
   });

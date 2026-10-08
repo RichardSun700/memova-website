@@ -250,83 +250,63 @@
 
   function renderNeilSample() {
     return `
-      <div class="agent-product-proof agent-manual-embed agent-learning-stack" data-learning-stack data-learning-view="neil" aria-label="Personal Manual examples and Work Type framework">
-        <div class="agent-backplane agent-backplane--lime" aria-hidden="true">
-          <span>PERSONAL MANUAL</span><b>01</b>
+      <article class="agent-product-proof agent-manual-cover" aria-label="Neil Armstrong Personal Manual sample">
+        <header class="agent-manual-cover__bar"><span>PERSONAL MANUAL · SAMPLE</span><span>01</span></header>
+        <div class="agent-manual-cover__viewport" data-manual-cover-viewport>
+          <iframe data-manual-cover data-src="./personal-manual/neil-armstrong/cover.html?embed=1&v=original-cover-20261008"
+            title="Neil Armstrong original Personal Manual cover" loading="lazy"
+            sandbox="allow-scripts allow-same-origin allow-modals allow-top-navigation-by-user-activation"
+            scrolling="no"></iframe>
         </div>
-        <div class="agent-backplane agent-backplane--blue" aria-hidden="true">
-          <span>WORK TYPE</span><b>16</b>
-        </div>
-
-        <section class="agent-learning-card agent-learning-card--types" data-learning-card="types" aria-label="Understand your Work Type">
-          <button class="agent-learning-card__tab agent-learning-card__tab--types" type="button" data-learning-target="types" aria-pressed="false">
-            <span>02 · BEFORE YOU CREATE</span>
-            <strong>Understand Your Work Type</strong>
-            <i aria-hidden="true">CLICK TO VIEW ↗</i>
-          </button>
-          <div class="agent-learning-card__body" data-learning-panel="types" aria-hidden="true">
-            <article class="agent-manual-browser agent-learning-browser agent-learning-browser--types">
-              <header class="agent-manual-browser__bar">
-                <span class="agent-traffic-lights" aria-hidden="true"><i></i><i></i><i></i></span>
-                <span class="agent-manual-browser__identity">
-                  <strong>MEMOVA WORK TYPES</strong>
-                  <small>4 dimensions · 16 work archetypes</small>
-                </span>
-                <a href="./personal-manual/work-types/" target="_blank" rel="noopener"><span>Open full guide</span><i aria-hidden="true">↗</i></a>
-              </header>
-
-              <div class="agent-manual-browser__viewport agent-learning-browser__viewport agent-learning-browser__viewport--types">
-                <iframe
-                  data-src="./personal-manual/work-types/index.html?embed=1&v=work-types-v3-20260918"
-                  title="Memova Work Types guide"
-                  loading="lazy"
-                  sandbox="allow-scripts allow-same-origin allow-modals allow-downloads"
-                ></iframe>
-              </div>
-
-              <footer class="agent-manual-browser__footer">
-                <span>See how four working dimensions combine into sixteen recognizable styles.</span>
-                <a href="./personal-manual/work-types/" target="_blank" rel="noopener">Explore all 16 types →</a>
-              </footer>
-            </article>
-          </div>
-        </section>
-
-        <section class="agent-learning-card agent-learning-card--neil is-active" data-learning-card="neil" aria-label="Neil Armstrong Personal Manual sample">
-          <button class="agent-learning-card__tab agent-learning-card__tab--neil" type="button" data-learning-target="neil" aria-pressed="true">
-            <span>01 · CASE SAMPLE</span>
-            <strong>Neil’s Personal Manual</strong>
-            <i aria-hidden="true">VIEWING NOW</i>
-          </button>
-          <div class="agent-learning-card__body" data-learning-panel="neil" aria-hidden="false">
-            <article class="agent-manual-browser agent-learning-browser" id="agent-workspace">
-              <header class="agent-manual-browser__bar">
-                <span class="agent-traffic-lights" aria-hidden="true"><i></i><i></i><i></i></span>
-                <span class="agent-manual-browser__identity">
-                  <strong>NEIL ARMSTRONG</strong>
-                  <small>Personal Work Manual · The Builder</small>
-                </span>
-                <a href="./personal-manual/neil-armstrong/" target="_blank" rel="noopener"><span>Open full manual</span><i aria-hidden="true">↗</i></a>
-              </header>
-
-              <div class="agent-manual-browser__viewport agent-learning-browser__viewport--neil">
-                <iframe
-                  data-src="./personal-manual/neil-armstrong/index.html?embed=1&v=neil-v8-20260914"
-                  title="Neil Armstrong historical Personal Work Manual"
-                  loading="lazy"
-                  sandbox="allow-scripts allow-same-origin allow-modals allow-downloads"
-                ></iframe>
-              </div>
-
-              <footer class="agent-manual-browser__footer">
-                <span>Historical reconstruction from mission records and public archives.</span>
-                <a href="./personal-manual/neil-armstrong/" target="_blank" rel="noopener">Explore the full manual →</a>
-              </footer>
-            </article>
-          </div>
-        </section>
-      </div>
+        <footer class="agent-manual-cover__footer"><span>Historical reconstruction from public archives.</span><a href="./personal-manual/neil-armstrong/">View full manual →</a></footer>
+      </article>
     `;
+  }
+
+  function mountOriginalManualCover(section) {
+    const viewport = section.querySelector("[data-manual-cover-viewport]");
+    const frame = viewport?.querySelector("[data-manual-cover]");
+    if (!frame) return;
+    let originalHeight = 1160;
+    const phone = matchMedia("(max-width: 760px)");
+    const resize = () => {
+      const originalWidth = phone.matches ? 390 : 1200;
+      const scale = viewport.clientWidth / originalWidth;
+      frame.style.width = `${originalWidth}px`;
+      frame.style.height = `${originalHeight}px`;
+      frame.style.transform = `scale(${scale})`;
+      viewport.style.height = `${Math.ceil(originalHeight * scale)}px`;
+    };
+    const receiveSize = event => {
+      if (event.origin !== location.origin || event.source !== frame.contentWindow || event.data?.source !== "neil-manual-cover") return;
+      const height = event.data.height;
+      if (!Number.isFinite(height) || height < 200 || height > 5000) return;
+      originalHeight = height;
+      resize();
+    };
+    window.addEventListener("message", receiveSize);
+    phone.addEventListener("change", resize);
+    const sizeObserver = new ResizeObserver(resize);
+    sizeObserver.observe(viewport);
+    resize();
+    const load = () => {
+      if (!frame.dataset.src) return;
+      frame.src = frame.dataset.src;
+      delete frame.dataset.src;
+    };
+    const visibilityObserver = new IntersectionObserver(entries => {
+      if (entries.some(entry => entry.isIntersecting)) {
+        load();
+        visibilityObserver.disconnect();
+      }
+    }, { rootMargin: "300px 0px" });
+    visibilityObserver.observe(viewport);
+    section.__manualCoverCleanup = () => {
+      window.removeEventListener("message", receiveSize);
+      phone.removeEventListener("change", resize);
+      sizeObserver.disconnect();
+      visibilityObserver.disconnect();
+    };
   }
 
   function renderInstruction(number, title, prompt, copied) {
@@ -653,9 +633,9 @@
       body: "Your Personal Manual is saved to your Memova account. Download the app, then open Notes to read it whenever you are ready."
     };
     return {
-      bridge: "Two references before you create",
+      bridge: "See a sample, then make it yours",
       title: "Let your Agent <br>write the first <br>manual of you.",
-      body: "First, explore Neil's imagined Manual and the Work Type framework behind it. Then let your Agent read only the context you approve and shape a Personal Manual of your own."
+      body: "See how Neil's imagined Manual brings his working style into view. Then let your Agent read only the context you approve and create a Personal Manual of your own."
     };
   }
 
@@ -735,9 +715,10 @@
   function renderCapture(section, state = getViewState()) {
     const copy = copyForState(state.state);
     stopProgress();
-    section.__previewObserver?.disconnect();
 
     section.dataset.agentManualIntegrated = "true";
+    section.__manualCoverCleanup?.();
+    section.__manualCoverCleanup = null;
     section.dataset.manualState = state.state;
     section.className = "five-page integrated-agent-manual";
     section.setAttribute("aria-labelledby", "agent-manual-title");
@@ -786,41 +767,6 @@
     field.remove();
   }
 
-  function setLearningView(section, view) {
-    const stack = section.querySelector("[data-learning-stack]");
-    if (!stack || !["neil", "types"].includes(view)) return;
-
-    stack.dataset.learningView = view;
-    stack.querySelectorAll("[data-learning-target]").forEach((button) => {
-      const active = button.dataset.learningTarget === view;
-      button.setAttribute("aria-pressed", String(active));
-      const status = button.querySelector("i");
-      if (status) status.textContent = active ? "VIEWING NOW" : "CLICK TO VIEW ↗";
-    });
-
-    stack.querySelectorAll("[data-learning-card]").forEach((card) => {
-      const active = card.dataset.learningCard === view;
-      card.classList.toggle("is-active", active);
-      const panel = card.querySelector("[data-learning-panel]");
-      if (!panel) return;
-      panel.setAttribute("aria-hidden", String(!active));
-      const previewFrame = panel.querySelector("iframe");
-      if (previewFrame) previewFrame.tabIndex = active ? 0 : -1;
-    });
-    loadActiveLearningPreview(section);
-  }
-
-  function loadActiveLearningPreview(section) {
-    const rect = section.getBoundingClientRect();
-    if (rect.top > window.innerHeight + 800 || rect.bottom < -800) return false;
-    const previewFrame = section.querySelector('[data-learning-card].is-active iframe[data-src]');
-    if (previewFrame) {
-      previewFrame.src = previewFrame.dataset.src;
-      delete previewFrame.dataset.src;
-    }
-    return true;
-  }
-
   async function ensureAuthenticatedFlow(setupFlow, session = readAuthSession()) {
     if (!session) throw requestError("AUTH_REQUIRED");
     const existingFlow = readFlow(session);
@@ -834,29 +780,7 @@
   }
 
   function wireCapture(section, state) {
-    section.querySelectorAll("[data-learning-target]").forEach((button) => {
-      button.addEventListener("click", () => {
-        setLearningView(section, button.dataset.learningTarget);
-      });
-    });
-
-    if (state.state === "sample") {
-      setLearningView(section, "neil");
-      if ("IntersectionObserver" in window) {
-        section.__previewObserver = new IntersectionObserver((entries, observer) => {
-          if (entries.some(entry => entry.isIntersecting) && loadActiveLearningPreview(section)) {
-            observer.disconnect();
-          }
-        }, { rootMargin: "800px 0px" });
-        section.__previewObserver.observe(section);
-      } else {
-        section.querySelectorAll("iframe[data-src]").forEach(frame => {
-          frame.src = frame.dataset.src;
-          delete frame.dataset.src;
-        });
-      }
-    }
-
+    if (state.state === "sample") mountOriginalManualCover(section);
     section.querySelector("[data-create-manual]")?.addEventListener("click", () => {
       const session = readAuthSession();
       const flow = readFlow(session) || readSetupFlow() || createSetupFlow();
@@ -1154,7 +1078,6 @@
   }
 
   window.addEventListener("pagehide", pauseProgressOnPageExit);
-
   if (!mount()) {
     const observer = new MutationObserver(() => {
       if (mount()) observer.disconnect();

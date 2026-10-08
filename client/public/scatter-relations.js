@@ -102,12 +102,12 @@
     crewManual.setAttribute("aria-label", "Preview an imagined Neil Armstrong Personal Manual sample");
     crewManual.innerHTML = `
       <div class="memova-crew-manual__portrait" data-selected="">
-        <button type="button" class="memova-crew-manual__portrait-button" data-astronaut="armstrong" aria-pressed="false" aria-label="View an imagined Neil Armstrong Personal Manual sample">
+        <a class="memova-crew-manual__portrait-button" href="./personal-manual/neil-armstrong/" aria-label="View an imagined Neil Armstrong Personal Manual sample">
           <img loading="eager" decoding="async" fetchpriority="high" width="1304" height="1206" data-src="./action-connect-assets/comic-astronaut-cutout-v1.png" alt="Comic astronaut illustration representing the imagined Personal Manual sample" draggable="false">
           <span class="memova-crew-manual__click-hint" aria-hidden="true">
             <i></i><b>Click to enter Neil&rsquo;s Manual</b><em>↗</em>
           </span>
-        </button>
+        </a>
       </div>
       <div class="memova-crew-manual__guide" aria-hidden="true">
         <small>IMAGINED HISTORY · JULY 1969</small>
@@ -120,75 +120,8 @@
         <p>What if an Apollo 11-era team member had used Memova? Built from public mission records; not authored or endorsed by Neil Armstrong, his estate, NASA, or SpaceX.</p>
         <a href="./sources/">Sources &amp; disclosures</a>
       </aside>
-      <article class="memova-crew-manual__sample" aria-hidden="true">
-        <div class="memova-crew-manual__controls" aria-label="Personal Manual preview controls">
-          <button type="button" class="memova-crew-manual__expand" aria-label="Expand Personal Manual preview" aria-pressed="false">
-            <svg data-icon-expand viewBox="0 0 24 24" aria-hidden="true"><path d="M9 4H4v5M15 4h5v5M4 15v5h5M20 15v5h-5"/></svg>
-            <svg data-icon-collapse viewBox="0 0 24 24" aria-hidden="true"><path d="M9 4v5H4M15 4v5h5M4 15h5v5M20 15h-5v5"/></svg>
-          </button>
-          <button type="button" class="memova-crew-manual__close" aria-label="Close Personal Manual sample">×</button>
-        </div>
-        <div class="memova-crew-manual__sample-header">
-          <p>PERSONAL MANUAL · SAMPLE</p>
-          <strong data-manual-name>Neil Armstrong</strong>
-          <span>Interactive HTML · Historical reconstruction</span>
-          <a class="memova-crew-manual__open" href="./personal-manual/neil-armstrong/" target="_blank" rel="noopener">Open full manual <i aria-hidden="true">↗</i></a>
-        </div>
-        <figure>
-          <iframe
-            data-src="./personal-manual/neil-armstrong/index.html?embed=1&v=neil-v8-20260914"
-            title="Neil Armstrong historical Personal Work Manual"
-            loading="lazy"
-            sandbox="allow-scripts allow-same-origin allow-modals allow-downloads"
-          ></iframe>
-        </figure>
-      </article>
     `;
     stage.appendChild(crewManual);
-
-    const crewPortrait = crewManual.querySelector(".memova-crew-manual__portrait");
-    const samplePanel = crewManual.querySelector(".memova-crew-manual__sample");
-    const sampleName = crewManual.querySelector("[data-manual-name]");
-    const expandSample = crewManual.querySelector(".memova-crew-manual__expand");
-    const astronautButtons = Array.from(crewManual.querySelectorAll("[data-astronaut]"));
-    const astronautNames = {
-      armstrong: "Neil Armstrong"
-    };
-    const closeSample = () => {
-      crewManual.classList.remove("is-previewing");
-      crewManual.classList.remove("is-expanded");
-      crewPortrait.dataset.selected = "";
-      samplePanel.setAttribute("aria-hidden", "true");
-      expandSample?.setAttribute("aria-pressed", "false");
-      expandSample?.setAttribute("aria-label", "Expand Personal Manual preview");
-      astronautButtons.forEach(button => button.setAttribute("aria-pressed", "false"));
-    };
-    astronautButtons.forEach(button => {
-      button.addEventListener("click", event => {
-        event.stopPropagation();
-        const astronaut = button.dataset.astronaut;
-        crewManual.classList.add("is-previewing");
-        crewPortrait.dataset.selected = astronaut;
-        samplePanel.setAttribute("aria-hidden", "false");
-        const previewFrame = samplePanel.querySelector("iframe[data-src]");
-        if (previewFrame) {
-          previewFrame.src = previewFrame.dataset.src;
-          delete previewFrame.dataset.src;
-        }
-        sampleName.textContent = astronautNames[astronaut] || "Apollo 11 crew member";
-        astronautButtons.forEach(item => item.setAttribute("aria-pressed", String(item === button)));
-      });
-    });
-    crewManual.querySelector(".memova-crew-manual__close")?.addEventListener("click", event => {
-      event.stopPropagation();
-      closeSample();
-    });
-    expandSample?.addEventListener("click", event => {
-      event.stopPropagation();
-      const expanded = crewManual.classList.toggle("is-expanded");
-      expandSample.setAttribute("aria-pressed", String(expanded));
-      expandSample.setAttribute("aria-label", expanded ? "Collapse Personal Manual preview" : "Expand Personal Manual preview");
-    });
 
     const pathEntries = relations.map((relation, index) => {
       const pathId = `memova-scatter-path-${index}`;
@@ -284,7 +217,6 @@
       crewManual.setAttribute("aria-hidden", crewReveal > 0.65 ? "false" : "true");
       svg.style.opacity = (1 - peripheralQuiet * 0.34).toFixed(3);
       stage.dataset.crewPhase = crewReveal > 0.82 ? "active" : crewReveal > 0.02 ? "entering" : "hidden";
-      if (crewReveal < 0.12 && crewManual.classList.contains("is-previewing")) closeSample();
     };
 
     const setNodeOpacity = (entry, value) => {
@@ -462,9 +394,6 @@
     window.addEventListener("scroll", requestGeometry, { passive: true });
     window.addEventListener("resize", requestGeometry, { passive: true });
     reducedMotion.addEventListener?.("change", handleReducedMotion);
-    crewManual.addEventListener("keydown", event => {
-      if (event.key === "Escape") closeSample();
-    });
     syncHeroProgress();
   };
 

@@ -4,6 +4,7 @@ import { useAuth } from "@/contexts/AuthContext";
 
 const navigation = [
   ["How it works", "/#act", "how-it-works"],
+  ["16 Work Types", "/personal-manual/work-types/", "work-types"],
   ["Product demo", "/product-demo/", "demo"],
   ["Journal", "/journal/", "journal"],
   ["Pricing", "/pricing/", "pricing"],

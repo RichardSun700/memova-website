@@ -123,7 +123,7 @@ describe("production homepage", () => {
     expect(accountControl).toBeGreaterThan(appDownloadControl);
   });
 
-  it("pairs Neil's sample with the Work Types guide before creation", () => {
+  it("embeds only the original manual cover and keeps the full guides behind links", () => {
     const captureScript = fs.readFileSync(
       path.join(publicDir, "capture-personal-manual-integration.js"),
       "utf8"
@@ -141,60 +141,22 @@ describe("production homepage", () => {
       "personal-manual/neil-armstrong/index.html"
     );
 
-    expect(homepage).toContain(
-      "personal-manual-discovery-stack.css?v=20260901-chapter2-preview-ratio1"
-    );
-    expect(captureScript).toContain("Neil’s Personal Manual");
-    expect(captureScript).toContain("Understand Your Work Type");
-    expect(captureScript).toContain('data-learning-target="types"');
-    expect(captureScript).not.toContain('class="agent-learning-switcher"');
-    expect(captureScript).toContain("CLICK TO VIEW ↗");
-    const discoveryStyles = fs.readFileSync(
-      path.join(publicDir, "personal-manual-discovery-stack.css"),
-      "utf8"
-    );
-    expect(discoveryStyles).not.toContain(".agent-learning-switcher");
-    expect(discoveryStyles).toContain(
-      "linear-gradient(135deg, #3d568f 0%, #5570ac 100%)"
-    );
-    expect(discoveryStyles).toContain(
-      "linear-gradient(135deg, #f7c94f 0%, #edab32 100%)"
-    );
-    expect(discoveryStyles).toContain("transition-duration: 380ms !important;");
-    expect(captureScript).toContain(
-      'class="agent-manual-browser__viewport agent-learning-browser__viewport--neil"'
-    );
-    expect(discoveryStyles).toContain(
-      ".agent-learning-browser__viewport--neil iframe"
-    );
-    expect(discoveryStyles).toContain("width: 200%;");
-    expect(discoveryStyles).toContain("transform: scale(.5);");
-    expect(discoveryStyles).toContain("width: 145%;");
-    expect(discoveryStyles).toContain("transform: scale(.69);");
-    expect(captureScript).toContain(
-      'data-src="./personal-manual/work-types/index.html?embed=1&v=work-types-v3-20260918"'
-    );
-    expect(captureScript).toContain(
-      'src="./personal-manual/neil-armstrong/index.html?embed=1&v=neil-v8-20260914"'
-    );
-    expect(scatterScript).toContain(
-      'src="./personal-manual/neil-armstrong/index.html?embed=1&v=neil-v8-20260914"'
-    );
-    expect(captureScript).not.toContain("neil-armstrong-v7-preview");
-    expect(captureScript).not.toContain("neil-armstrong-v7-remake");
-    expect(scatterScript).not.toContain("neil-armstrong-v7-preview");
-    expect(scatterScript).not.toContain("neil-armstrong-v7-remake");
-    expect(captureScript).not.toContain("neil-v7-score-2");
-    expect(scatterScript).not.toContain("neil-v7-score-2");
-    expect(homepage).toContain(
-      "capture-personal-manual-integration.js?v=20260914-neil-v8"
-    );
-    expect(homepage).toContain(
-      "capture-personal-manual-integration.css?v=20260902-desktop-guide2"
-    );
-    expect(homepage).toContain(
-      "scatter-relations.js?v=20260914-neil-v8"
-    );
+    expect(homepage).toContain("homepage-manual-cover.css?v=20261008-original-cover1");
+    expect(homepage).not.toContain("personal-manual-discovery-stack.css?v=");
+    const sampleMarkup = captureScript.slice(captureScript.indexOf("function renderNeilSample()"), captureScript.indexOf("function renderInstruction("));
+    expect(sampleMarkup).toContain("Neil Armstrong original Personal Manual cover");
+    expect(sampleMarkup).toContain("View full manual →");
+    expect(sampleMarkup).toContain("/neil-armstrong/cover.html?embed=1");
+    expect(sampleMarkup).not.toContain("/neil-armstrong/index.html?embed=1");
+    expect(sampleMarkup).not.toContain("agent-manual-cover__hero");
+    expect(sampleMarkup).toContain('loading="lazy"');
+    expect(captureScript).not.toContain("work-types-discovery");
+    expect(captureScript).not.toContain("Discover the 16 work types");
+    expect(homepage.match(/href: "\/personal-manual\/work-types\/"/g)).toHaveLength(2);
+    expect(homepage).toContain('"16 Work Types"');
+    expect(captureScript).not.toContain('data-learning-target="types"');
+    expect(scatterScript).not.toContain("<iframe");
+    expect(scatterScript).toContain('class="memova-crew-manual__portrait-button" href="./personal-manual/neil-armstrong/"');
     expect(scatterScript).toContain(
       "const observationRoot = document.body || document.documentElement;"
     );

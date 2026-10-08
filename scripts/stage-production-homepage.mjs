@@ -2,6 +2,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { optimizeProductionHomepage } from "./optimize-production-homepage.mjs";
+import { buildNeilManualCover } from "./build-neil-manual-cover.mjs";
 
 const projectRoot = path.resolve(
   path.dirname(fileURLToPath(import.meta.url)),
@@ -37,6 +38,7 @@ if (sourceSize >= cloudflareFileLimit) {
 }
 
 fs.mkdirSync(path.dirname(outputPath), { recursive: true });
+await buildNeilManualCover(path.join(projectRoot, "client", "public"), path.dirname(outputPath));
 const report = await optimizeProductionHomepage(source,
   path.join(projectRoot, "client", "public"), path.dirname(outputPath));
 console.log(
