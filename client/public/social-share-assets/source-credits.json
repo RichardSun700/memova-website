@@ -1,0 +1,64 @@
+{
+  "reviewedAt": "2026-10-09",
+  "context": "Imagined first-person Neil Armstrong drafts for the Memova hypothetical Apollo 11 demo. These are authored examples, not historical quotations. NASA does not endorse Memova.",
+  "visibleDisclosure": "The chapter and expanded editor explain that these are fictional accounts and posts created by Memova, not Neil Armstrong's own or official social media, posts or quotes, with no implied affiliation or endorsement. Every account header also says it is a fictional post, not his account. The demo explains Memova's context-to-platform-draft workflow. Disclosure is not proof of rights clearance.",
+  "copyReferences": [
+    {
+      "platform": "linkedin",
+      "source": "https://www.nasa.gov/wp-content/uploads/static/history/alsj/a11/a11tcdb.html",
+      "section": "24.15 MIT",
+      "basis": "Armstrong recommended several smaller reviews across the training cycle, each focused on one mission phase. The demo paraphrases this lesson in a fictional social post."
+    }
+  ],
+  "assets": [
+    {
+      "file": "neil-avatar.webp",
+      "credit": "Existing Memova illustrated Neil Armstrong sample portrait",
+      "original": "../personal-manual/neil-armstrong/assets/neil-armstrong.webp",
+      "processing": "Face crop from the existing portrait; resized to 72×72, WebP quality 82. Original portrait and Personal Manual design preserved."
+    },
+    {
+      "file": "x-lunar-footprint.webp",
+      "nasaId": "AS11-40-5878",
+      "credit": "NASA / Edwin Buzz Aldrin",
+      "source": "https://science.nasa.gov/resource/apollo-11-bootprint/",
+      "original": "https://assets.science.nasa.gov/dynamicimage/assets/science/psd/lunar-science/2023/09/GPN-2001-000014.jpg?crop=faces%2Cfocalpoint&fit=clip&h=2382&w=2961",
+      "processing": "Resized to 900 pixels wide; WebP quality 83. No generated content."
+    },
+    {
+      "file": "linkedin-lunar-rendezvous.webp",
+      "nasaId": "AS11-44-6642",
+      "credit": "NASA",
+      "source": "https://www.nasa.gov/wp-content/uploads/static/history/ap11ann/kippsphotos/apollo.html",
+      "original": "https://www.nasa.gov/wp-content/uploads/static/history/ap11ann/kippsphotos/6642.jpg",
+      "processing": "WebP quality 83; source dimensions retained."
+    },
+    {
+      "file": "apollo-launch-short.mp4",
+      "poster": "apollo-launch-poster.webp",
+      "nasaId": "Apollo_11_Intro_720p",
+      "credit": "NASA",
+      "source": "https://www.nasa.gov/missions/apollo-11-hd-videos/",
+      "original": "https://images-assets.nasa.gov/video/Apollo_11_Intro_720p/Apollo_11_Intro_720p~small.mp4",
+      "processing": "Fully decoded source seconds 12–24. Center crop to 9:16; 360×640, H.264, CRF 25, silent, faststart. Poster extracted from excerpt second 8."
+    }
+  ],
+  "usageGuidance": "https://www.nasa.gov/nasa-brand-center/images-and-media/",
+  "platformReferences": {
+    "x": "https://business.x.com/en/advertising/creative-best-practices",
+    "linkedin": "https://www.linkedin.com/help/lms/answer/a7144364",
+    "shortVideo": "https://ads.tiktok.com/resources/help/article/creative-best-practices?redirected=1"
+  },
+  "reuseCheck": "New social card assets are distinct within this chapter. AS11-44-6550 was rejected because it already appears in demo/note-overview. AS11-44-6642 and the Apollo intro clip had no existing filename or source-ID references in the audited homepage assets. Embedded or unnamed historical imagery may depict similar subjects.",
+  "meetingDemo": {
+    "topics": [
+      "training",
+      "decisions",
+      "teamwork"
+    ],
+    "transcript": "Authored fictional demo statements, not a historical transcript, recording, or Neil Armstrong quotation.",
+    "timestamps": "04:12, 06:38 and 08:05 are illustrative UI timestamps, not source recording timecodes.",
+    "interaction": "Selecting a highlight changes local authored captions for X/image, LinkedIn/link and a short-video caption and hook. No live recording, extraction API or real social publishing is added by this website demonstration.",
+    "historicalContext": "NASA material provides historical background and training inspiration only; it does not substantiate these invented utterances."
+  }
+}
