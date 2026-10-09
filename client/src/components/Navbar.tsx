@@ -136,17 +136,17 @@ export default function Navbar() {
             </a>
           )}
           <motion.a
-            href="/#waitlist"
-            data-analytics-event="ios_early_access_click"
+            href="https://apps.apple.com/us/app/memova-ai/id6796284954"
+            target="_blank" rel="noopener noreferrer"
             whileHover={{ scale: 1.03 }}
             whileTap={{ scale: 0.97 }}
-            className={`memova-primary-action hidden px-5 py-2 text-[13px] font-semibold rounded-full transition-all duration-300 sm:inline-flex ${
+            className={`memova-download-button memova-primary-action hidden px-5 py-2 text-[13px] font-semibold rounded-full transition-all duration-300 sm:inline-flex ${
               scrolled
                 ? "bg-[var(--memova-navy)] text-white shadow-md shadow-[var(--memova-navy)]/10"
                 : "bg-[var(--memova-navy)]/90 text-white"
             }`}
           >
-            Join iOS Early Access
+            Download the app
           </motion.a>
           <motion.button
             type="button"
@@ -208,12 +208,12 @@ export default function Navbar() {
               </a>
             ))}
             <a
-              href="/#waitlist"
-              data-analytics-event="ios_early_access_click"
+              href="https://apps.apple.com/us/app/memova-ai/id6796284954"
+              target="_blank" rel="noopener noreferrer"
               onClick={() => setMobileOpen(false)}
-              className="memova-primary-action flex min-h-11 items-center justify-center rounded-full bg-[var(--memova-navy)] px-4 text-[14px] font-semibold text-white shadow-sm"
+              className="memova-download-button memova-primary-action flex min-h-11 items-center justify-center rounded-full bg-[var(--memova-navy)] px-4 text-[14px] font-semibold text-white shadow-sm"
             >
-              Join iOS Early Access
+              Download the app
             </a>
             <button
               type="button"

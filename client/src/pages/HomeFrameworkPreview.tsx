@@ -21,7 +21,6 @@ import {
 } from "lucide-react";
 import {
   CSSProperties,
-  FormEvent,
   MouseEvent as ReactMouseEvent,
   useCallback,
   useEffect,
@@ -1385,10 +1384,11 @@ function HeroSection() {
                 understand you better over time.
               </p>
               <a
-                className="home-v2-button home-v3-primary-cta"
-                href="#waitlist"
+                className="memova-download-button home-v2-button home-v3-primary-cta"
+                href="https://apps.apple.com/us/app/memova-ai/id6796284954"
+                target="_blank" rel="noopener noreferrer"
               >
-                Join Early Access <ArrowRight aria-hidden="true" />
+                Download the app <ArrowRight aria-hidden="true" />
               </a>
             </div>
 
@@ -2097,21 +2097,6 @@ function TrustSection() {
 }
 
 function FinalCtaSection() {
-  const [status, setStatus] = useState<"idle" | "error" | "preview">("idle");
-
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const form = new FormData(event.currentTarget);
-    const email = String(form.get("email") ?? "").trim();
-
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      setStatus("error");
-      return;
-    }
-
-    setStatus("preview");
-  };
-
   return (
     <section
       id="waitlist"
@@ -2131,35 +2116,12 @@ function FinalCtaSection() {
           starts with Memova.
         </p>
 
-        <form
-          className="home-v2-waitlist-form"
-          onSubmit={handleSubmit}
-          noValidate
-        >
-          <label className="sr-only" htmlFor="home-v2-email">
-            Work email
-          </label>
-          <input
-            id="home-v2-email"
-            name="email"
-            type="email"
-            placeholder="Work email"
-          />
-          <button className="home-v2-button" type="submit">
-            Join Early Access <ArrowRight aria-hidden="true" />
-          </button>
-        </form>
-        <p
-          className={`home-v2-form-status ${status === "error" ? "is-error" : ""}`}
-          role="status"
-          aria-live="polite"
-        >
-          {status === "error"
-            ? "Enter a valid email to preview the confirmation state."
-            : status === "preview"
-              ? "Preview confirmed—no email was sent from this local framework."
-              : "Framework preview: email submission is intentionally disabled locally."}
-        </p>
+        <div className="home-v2-download-actions">
+          <a className="memova-download-button home-v2-button" href="https://apps.apple.com/us/app/memova-ai/id6796284954" target="_blank" rel="noopener noreferrer" aria-label="Download Memova AI on the App Store">
+            Download the app <ArrowRight aria-hidden="true" />
+          </a>
+        </div>
+
       </div>
     </section>
   );

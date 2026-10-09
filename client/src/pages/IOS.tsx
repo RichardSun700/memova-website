@@ -18,7 +18,7 @@ const capabilities = [
 export default function IOS() {
   return (
     <MarketingPage
-      eyebrow="iOS early access"
+      eyebrow="Available on the App Store"
       title="Memova for iPhone"
       intro="Your everyday context, ready for agents. Capture naturally, build private agent memory, and prepare useful workflows without organizing everything first."
     >

@@ -1,0 +1,32 @@
+/* Sibling pages within the Work Types and Personal Manual experience. */
+.work-manual-nav {
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  gap: 32px;
+  margin: 0;
+  padding: 0 20px;
+  border-bottom: 1px solid #dfe5ef;
+  background: #f7f9fe;
+}
+.work-manual-nav a {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 56px;
+  padding: 12px 8px;
+  border-bottom: 3px solid transparent;
+  color: #64718a;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.5;
+  text-decoration: none;
+}
+.work-manual-nav a[aria-current="page"] { color: #24365d; border-bottom-color: #647ed1; }
+.work-manual-nav a:hover { color: #24365d; }
+.work-manual-nav a:focus-visible { outline: 3px solid #2864f5; outline-offset: -4px; }
+@media (max-width: 760px) {
+  .work-manual-nav { gap: 8px; }
+  .work-manual-nav a { flex: 1; min-width: 0; min-height: 50px; font-size: 13px; }
+}

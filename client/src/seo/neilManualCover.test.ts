@@ -25,7 +25,10 @@ describe("original Neil manual cover", () => {
       .toEqual([...source.querySelectorAll("style")].map(node => node.textContent));
     const normalize = (node: Element) => {
       const copy = node.cloneNode(true) as Element;
-      copy.querySelectorAll("img").forEach(img => img.removeAttribute("src"));
+      // Delivery attributes may differ; the original elements and styling may not.
+      copy.querySelectorAll("img").forEach(img => {
+        for (const attribute of ["src", "srcset", "sizes"]) img.removeAttribute(attribute);
+      });
       copy.querySelectorAll("a").forEach(a => { a.removeAttribute("target"); a.removeAttribute("href"); });
       return copy.outerHTML;
     };
@@ -41,6 +44,12 @@ describe("original Neil manual cover", () => {
     for (const img of cover.querySelectorAll("img")) {
       expect(img.getAttribute("src")).toMatch(/^\.\/cover-assets\/\w+\.webp$/);
       expect((await fs.stat(path.resolve(output, manualDir, img.getAttribute("src")!))).size).toBeGreaterThan(0);
+      for (const candidate of (img.getAttribute("srcset") || "").split(",").filter(Boolean)) {
+        const [url, width] = candidate.trim().split(/\s+/);
+        expect(url).toMatch(/^\.\/cover-assets\/\w+\.webp$/);
+        expect(width).toMatch(/^\d+w$/);
+        expect((await fs.stat(path.resolve(output, manualDir, url))).size).toBeGreaterThan(0);
+      }
     }
     expect(cover.querySelector('.historical-note a')?.getAttribute("href")).toBe("./#evidence");
     expect(cover.documentElement.dataset.embed).toBe("true");

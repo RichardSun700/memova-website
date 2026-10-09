@@ -2182,6 +2182,8 @@ a.home-v2-journal-row:hover {
   margin-top: 27px;
 }
 
+.home-v2-download-actions { display: flex; justify-content: center; margin-top: 28px; }
+
 .home-v2-waitlist-form input {
   width: 100%;
   min-height: 50px;

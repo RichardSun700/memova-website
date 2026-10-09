@@ -9,34 +9,46 @@ import { parseHTML } from "linkedom";
 import { optimizeProductionHomepage } from "../../../scripts/optimize-production-homepage.mjs";
 
 const temporaryDirectories: string[] = [];
+function firstPaint(phone: boolean) {
+  const { document } = parseHTML(fs.readFileSync(path.resolve("dist/public/index.html"), "utf8"));
+  const bootstrap = document.querySelector("script[data-critical-hero]")!;
+  runInNewContext(bootstrap.textContent!, {
+    document, window: { matchMedia: () => ({ matches: !phone }) },
+  });
+  return document;
+}
 afterEach(() => {
   for (const dir of temporaryDirectories.splice(0)) fs.rmSync(dir, { recursive: true, force: true });
 });
 
 describe("production homepage performance", () => {
-  it("keeps later hero images out of the first paint and provides smaller mobile assets", async () => {
-    const output = path.resolve("dist/public");
-    const html = fs.readFileSync(path.join(output, "index.html"), "utf8");
-    const { document } = parseHTML(html);
-    const cards = [...document.querySelectorAll("[data-scatter-card] img")];
-    expect(cards).toHaveLength(8);
-    expect(document.querySelector(".kb-linked-wiki")).toBeNull();
-    let originalBytes = 0;
-    let mobileBytes = 0;
-    for (const card of cards) {
-      expect(card.hasAttribute("src")).toBe(false);
-      expect(card.hasAttribute("srcset")).toBe(false);
-      const original = card.getAttribute("data-src")!;
-      const mobile = card.getAttribute("data-srcset")!.split(", ").find(candidate => candidate.endsWith(" 1024w"))!.split(" ")[0];
-      const originalFile = path.join(output, original);
-      const mobileFile = path.join(output, mobile);
-      const metadata = await sharp(mobileFile).metadata();
-      expect(metadata.width).toBe(1024);
-      expect(metadata.width! / metadata.height!).toBeCloseTo(Number(card.getAttribute("width")) / Number(card.getAttribute("height")), 2);
-      originalBytes += fs.statSync(originalFile).size;
-      mobileBytes += fs.statSync(mobileFile).size;
-    }
-    expect(mobileBytes).toBeLessThan(originalBytes * 0.6);
+  it("shows phone product value without mounting or requesting either desktop animation", () => {
+    const document = firstPaint(true);
+    const hero = document.querySelector("#memova-static-snapshot #top")!;
+    expect(hero.querySelector(".mobile-copy-en")?.textContent).toContain("Build in public");
+    expect(hero.querySelector("video, iframe, [data-scatter-card], .kb-orbit-card")).toBeNull();
+    expect(hero.querySelectorAll("img")).toHaveLength(1);
+    const artwork = hero.querySelector(".mobile-intro-astronaut")!;
+    expect(artwork.getAttribute("srcset")).toContain("360w");
+    expect(artwork.getAttribute("srcset")).toContain("720w");
+    expect(artwork.getAttribute("width")).toBe("1304");
+    expect(artwork.getAttribute("height")).toBe("1206");
+    expect(document.querySelector('link[rel="preload"][as="image"]')?.getAttribute("media")).toBe("(min-width: 761px)");
+    expect(document.querySelector("#memova-desktop-snapshot,.kb-lunar-backdrop,.kb-corner-pair-phase")).toBeNull();
+    expect(hero.querySelector('a[href="#social-distribution"]')).not.toBeNull();
+    expect(hero.querySelector('a[href="#capture"]')).not.toBeNull();
+  });
+
+  it("restores both original desktop scenes before the interaction bundle arrives", () => {
+    const document = firstPaint(false);
+    const hero = document.querySelector("#memova-static-snapshot #top")!;
+    expect(hero.classList.contains("kb-story-scroll")).toBe(true);
+    expect(hero.querySelectorAll(".kb-orbit-card")).toHaveLength(7);
+    expect(hero.querySelector(".kb-corner-pair-phase")).not.toBeNull();
+    expect(hero.querySelector(".kb-lunar-backdrop")?.getAttribute("srcset")).toContain("800w");
+    expect(hero.querySelector(".mobile-knowledge-intro")).toBeNull();
+    expect(document.querySelectorAll("#memova-static-snapshot")).toHaveLength(1);
+    expect(document.getElementById("memova-desktop-snapshot")).toBeNull();
   });
 
   it("ships a small, renderable HTML shell and cacheable assets within the budgets", () => {
@@ -47,28 +59,25 @@ describe("production homepage performance", () => {
     expect(html).toContain('id="memova-static-snapshot"');
     const { document } = parseHTML(html);
     const snapshot = document.getElementById("memova-static-snapshot")!;
-    expect(snapshot.querySelector("h1")?.textContent).toBe("Your context, finally understood.");
+    expect(snapshot.querySelectorAll("h1")).toHaveLength(1);
+    expect(snapshot.querySelector("h1")?.textContent).toContain("Understand context.");
     expect(snapshot.querySelector(".five-header")).not.toBeNull();
-    expect(snapshot.querySelector(".kb-lunar-backdrop")?.getAttribute("src")).toBe(report.heroImage);
-    expect(snapshot.querySelectorAll(".kb-orbit-card")).toHaveLength(7);
+    expect(snapshot.querySelector(".kb-lunar-backdrop,.kb-orbit-card")).toBeNull();
+    expect(report.heroImage).toBe(report.heroAssets.src);
+    const artworkVariants = report.images.filter((image: { origin: string }) => image.origin.startsWith("intro-astronaut:"));
+    expect(artworkVariants).toHaveLength(2);
+    expect(artworkVariants.find((image: { origin: string }) => image.origin === "intro-astronaut:360").bytes).toBeLessThan(30 * 1024);
+    expect(artworkVariants.find((image: { origin: string }) => image.origin === "intro-astronaut:720").bytes).toBeLessThan(80 * 1024);
     expect([...snapshot.querySelectorAll(".five-page-rail a")].map(link => link.getAttribute("href")))
-      .toEqual(["#top", "#capture", "#act", "#share", "#return", "#waitlist"]);
+      .toEqual(["#top", "#act", "#share", "#return", "#waitlist"]);
     expect(snapshot.textContent).not.toContain("Personal superalignment");
     expect(document.querySelector('link[rel="stylesheet"]')).toBeNull();
     const initialStyles = document.querySelector("head > style#memova-seo-shell-styles")?.textContent;
     expect(initialStyles).toContain(".kb-lunar-backdrop");
-    expect(initialStyles).toContain("--snapshot-compact-left");
+    expect(initialStyles).toContain(".mobile-knowledge-intro");
     expect(html).not.toContain("?.remove()");
     expect(html).not.toContain("data:image/");
     expect(html.match(/<script defer src=/g)).toHaveLength(1);
-    expect(html).toContain(`as="image" href="${report.heroImage}" fetchpriority="high"`);
-    const hero = snapshot.querySelector(".kb-lunar-backdrop")!;
-    const preload = document.querySelector('link[rel="preload"][as="image"]')!;
-    expect(hero.getAttribute("srcset")).toBe(report.heroAssets.srcSet);
-    expect(preload.getAttribute("imagesrcset")).toBe(hero.getAttribute("srcset"));
-    expect(preload.getAttribute("imagesizes")).toBe(hero.getAttribute("sizes"));
-    expect(report.heroAssets.variants.find((variant: { width: number }) => variant.width === 1200).bytes)
-      .toBeLessThan(50 * 1024);
     for (const metric of ["htmlGzip", "javascriptGzip", "cssGzip"]) {
       expect(report.sizes[metric]).toBeLessThan(100 * 1024);
     }

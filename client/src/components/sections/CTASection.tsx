@@ -1,67 +1,18 @@
 /**
- * CTA / Waitlist Section + Footer
+ * App download section and footer
  * Design: Clean, minimal, strong CTA with trust signals
  */
 import { motion, useInView } from "framer-motion";
-import { useRef, useState } from "react";
+import { useRef } from "react";
 import { Shield, Lock, Zap } from "lucide-react";
-import { trackAnalyticsEvent } from "@/analytics/events";
 
 export default function CTASection() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
-  const [email, setEmail] = useState("");
-  const [status, setStatus] = useState<
-    "idle" | "loading" | "success" | "error"
-  >("idle");
-  const [message, setMessage] = useState("");
-
-  const handleWaitlist = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const normalizedEmail = email.trim().toLowerCase();
-
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(normalizedEmail)) {
-      setStatus("error");
-      setMessage("Please enter a valid email.");
-      return;
-    }
-
-    setStatus("loading");
-    setMessage("");
-
-    try {
-      const response = await fetch("/api/waitlist", {
-        method: "POST",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify({
-          email: normalizedEmail,
-          source: "home-ios-early-access",
-        }),
-      });
-      const result = (await response.json().catch(() => null)) as {
-        ok?: boolean;
-      } | null;
-
-      if (!response.ok || result?.ok !== true) {
-        throw new Error("waitlist request failed");
-      }
-
-      setEmail("");
-      setStatus("success");
-      setMessage("You're on the iOS early access list.");
-      trackAnalyticsEvent("waitlist_submit_success", {
-        source: "home-ios-early-access",
-      });
-    } catch {
-      setStatus("error");
-      setMessage("Something went wrong. Please try again.");
-    }
-  };
-
   return (
     <section
       id="waitlist"
-      aria-labelledby="early-access-heading"
+      aria-labelledby="app-download-heading"
       className="memova-site-cta scroll-mt-20 py-24 md:py-32 relative overflow-hidden bg-[#F8FAFF]"
       ref={ref}
     >
@@ -73,7 +24,7 @@ export default function CTASection() {
           className="memova-cta-card"
         >
           <h2
-            id="early-access-heading"
+            id="app-download-heading"
             className="memova-section-heading scroll-mt-28 font-display text-3xl md:text-5xl font-bold text-[var(--memova-navy)] leading-tight"
           >
             Start with Memova on iPhone
@@ -83,53 +34,23 @@ export default function CTASection() {
             </span>
           </h2>
 
-          <motion.form
-            onSubmit={handleWaitlist}
+          <motion.div
             initial={{ opacity: 0, y: 15 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.7, delay: 0.25 }}
-            className="mx-auto mt-8 flex max-w-xl flex-col items-center justify-center gap-3 sm:flex-row"
+            className="mt-8 flex justify-center"
           >
-            <label htmlFor="early-access-email" className="sr-only">
-              Work email
-            </label>
-            <input
-              id="early-access-email"
-              type="email"
-              required
-              value={email}
-              onChange={event => setEmail(event.target.value)}
-              disabled={status === "loading"}
-              aria-describedby="early-access-status"
-              placeholder="Work email"
-              className="memova-cta-input h-12 w-full rounded-full border border-[#DDE6FF] bg-white px-5 text-[13px] font-medium text-[var(--memova-navy)] outline-none transition-all placeholder:text-[#A9B9D8] focus:border-indigo-300 focus:ring-4 focus:ring-indigo-100 disabled:opacity-70 sm:flex-1"
-            />
-            <motion.button
-              type="submit"
-              data-analytics-event="ios_early_access_click"
-              disabled={status === "loading"}
-              whileHover={status === "loading" ? undefined : { scale: 1.03 }}
-              whileTap={status === "loading" ? undefined : { scale: 0.97 }}
-              className="memova-primary-action h-12 w-full rounded-full bg-[var(--memova-navy)] px-8 text-[14px] font-bold text-white shadow-lg shadow-[var(--memova-navy)]/15 transition-all duration-200 disabled:opacity-70 sm:w-auto"
+            <a
+              href="https://apps.apple.com/us/app/memova-ai/id6796284954"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="memova-download-button"
+              aria-label="Download Memova AI on the App Store"
             >
-              {status === "loading" ? "Joining..." : "Join iOS Early Access"}
-            </motion.button>
-          </motion.form>
-
-          <p
-            id="early-access-status"
-            role="status"
-            aria-live="polite"
-            className={`mt-4 min-h-5 text-[12px] font-medium ${
-              status === "error"
-                ? "text-[#B45309]"
-                : status === "success"
-                  ? "text-[#3F8E68]"
-                  : "text-[#637083]"
-            }`}
-          >
-            {message}
-          </p>
+              Download the app
+            </a>
+          </motion.div>
+          <p className="mt-4 text-sm text-[#637083]">Available for iPhone.</p>
 
           {/* Trust badges */}
           <motion.div

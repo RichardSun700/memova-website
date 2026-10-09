@@ -747,8 +747,8 @@ describe("US iOS acquisition pages", () => {
 
     expect(html).toContain("Your everyday context");
     expect(html).toContain("ready for agents");
-    expect(html).toContain("Join iOS Early Access");
-    expect(html).toContain('data-analytics-event="ios_early_access_click"');
+    expect(html).toContain("Download the app");
+    expect(html).toContain('href="https://apps.apple.com/us/app/memova-ai/id6796284954"');
     expect(html).toContain("Open Product Journal");
     expect(html).toContain('href="/product-journal"');
     expect(html).not.toContain("See the workflow");
@@ -1235,24 +1235,27 @@ describe("US iOS acquisition pages", () => {
     ).toBe(true);
   });
 
-  it("keeps the destination waitlist consistent with the iOS acquisition promise", () => {
+  it("uses the shared App Store download CTA instead of collecting email", () => {
     const html = render(<CTASection />);
 
     expect(html).toContain("Start with Memova on iPhone");
-    expect(html).toContain("Join iOS Early Access");
-    expect(html).toContain('data-analytics-event="ios_early_access_click"');
+    expect(html).toContain("Download the app");
+    expect(html).toContain('href="https://apps.apple.com/us/app/memova-ai/id6796284954"');
+    expect(html).toContain("memova-download-button");
+    expect(html).not.toContain('<form');
+    expect(html).not.toContain('type="email"');
     expect(html).toContain("You choose what to capture");
     expect(html).not.toContain("Build your workflow OS");
   });
 
-  it("repositions every waitlist hash navigation on the email field after layout settles", () => {
+  it("keeps existing waitlist hash links focused on the download CTA after layout settles", () => {
     const source = fs.readFileSync(
       path.resolve(process.cwd(), "client/src/pages/Home.tsx"),
       "utf8"
     );
 
     expect(source).toContain('const WAITLIST_HASH = "#waitlist"');
-    expect(source).toContain('document.getElementById("early-access-email")');
+    expect(source).toContain('document.querySelector("#waitlist .memova-download-button")');
     expect(source).toContain(
       'window.addEventListener("hashchange", scheduleWaitlistScroll)'
     );
@@ -1270,7 +1273,7 @@ describe("US iOS acquisition pages", () => {
     );
   });
 
-  it("tracks waitlist success only after a successful API response", () => {
+  it("does not make signup requests from the replaced CTA section", () => {
     const source = fs.readFileSync(
       path.resolve(
         process.cwd(),
@@ -1278,14 +1281,8 @@ describe("US iOS acquisition pages", () => {
       ),
       "utf8"
     );
-    const responseGuard = source.indexOf("if (!response.ok");
-    const successEvent = source.indexOf(
-      'trackAnalyticsEvent("waitlist_submit_success"'
-    );
-
-    expect(responseGuard).toBeGreaterThan(-1);
-    expect(source).toContain("result?.ok !== true");
-    expect(successEvent).toBeGreaterThan(responseGuard);
+    expect(source).not.toContain('fetch("/api/waitlist"');
+    expect(source).not.toContain('waitlist_submit_success');
   });
 
   it("routes waitlist submissions to the production Worker in local and self-hosted previews", () => {
@@ -1355,7 +1352,7 @@ describe("US iOS acquisition pages", () => {
       expect(html).toContain(`<h1`);
       expect(html).toContain(heading);
       expect(html).toContain("You choose what to capture");
-      expect(html).toContain("Join iOS Early Access");
+      expect(html).toContain("Download the app");
     }
   );
 
@@ -1369,7 +1366,7 @@ describe("US iOS acquisition pages", () => {
       expect(html).toContain("Agent memory");
       expect(html).toContain("Workflow outcome");
       expect(html).toContain("Review and approve");
-      expect(html).toContain("Join iOS Early Access");
+      expect(html).toContain("Download the app");
     }
 
     const dreamHtml = render(<UseCaseDetailPage slug="dream-journal" />);

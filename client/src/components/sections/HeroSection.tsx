@@ -129,15 +129,15 @@ export default function HeroSection() {
               className="flex max-w-[22rem] items-center gap-3 flex-wrap pt-4 sm:max-w-xl"
             >
               <motion.a
-                href="#waitlist"
-                data-analytics-event="ios_early_access_click"
+                href="https://apps.apple.com/us/app/memova-ai/id6796284954"
+                target="_blank" rel="noopener noreferrer"
                 whileHover={{ scale: 1.03 }}
                 whileTap={{ scale: 0.97 }}
-                className="memova-primary-action px-7 py-3 bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 text-white font-bold text-[13px] rounded-full
+                className="memova-download-button memova-primary-action px-7 py-3 bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 text-white font-bold text-[13px] rounded-full
                            shadow-lg shadow-indigo-500/10 hover:shadow-indigo-500/20 transition-all duration-300 relative overflow-hidden group"
               >
                 <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0 -translate-x-full group-hover:animate-[shimmer_1.5s_infinite] pointer-events-none" />
-                Join iOS Early Access
+                Download the app
               </motion.a>
               <motion.a
                 href="/product-journal"

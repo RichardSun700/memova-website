@@ -41,10 +41,10 @@ const publicPages: SitePage[] = [
       "Memova connects the context you choose to remember into living Books that grow over time, become useful Pages, and support actions and sharing that remain under your control.",
     schemaType: "SoftwareApplication",
     hero: {
-      eyebrow: "Personal superalignment",
-      title: "Your context, finally understood.",
+      eyebrow: "Context · Knowledge · Build in public",
+      title: "Understand context. Build knowledge.",
       intro:
-        "Turn your thoughts and experiences into living Books that understand you better over time.",
+        "Collect and understand your context. Build a connected knowledge base, then turn everyday progress into social content for founders building in public.",
     },
   },
   {

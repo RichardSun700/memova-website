@@ -21,6 +21,13 @@
   max-width: 860px;
   margin: 0 auto;
   text-align: center;
+  scroll-margin-top: 100px;
+}
+
+#act .ac-granola-intro .ac-context-path { margin-top: 20px; color: #6074a4; font-size: 13px; font-weight: 600; letter-spacing: .04em; line-height: 1.6; }
+@media (max-width: 760px) {
+  .ac-granola-intro { scroll-margin-top: 84px; }
+  #act .ac-granola-intro .ac-context-path { margin-top: 4px; font-size: 12px; }
 }
 
 .ac-granola-intro > span {

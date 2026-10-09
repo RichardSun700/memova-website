@@ -46,6 +46,17 @@ export async function buildNeilManualCover(publicDir, outputDir) {
     const name = createHash("sha256").update(bytes).digest("hex").slice(0, 16) + ".webp";
     await fs.writeFile(path.join(assetsDir, name), bytes);
     img.setAttribute("src", "./cover-assets/" + name);
+    const metadata = await sharp(bytes).metadata();
+    // Preserve the original cover composition; deliver a smaller copy of the
+    // same illustration at its actual phone display size.
+    if (!originalUrl.includes("/dimensions/") && metadata.width > 600) {
+      const small = await sharp(input).resize({ width: 480 }).webp({ quality: 90, effort: 4 }).toBuffer();
+      const smallName = createHash("sha256").update(small).digest("hex").slice(0, 16) + ".webp";
+      await fs.writeFile(path.join(assetsDir, smallName), small);
+      assetBytes += small.length;
+      img.setAttribute("srcset", `./cover-assets/${smallName} 480w, ./cover-assets/${name} ${metadata.width}w`);
+      img.setAttribute("sizes", "(max-width: 760px) 54vw, 52vw");
+    }
     assetBytes += bytes.length;
   }
   // Links out of the first page open the original complete document in the host.

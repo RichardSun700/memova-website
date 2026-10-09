@@ -1,119 +1,400 @@
+/* Phone content is composed for reading, rather than frozen desktop scenes. */
+.mobile-knowledge-hero { height: auto; min-height: 0; scroll-snap-align: none; background: #fbfcff; }
+.mobile-knowledge-intro {
+  display: block;
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  padding: 136px 32px 64px;
+  color: #24365d;
+  text-align: center;
+  background: radial-gradient(ellipse at 85% 45%, #e5ecff 0, transparent 50%), linear-gradient(150deg, #fff 30%, #f1f4ff);
+  border-bottom: 1px solid #e2e7f2;
+}
+.mobile-intro-composition { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.18fr); align-items: center; gap: 48px; max-width: 1240px; margin: 0 auto; }
+.mobile-intro-main { min-width: 0; text-align: left; }
+.mobile-intro-main .mobile-intro-description { max-width: 520px; margin-left: 0; }
+.mobile-intro-main .mobile-intro-secondary { display: flex; width: fit-content; margin: 8px 0 0; }
+.mobile-intro-visual { min-width: 0; margin: 0; }
+.mobile-intro-scenario-note { margin: 10px 0 22px; color: #64718a; font-size: 11px; line-height: 1.6; text-align: center; }
+.mobile-intro-art { position: relative; min-width: 0; height: 430px; }
+.mobile-intro-art::before { position: absolute; z-index: -1; inset: -12% -10%; border: 1px solid #dce4f5; border-radius: 50%; transform: rotate(-16deg); background: radial-gradient(ellipse, #dce5ff 0, #eef2ff 42%, transparent 70%); content: ""; }
+.mobile-intro-astronaut { position: absolute; display: block; bottom: 0; right: 10%; height: 100%; width: auto; max-width: 100%; object-fit: contain; transform: rotate(-7deg); }
+.mobile-intro-composition + .mobile-intro-steps { max-width: 1240px; }
+.mobile-intro-eyebrow { margin: 0 0 24px; color: #4b62a4; font-size: 13px; font-weight: 650; letter-spacing: .05em; }
+.mobile-knowledge-intro h1 { max-width: 840px; margin: 0 auto; font-family: "DM Serif Display", Georgia, "Songti SC", serif; font-size: clamp(46px,5vw,68px); font-weight: 400; line-height: 1.12; letter-spacing: -.035em; }
+.mobile-knowledge-intro h1 .mobile-heading-phrase { display: inline-block; max-width: 100%; }
+.mobile-intro-main h1 { font-size: clamp(44px, 4.2vw, 60px); }
+.mobile-intro-description { max-width: 680px; margin: 24px auto 28px; color: #58647a; font-size: 18px; line-height: 1.7; }
+.homepage-kb-hero .mobile-intro-manual-link { display: inline-flex; min-height: 50px; align-items: center; justify-content: center; padding: 12px 24px; border: 1px solid #526ab0; border-radius: 12px; background: linear-gradient(125deg,#445f9b,#627de0); color: #fff; font-size: 16px; font-weight: 650; text-decoration: none; }
+.homepage-kb-hero .mobile-intro-manual-link span { color: inherit; }
+.mobile-intro-secondary { display: inline-flex; min-height: 50px; align-items: center; justify-content: center; margin-left: 20px; color: #455e93; font-size: 15px; text-decoration: none; }
+.mobile-intro-trust { margin: 22px 0 0; color: #64718a; font-size: 12px; line-height: 1.5; letter-spacing: .04em; }
+.mobile-intro-steps { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 32px; max-width: 840px; margin: 42px auto 0; padding-top: 24px; border-top: 1px solid #dce3f0; text-align: left; }
+.mobile-intro-steps a { display: grid; gap: 8px; color: #24365d; text-decoration: none; }
+.mobile-intro-step-number { color: #697cac; font: 12px/1.3 "SFMono-Regular",Consolas,monospace; }
+.mobile-intro-steps strong { font-size: 20px; font-weight: 650; }
+.mobile-intro-steps small { color: #626f86; font-size: 14px; line-height: 1.5; }
+.mobile-knowledge-intro a:focus-visible { outline: 3px solid #2864f5; outline-offset: 3px; }
+#share, .five-history-arc, .five-page-rail, .five-page-number { display: none !important; }
+.mobile-copy-zh { display: none; }
+html[lang="zh-CN"] .mobile-copy-en { display: none; }
+html[lang="zh-CN"] .mobile-copy-zh { display: inline; }
+
+/* Footer content stays in document flow as links and translations wrap. */
+#waitlist.five-waitlist { min-height: 0; height: auto; padding-bottom: 32px; }
+#waitlist .five-download-actions { display: flex; justify-content: center; margin: 24px auto 0; }
+#waitlist .five-download-actions .memova-download-button { min-height: 52px; min-width: 220px; padding: 14px 30px; font-size: 16px; }
+#waitlist .five-release-meta { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; max-width: 670px; margin: 28px auto 0; font-size: 13px; line-height: 1.6; text-align: left; }
+#waitlist .five-release-meta > span { display: flex; align-items: flex-start; gap: 10px; min-width: 0; }
+#waitlist .five-release-meta > span > svg { flex: 0 0 17px; margin-top: 3px; }
+#waitlist .five-release-meta-copy { display: grid; gap: 4px; min-width: 0; }
+#waitlist .five-release-meta-copy > span { display: block; }
+#waitlist .five-history-disclosure { max-width: 900px; margin: 28px auto 0; font-size: 12px; line-height: 1.7; }
+#waitlist > footer { position: relative; left: auto; right: auto; bottom: auto; width: min(1100px, 100%); display: flex; flex-wrap: wrap; align-items: center; gap: 12px 28px; margin-top: 28px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,.16); font-size: 13px; line-height: 1.5; }
+#waitlist > footer > div { display: flex; flex-wrap: wrap; flex-direction: row; gap: 4px 24px; min-width: 0; }
+#waitlist > footer a { display: inline-flex; align-items: center; min-height: 44px; }
+#waitlist > footer > span { white-space: nowrap; }
+@media (min-width: 761px) {
+  html[lang="zh-CN"] .homepage-kb-hero .kb-cosmos-hero h1 {
+    width: min(38vw, 540px);
+    max-width: none;
+    font-size: clamp(48px, 5.3vw, 76px);
+  }
+}
+@media (min-width: 761px) and (max-width: 1100px) {
+  .mobile-intro-composition { gap: 28px; grid-template-columns: minmax(0, 1.08fr) minmax(0, 1fr); }
+  .mobile-intro-main h1 { font-size: clamp(34px, 4.5vw, 50px); }
+  .mobile-intro-main .mobile-intro-eyebrow { font-size: 11px; }
+  .mobile-intro-main .mobile-intro-description { font-size: 16px; }
+  .mobile-intro-art { height: 320px; }
+  .mobile-intro-astronaut { right: 0; }
+  html[lang="zh-CN"] .homepage-kb-hero .kb-cosmos-hero h1 {
+    font-size: clamp(34px, 4.5vw, 50px);
+  }
+}
 /* Phone layouts follow content height; desktop chapter compositions stay intact. */
 @media (max-width: 760px) {
-  .homepage-kb-hero .kb-story-concept {
-    display: grid;
-    grid-template-rows: auto minmax(184px, 1fr);
-    gap: 16px;
-    padding: 114px 20px 64px;
+  html { scroll-behavior: auto; }
+  .five-home { font-size: 16px; }
+  .five-header { min-height: 64px; }
+  .five-menu-button, .memova-language-trigger { min-width: 44px; min-height: 44px; }
+  .five-menu-button { width: 44px; height: 44px; }
+  .memova-language-trigger { font-size: 13px; }
+  /* Keep privacy settings accessible after the footer, without covering copy. */
+  #memova-analytics-manage {
+    position: static !important;
+    margin: 0 20px 24px;
+    min-height: 44px !important;
+    padding: 10px 16px;
+    font-size: 13px;
+    box-shadow: none !important;
+  }
+  #memova-analytics-choices .memova-consent-full { display: none; }
+  #memova-analytics-choices { position: static !important; max-width: none; margin: 0 20px 24px; }
+  #memova-analytics-choices .memova-consent-short { display: inline !important; }
+  #memova-analytics-choices .memova-actions { flex-direction: row !important; }
+  #memova-analytics-choices .memova-actions button { flex: 1; width: auto !important; min-height: 44px; }
+  body:has(#memova-static-snapshot) #memova-analytics-choices,
+  body:has(#memova-static-snapshot) #memova-analytics-manage { display: none !important; }
+
+  /* The phone introduction is ordinary content, with no pinned scroll scenes. */
+  .homepage-kb-hero {
+    background: #fbfcff;
+    height: auto;
+    min-height: 0;
   }
 
-  .homepage-kb-chapter-label {
-    top: 84px;
-    left: 20px;
-    font-size: 7px;
-    line-height: 12px;
-  }
-
-  .homepage-kb-hero .kb-cosmos-hero {
+  .homepage-kb-sticky {
+    display: none;
     position: relative;
-    grid-row: 1;
-    top: auto;
-    left: auto;
-    width: 100%;
+    height: auto;
+    min-height: 0;
   }
 
-  .homepage-kb-hero .kb-cosmos-hero > span {
-    font-size: 8px;
-    line-height: 14px;
+  .homepage-kb-hero .kb-story-stage {
+    height: auto;
+    min-height: 0;
+    contain: none;
   }
 
-  .homepage-kb-hero .kb-cosmos-hero h1,
-  html[lang="zh-CN"] .homepage-kb-hero .kb-cosmos-hero h1 {
+  .homepage-kb-hero *,
+  .homepage-kb-hero *::before,
+  .homepage-kb-hero *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+
+  .homepage-kb-hero .kb-story-scroll-cue {
+    display: none;
+  }
+
+
+  .mobile-knowledge-intro {
+    display: block;
+    padding: 110px 20px 30px;
+    color: #24365d;
+    background: radial-gradient(ellipse at 75% 70%, #e8edff 0, transparent 48%), linear-gradient(150deg, #fff 30%, #f1f4ff);
+    border-bottom: 1px solid #e2e7f2;
+    text-align: left;
+  }
+  .mobile-intro-composition { display: block; }
+  .mobile-intro-art { height: 180px; max-width: 440px; margin: 0 auto; }
+  .mobile-intro-art::before { inset: -8% -4%; transform: rotate(-8deg); }
+  .mobile-intro-astronaut { height: 185px; right: calc(50% - 108px); transform: rotate(-7deg); }
+  .mobile-intro-main .mobile-intro-secondary { display: flex; width: auto; margin: 5px 0 0; }
+  .mobile-intro-main .mobile-intro-description { margin: 18px 0 24px; }
+  .mobile-intro-eyebrow {
+    margin: 0 0 16px;
+    color: #4b62a4;
+    font-size: 12px;
+    font-weight: 650;
+    letter-spacing: .06em;
+  }
+  .mobile-knowledge-intro h1 {
     max-width: none;
-    margin-top: 12px;
-    font-size: clamp(32px, 9.8vw, 44px);
-    line-height: 1.08;
-    text-wrap: balance;
+    margin: 0;
+    font-family: "DM Serif Display", Georgia, "Songti SC", serif;
+    font-size: clamp(30px, 8.7vw, 38px);
+    font-weight: 400;
+    line-height: 1.18;
+    letter-spacing: -.035em;
+    text-wrap: pretty;
   }
+  .mobile-knowledge-intro h1 > .mobile-intro-copy { display: inline-block; }
+  .mobile-intro-description {
+    margin: 18px 0 24px;
+    color: #58647a;
+    font-size: 15px;
+    line-height: 1.7;
+  }
+  .homepage-kb-hero .mobile-intro-manual-link {
+    display: flex;
+    min-height: 48px;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 16px;
+    border: 1px solid #526ab0;
+    border-radius: 12px;
+    background: linear-gradient(125deg, #445f9b, #627de0);
+    color: #fff;
+    font-size: 15px;
+    font-weight: 650;
+    line-height: 1.4;
+    text-decoration: none;
+  }
+  .homepage-kb-hero .mobile-intro-manual-link span { color: inherit; }
+  .mobile-intro-secondary {
+    display: flex;
+    min-height: 44px;
+    align-items: center;
+    justify-content: center;
+    margin-top: 5px;
+    margin-left: 0;
+    color: #455e93;
+    font-size: 14px;
+    text-decoration: none;
+  }
+  .mobile-intro-trust {
+    margin: 10px 0 25px;
+    color: #64718a;
+    text-align: center;
+    font-size: 12px;
+    line-height: 1.5;
+    letter-spacing: .04em;
+  }
+  .mobile-intro-steps {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+    padding-top: 18px;
+    margin-top: 0;
+    border-top: 1px solid #dce3f0;
+  }
+  .mobile-intro-steps a {
+    display: grid;
+    gap: 6px;
+    color: #24365d;
+    text-decoration: none;
+  }
+  .mobile-intro-step-number { color: #697cac; font: 11px/1.3 "SFMono-Regular", Consolas, monospace; }
+  .mobile-intro-steps strong { font-size: 15px; font-weight: 650; }
+  .mobile-intro-steps small { color: #626f86; font-size: 11px; line-height: 1.5; }
+  .mobile-knowledge-intro a:focus-visible { outline: 3px solid #2864f5; outline-offset: 3px; }
 
-  .homepage-kb-hero .kb-cosmos-hero .kb-hero-hypothesis {
-    margin-top: 14px;
+  /* Consistent reading rhythm throughout the marketing page. */
+  #capture.integrated-agent-manual, #act.action-connect-ready,
+  #social-distribution.memova-social-rail, #return.memova-return-story {
+    height: auto;
+    min-height: 0;
+    padding: 48px 20px;
+    scroll-margin-top: 64px;
+    background: #fbfcff;
+    border-bottom: 1px solid #e2e7f2;
+  }
+  #capture.integrated-agent-manual::before, #capture.integrated-agent-manual::after,
+  #social-distribution::before, #social-distribution::after,
+  #return::before, #return::after { display: none; }
+  .five-home .five-page-number { display: none; }
+  #capture.integrated-agent-manual .agent-manual-copy { display: grid; gap: 14px; width: 100%; }
+  #capture[data-manual-state="sample"] .agent-story-bridge { display: none; }
+  #capture .agent-manual-copy h2 { margin: 0; }
+  #capture.integrated-agent-manual .agent-section-index { font-size: 11px; }
+  #capture.integrated-agent-manual .agent-story-bridge {
+    min-height: 0;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    background: none;
+    box-shadow: none;
+    backdrop-filter: none;
     font-size: 12px;
     line-height: 1.5;
   }
-
-  html[lang="zh-CN"] .homepage-kb-hero .kb-cosmos-hero h1 {
-    word-break: keep-all;
-    text-wrap: wrap;
+  #capture.integrated-agent-manual .agent-manual-copy h2,
+  #act .ac-granola-intro h2,
+  #social-distribution .memova-social-rail__heading h2,
+  #return .memova-return-story__intro h2,
+  #waitlist .five-waitlist-copy h2 {
+    max-width: none !important;
+    font-size: clamp(28px, 8.2vw, 34px) !important;
+    line-height: 1.2;
+    text-wrap: pretty;
   }
+  #capture.integrated-agent-manual .agent-manual-copy > p,
+  #social-distribution .memova-social-rail__explanation-copy > p,
+  #return .memova-return-story__intro > div:last-child,
+  #waitlist .five-waitlist-copy > p { font-size: 15px; line-height: 1.7; }
+  #capture.integrated-agent-manual .agent-manual-copy > p { margin: 0; }
+  #capture.integrated-agent-manual .agent-primary-action { min-height: 48px; font-size: 15px; border-radius: 12px; }
+  #capture.integrated-agent-manual .agent-auth-note { font-size: 12px; line-height: 1.5; }
+  #capture.integrated-agent-manual .agent-manual-stage { min-height: 0; height: auto; margin-top: 24px; }
+  .agent-manual-cover__footer { flex-wrap: wrap; gap: 8px; }
+  .agent-manual-cover__footer > span { max-width: none; font-size: 11px; }
+  .agent-manual-cover__footer a { display: flex; min-height: 44px; align-items: center; font-size: 13px; }
 
-  .homepage-kb-hero .kb-cosmos-hero .kb-hero-hypothesis strong {
-    font-size: 8px;
-    line-height: 1.4;
+  #act .ac-granola-shell { width: 100%; gap: 24px; }
+  #act::before, #act::after { display: none; }
+  #act .ac-granola-intro { gap: 12px; padding: 0; }
+  #act .ac-granola-intro > span { font-size: 11px; }
+  #act .ac-granola-intro h2 { margin: 0; }
+  #act .ac-granola-intro p, #act .ac-feature-copy p { margin: 0; font-size: 15px; line-height: 1.7; }
+  #act .ac-granola-feature { margin-top: 24px; padding: 0; gap: 20px; }
+  #act .ac-output-tabs { width: 100%; margin: 0; gap: 4px; padding: 0; border: 0; border-radius: 0; background: none; box-shadow: none; backdrop-filter: none; }
+  #act .ac-output-tab { min-height: 48px; padding: 10px 4px; font-size: 13px; }
+  #act .ac-output-tab small { display: none; }
+  #act .ac-feature-main { gap: 20px; }
+  #act .ac-feature-copy { min-height: 0; gap: 10px; padding: 0; }
+  #act .ac-feature-copy h3 { font-size: 23px; line-height: 1.3; }
+  #act .ac-product-stage {
+    height: auto;
+    min-height: 0;
+    margin: 0;
+    overflow: hidden;
+    padding: 0;
+    border: 1px solid #dce3f0;
+    border-radius: 14px;
+    background: #f3f5fa;
+    box-shadow: 0 10px 30px rgba(36,54,93,.07);
   }
-
-  .homepage-kb-hero .kb-orbit-field {
+  #act .ac-product-stage::before, #act .ac-product-stage::after,
+  #act .ac-meeting-focus, #act .ac-stage-background,
+  #act .ac-input-output-marker { display: none; }
+  #act .ac-stage-ui-wrap {
     position: relative;
-    grid-row: 2;
     inset: auto;
-    display: block;
-    overflow: visible;
+    width: 100%;
+    height: auto;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    opacity: 1 !important;
+    translate: none;
+    transform: none !important;
+    box-shadow: none;
   }
+  #act .ac-stage-ui { display: block; width: 100%; height: auto; max-height: none; object-fit: contain; }
+  #act .ac-product-stage a { display: block; }
+  #act .ac-product-stage > figcaption { position: static; display: block; padding: 10px 12px; color: #576780; background: #fff; font-size: 12px; line-height: 1.5; }
+  #act .ac-prd-rule { flex-direction: column; gap: 5px; font-size: 11px; line-height: 1.5; }
+  #act .ac-product-stage * { animation: none !important; transition: none !important; }
 
-  .homepage-kb-hero .kb-orbit-card {
-    position: absolute;
-    width: clamp(96px, 28vw, 116px);
-    min-height: 36px;
-  }
+  /* One actionable sharing example replaces the repeated phone montage. */
+  #share { display: none; }
+  #social-distribution .memova-social-rail__copy { gap: 24px; }
+  #social-distribution .memova-social-rail__heading h2 { margin: 12px 0 16px; }
+  #social-distribution .memova-social-rail__heading h2 em,
+  #return h2 .mobile-heading-phrase,
+  #waitlist h2 em { display: inline-block; }
+  #social-distribution .memova-social-rail__explanation-copy { margin-top: 24px; gap: 12px; }
+  #social-distribution .memova-social-rail__explanation-copy strong { font-size: 13px; line-height: 1.6; }
+  #social-distribution .memova-social-rail__viewport { min-height: 0; padding: 10px 0; }
+  #social-distribution .memova-social-rail__track { gap: 14px; padding: 0; }
+  #social-distribution .memova-social-rail__card-shell { width: 36px; height: 36px; }
+  #social-distribution .memova-social-rail__card { width: 36px; height: 36px; padding: 5px; border: 0; background: none; box-shadow: none; }
+  #social-distribution .memova-social-rail__card img { width: 24px; height: 24px; }
+  #social-distribution .memova-social-rail__footnotes { display: none; }
+  #social-distribution .memova-share-prototype__platforms button,
+  #social-distribution .memova-share-prototype__actions button,
+  #social-distribution .memova-share-prototype__format select { min-height: 44px; font-size: 13px; }
+  #social-distribution .memova-share-prototype__platforms button span { font-size: 13px; }
+  #social-distribution .memova-share-prototype__preview > p { font-size: 14px; line-height: 1.65; }
+  #social-distribution .memova-share-prototype__preview header strong,
+  #social-distribution .memova-share-prototype__preview figcaption strong { font-size: 14px; line-height: 1.4; }
+  #social-distribution .memova-share-prototype__preview figcaption span { font-size: 12px; line-height: 1.5; }
+  #social-distribution .memova-share-prototype__account strong { font-size: 14px; }
+  #social-distribution .memova-share-prototype__account small,
+  #social-distribution .memova-share-prototype__format > span { font-size: 12px; line-height: 1.5; }
 
-  .homepage-kb-hero .kb-orbit-card strong {
-    overflow: visible;
-    font-size: 9px;
-    white-space: normal;
-    text-overflow: clip;
-    line-height: 1.25;
-  }
+  /* Feedback is three explicit views, rather than three full-screen chapters. */
+  #return .memova-return-story__intro { min-height: 0; margin: 0 0 24px; gap: 12px; }
+  #return .memova-return-story__intro > p:first-child { font-size: 11px; }
+  #return .memova-return-story__steps { position: static; display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); padding: 0; margin-bottom: 24px; }
+  #return .memova-return-story__steps button { display: block; min-height: 48px; padding: 8px 4px; color: #596880; text-align: center; }
+  #return .memova-return-story__steps span { display: none; }
+  #return .memova-return-story__steps strong { font-size: 12px; line-height: 1.5; }
+  #return .memova-return-story__steps button.is-active { color: #24365d; border-bottom: 2px solid #536aa7; }
+  #return .memova-return-story__steps button::after { display: none; }
+  #return .memova-return-story__chapters { gap: 0; }
+  #return .memova-return-chapter { min-height: 0; padding: 0; opacity: 1; transform: none; transition: none; }
+  #return .memova-return-chapter[hidden] { display: none !important; }
+  #return .memova-return-chapter__copy { gap: 8px; margin-bottom: 20px; }
+  #return .memova-return-chapter__copy > p { display: none; }
+  #return .memova-return-chapter__copy h3 { font-size: 24px; line-height: 1.25; }
+  #return .memova-return-chapter__copy > div { font-size: 14px; line-height: 1.6; }
+  #return .memova-return-demo { height: auto; min-height: 0; box-shadow: 0 10px 30px rgba(36,54,93,.07); }
+  #return .memova-return-demo__chrome { height: 36px; font-size: 9px; }
+  #return .memova-return-demo__body { height: auto; }
+  #return .memova-return-view { height: auto; min-height: 0; padding: 18px; }
+  #return .memova-return-view__copy h3, #return .memova-return-review-card header strong,
+  #return .memova-return-book-header h3 { font-size: 24px; line-height: 1.25; }
+  #return .memova-return-view__copy > p, #return .memova-return-note > p { font-size: 14px; line-height: 1.6; }
+  #return .memova-return-quote { font-size: 14px; line-height: 1.5; }
+  #return .memova-return-review-card blockquote { font-size: 13px; line-height: 1.5; }
+  #return .memova-return-review-card button { min-height: 44px; font-size: 13px; }
+  #return .memova-return-note h4 { font-size: 22px; line-height: 1.3; }
+  #return .memova-return-blocks, #return .memova-return-signal { display: none; }
+
+  #waitlist.five-waitlist { min-height: 0; padding: 48px 20px 24px; scroll-margin-top: 64px; }
+  #waitlist .five-download-actions .memova-download-button { width: 100%; }
+  #waitlist > .five-brand, #waitlist .five-history-arc { display: none; }
+  #waitlist .five-waitlist-copy { margin-top: 0; }
+  #waitlist .five-waitlist-copy h2 { margin-top: 0; }
+  #waitlist .five-waitlist-copy > p { margin: 18px 0 24px; }
+  #waitlist .five-waitlist-copy form { display: grid; width: 100%; gap: 10px; }
+  #waitlist .five-waitlist-copy input, #waitlist .five-waitlist-copy button { width: 100%; min-height: 48px; font-size: 16px; }
+  #waitlist .five-release-meta { width: 100%; grid-template-columns: minmax(0, 1fr); gap: 16px; font-size: 13px; line-height: 1.6; }
+  #waitlist .five-history-disclosure { width: 100%; margin-top: 24px; text-align: left; }
+  #waitlist > footer { flex-direction: column; align-items: stretch; margin-top: 24px; gap: 16px; }
+  #waitlist > footer > div { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 4px 16px; text-align: left; }
+  #waitlist > footer > span { text-align: left; }
+  #waitlist .five-waitlist-copy .five-form-note { font-size: 12px; line-height: 1.6; }
 
   /* Keep words separated when the desktop line breaks are hidden. */
   :is(.kb-cosmos-hero h1, .agent-manual-copy h2,
       .share-social-fan__intro h2, .memova-social-rail__heading h2,
       .memova-return-story__intro h2, .five-waitlist-copy h2) br {
     display: none;
-  }
-
-  #capture.integrated-agent-manual .agent-manual-copy h2,
-  #act .ac-granola-intro h2,
-  .share-social-fan-active .share-social-fan__intro h2,
-  #social-distribution .memova-social-rail__heading h2,
-  #return .memova-return-story__intro h2,
-  #waitlist .five-waitlist-copy h2 {
-    font-size: clamp(30px, 9vw, 40px);
-    line-height: 1.12;
-    text-wrap: balance;
-  }
-
-  #act .ac-granola-intro p,
-  #act .ac-feature-copy p {
-    font-size: 14px;
-    line-height: 1.6;
-  }
-
-  #act .ac-feature-copy {
-    min-height: 0;
-    gap: 16px;
-  }
-
-  #act .ac-feature-copy h3 {
-    font-size: clamp(22px, 5.8vw, 25px);
-    line-height: 1.25;
-    text-wrap: pretty;
-  }
-
-  #act .ac-output-tab {
-    min-height: 48px;
-    font-size: 11px;
-    line-height: 1.3;
-    white-space: normal;
   }
 
   /* Guide, portrait/button and disclosure each have their own grid row. */
@@ -214,7 +495,88 @@
     line-height: 1.5;
   }
 
+  /* Setup stays readable at phone scale and scrolls with the page. */
+  #capture.integrated-agent-manual[data-manual-state="audience"] .agent-product-proof,
+  #capture.integrated-agent-manual[data-manual-state="handoff"] .agent-product-proof,
+  #capture.integrated-agent-manual[data-manual-state="progress"] .agent-product-proof {
+    height: auto;
+    min-height: 0;
+    max-height: none;
+  }
+
+  #capture.integrated-agent-manual .agent-client-choice-proof .agent-backplane { display: none; }
+  #capture.integrated-agent-manual .agent-flow-window {
+    position: relative;
+    inset: auto;
+    width: 100%;
+    height: auto;
+    grid-template-rows: auto auto auto;
+    transform: none;
+    overflow: visible;
+  }
+  #capture.integrated-agent-manual .agent-flow-window__bar { padding: 14px; }
+  #capture.integrated-agent-manual .agent-flow-window__bar strong { font-size: 12px; }
+  #capture.integrated-agent-manual .agent-flow-window__bar small,
+  #capture.integrated-agent-manual .agent-anonymous-badge { font-size: 10px; }
+  #capture.integrated-agent-manual .agent-flow-window__body {
+    height: auto;
+    min-height: 0;
+    padding: 18px;
+    overflow: visible;
+  }
+  #capture.integrated-agent-manual .agent-flow-window__body--client-choice { grid-template-rows: auto auto auto; }
+  #capture.integrated-agent-manual .agent-flow-heading > span,
+  #capture.integrated-agent-manual .agent-client-summary small { font-size: 11px; }
+  #capture.integrated-agent-manual .agent-flow-heading h3 { font-size: 25px; }
+  #capture.integrated-agent-manual .agent-flow-heading p { font-size: 14px; line-height: 1.65; }
+  #capture.integrated-agent-manual .agent-client-summary strong,
+  #capture.integrated-agent-manual .agent-client-summary > span { font-size: 13px; }
+  #capture.integrated-agent-manual .agent-desktop-app-notice { padding: 12px; }
+  #capture.integrated-agent-manual .agent-desktop-app-notice__dog { animation: none; }
+  #capture.integrated-agent-manual .agent-desktop-app-notice__dog::after { display: none; }
+  #capture.integrated-agent-manual .agent-desktop-app-notice__copy strong { font-size: 13px; line-height: 1.6; }
+  #capture.integrated-agent-manual .agent-client-options { gap: 14px; }
+  #capture.integrated-agent-manual .agent-client-flip,
+  #capture.integrated-agent-manual .agent-client-flip__inner,
+  #capture.integrated-agent-manual .agent-client-flip__face {
+    position: relative;
+    inset: auto;
+    height: auto;
+    min-height: 0;
+    perspective: none;
+    transform: none !important;
+    backface-visibility: visible;
+    transition: none;
+    will-change: auto;
+  }
+  #capture.integrated-agent-manual .agent-client-option { min-height: 0; padding: 18px; }
+  #capture.integrated-agent-manual .agent-client-option small,
+  #capture.integrated-agent-manual .agent-client-option__compatibility { font-size: 11px; }
+  #capture.integrated-agent-manual .agent-client-option strong { font-size: 19px; }
+  #capture.integrated-agent-manual .agent-client-option p { font-size: 14px; line-height: 1.65; }
+  #capture.integrated-agent-manual .agent-client-option__path,
+  #capture.integrated-agent-manual .agent-client-option > i { font-size: 12px; line-height: 1.6; }
+  #capture.integrated-agent-manual .agent-client-flip__back { display: none; padding: 16px; overflow: visible; }
+  #capture.integrated-agent-manual .agent-client-flip.is-flipped .agent-client-flip__front { display: none; }
+  #capture.integrated-agent-manual .agent-client-flip.is-flipped .agent-client-flip__back { display: grid; }
+  #capture.integrated-agent-manual .agent-client-flip__back header small { font-size: 11px; }
+  #capture.integrated-agent-manual .agent-client-flip__back header strong { font-size: 16px; }
+  #capture.integrated-agent-manual .agent-client-flip__back header button,
+  #capture.integrated-agent-manual .agent-compact-instruction button,
+  #capture.integrated-agent-manual .agent-client-flip__continue { min-height: 44px; min-width: 44px; font-size: 13px; }
+  #capture.integrated-agent-manual .agent-compact-instruction small { font-size: 11px; }
+  #capture.integrated-agent-manual .agent-compact-instruction strong { font-size: 14px; }
+  #capture.integrated-agent-manual .agent-compact-instruction p { font-size: 13px; line-height: 1.65; overflow-wrap: anywhere; }
+  #capture.integrated-agent-manual .agent-codex-restart-note { font-size: 12px; line-height: 1.6; }
+  #capture.integrated-agent-manual .agent-flow-window__footer { height: auto; padding: 16px; gap: 12px; flex-wrap: wrap; }
+  #capture.integrated-agent-manual .agent-flow-window__footer > span { font-size: 12px; line-height: 1.6; }
+  #capture.integrated-agent-manual .agent-flow-window__footer button { min-height: 44px; font-size: 13px; }
+
   .memova-crew-manual.is-previewing .memova-crew-manual__portrait {
     transform: scale(.96);
   }
+}
+
+@media (max-width: 760px) and (prefers-reduced-motion: reduce) {
+  #social-distribution .memova-social-rail__card-shell[aria-hidden="true"] { display: none; }
 }

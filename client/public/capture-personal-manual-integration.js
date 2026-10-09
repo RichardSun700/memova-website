@@ -253,12 +253,12 @@
       <article class="agent-product-proof agent-manual-cover" aria-label="Neil Armstrong Personal Manual sample">
         <header class="agent-manual-cover__bar"><span>PERSONAL MANUAL · SAMPLE</span><span>01</span></header>
         <div class="agent-manual-cover__viewport" data-manual-cover-viewport>
-          <iframe data-manual-cover data-src="./personal-manual/neil-armstrong/cover.html?embed=1&v=original-cover-20261008"
+          <iframe data-manual-cover data-src="/personal-manual/neil-armstrong/cover.html?embed=1&v=original-cover-20261008"
             title="Neil Armstrong original Personal Manual cover" loading="lazy"
             sandbox="allow-scripts allow-same-origin allow-modals allow-top-navigation-by-user-activation"
             scrolling="no"></iframe>
         </div>
-        <footer class="agent-manual-cover__footer"><span>Historical reconstruction from public archives.</span><a href="./personal-manual/neil-armstrong/">View full manual →</a></footer>
+        <footer class="agent-manual-cover__footer"><span>Historical reconstruction from public archives.</span><a href="/personal-manual/neil-armstrong/">View full manual →</a></footer>
       </article>
     `;
   }
@@ -267,8 +267,8 @@
     const viewport = section.querySelector("[data-manual-cover-viewport]");
     const frame = viewport?.querySelector("[data-manual-cover]");
     if (!frame) return;
-    let originalHeight = 1160;
     const phone = matchMedia("(max-width: 760px)");
+    let originalHeight = phone.matches ? 880 : 1160;
     const resize = () => {
       const originalWidth = phone.matches ? 390 : 1200;
       const scale = viewport.clientWidth / originalWidth;
@@ -388,7 +388,7 @@
             <p>${flow.description}</p>
             ${isMcp ? `<span class="agent-client-option__compatibility"><b>ANY AGENT</b><span>ChatGPT works here too.</span></span>` : ""}
             <span class="agent-client-option__path">${isMcp ? "Desktop app → MCP → sign in → generate" : "Desktop app → plugin → sign in → restart → @memova"}</span>
-            <i aria-hidden="true">Flip for prompts ↻</i>
+            <i aria-hidden="true">${window.matchMedia("(max-width: 760px)").matches ? "View instructions →" : "Flip for prompts ↻"}</i>
           </button>
           ${renderClientBack(clientType, manualFlow?.clientType === clientType ? manualFlow : null, active)}
         </div>
@@ -490,7 +490,7 @@
             <span class="agent-live-badge"><i></i> SECURE</span>
           </header>
           <div class="agent-flow-window__body agent-flow-window__body--progress">
-            <div class="agent-progress-orbit" aria-hidden="true"><i></i><i></i><i></i><img loading="lazy" decoding="async" src="./brand/memova-app-icon-liquid-blue.svg" alt=""></div>
+            <div class="agent-progress-orbit" aria-hidden="true"><i></i><i></i><i></i><img loading="lazy" decoding="async" src="/brand/memova-app-icon-liquid-blue.svg" alt=""></div>
             <div class="agent-progress-copy">
               <span>BASELINE VERSION</span>
               <h3>${error ? "Couldn’t read your current version" : "Checking your current Manual…"}</h3>
@@ -521,7 +521,7 @@
           </header>
 
           <div class="agent-flow-window__body agent-flow-window__body--progress">
-            <div class="agent-progress-orbit" aria-hidden="true"><i></i><i></i><i></i><img loading="lazy" decoding="async" src="./brand/memova-app-icon-liquid-blue.svg" alt=""></div>
+            <div class="agent-progress-orbit" aria-hidden="true"><i></i><i></i><i></i><img loading="lazy" decoding="async" src="/brand/memova-app-icon-liquid-blue.svg" alt=""></div>
             <div class="agent-progress-copy">
               <span>AUTHENTICATED VERSION CHECK</span>
               <h3 data-progress-title>${timedOut ? (pausedByChoice ? "Checking is paused" : "Still waiting for a new version") : "Waiting for your published Manual…"}</h3>
@@ -634,7 +634,7 @@
     };
     return {
       bridge: "See a sample, then make it yours",
-      title: "Let your Agent <br>write the first <br>manual of you.",
+      title: "Your Personal Manual.",
       body: "See how Neil's imagined Manual brings his working style into view. Then let your Agent read only the context you approve and create a Personal Manual of your own."
     };
   }
@@ -713,7 +713,7 @@
   }
 
   function renderCapture(section, state = getViewState()) {
-    const copy = copyForState(state.state);
+    const copy = { ...copyForState(state.state) };
     stopProgress();
 
     section.dataset.agentManualIntegrated = "true";
@@ -723,12 +723,10 @@
     section.className = "five-page integrated-agent-manual";
     section.setAttribute("aria-labelledby", "agent-manual-title");
     section.innerHTML = `
-      <span class="five-page-number">02 / 06</span>
-
       <div class="agent-manual-copy">
-        <div class="agent-section-index"><span>02</span><i aria-hidden="true"></i><strong>Capture + Personal Manual</strong></div>
+        <div class="agent-section-index"><strong>Personal Manual</strong></div>
         <div class="agent-story-bridge">${copy.bridge}</div>
-        <h2 id="agent-manual-title">${copy.title}</h2>
+        <h1 id="agent-manual-title">${copy.title}</h1>
         <p>${copy.body}</p>
         ${renderActions(state.state)}
       </div>

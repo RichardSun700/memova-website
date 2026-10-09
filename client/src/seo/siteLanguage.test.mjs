@@ -98,4 +98,16 @@ describe('shared website language', () => {
     expect(f.document.querySelector('h1').textContent).toBe('Your context,finally understood.');
     expect(f.document.documentElement.lang).toBe('en');
   });
+
+  it('translates the independent setup page while preserving the original manual document', async () => {
+    const setup = fixture({ stored: 'zh', url: 'https://memova.ai/personal-manual/' });
+    const heading = setup.document.querySelector('h1');
+    heading.textContent = 'Your Personal Manual.';
+    await flush();
+    expect(heading.textContent).toBe('写下你的个人手册。');
+    expect(setup.document.title).toBe('个人手册 — Memova');
+    const original = fixture({ stored: 'zh', url: 'https://memova.ai/personal-manual/neil-armstrong/' });
+    expect(original.document.querySelector('h1').textContent).toBe('Your context,finally understood.');
+    expect(original.document.documentElement.lang).toBe('en');
+  });
 });

@@ -104,6 +104,31 @@ export async function optimizeProductionHomepage(source, publicDir, outputDir) {
     })());
     return responsiveCache.get(url);
   };
+  const responsiveProductImage = async url => {
+    const input = fs.readFileSync(path.join(outputDir, url));
+    const metadata = await sharp(input).metadata();
+    const candidates = [];
+    for (const width of [...new Set([480, Math.min(960, metadata.width)])]) {
+      const bytes = await sharp(input).resize({ width, withoutEnlargement: true })
+        .webp({ quality: 88, effort: 4 }).toBuffer();
+      const variant = writeAsset(bytes, "webp", "image");
+      images.push({ origin: `mobile-product:${url}:${width}`, url: variant, sourceBytes: input.length, bytes: bytes.length });
+      candidates.push(`${variant} ${Math.min(width, metadata.width)}w`);
+    }
+    return candidates.join(", ");
+  };
+  const responsiveIntroArtwork = async url => {
+    const input = fs.readFileSync(path.join(outputDir, url));
+    const candidates = [];
+    for (const width of [360, 720]) {
+      const bytes = await sharp(input).resize({ width, withoutEnlargement: true })
+        .webp({ quality: 82, effort: 4 }).toBuffer();
+      const variant = writeAsset(bytes, "webp", "image");
+      images.push({ origin: `intro-astronaut:${width}`, url: variant, sourceBytes: input.length, bytes: bytes.length });
+      candidates.push({url: variant, width});
+    }
+    return { src: candidates.at(-1).url, srcset: candidates.map(({url,width}) => `${url} ${width}w`).join(", ") };
+  };
   const extractInlineImages = text => replaceAsync(text,
     /data:image\/(png|jpeg|webp|svg\+xml);base64,([A-Za-z0-9+/=]+)/g,
     match => emitImage(Buffer.from(match[2], "base64"),
@@ -116,6 +141,12 @@ export async function optimizeProductionHomepage(source, publicDir, outputDir) {
       /(["'])((?:\.\/|\/)[^"'\s<>`$?#]+\.(?:png|jpe?g|webp|svg))\1/gi,
       async match => `${match[1]}${await emitLocalImage(match[2])}${match[1]}`);
     text = await extractInlineImages(text);
+    text = await replaceAsync(text,
+      /(className: "mobile-intro-astronaut",[^\n]*?src: )"([^"]+)"/g,
+      async match => {
+        const art = await responsiveIntroArtwork(match[2]);
+        return `${match[1]}"${art.src}", srcset: "${art.srcset}", sizes: "(max-width: 760px) 200px, (max-width: 1100px) 320px, 465px"`;
+      });
     // Use the same responsive candidates for the first paint, client render and
     // preload, so phones never download the desktop fallback as a second image.
     text = await replaceAsync(text,
@@ -125,8 +156,10 @@ export async function optimizeProductionHomepage(source, publicDir, outputDir) {
         return `${match[1]}"${hero.src}", srcset: "${hero.srcSet}", sizes: "${hero.sizes}", width: ${hero.width}, height: ${hero.height}`;
       });
     // Keep original desktop artwork; phones select a correctly sized card image.
-    return replaceAsync(text, /filename: "(\/assets\/homepage\/[^"\s]+)"(?=, alt: "Page [1-4] )/g,
+    text = await replaceAsync(text, /filename: "(\/assets\/homepage\/[^"\s]+)"(?=, alt: "Page [1-4] )/g,
       async match => `${match[0]}, srcSet: "${await responsiveScatterImage(match[1])}"`);
+    return replaceAsync(text, /ui: "(\/assets\/homepage\/[^"\s]+)"/g,
+      async match => `${match[0]}, uiSrcSet: "${await responsiveProductImage(match[1])}"`);
   };
   const optimizeCss = async (text, base) => {
     text = await replaceAsync(text, /url\(\s*(?:"([^"]*)"|'([^']*)'|([^\s)"']+))\s*\)/g,
@@ -167,7 +200,7 @@ export async function optimizeProductionHomepage(source, publicDir, outputDir) {
     async match => {
       const [, attributes, body] = match;
       // Keep analytics module and structured data in their existing places.
-      if (/\btype=/.test(attributes)) return match[0];
+      if (/\btype=|\bdata-critical-language\b/.test(attributes)) return match[0];
       const src = attributes.match(/src="([^"]+)"/)?.[1];
       const code = src ? fs.readFileSync(localPath(src), "utf8") : body;
       scripts.push({ position: match.index, code: await optimizeScript(code) });
@@ -193,9 +226,9 @@ export async function optimizeProductionHomepage(source, publicDir, outputDir) {
   })).code;
   const cssUrl = writeAsset(Buffer.from(css), "css", "styles");
   const jsUrl = writeAsset(Buffer.from(js), "js", "app");
-  const heroImage = code.match(/className: "kb-lunar-backdrop",[^\n]*?src: "([^"]+)"/)?.[1];
+  const heroImage = snapshot && heroAssets ? heroAssets.src : null;
   html = html.replace("</head>", [
-    heroImage ? `<link rel="preload" as="image" href="${heroImage}" fetchpriority="high"${heroAssets ? ` imagesrcset="${heroAssets.srcSet}" imagesizes="${heroAssets.sizes}"` : ""}>` : "",
+    heroImage && `<link rel="preload" as="image" href="${heroImage}" imagesrcset="${heroAssets.srcSet}" imagesizes="${heroAssets.sizes}" media="(min-width: 761px)" fetchpriority="high">`,
     // Inline the existing styles so even a delayed/failed JS or CSS request
     // cannot expose the old plain-text SEO fallback or an unstyled hero.
     `<style id="memova-seo-shell-styles">${css}</style>`,

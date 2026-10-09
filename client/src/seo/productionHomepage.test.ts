@@ -60,13 +60,14 @@ describe("production homepage", () => {
     );
   });
 
-  it("submits early-access signups to the production waitlist API", () => {
-    expect(homepage).toContain('fetch("/api/waitlist"');
-    expect(homepage).toContain('source: "home-ios-early-access"');
-    expect(homepage).toContain('trackEvent("waitlist_submit_success"');
-    expect(homepage).toContain("Please enter a valid email.");
-    expect(homepage).toContain("noValidate: true");
-    expect(homepage).not.toContain("setSubmitted(true)");
+  it("replaces the signup form with the existing App Store download flow", () => {
+    const downloadSection = homepage.slice(homepage.indexOf("function DownloadPage()"), homepage.indexOf("function ApolloHomepagePreview()"));
+    expect(downloadSection).not.toContain('h("form"');
+    expect(downloadSection).not.toContain('h("input"');
+    expect(homepage).not.toContain('fetch("/api/waitlist"');
+    expect(downloadSection).toContain('className: "memova-download-button", href: "https://apps.apple.com/us/app/memova-ai/id6796284954"');
+    expect(homepage).not.toContain("Join early access");
+    expect(homepage).toContain('src="/brand/app-download.js"');
   });
 
   it("links to Memova AI on the App Store immediately after the community invitation", () => {
@@ -141,7 +142,14 @@ describe("production homepage", () => {
       "personal-manual/neil-armstrong/index.html"
     );
 
-    expect(homepage).toContain("homepage-manual-cover.css?v=20261008-original-cover1");
+    const manualLanding = fs.readFileSync(path.join(publicDir, "personal-manual/index.html"), "utf8");
+    expect(homepage).not.toContain("h(CaptureManualPage, null)");
+    expect(homepage).not.toContain("capture-personal-manual-integration.js?v=");
+    expect(homepage).not.toContain("homepage-manual-cover.css?v=");
+    expect(homepage).toContain('"Work Style"');
+    expect(manualLanding).toContain('src="/capture-personal-manual-integration.js"');
+    expect(manualLanding).toContain('href="/homepage-manual-cover.css"');
+    expect(sampleMarkupAbsolutePaths(captureScript)).toBe(true);
     expect(homepage).not.toContain("personal-manual-discovery-stack.css?v=");
     const sampleMarkup = captureScript.slice(captureScript.indexOf("function renderNeilSample()"), captureScript.indexOf("function renderInstruction("));
     expect(sampleMarkup).toContain("Neil Armstrong original Personal Manual cover");
@@ -153,7 +161,11 @@ describe("production homepage", () => {
     expect(captureScript).not.toContain("work-types-discovery");
     expect(captureScript).not.toContain("Discover the 16 work types");
     expect(homepage.match(/href: "\/personal-manual\/work-types\/"/g)).toHaveLength(2);
-    expect(homepage).toContain('"16 Work Types"');
+    expect(manualLanding).toContain('href="/personal-manual/work-types/"');
+    expect(manualLanding).toContain('href="/personal-manual/" aria-current="page"');
+    const workTypes = fs.readFileSync(workTypesPage, "utf8");
+    expect(workTypes).toContain('href="/personal-manual/work-types/" aria-current="page"');
+    expect(workTypes).toContain('href="/personal-manual/"');
     expect(captureScript).not.toContain('data-learning-target="types"');
     expect(scatterScript).not.toContain("<iframe");
     expect(scatterScript).toContain('class="memova-crew-manual__portrait-button" href="./personal-manual/neil-armstrong/"');
@@ -406,3 +418,8 @@ describe("production homepage", () => {
     expect(captureScript).not.toContain("5 Codex conversations found");
   });
 });
+
+function sampleMarkupAbsolutePaths(script: string) {
+  return script.includes('data-src="/personal-manual/neil-armstrong/cover.html?embed=1')
+    && script.includes('href="/personal-manual/neil-armstrong/"');
+}

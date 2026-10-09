@@ -3,6 +3,23 @@
 (() => {
   if (window.MemovaLanguage) return;
   const COPY = {
+  "Private by design.": "注重隐私。",
+  "Work Style": "工作方式",
+  "16 Types": "16 型",
+  "Manual": "手册",
+  "Context → Knowledge → Content": "Context → 知识库 → 内容",
+  "02 · Knowledge into action": "02 · 让知识派上用场",
+  "From context to content.": "从 Context 到内容。",
+  "Collect notes, voice, and files. Memova connects their context into a knowledge base, ready to create Pages and share your progress—after your review.": "收集笔记、语音和资料，将背景与关联整理成知识库，再生成网页和社交内容。由你审核，分享自己的构建进展。",
+  "From context to content": "从 Context 到内容",
+  "Collect context": "收集 Context",
+  "Mission notes, voice & records": "任务笔记、语音与档案",
+  "Connect knowledge": "关联成知识库",
+  "Findings linked to their sources": "每个发现都有来源",
+  "Create & share": "创作与发布",
+  "A debrief Page, then social content": "任务复盘网页与社交内容",
+  "04 · FEEDBACK + LIVING BOOK": "04 · 反馈与知识生长",
+  "Back to homepage": "返回首页",
   "See a sample, then make it yours": "先看一份示例，再创建自己的手册",
   "See how Neil's imagined Manual brings his working style into view. Then let your Agent read only the context you approve and create a Personal Manual of your own.": "先看看尼尔的假想手册如何呈现他的工作方式，再让智能体仅读取你授权的内容，为你生成专属个人手册。",
   "Discover the 16 work types": "了解 16 种工作类型",
@@ -22,6 +39,41 @@
   "Understated": "低调表达",
   "Historical reconstruction from public archives.": "基于公开档案的历史重构。",
   "View full manual →": "查看完整手册 →",
+  "Explore Personal Manual →": "查看个人手册 →",
+  "How Memova works": "Memova 如何使用",
+  "Open full-size product preview": "查看完整尺寸的产品演示",
+  "Product preview · tap to enlarge": "产品演示 · 点按查看大图",
+  "Your Personal Manual.": "写下你的个人手册。",
+  "Put your knowledge to work": "让知识库派上用场",
+  "From records to understanding.": "把记录，变成理解。",
+  "Collect notes, files, and ideas with their context and connections. A Personal Manual is one useful result your knowledge can produce—explore the original sample below.": "收集笔记、资料和想法，保留背景与关联。个人手册是知识库能生成的一种结果，下面可以查看原版示例。",
+  "Build in public.": "公开构建，",
+  "From your everyday progress.": "从日常进展开始。",
+  "Turn product progress, decisions, and reflections into social content. Memova adapts your voice for each platform, so founders can build in public without losing the context behind the story.": "把产品进展、决策和复盘整理成可分享的内容，结合你的表达风格适配不同平台。帮助创始人公开构建，同时保留内容背后的背景。",
+  "Feedback stays connected to what you shared. You choose what becomes a private Note, ready to inform the next thing you build or publish.": "收到的反馈始终关联你分享的内容。由你决定哪些内容保存为私密笔记，为下一次构建或发布提供背景。",
+  "Bring your notes and their context into an interactive Page. Choose the output, review it, then confirm generation.": "将笔记与相关背景整理成可交互的网页。由你选择输出，审核内容，再确认生成。",
+  "Turn your notes into a follow-up.": "从笔记出发，起草跟进邮件。",
+  "Prepare an email from the findings in your notes. Connect Gmail or Outlook, review the draft, and confirm before anything is sent.": "根据笔记中的发现起草邮件。连接 Gmail 或 Outlook，审核草稿，经你确认后才发送。",
+  "Plan your next review.": "安排下一次复盘。",
+  "Turn next steps into a calendar draft. With your permission, Memova checks availability and shows conflicts before you confirm.": "把下一步行动整理成日历草稿。经你授权，Memova 检查空闲时间并提示冲突，最后由你确认。",
+  "What if an Apollo-era team had a Living Book that kept every decision connected? A speculative Memova Page, grounded in public mission records.": "假如阿波罗时代的团队拥有一份持续积累的知识库，每项决策会如何相互关联？这份 Memova 示例网页，基于公开任务记录构想。",
+  "Inside an imagined Apollo-era Living Book": "探索阿波罗时代的假想知识库",
+  "We turned public Apollo mission records into a connected Page to explore a simple idea: long-term context should remain useful, visible, and ready for the next decision.": "我们把公开的阿波罗任务记录整理成一份相互关联的网页，探索如何让长期积累的背景始终可见，并用于下一次决策。",
+  "From mission records to a connected Living Book": "从任务记录，到持续积累的知识库",
+  "POV: Apollo 11 had a Living Book that remembered the full mission context. One source Page—remixed for the feed.": "假如阿波罗 11 号拥有记住任务完整背景的知识库。一份原始网页，也能适配社交平台的表达。",
+  "If Apollo 11 had Memova": "假如阿波罗 11 号有 Memova",
+  "Personal Manual setup": "个人手册设置",
+  "Allow Google Analytics to help improve Memova? You can reject or change this anytime.": "是否允许 Google Analytics 访问统计，帮助改进 Memova？你可以拒绝或随时修改。",
+  "View instructions →": "查看操作步骤 →",
+  "Start in your AI client’s desktop app.": "请在你所用智能体的桌面 App 中操作。",
+  "CHOOSE ONE PATH": "选择一种方式",
+  "CHOOSE YOUR AI CLIENT": "选择你使用的智能体",
+  "I use Codex": "我使用 Codex",
+  "I use another AI client": "我使用其他智能体",
+  "ChatGPT works here too.": "也适用于 ChatGPT。",
+  "Desktop app → plugin → sign in → restart → @memova": "桌面 App → 插件 → 登录 → 重启 → @memova",
+  "Desktop app → MCP → sign in → generate": "桌面 App → MCP → 登录 → 生成手册",
+  "Your instructions change with your client. Your Personal Manual format does not.": "根据你使用的智能体提供操作步骤，生成的个人手册格式相同。",
   "View Neil's full Personal Manual": "查看尼尔的完整个人手册",
   "WORK TYPE · 16 WAYS OF WORKING": "工作类型 · 16 种工作风格",
   "How do you work?": "你习惯怎样工作？",
@@ -274,7 +326,6 @@
   "yours.": "属于你。",
   "From Mercury to Apollo, from the Shuttle to Artemis—every new chapter builds on what came before. Start your own Living Book.": "从水星计划到阿波罗计划，从航天飞机到阿尔忒弥斯计划，每一个新篇章都建立在过往积累之上。开始创建你自己的 Living Book。",
   "Email address": "邮箱地址",
-  "Join early access": "加入早期体验",
   "Private by design · No spam.": "注重隐私 · 不发送垃圾邮件",
   "Privacy Policy": "隐私政策",
   "Created here, saved as a Note in Memova.": "在这里创建，作为笔记保存到 Memova。",
@@ -296,7 +347,7 @@
   "Terms": "服务条款",
   "Sources": "资料来源",
   "Analytics privacy choices": "访问分析隐私选项",
-  "Memova uses Google Analytics to understand which pages and iOS early-access steps are useful. You can allow or reject analytics and change your choice later.": "Memova 使用 Google Analytics 了解哪些页面和 iOS 早期体验步骤对用户有帮助。你可以允许或拒绝访问分析，并随时更改选择。",
+  "Memova uses Google Analytics to understand which pages and app-download steps are useful. You can allow or reject analytics and change your choice later.": "Memova 使用 Google Analytics 了解哪些页面和 App 下载步骤对用户有帮助。你可以允许或拒绝访问分析，并随时更改选择。",
   "Privacy details": "隐私详情",
   "Reject analytics": "拒绝访问分析",
   "Allow analytics": "允许访问分析",
@@ -448,7 +499,7 @@
   const textSources = new WeakMap();
   const attributeSources = new WeakMap();
   const EXCLUDE = 'script,style,noscript,svg,iframe,textarea,input,pre,code,[contenteditable],[data-no-translate],memova-language-switch,.five-account-name,.five-account-avatar,.agent-instruction-prompt,.agent-prompt-text';
-  const fullPage = () => /^\/(?:pricing\/?)?$/.test(location.pathname);
+  const fullPage = () => /^\/(?:pricing\/?|personal-manual\/?)?$/.test(location.pathname);
   const eligible = element => element && !element.closest(EXCLUDE) &&
     (fullPage() || element.closest('.five-header,.memova-app-download'));
   const translate = value => {
@@ -519,6 +570,8 @@
       document.documentElement.lang = language === "zh" ? "zh-CN" : "en";
       document.title = location.pathname.startsWith("/pricing")
         ? (language === "zh" ? "价格与权益 — Memova 免费版与 Pro" : "Pricing — Memova Free & Pro")
+        : location.pathname.startsWith("/personal-manual")
+        ? (language === "zh" ? "个人手册 — Memova" : "Personal Manual — Memova")
         : (language === "zh" ? "Memova — 让你的经历与想法被真正理解" : "Memova — Your Context, Finally Understood");
     }
     translateTree(document.body);

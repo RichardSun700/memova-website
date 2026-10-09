@@ -5,6 +5,7 @@
       tab: "HTML Page",
       title: "Create a Page from the full context.",
       body: "Memova combines the Apollo 11 Technical Crew Debriefing with selected Note highlights, then prepares an interactive mission debrief. The Page is generated only after you choose the output.",
+      phoneBody: "Bring your notes and their context into an interactive Page. Choose the output, review it, then confirm generation.",
       ui: "./action-connect-assets/html-action-prd.png",
       uiAlt: "Memova HTML Action screen based on the Apollo 11 Technical Crew Debriefing",
       background: "./action-connect-assets/understanding-tab1-starry-sky.png",
@@ -23,6 +24,8 @@
       id: "email",
       tab: "Follow-up Email",
       title: "Draft Neil's follow-up from the debrief.",
+      phoneTitle: "Turn your notes into a follow-up.",
+      phoneBody: "Prepare an email from the findings in your notes. Connect Gmail or Outlook, review the draft, and confirm before anything is sent.",
       body: "Memova turns Neil Armstrong's simulator-fidelity finding into a reviewed follow-up for the training team. Gmail or Outlook must be connected, and nothing is sent until you confirm.",
       ui: "./action-connect-assets/email-action-prd.png",
       uiAlt: "Memova Email Action screen with Gmail connected and a follow-up preview",
@@ -42,6 +45,8 @@
       id: "calendar",
       tab: "Calendar",
       title: "Schedule Neil's follow-up review.",
+      phoneTitle: "Plan your next review.",
+      phoneBody: "Turn next steps into a calendar draft. With your permission, Memova checks availability and shows conflicts before you confirm.",
       body: "Memova turns Neil Armstrong's recommendation into a calendar draft for smaller, focused training sessions. With permission, it checks availability and shows conflicts before you confirm.",
       ui: "./action-connect-assets/calendar-action-prd.png",
       uiAlt: "Memova Calendar Action screen showing an Apollo 11 lessons review and scheduling conflict",
@@ -62,6 +67,7 @@
   function installActionConnect() {
     const section = document.getElementById("act");
     if (!section || section.dataset.actionIntegration === "granola-prd") return;
+    const phoneQuery = window.matchMedia("(max-width: 760px)");
 
     const previous = section.querySelector(".ac-shell, .ac-granola-shell");
     if (previous) previous.remove();
@@ -73,15 +79,16 @@
     const shell = document.createElement("div");
     shell.className = "ac-granola-shell";
     shell.innerHTML = `
-      <header class="ac-granola-intro">
-        <span>03 · Action + Connect</span>
-        <h2>Turn understanding into action.</h2>
-        <p>Memova first turns a Note into findings, open questions, and next steps. That understanding can then become an HTML Page, a follow-up email, or a calendar review—only after you confirm.</p>
+      <header class="ac-granola-intro" id="capture">
+        <span>02 · Knowledge into action</span>
+        <h2>From context to content.</h2>
+        <p>Collect notes, voice, and files. Memova connects their context into a knowledge base, ready to create Pages and share your progress—after your review.</p>
+        <p class="ac-context-path">Context → Knowledge → Content</p>
       </header>
 
       <div class="ac-granola-feature">
         <nav class="ac-output-tabs" role="tablist" aria-label="Suggested Action output types">
-          ${OUTPUTS.map((item, index) => `<button class="ac-output-tab${index === 0 ? " is-active" : ""}" id="ac-tab-${item.id}" type="button" role="tab" aria-controls="ac-output-panel" aria-selected="${index === 0 ? "true" : "false"}" tabindex="${index === 0 ? "0" : "-1"}" data-output="${item.id}"><span>${item.tab}</span><small>0${index + 1}</small></button>`).join("")}
+          ${OUTPUTS.map((item, index) => `<button class="ac-output-tab${index === 0 ? " is-active" : ""}" id="ac-tab-${item.id}" type="button" role="tab" aria-controls="ac-output-panel" aria-selected="${index === 0 ? "true" : "false"}" tabindex="${index === 0 ? "0" : "-1"}" data-output="${item.id}"><span>${item.tab}</span></button>`).join("")}
         </nav>
 
         <div class="ac-feature-main" id="ac-output-panel" role="tabpanel" aria-labelledby="ac-tab-html">
@@ -123,6 +130,20 @@
         </div>
       </div>`;
 
+    if (phoneQuery.matches) {
+      // On phones the product itself is the preview; remove decorative assets
+      // before assigning URLs or decoding images.
+      shell.querySelectorAll(".ac-stage-background, .ac-meeting-focus, .ac-input-output-marker").forEach(node => node.remove());
+      const preview = document.createElement("a");
+      preview.dataset.acOpenPreview = "true";
+      preview.target = "_blank";
+      preview.rel = "noopener";
+      preview.setAttribute("aria-label", "Open full-size product preview");
+      const wrap = shell.querySelector(".ac-stage-ui-wrap");
+      preview.append(wrap.querySelector("img"));
+      wrap.append(preview);
+      shell.querySelector("figcaption").textContent = "Product preview · tap to enlarge";
+    }
     section.appendChild(shell);
 
     const tabs = Array.from(shell.querySelectorAll(".ac-output-tab"));
@@ -143,8 +164,30 @@
     let imagesReady = false;
     let renderVersion = 0;
     let playFrame = 0;
+    let nearViewport = false;
+    let loadedId;
+
+    function loadArtwork() {
+      if (!nearViewport || activeId === loadedId) return;
+      const item = OUTPUTS.find(output => output.id === activeId);
+      if (!item) return;
+      const version = renderVersion;
+      loadedId = item.id;
+      const images = [[ui, item.ui], [background, item.background], [cutout, item.cutout]]
+        .filter(([image]) => image);
+      if (phoneQuery.matches && item.uiSrcSet) { ui.srcset = item.uiSrcSet; ui.sizes = "calc(100vw - 40px)"; }
+      images.forEach(([image, src]) => { image.src = src; });
+      const preview = shell.querySelector("[data-ac-open-preview]");
+      if (preview) preview.href = item.ui;
+      Promise.all(images.map(([image]) => image.decode().catch(() => {}))).then(() => {
+        if (version !== renderVersion) return;
+        imagesReady = true;
+        playSequence();
+      });
+    }
 
     function playSequence() {
+      if (phoneQuery.matches) { stage.classList.add("is-playing"); return; }
       if (!hasEntered || !imagesReady) return;
       window.cancelAnimationFrame(playFrame);
       stage.classList.remove("is-playing");
@@ -174,26 +217,20 @@
         tab.tabIndex = selected ? 0 : -1;
       });
 
-      title.textContent = item.title;
-      body.textContent = item.body;
-      ui.src = item.ui;
+      title.textContent = phoneQuery.matches ? (item.phoneTitle || item.title) : item.title;
+      body.textContent = phoneQuery.matches ? item.phoneBody : item.body;
       ui.alt = item.uiAlt;
-      background.src = item.background;
-      background.alt = item.backgroundAlt;
+      if (background) background.alt = item.backgroundAlt;
       rule.textContent = item.rule;
-      cutout.src = item.cutout;
-      cutout.alt = item.cutoutAlt;
-      voice.textContent = item.voice;
-      quote.textContent = item.quote;
-      link.textContent = item.link;
-      markerOutput.textContent = item.markerOutput;
+      if (cutout) cutout.alt = item.cutoutAlt;
+      if (voice) voice.textContent = item.voice;
+      if (quote) quote.textContent = item.quote;
+      if (link) link.textContent = item.link;
+      if (markerOutput) markerOutput.textContent = item.markerOutput;
 
-      // Start with decoded artwork, and ignore stale loads after rapid tab changes.
-      Promise.all([ui, background, cutout].map(img => img.decode().catch(() => {}))).then(function () {
-        if (version !== renderVersion) return;
-        imagesReady = true;
-        playSequence();
-      });
+      // decode() initiates a request even for a lazy image. Wait until this
+      // chapter is near the viewport, and load only the selected output.
+      loadArtwork();
     }
 
     tabs.forEach((tab, index) => {
@@ -217,9 +254,16 @@
       playSequence();
       observer.disconnect();
     }, { threshold: .12, rootMargin: "-72px 0px 0px" });
+    const mediaObserver = new IntersectionObserver(function (entries) {
+      if (!entries.some(entry => entry.isIntersecting)) return;
+      nearViewport = true;
+      loadArtwork();
+      mediaObserver.disconnect();
+    }, { rootMargin: "240px 0px" });
 
     render(OUTPUTS[0].id);
     observer.observe(stage);
+    mediaObserver.observe(stage);
   }
 
   if (document.readyState === "loading") {

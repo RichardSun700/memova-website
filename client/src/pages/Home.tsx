@@ -12,7 +12,7 @@ const WAITLIST_SMOOTH_SETTLE_DELAYS = [900, 1800] as const;
 
 function getWaitlistScrollTarget() {
   return (
-    document.getElementById("early-access-email") ??
+    document.querySelector("#waitlist .memova-download-button") ??
     document.getElementById("waitlist")
   );
 }

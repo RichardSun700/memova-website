@@ -3,6 +3,7 @@
   const ASSET_ROOT = "./social-platform-logos";
   const CONNECTOR_COPIES = 5;
   const CONNECTOR_SPEED = 30;
+  const PHONE_CONNECTOR_SPEED = 18;
   const CONNECTOR_MIN_SCALE = 0.59;
   const platforms = [
     { id: "x", name: "X", icon: `${ASSET_ROOT}/x.svg` },
@@ -91,10 +92,10 @@
           <div class="memova-social-rail__left">
             <div class="memova-social-rail__heading">
               <p>ONE PAGE · EVERY CHANNEL</p>
-              <h2 id="memova-social-rail-title">Publish once. <br><em>Feel native everywhere.</em></h2>
+              <h2 id="memova-social-rail-title">Build in public. <br><em>From your everyday progress.</em></h2>
             </div>
             <div class="memova-social-rail__explanation-copy">
-              <p>Memova matches your social voice and each platform’s native tone, then flexibly adapts the copy, imagery, crop, and visual style—while keeping the source context intact.</p>
+              <p>Turn product progress, decisions, and reflections into social content. Memova adapts your voice for each platform, so founders can build in public without losing the context behind the story.</p>
               <strong>Connect X or LinkedIn with OAuth, review once, and publish directly from Memova in one click.</strong>
             </div>
           </div>
@@ -350,6 +351,7 @@
     const shells = Array.from(viewport.querySelectorAll("[data-social-card-shell]"));
     const cards = shells.map((shell) => shell.querySelector("[data-social-card]"));
     const reducedMotionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const phoneQuery = window.matchMedia("(max-width: 760px)");
     let animationFrame = 0;
     let cycleWidth = 0;
     let position = 0;
@@ -360,7 +362,7 @@
 
     const renderGeometry = () => {
       if (!shells.length || cards.some((card) => !card)) return;
-      if (reducedMotionQuery.matches) {
+      if (reducedMotionQuery.matches || phoneQuery.matches) {
         cards.forEach((card) => {
           if (!card) return;
           card.style.scale = "1";
@@ -420,6 +422,12 @@
     };
 
     const measure = () => {
+      if (phoneQuery.matches && reducedMotionQuery.matches) {
+        position = 0;
+        viewport.scrollLeft = 0;
+        renderGeometry();
+        return;
+      }
       const repeatedCard = shells[platforms.length];
       cycleWidth = repeatedCard
         ? repeatedCard.offsetLeft - shells[0].offsetLeft
@@ -450,10 +458,10 @@
       if (!previousTime) previousTime = time;
       const elapsed = Math.min(Math.max((time - previousTime) / 1000, 0), 0.1);
       previousTime = time;
-      position += CONNECTOR_SPEED * elapsed;
+      position += (phoneQuery.matches ? PHONE_CONNECTOR_SPEED : CONNECTOR_SPEED) * elapsed;
       normalizePosition();
       viewport.scrollLeft = position;
-      renderGeometry();
+      if (!phoneQuery.matches) renderGeometry();
       animationFrame = window.requestAnimationFrame(tick);
     };
 
@@ -465,7 +473,7 @@
     const handleScroll = () => {
       position = viewport.scrollLeft;
       normalizePosition();
-      renderGeometry();
+      if (!phoneQuery.matches) renderGeometry();
     };
     const handlePointerDown = () => {
       isPointerDown = true;
@@ -501,6 +509,7 @@
     window.addEventListener("pointercancel", handlePointerUp, { passive: true });
     document.addEventListener("visibilitychange", handleVisibilityChange);
     reducedMotionQuery.addEventListener?.("change", handleReducedMotionChange);
+    phoneQuery.addEventListener?.("change", handleReducedMotionChange);
     intersectionObserver.observe(viewport);
     resizeObserver.observe(viewport);
     measure();

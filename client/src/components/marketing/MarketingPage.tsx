@@ -8,7 +8,7 @@ type MarketingPageProps = {
   children: ReactNode;
 };
 
-export function IosEarlyAccessCta() {
+export function DownloadAppCta() {
   return (
     <section className="rounded-[28px] border border-[#DDE6FF] bg-[var(--memova-navy)] px-6 py-10 text-center text-white shadow-xl md:px-12">
       <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-white/60">
@@ -18,14 +18,14 @@ export function IosEarlyAccessCta() {
         Bring your everyday context into the workflows that come next.
       </h2>
       <p className="mx-auto mt-4 max-w-xl text-sm leading-7 text-white/70">
-        Join early access for the first iOS release. You choose what to capture, and you review consequential actions before they happen.
+        Download Memova from the App Store. You choose what to capture, and you review consequential actions before they happen.
       </p>
       <a
-        href="/#waitlist"
-        data-analytics-event="ios_early_access_click"
-        className="mt-7 inline-flex rounded-full bg-white px-7 py-3 text-sm font-bold text-[var(--memova-navy)] shadow-lg transition-transform hover:-translate-y-0.5"
+        href="https://apps.apple.com/us/app/memova-ai/id6796284954"
+        target="_blank" rel="noopener noreferrer"
+        className="memova-download-button mt-7 inline-flex rounded-full bg-white px-7 py-3 text-sm font-bold text-[var(--memova-navy)] shadow-lg transition-transform hover:-translate-y-0.5"
       >
-        Join iOS Early Access
+        Download the app
       </a>
     </section>
   );
@@ -50,11 +50,11 @@ export default function MarketingPage({ eyebrow, title, intro, children }: Marke
             <a href="/mcp" className="hover:text-[var(--memova-navy)]">MCP</a>
           </nav>
           <a
-            href="/#waitlist"
-            data-analytics-event="ios_early_access_click"
-            className="rounded-full bg-[var(--memova-navy)] px-4 py-2 text-[12px] font-bold text-white sm:px-5 sm:text-[13px]"
+            href="https://apps.apple.com/us/app/memova-ai/id6796284954"
+            target="_blank" rel="noopener noreferrer"
+            className="memova-download-button rounded-full bg-[var(--memova-navy)] px-4 py-2 text-[12px] font-bold text-white sm:px-5 sm:text-[13px]"
           >
-            Join iOS Early Access
+            Download the app
           </a>
         </div>
       </header>
@@ -79,7 +79,7 @@ export default function MarketingPage({ eyebrow, title, intro, children }: Marke
           <aside className="rounded-2xl border border-[#DDE6FF] bg-white px-5 py-4 text-center text-sm font-semibold text-[#637083]">
             You choose what to capture. Memova keeps sources visible and asks you to review and approve consequential actions.
           </aside>
-          <IosEarlyAccessCta />
+          <DownloadAppCta />
         </div>
       </main>
       <SiteFooter />

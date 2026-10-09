@@ -93,6 +93,7 @@ function installChoiceSurface() {
     #memova-analytics-choices{position:fixed;inset:auto 16px 16px 16px;z-index:2147483646;display:none;max-width:620px;margin:auto;padding:18px;border:1px solid #dcebf6;border-radius:18px;background:#fff;color:#0f2b3c;box-shadow:0 18px 50px rgba(15,43,60,.16);font:14px/1.55 Inter,ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
     #memova-analytics-choices strong{display:block;margin-bottom:5px;font-size:15px}
     #memova-analytics-choices p{margin:0;color:#526b7d}
+    #memova-analytics-choices .memova-consent-short{display:none}
     #memova-analytics-choices a{color:#1f69d5}
     #memova-analytics-choices .memova-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
     #memova-analytics-choices button,#memova-analytics-manage{min-height:40px;padding:9px 15px;border:1px solid #cbdcec;border-radius:999px;background:#fff;color:#0f2b3c;font:700 12px/1 Inter,ui-sans-serif,sans-serif;cursor:pointer}
@@ -108,7 +109,7 @@ function installChoiceSurface() {
   panel.setAttribute("aria-label", "Analytics privacy choices");
   panel.innerHTML = `
     <strong>Analytics privacy choices</strong>
-    <p>Memova uses Google Analytics to understand which pages and iOS early-access steps are useful. You can allow or reject analytics and change your choice later. <a href="/privacy">Privacy details</a>.</p>
+    <p><span class="memova-consent-full">Memova uses Google Analytics to understand which pages and app-download steps are useful. You can allow or reject analytics and change your choice later. </span><span class="memova-consent-short">Allow Google Analytics to help improve Memova? You can reject or change this anytime. </span><a href="/privacy">Privacy details</a>.</p>
     <div class="memova-actions">
       <button type="button" data-choice="denied">Reject analytics</button>
       <button type="button" data-choice="granted">Allow analytics</button>

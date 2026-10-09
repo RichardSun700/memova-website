@@ -1,5 +1,6 @@
 (() => {
   const SECTION_ID = "share";
+  const phoneQuery = window.matchMedia("(max-width: 760px)");
   const ASSET_ROOT = "./publish-phone-fan";
   const items = [
     { id: "x", label: "X", kind: "image", src: `${ASSET_ROOT}/x-phone-v2.webp` },
@@ -113,6 +114,7 @@
     let mediaLoaded = false;
 
     const loadMedia = () => {
+      if (phoneQuery.matches) return;
       if (mediaLoaded) return;
       mediaLoaded = true;
       phoneList.querySelectorAll("img[data-src]").forEach(image => {
@@ -123,7 +125,7 @@
 
     const syncVideos = () => {
       if (visible) loadMedia();
-      const shouldPlay = visible && !reducedMotion && document.visibilityState !== "hidden";
+      const shouldPlay = visible && !phoneQuery.matches && !reducedMotion && document.visibilityState !== "hidden";
       videos.forEach(video => {
         video.muted = true;
         if (shouldPlay) {
@@ -208,7 +210,7 @@
 
     const motionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
     const applyMotionPreference = () => {
-      reducedMotion = motionQuery.matches;
+      reducedMotion = motionQuery.matches || phoneQuery.matches;
       if (reducedMotion) renderProgress(1, true);
       else queueUpdate();
       syncVideos();
@@ -237,6 +239,7 @@
     window.addEventListener("resize", queueUpdate);
     document.addEventListener("visibilitychange", syncVideos);
     motionQuery.addEventListener?.("change", applyMotionPreference);
+    phoneQuery.addEventListener?.("change", applyMotionPreference);
     applyMotionPreference();
     renderProgress(0, true);
     queueUpdate();
@@ -245,6 +248,12 @@
   function boot() {
     const section = document.getElementById(SECTION_ID);
     if (section) {
+      // This duplicate montage is absent from the mobile reading flow.
+      // Keep desktop initialization available if the viewport becomes wider.
+      if (phoneQuery.matches && section.dataset.shareSocialFanReady !== "true") {
+        phoneQuery.addEventListener?.("change", () => { if (!phoneQuery.matches) install(section); }, { once: true });
+        return true;
+      }
       install(section);
       return true;
     }

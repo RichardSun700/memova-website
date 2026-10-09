@@ -5,33 +5,33 @@
   function updatePagination(section) {
     document.querySelectorAll(".five-page-number").forEach((number) => {
       const value = number.textContent.trim().split("/")[0].trim();
-      number.textContent = `${value} / 06`;
+      number.textContent = `${value} / 05`;
     });
 
     const shareChapter = document.querySelector("#share .share-social-fan__intro > p");
-    if (shareChapter) shareChapter.textContent = "04 · SHARE";
+    if (shareChapter) shareChapter.textContent = "03 · SHARE";
 
     const rail = document.querySelector('.five-page-rail[aria-label="Homepage sections"]');
     if (!rail || rail.querySelector('a[href="#return"]')) return;
 
     const shareLink = rail.querySelector('a[href="#share"]');
-    if (shareLink) shareLink.setAttribute("aria-label", "4. Share");
+    if (shareLink) shareLink.setAttribute("aria-label", "3. Share");
 
     const waitlistLink = rail.querySelector('a[href="#waitlist"]');
     const returnLink = document.createElement("a");
     returnLink.href = "#return";
-    returnLink.setAttribute("aria-label", "5. Feedback + Living Book");
-    returnLink.innerHTML = "<span>05</span>";
+    returnLink.setAttribute("aria-label", "4. Feedback + Living Book");
+    returnLink.innerHTML = "<span>04</span>";
     rail.insertBefore(returnLink, waitlistLink);
 
     if (waitlistLink) {
-      waitlistLink.setAttribute("aria-label", "6. Join early access");
+      waitlistLink.setAttribute("aria-label", "5. Download the app");
       const number = waitlistLink.querySelector("span");
-      if (number) number.textContent = "06";
+      if (number) number.textContent = "05";
     }
 
     const ownNumber = section.querySelector(".five-page-number");
-    if (ownNumber) ownNumber.textContent = "05 / 06";
+    if (ownNumber) ownNumber.textContent = "04 / 05";
   }
 
   const sidebarMarkup = () => `
@@ -149,12 +149,12 @@
     section.className = "memova-return-story";
     section.setAttribute("aria-labelledby", "memova-return-title");
     section.innerHTML = `
-      <span class="five-page-number" aria-hidden="true">05 / 06</span>
+      <span class="five-page-number" aria-hidden="true">04 / 05</span>
 
       <header class="memova-return-story__intro">
-        <p>05 · FEEDBACK + LIVING BOOK</p>
-        <h2 id="memova-return-title">What comes back <br>becomes context.</h2>
-        <div>In this imagined Neil Armstrong account, feedback from a shared Page stays attached to its source. Neil chooses what returns as a private Note in his Living Book.</div>
+        <p>04 · FEEDBACK + LIVING BOOK</p>
+        <h2 id="memova-return-title"><span class="mobile-heading-phrase">What comes back</span> <br><span class="mobile-heading-phrase">becomes context.</span></h2>
+        <div>Feedback stays connected to what you shared. You choose what becomes a private Note, ready to inform the next thing you build or publish.</div>
       </header>
 
       <div class="memova-return-story__layout">
@@ -211,15 +211,18 @@
     const dismissButton = section.querySelector("[data-return-dismiss]");
     const demos = [...section.querySelectorAll("[data-return-demo]")];
     const motionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const phoneQuery = window.matchMedia("(max-width: 760px)");
     let frame = 0;
     let activeState = -1;
 
     function setState(nextState) {
       const state = Math.max(0, Math.min(2, nextState));
-      if (state === activeState) return;
       activeState = state;
       section.dataset.returnState = String(state);
-      chapters.forEach((chapter, index) => chapter.classList.toggle("is-active", index === state));
+      chapters.forEach((chapter, index) => {
+        chapter.classList.toggle("is-active", index === state);
+        chapter.hidden = phoneQuery.matches && index !== state;
+      });
       stepButtons.forEach((button, index) => {
         button.classList.toggle("is-active", index === state);
         button.setAttribute("aria-current", index === state ? "step" : "false");
@@ -227,6 +230,7 @@
     }
 
     function scrollToState(state) {
+      if (phoneQuery.matches) { setState(state); return; }
       chapters[state]?.scrollIntoView({
         block: "start",
         behavior: motionQuery.matches ? "auto" : "smooth",
@@ -235,6 +239,7 @@
 
     function update() {
       frame = 0;
+      if (phoneQuery.matches) return;
       const anchor = Math.min(window.innerHeight * 0.34, 310) + 72;
       let bestIndex = 0;
       let bestDistance = Number.POSITIVE_INFINITY;
@@ -258,6 +263,7 @@
     }
 
     function queueUpdate() {
+      if (phoneQuery.matches) return;
       if (frame) return;
       frame = requestAnimationFrame(update);
     }
@@ -271,6 +277,7 @@
     window.addEventListener("scroll", queueUpdate, { passive: true });
     window.addEventListener("resize", queueUpdate);
     motionQuery.addEventListener?.("change", queueUpdate);
+    phoneQuery.addEventListener?.("change", () => { setState(activeState < 0 ? 0 : activeState); queueUpdate(); });
     setState(0);
     queueUpdate();
   }

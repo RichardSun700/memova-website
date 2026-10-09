@@ -35,7 +35,7 @@ function analyticsFixture(complete = false, supportsIdle = true) {
   return { scripts, window, windowListeners, documentListeners, idle };
 }
 
-function socialFixture(reducedMotion = false) {
+function socialFixture(reducedMotion = false, phone = false) {
   const { document, window: domWindow } = parseHTML("<html><body><section id='share'></section></body></html>");
   const observers: any[] = [];
   const play = vi.fn(() => Promise.resolve());
@@ -49,7 +49,7 @@ function socialFixture(reducedMotion = false) {
   domWindow.HTMLElement.prototype.getBoundingClientRect = () => ({ width: 390, height: 844, top: 0 }) as DOMRect;
   const window = {
     innerHeight: 844,
-    matchMedia: () => ({ matches: reducedMotion, addEventListener: vi.fn() }),
+    matchMedia: (query: string) => ({ matches: query.includes("max-width") ? phone : reducedMotion, addEventListener: vi.fn() }),
     addEventListener: vi.fn(),
   };
   class IntersectionObserver {
@@ -66,6 +66,12 @@ function socialFixture(reducedMotion = false) {
 }
 
 describe("noncritical homepage requests", () => {
+  it("does not mount or request the duplicate sharing montage on phones", () => {
+    const fixture = socialFixture(false, true);
+    expect(fixture.document.querySelectorAll("video,img")).toHaveLength(0);
+    expect(fixture.observers).toHaveLength(0);
+    expect(fixture.play).not.toHaveBeenCalled();
+  });
   it("queues consent and events without requesting Google until after load and idle", () => {
     const fixture = analyticsFixture();
     fixture.window.memovaAnalytics.trackEvent("early_access_click");

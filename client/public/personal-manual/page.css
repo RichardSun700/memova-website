@@ -1,0 +1,59 @@
+* { box-sizing: border-box; }
+body.manual-page { margin: 0; color: #24365d; background: #fbfcff; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", sans-serif; line-height: 1.5; }
+.manual-page button { font-family: inherit; }
+.manual-page a:focus-visible, .manual-page button:focus-visible { outline: 3px solid #2864f5; outline-offset: 3px; }
+.manual-page-header { display: flex; justify-content: space-between; align-items: center; gap: 20px; padding: 20px clamp(20px, 5vw, 80px); border-bottom: 1px solid #e2e7f2; background: #fff; }
+.manual-page-brand { display: flex; align-items: center; gap: 12px; color: #24365d; text-decoration: none; font-size: 17px; font-weight: 700; letter-spacing: .15em; }
+.manual-page-header nav, .manual-page-footer nav { display: flex; align-items: center; gap: 24px; }
+.manual-page-back, .manual-page-footer a { display: inline-flex; align-items: center; min-height: 44px; color: #455e93; font-size: 14px; text-decoration: none; }
+.manual-page #capture { min-height: 70vh; padding: 64px clamp(20px, 5vw, 80px); }
+.manual-page #capture.integrated-agent-manual { min-height: 0; align-items: start; grid-template-columns: minmax(0, .85fr) minmax(0, 1.15fr); }
+.manual-page #capture .agent-section-index { margin-bottom: 24px; }
+.manual-page #capture .agent-manual-copy h1 { margin: 0; font-family: Georgia, "Songti SC", serif; font-weight: 400; font-size: clamp(38px, 4vw, 64px); line-height: 1.12; }
+.manual-page #capture .agent-manual-copy > p { font-size: 16px; line-height: 1.7; }
+.manual-page #capture .agent-client-switch { display: flex; }
+.manual-page-footer { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 20px; padding: 24px clamp(20px, 5vw, 80px); border-top: 1px solid #e2e7f2; color: #64718a; font-size: 13px; }
+
+@media (max-width: 980px) {
+  .manual-page #capture.integrated-agent-manual { grid-template-columns: 1fr; }
+  .manual-page #capture .agent-manual-copy { max-width: 680px; }
+  .manual-page #capture .agent-product-proof { width: min(100%, 760px); margin-inline: auto; }
+}
+@media (max-width: 760px) {
+  .manual-page-header { padding: 14px 20px; gap: 12px; }
+  .manual-page-header nav { gap: 12px; }
+  .manual-page-brand { font-size: 13px; gap: 8px; }
+  .manual-page-brand img { width: 32px; height: 32px; }
+  .manual-page-back { font-size: 12px; }
+  .manual-page #capture.integrated-agent-manual { padding: 36px 20px; gap: 28px; }
+  .manual-page #capture .agent-section-index { margin-bottom: 0; }
+  .manual-page #capture .agent-manual-copy h1 { font-size: 34px !important; }
+  .manual-page #capture .agent-manual-copy > p { font-size: 15px; }
+  .manual-page-footer nav { gap: 18px; flex-wrap: wrap; }
+}
+
+/* Preserve the original window and flip cards; give desktop setup enough room
+   for the controls instead of clipping them to the illustration height. */
+@media (min-width: 761px) {
+  .manual-page #capture.integrated-agent-manual[data-manual-state="audience"] .agent-product-proof {
+    height: auto; max-height: none;
+  }
+  .manual-page #capture.integrated-agent-manual[data-manual-state="audience"] .agent-flow-window {
+    position: relative; inset: auto; margin-left: auto; height: auto;
+    grid-template-rows: 52px auto 48px;
+  }
+  .manual-page #capture .agent-flow-window__body--client-choice {
+    grid-template-rows: auto auto auto; overflow: visible;
+  }
+  .manual-page #capture .agent-client-options { height: auto; }
+  .manual-page #capture .agent-client-flip,
+  .manual-page #capture .agent-client-flip__inner { height: auto; }
+  .manual-page #capture .agent-client-flip__inner { display: grid; grid-template-columns: minmax(0, 1fr); }
+  .manual-page #capture .agent-client-flip__face {
+    position: relative; inset: auto; grid-area: 1 / 1; height: auto;
+  }
+  .manual-page #capture .agent-client-flip__back { grid-template-rows: auto auto auto; }
+  .manual-page #capture .agent-client-flip__prompts { grid-template-rows: none; grid-auto-rows: auto; }
+  .manual-page #capture .agent-compact-instruction { grid-template-rows: auto auto; overflow: visible; }
+  .manual-page #capture .agent-compact-instruction p { overflow: visible; overflow-wrap: anywhere; }
+}
