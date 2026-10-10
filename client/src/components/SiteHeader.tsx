@@ -55,6 +55,16 @@ export default function SiteHeader({ current }: { current: string }) {
           />
           <span>MEMOVA</span>
         </a>
+        <a
+          className="memova-download-button five-mobile-app-store"
+          href="https://apps.apple.com/us/app/memova-ai/id6796284954"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Download Memova AI on the App Store"
+          onClick={() => setOpen(false)}
+        >
+          <img src="/brand/app-store-download-en.svg" alt="" width="120" height="40" />
+        </a>
         <button
           ref={menuRef}
           className="five-menu"
@@ -175,6 +185,9 @@ export default function SiteHeader({ current }: { current: string }) {
                 Sign in
               </a>
             )}
+          </div>
+          <div className="five-mobile-language">
+            {createElement("memova-language-switch")}
           </div>
         </nav>
         {createElement("memova-language-switch")}

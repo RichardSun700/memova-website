@@ -1,4 +1,10 @@
 .social-context-showcase { display: none; }
+.social-context-showcase__mobile-purpose,
+.social-context-showcase__mobile-details,
+.social-context-showcase__mobile-review,
+.social-context-showcase__mobile-bridge,
+.social-context-showcase__feedback-next,
+.meeting-social-demo__mobile-choice { display: none; }
 .social-showcase-dialog:not([open]) { display: none; }
 .social-context-showcase__disclosure { min-width: 0; padding: 16px 20px; border-left: 3px solid #455e93; border-radius: 0 12px 12px 0; background: #f4f6fc; color: #526381; font-size: 13px; line-height: 1.7; }
 .social-context-showcase__disclosure > strong { display: block; color: #24365d; font-size: 14px; line-height: 1.5; }
@@ -271,4 +277,68 @@
   .social-context-showcase__disclosure { padding: 14px 15px; }
   .social-showcase-dialog__disclosure { margin: 14px 12px 0; }
   .social-showcase-dialog__note { padding: 0 15px 16px; }
+}
+
+/* The phone chapter is one readable example: highlight, platform, draft. */
+@media (max-width: 760px) {
+  #social-distribution[data-desktop-showcase] { padding: 48px 0 24px; background: #fff; }
+  #social-distribution[data-desktop-showcase] .memova-social-rail__inner { width: calc(100% - 40px); max-width: 520px; }
+  #social-distribution .social-context-showcase__intro { gap: 12px; margin-bottom: 24px; }
+  #social-distribution .social-context-showcase__eyebrow { margin-bottom: 14px; font-size: 11px; letter-spacing: .06em; }
+  #social-distribution .social-context-showcase__intro h2 { font-family: "DM Serif Display", Georgia, "Songti SC", serif; font-size: clamp(28px,8.2vw,34px); line-height: 1.25; font-weight: 400; letter-spacing: -.025em; }
+  #social-distribution .social-context-showcase__intro h2 > span,
+  #social-distribution .social-context-showcase__intro h2 > em { display: inline-block; max-width: 100%; }
+  #social-distribution .social-context-showcase__summary > p { font-size: 15px; line-height: 1.7; }
+  #social-distribution .social-context-showcase__flow { gap: 0; }
+  #social-distribution .meeting-social-demo { border: 0; border-radius: 0; background: none; overflow: visible; }
+  #social-distribution .meeting-social-demo__context { padding: 0; background: none; }
+  #social-distribution .meeting-social-demo__heading { gap: 9px; }
+  #social-distribution .meeting-social-demo__heading > div { flex: 1; min-width: 0; }
+  #social-distribution .meeting-social-demo__mobile-choice { display: block; flex: 0 0 112px; max-width: 112px; min-height: 44px; padding: 6px 5px; border: 1px solid #e0e6f2; border-radius: 6px; background: #f8faff; color: #38599e; font: 500 16px/1.5 Inter, ui-sans-serif, system-ui, sans-serif; cursor: pointer; }
+  #social-distribution .meeting-social-demo__heading > .mobile-app-entry-icon { flex: 0 0 44px; }
+  #social-distribution .meeting-social-demo__heading p,
+  #social-distribution .meeting-social-demo__flow,
+  #social-distribution .meeting-social-demo__highlight-heading,
+  #social-distribution .meeting-social-demo__actions { display: none; }
+  #social-distribution .meeting-social-demo__heading h3 { font-family: Inter, ui-sans-serif, system-ui, sans-serif; font-size: 13px; line-height: 1.5; font-weight: 600; }
+  #social-distribution .meeting-social-demo__caveat { display: none; }
+  #social-distribution .meeting-social-demo__highlights { padding: 0; }
+  #social-distribution .meeting-social-demo__choices { display: none; }
+  #social-distribution .meeting-social-demo__choices button { padding: 8px 10px; border: 0; border-radius: 6px; background: #f5f7fb; color: #65748e; font-size: 12px; }
+  #social-distribution .meeting-social-demo__choices button[aria-pressed="true"] { background: #eaf0fe; color: #38599e; }
+  #social-distribution .meeting-social-demo__highlights blockquote { margin: 16px 0 8px; padding-left: 13px; border-left: 2px solid #8398e9; font-family: "DM Serif Display", Georgia, "Songti SC", serif; font-size: 20px; line-height: 1.5; font-weight: 400; text-wrap: pretty; }
+  #social-distribution .meeting-social-demo__quote-source { padding-left: 15px; font-size: 11px; }
+  #social-distribution .meeting-social-demo__quote-source > span:last-child > span { display: none; }
+  #social-distribution .social-context-showcase__mobile-bridge { display: flex; flex-direction: column; align-items: center; height: 30px; margin-top: 8px; color: #8b9fc8; }
+  #social-distribution .social-context-showcase__mobile-bridge::before { width: 1px; height: 9px; background: #ccd7eb; content: ""; }
+  #social-distribution .social-context-showcase__mobile-bridge > span { font-size: 18px; line-height: 21px; }
+  #social-distribution .social-context-showcase__tabs { gap: 6px; margin: 0 0 14px; padding: 0; border: 0; border-bottom: 1px solid #e0e6f2; border-radius: 0; background: none; }
+  #social-distribution .social-context-showcase__tabs button { border-radius: 0; padding: 10px 0; color: #6d7a93; font-size: 12px; }
+  #social-distribution .social-context-showcase__tabs button[aria-selected="true"] { border-bottom: 2px solid #5f7ace; color: #24365d; background: none; box-shadow: none; }
+  #social-distribution .social-context-showcase__draft { padding: 16px; border-radius: 16px; background: #fff; box-shadow: 0 8px 30px rgba(36,54,93,.04); }
+  #social-distribution .social-context-showcase__platform { display: none; }
+  #social-distribution .social-context-showcase__post { margin-top: 0; }
+  #social-distribution .social-context-showcase__post > header strong { font-size: 12px; line-height: 1.5; }
+  #social-distribution .social-context-showcase__post > header small { font-size: 11px; line-height: 1.5; }
+  #social-distribution .social-context-showcase__post-copy { font-size: 14px; line-height: 1.7; margin: 14px 0; }
+  #social-distribution .social-context-showcase__post figure { border: 0; border-radius: 10px; }
+  #social-distribution .social-context-showcase__draft > footer { padding-top: 12px; gap: 0; }
+  #social-distribution .social-context-showcase__asset-credit { display: inline-flex; min-height: 32px; align-items: center; font-size: 10px; }
+  #social-distribution .social-context-showcase__draft > footer button[data-showcase-open] { display: none; }
+  #social-distribution .social-context-showcase__draft > footer button[data-showcase-play] { margin-top: 8px; }
+  #social-distribution .social-context-showcase__mobile-review { display: grid; gap: 10px; margin-top: 14px; }
+  #social-distribution .social-context-showcase__mobile-review > p { display: none; }
+  #social-distribution .social-context-showcase__mobile-review > button { width: 100%; min-height: 48px; border-radius: 10px; font-size: 14px; }
+  #social-distribution .social-context-showcase__disclosure { margin-top: 20px; padding: 16px 0 0; border: 0; border-top: 1px solid #e0e6f2; border-radius: 0; background: none; font-size: 12px; line-height: 1.7; }
+  #social-distribution .social-context-showcase__disclosure > strong { font-size: 12px; }
+  #social-distribution .social-context-showcase__mobile-purpose { display: block; color: #6d7a93; }
+  #social-distribution .social-context-showcase__mobile-details { display: block; }
+  #social-distribution .social-context-showcase__mobile-details > summary { min-height: 44px; align-content: center; color: #38599e; cursor: pointer; }
+  #social-distribution [data-mobile-disclosure-body] > p { margin: 10px 0; }
+  #social-distribution .social-context-showcase__mobile-details .meeting-social-demo__transcript { margin-top: 16px; }
+  #social-distribution .social-context-showcase__mobile-details .meeting-social-demo__transcript > summary { display: none; }
+  #social-distribution .social-context-showcase__principles { display: none; }
+  #social-distribution .social-context-showcase__channel-note,
+  #social-distribution .social-context-showcase__feedback-next { display: none; }
+  #social-distribution .social-context-showcase__mobile-details > summary:focus-visible { outline: 3px solid #6b86e8; outline-offset: 4px; }
 }

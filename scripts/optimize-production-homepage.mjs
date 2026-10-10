@@ -57,11 +57,26 @@ export async function optimizeProductionHomepage(source, publicDir, outputDir) {
     }
     return result;
   };
+  const rocketCache = new Map();
   const emitLocalImage = async (url, base = "/") => {
     const file = localPath(url, base);
     if (!fs.existsSync(file)) throw new Error(`Missing homepage image: ${url}`);
+    const origin = path.relative(publicDir, file);
+    // These tall cutouts are displayed at at most 400 CSS pixels. Preserve
+    // the original files and artwork while serving a transparent 900px copy.
+    if (/^final-history-assets\/rocket-[\w-]+\.png$/.test(origin)) {
+      if (!rocketCache.has(file)) rocketCache.set(file, (async () => {
+        const input = fs.readFileSync(file);
+        const bytes = await sharp(input).resize({ height: 900, withoutEnlargement: true })
+          .webp({ quality: 86, alphaQuality: 100, effort: 4 }).toBuffer();
+        const rocketUrl = writeAsset(bytes, "webp", "image");
+        images.push({ origin, url: rocketUrl, sourceBytes: input.length, bytes: bytes.length });
+        return rocketUrl;
+      })());
+      return rocketCache.get(file);
+    }
     return emitImage(fs.readFileSync(file), path.extname(file).slice(1).toLowerCase(),
-      path.relative(publicDir, file));
+      origin);
   };
   const responsiveCache = new Map();
   let heroAssets;

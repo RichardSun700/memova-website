@@ -1,12 +1,30 @@
 import fs from "node:fs";
 import path from "node:path";
 import { describe, expect, it } from "vitest";
+import { runInNewContext } from "node:vm";
+import { parseHTML } from "linkedom";
 
 const homepage = fs.readFileSync(
   path.resolve(process.cwd(), "client/homepage/index.html"),
   "utf8"
 );
 const publicDir = path.resolve(process.cwd(), "client/public");
+
+function renderedHomepage(phone: boolean) {
+  const { document } = parseHTML('<html><body><div id="root"></div></body></html>');
+  const code = [...homepage.matchAll(/<script\b[^>]*>([\s\S]*?)<\/script>/gi)]
+    .find(match => match[1].includes('function ApolloHomepagePreview()'))![1];
+  runInNewContext(code, {
+    document,
+    window: {
+      location: { hostname: "memova.ai" },
+      localStorage: { getItem: () => null },
+      matchMedia: (query: string) => ({ matches: phone && /max-width: (760|900)px/.test(query) }),
+    },
+    setTimeout: () => 0,
+  }, { timeout: 5000 });
+  return document;
+}
 
 function readPngSize(fileName: string) {
   const png = fs.readFileSync(path.join(publicDir, fileName));
@@ -61,11 +79,16 @@ describe("production homepage", () => {
   });
 
   it("replaces the signup form with the existing App Store download flow", () => {
-    const downloadSection = homepage.slice(homepage.indexOf("function DownloadPage()"), homepage.indexOf("function ApolloHomepagePreview()"));
-    expect(downloadSection).not.toContain('h("form"');
-    expect(downloadSection).not.toContain('h("input"');
+    for (const phone of [false, true]) {
+      const document = renderedHomepage(phone);
+      const downloadSection = document.querySelector("#waitlist")!;
+      expect(downloadSection.querySelector("form, input")).toBeNull();
+      expect(downloadSection.querySelector(".memova-download-button")?.getAttribute("href"))
+        .toBe("https://apps.apple.com/us/app/memova-ai/id6796284954");
+      expect(downloadSection.querySelector("h2")?.textContent)
+        .toContain(phone ? "Start with your next meeting." : "Build a memory");
+    }
     expect(homepage).not.toContain('fetch("/api/waitlist"');
-    expect(downloadSection).toContain('className: "memova-download-button", href: "https://apps.apple.com/us/app/memova-ai/id6796284954"');
     expect(homepage).not.toContain("Join early access");
     expect(homepage).toContain('src="/brand/app-download.js"');
   });
@@ -160,7 +183,11 @@ describe("production homepage", () => {
     expect(sampleMarkup).toContain('loading="lazy"');
     expect(captureScript).not.toContain("work-types-discovery");
     expect(captureScript).not.toContain("Discover the 16 work types");
-    expect(homepage.match(/href: "\/personal-manual\/work-types\/"/g)).toHaveLength(2);
+    for (const phone of [false, true]) {
+      const document = renderedHomepage(phone);
+      expect(document.querySelectorAll('a[href="/personal-manual/work-types/"]')).toHaveLength(2);
+      expect(document.querySelectorAll('#waitlist')).toHaveLength(1);
+    }
     expect(manualLanding).toContain('href="/personal-manual/work-types/"');
     expect(manualLanding).toContain('href="/personal-manual/" aria-current="page"');
     const workTypes = fs.readFileSync(workTypesPage, "utf8");

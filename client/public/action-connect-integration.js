@@ -64,17 +64,82 @@
     }
   ];
 
+  const phoneQuery = window.matchMedia("(max-width: 760px)");
+  let cleanup = function () {};
+
+  function mobileCopy(english, chinese) {
+    return `<span class="mobile-copy-en" lang="en">${english}</span><span class="mobile-copy-zh" lang="zh-CN">${chinese}</span>`;
+  }
+
+  function installMobileKnowledge(section) {
+    const shell = document.createElement("div");
+    shell.className = "ac-mobile-knowledge";
+    shell.setAttribute("data-no-translate", "");
+    shell.innerHTML = `
+      <header class="ac-mobile-intro" id="capture">
+        <p class="ac-mobile-eyebrow">${mobileCopy("02 · A connected knowledge base", "02 · 搭建知识库")}</p>
+        <h2>${mobileCopy('<span class="ac-mobile-heading-phrase">Scattered context.</span> <em>Connected knowledge.</em>', '<span class="ac-mobile-heading-phrase">零散资料，</span><em>关联成知识。</em>')}</h2>
+        <p>${mobileCopy("Connect the context. Keep the source.", "理解背景，关联资料，保留来源。")}</p>
+      </header>
+
+      <article class="ac-knowledge-sheet" aria-labelledby="ac-knowledge-title">
+        <ul class="ac-knowledge-sources" aria-label="Knowledge sources">
+          <li><span class="mobile-app-entry-icon mobile-app-entry-icon--meeting" aria-hidden="true"><img src="./brand/app-entry-icons-reference-20261010.jpg" width="1280" height="2781" loading="lazy" decoding="async" alt=""></span><strong>${mobileCopy("Meeting note", "会议笔记")}</strong></li>
+          <li><span class="mobile-app-entry-icon mobile-app-entry-icon--spark" aria-hidden="true"><img src="./brand/app-entry-icons-reference-20261010.jpg" width="1280" height="2781" loading="lazy" decoding="async" alt=""></span><strong>${mobileCopy("Spark", "灵感")}</strong></li>
+          <li><span class="mobile-app-entry-icon mobile-app-entry-icon--project" aria-hidden="true"><img src="./brand/app-entry-icons-reference-20261010.jpg" width="1280" height="2781" loading="lazy" decoding="async" alt=""></span><strong>${mobileCopy("Project", "项目资料")}</strong></li>
+        </ul>
+        <header class="ac-knowledge-sheet__header">
+          <img class="ac-knowledge-book" width="240" height="240" loading="lazy" decoding="async" alt="" aria-hidden="true">
+          <div>
+            <h3 id="ac-knowledge-title">${mobileCopy("Neil's knowledge base", "尼尔的知识库")}</h3>
+            <span>${mobileCopy("Apollo 11 · Imagined demo", "阿波罗 11 号 · 假想演示")}</span>
+          </div>
+        </header>
+
+        <div class="ac-knowledge-finding">
+          <p class="ac-mobile-eyebrow">${mobileCopy("A finding, with its context", "关联后的发现")}</p>
+          <h4>${mobileCopy("Training needs to reflect flight conditions.", "训练，要接近真实任务。")}</h4>
+          <a href="/demo/note-overview/#source">${mobileCopy("NASA debrief · Condensed example", "NASA 复盘 · 归纳示例")} <span aria-hidden="true">↗</span></a>
+        </div>
+
+        <a class="ac-knowledge-result" href="/demo/note-overview/">
+          <img src="./demo/icons/memova-file.svg" width="24" height="32" alt="">
+          <div><strong>${mobileCopy("Open the mission debrief", "查看任务复盘网页")}</strong></div>
+          <span class="ac-knowledge-result__arrow" aria-hidden="true">↗</span>
+        </a>
+      </article>
+
+    `;
+    section.appendChild(shell);
+
+    // Only the small original book illustration loads near this chapter.
+    // The configuration screenshots stay behind explicit preview links.
+    const book = shell.querySelector(".ac-knowledge-book");
+    const mediaObserver = new IntersectionObserver(function (entries) {
+      if (!entries.some(entry => entry.isIntersecting)) return;
+      book.src = "./action-connect-assets/knowledge-book-mobile.webp";
+      mediaObserver.disconnect();
+    }, { rootMargin: "240px 0px" });
+    mediaObserver.observe(shell);
+    cleanup = function () { mediaObserver.disconnect(); };
+  }
+
   function installActionConnect() {
     const section = document.getElementById("act");
-    if (!section || section.dataset.actionIntegration === "granola-prd") return;
-    const phoneQuery = window.matchMedia("(max-width: 760px)");
+    const mode = phoneQuery.matches ? "mobile-knowledge" : "granola-prd";
+    if (!section || section.dataset.actionIntegration === mode) return;
+    cleanup();
 
-    const previous = section.querySelector(".ac-shell, .ac-granola-shell");
+    const previous = section.querySelector(".ac-shell, .ac-granola-shell, .ac-mobile-knowledge");
     if (previous) previous.remove();
 
-    section.dataset.actionIntegration = "granola-prd";
+    section.dataset.actionIntegration = mode;
     section.classList.add("action-connect-ready");
-    section.classList.add("ac-play-sequence");
+    section.classList.toggle("ac-play-sequence", !phoneQuery.matches);
+    if (phoneQuery.matches) {
+      installMobileKnowledge(section);
+      return;
+    }
 
     const shell = document.createElement("div");
     shell.className = "ac-granola-shell";
@@ -264,11 +329,29 @@
     render(OUTPUTS[0].id);
     observer.observe(stage);
     mediaObserver.observe(stage);
+    cleanup = function () {
+      renderVersion++;
+      observer.disconnect();
+      mediaObserver.disconnect();
+      window.cancelAnimationFrame(playFrame);
+    };
   }
 
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", installActionConnect, { once: true });
-  } else {
+  phoneQuery.addEventListener("change", installActionConnect);
+  function boot() {
     installActionConnect();
+    // This anchor is created by the chapter, after the initial HTML loads.
+    if (window.location?.hash === "#capture") {
+      window.requestAnimationFrame(function () {
+        window.requestAnimationFrame(function () {
+          document.getElementById("capture")?.scrollIntoView({ block: "start" });
+        });
+      });
+    }
+  }
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", boot, { once: true });
+  } else {
+    boot();
   }
 })();

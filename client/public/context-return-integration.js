@@ -1,6 +1,119 @@
 (() => {
   const SECTION_ID = "return";
   const clamp = (value, min = 0, max = 1) => Math.min(max, Math.max(min, value));
+  const bilingual = (en, zh) => `<span class="mobile-copy-en">${en}</span><span class="mobile-copy-zh">${zh}</span>`;
+  const feedbackExamples = {
+    training: {
+      reply: ["Let's carry the simulator differences into the next training plan.", "把模拟器与真实任务的差异，也纳入下一轮训练吧。"],
+      note: ["Include simulator differences in the next training review.", "把模拟器与真实任务的差异，纳入下一次训练复盘。"],
+      post: ["Before that small step came countless small rehearsals.", "这一小步之前，是无数次小练习。"],
+    },
+    decisions: {
+      reply: ["Let's keep the reasoning behind each decision for the next review.", "也把每次判断背后的依据，留给下一次复盘吧。"],
+      note: ["Keep each mission decision connected to its evidence.", "让任务中的每次判断，始终关联它的依据。"],
+      post: ["The footprint is easy to see. The decisions behind it are not.", "脚印看得见，背后的判断却不容易被看见。"],
+    },
+    teamwork: {
+      reply: ["Let's add the team's handoff lessons to the mission record.", "把团队的交接经验，也补进任务复盘吧。"],
+      note: ["Connect team handoff lessons to the mission record.", "将团队的交接经验，与任务资料关联起来。"],
+      post: ["A footprint on the Moon. A whole team behind it.", "月面上是一串脚印，背后是一整个团队。"],
+    },
+  };
+
+  const mobileFeedbackMarkup = () => `
+    <div class="memova-return-mobile" data-return-mobile data-feedback-state="pending" data-no-translate>
+      <header class="return-mobile-intro">
+        <p>${bilingual("04 · FEEDBACK INTO CONTEXT", "04 · 反馈沉淀")}</p>
+        <h2 id="memova-return-mobile-title">${bilingual('<span class="mobile-heading-phrase">Feedback,</span> <span class="mobile-heading-phrase">back into knowledge.</span>', '<span class="mobile-heading-phrase">让反馈，</span><span class="mobile-heading-phrase">回到知识库。</span>')}</h2>
+        <div>${bilingual("You choose which replies are worth keeping.", "你决定，哪些回复值得留下。")}</div>
+      </header>
+      <div class="return-mobile-thread">
+        <div class="return-mobile-origin">
+          <a href="#social-distribution" data-feedback-source></a>
+          <p data-feedback-post></p>
+        </div>
+        <article class="return-mobile-reply">
+          <header><span aria-hidden="true">↳</span><div><strong>${bilingual("Mission review team", "任务复盘组")}</strong><small>${bilingual("Illustrative reply", "假想回复示例")}</small></div></header>
+          <blockquote data-feedback-quote></blockquote>
+        </article>
+        <div class="return-mobile-destination">
+          <img data-feedback-mobile-src="/demo/icons/memova-book.svg" width="40" height="40" alt="">
+          <div><span>${bilingual("NEIL'S MISSION KNOWLEDGE BASE", "尼尔的任务知识库")}</span><strong data-feedback-note></strong><small>${bilingual("Private · Source-linked", "私密 · 保留来源")}</small></div>
+        </div>
+      </div>
+      <p class="return-mobile-status" role="status" data-feedback-status></p>
+      <div class="return-mobile-actions">
+        <button type="button" data-feedback-keep>${bilingual("Try saving to knowledge", "演示保存到知识库")}</button>
+        <button type="button" data-feedback-dismiss>${bilingual("Skip this reply", "此次不保存")}</button>
+        <button type="button" data-feedback-reset hidden>${bilingual("Try again", "再试一次")}</button>
+      </div>
+      <details class="return-mobile-sources">
+        <summary>${bilingual("Keep the source and context", "保留来源与背景")}<span aria-hidden="true">3</span></summary>
+        <ul>
+          <li><a href="#social-distribution">${bilingual("Original post · Previous chapter", "原帖 · 上一章的分享内容")}</a></li>
+          <li><span>${bilingual("This reply · Illustrative feedback", "这条回复 · 假想反馈示例")}</span></li>
+          <li><a href="/demo/note-overview/#source">${bilingual("Mission evidence · NASA crew debrief", "任务资料 · NASA 乘组复盘")}</a></li>
+        </ul>
+      </details>
+      <p class="return-mobile-disclosure">${bilingual("Illustrative interaction · Not a real reply.", "假想交互演示 · 非真实回复。")}</p>
+    </div>
+  `;
+
+  function installMobileFeedback(section, phoneQuery) {
+    const mobile = section.querySelector("[data-return-mobile]");
+    if (!mobile) return;
+    let topic = "training";
+    let platform = "x";
+    let state = "pending";
+    const keep = mobile.querySelector("[data-feedback-keep]");
+    const dismiss = mobile.querySelector("[data-feedback-dismiss]");
+    const reset = mobile.querySelector("[data-feedback-reset]");
+    function render() {
+      const example = feedbackExamples[topic];
+      const labels = platform === "linkedin" ? ["From the LinkedIn link post", "来自 LinkedIn 链接帖"] : platform === "other" ? ["From the video post", "来自视频帖"] : ["From the X image post", "来自 X 图片帖"];
+      mobile.dataset.feedbackState = state;
+      mobile.querySelector("[data-feedback-source]").innerHTML = bilingual(...labels);
+      const original = document.querySelector(`[data-showcase-panel="${platform}"] .social-context-showcase__post-copy`);
+      const lang = document.documentElement.dataset.siteLanguage === "zh" ? 1 : 0;
+      mobile.querySelector("[data-feedback-post]").textContent = original?.textContent.trim().split("\n")[0] || example.post[lang];
+      mobile.querySelector("[data-feedback-quote]").innerHTML = bilingual(...example.reply);
+      mobile.querySelector("[data-feedback-note]").innerHTML = state === "saved" ? bilingual(...example.note) : bilingual("Apollo 11 · Awaiting your approval", "阿波罗 11 号 · 等待你确认");
+      const status = state === "saved" ? ["Demo saved as a private Note. Its context stays connected.", "示例已保存为私密笔记，背景与来源一起保留。"] : state === "dismissed" ? ["Demo skipped. The knowledge base is unchanged.", "示例已跳过，知识库没有变化。"] : ["Awaiting review · Nothing saved yet", "等待你审核 · 尚未保存"];
+      mobile.querySelector("[data-feedback-status]").innerHTML = bilingual(...status);
+      keep.hidden = dismiss.hidden = state !== "pending";
+      reset.hidden = state === "pending";
+    }
+    function syncExample(detail) {
+      if (!detail || !feedbackExamples[detail.topic] || !["x", "linkedin", "other"].includes(detail.platform)) return;
+      if (topic !== detail.topic || platform !== detail.platform) state = "pending";
+      topic = detail.topic;
+      platform = detail.platform;
+      render();
+    }
+    keep.addEventListener("click", () => { state = "saved"; render(); reset.focus(); });
+    dismiss.addEventListener("click", () => { state = "dismissed"; render(); reset.focus(); });
+    reset.addEventListener("click", () => { state = "pending"; render(); keep.focus(); });
+    window.addEventListener("memova:socialexamplechange", (event) => syncExample(event.detail));
+    window.addEventListener("memova:languagechange", render);
+    const initialTopic = document.querySelector("[data-mobile-highlight]")?.value;
+    const initialPlatform = document.querySelector('[data-showcase-tab][aria-selected="true"]')?.dataset.showcaseTab;
+    syncExample({ topic: initialTopic || topic, platform: initialPlatform || platform });
+    function responsive() {
+      section.setAttribute("aria-labelledby", phoneQuery.matches ? "memova-return-mobile-title" : "memova-return-title");
+      mobile.querySelectorAll("img[data-feedback-mobile-src]").forEach((image) => {
+        if (phoneQuery.matches) image.setAttribute("src", image.dataset.feedbackMobileSrc);
+        else image.removeAttribute("src");
+      });
+      section.querySelectorAll(".memova-return-story__layout img").forEach((image) => {
+        if (phoneQuery.matches) {
+          if (image.hasAttribute("src")) image.dataset.returnDesktopSrc = image.getAttribute("src");
+          image.removeAttribute("src");
+        } else if (image.dataset.returnDesktopSrc) image.src = image.dataset.returnDesktopSrc;
+      });
+    }
+    phoneQuery.addEventListener?.("change", responsive);
+    responsive();
+  }
 
   function updatePagination(section) {
     document.querySelectorAll(".five-page-number").forEach((number) => {
@@ -194,6 +307,7 @@
           )}
         </div>
       </div>
+      ${mobileFeedbackMarkup()}
     `;
 
     waitlist.before(section);
@@ -212,6 +326,7 @@
     const demos = [...section.querySelectorAll("[data-return-demo]")];
     const motionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
     const phoneQuery = window.matchMedia("(max-width: 760px)");
+    installMobileFeedback(section, phoneQuery);
     let frame = 0;
     let activeState = -1;
 

@@ -43,37 +43,47 @@ describe('mobile reading and loading flow', () => {
     (f.document.querySelector('[data-output="email"]') as any).click();
     expect(f.document.querySelector('[data-ac-ui]')?.getAttribute('src')).toContain('email-action-prd');
   });
-  it('requests only the product screen on phones, with an explicit full-size link', () => {
+  it('shows readable knowledge and sources on phones without loading configuration screens', () => {
     const f = fixture(true); f.execute('action-connect-integration.js');
-    expect(f.document.querySelector('.ac-meeting-focus,.ac-stage-background,.ac-input-output-marker')).toBeNull();
+    expect(f.document.querySelector('.ac-granola-shell,[data-ac-ui],video,iframe')).toBeNull();
+    expect(f.document.querySelectorAll('.ac-knowledge-sources li')).toHaveLength(3);
+    expect(f.document.querySelector('.ac-knowledge-finding .mobile-copy-zh')?.textContent).toContain('关联后的发现');
+    expect(f.document.querySelector('.ac-knowledge-finding a')?.getAttribute('href')).toBe('/demo/note-overview/#source');
+    expect(f.document.querySelector('.ac-knowledge-result')?.getAttribute('href')).toBe('/demo/note-overview/');
+    expect(f.document.querySelectorAll('.ac-knowledge-sources img')).toHaveLength(3);
     expect(f.decode).not.toHaveBeenCalled();
+    expect(f.document.querySelector('.ac-knowledge-book')?.hasAttribute('src')).toBe(false);
     f.observers.find(o => o.options.rootMargin === '240px 0px').callback([{isIntersecting:true}]);
-    expect(f.decode).toHaveBeenCalledTimes(1);
-    expect(f.document.querySelector('[data-ac-open-preview]')?.getAttribute('href')).toContain('html-action-prd');
+    expect(f.document.querySelector('.ac-knowledge-book')?.getAttribute('src')).toContain('knowledge-book-mobile.webp');
+    expect(f.decode).not.toHaveBeenCalled();
+    expect(f.document.querySelector('.ac-mobile-other-outputs,.ac-mobile-continuation')).toBeNull();
   });
-  it('shows one feedback view on phones, switches explicitly, and restores all chapters on desktop', () => {
-    const f = fixture(true,"<section id='share'></section><section id='waitlist'></section>");
-    f.execute('context-return-integration.js');
-    const chapters = [...f.document.querySelectorAll('[data-return-chapter]')];
-    expect(chapters.map(e => e.hasAttribute('hidden'))).toEqual([false,true,true]);
-    expect(f.window.requestAnimationFrame).not.toHaveBeenCalled();
-    (f.document.querySelector('[data-return-step="1"]') as any).click();
-    expect(chapters.map(e => e.hasAttribute('hidden'))).toEqual([true,false,true]);
-    (f.document.querySelector('[data-return-keep]') as any).click();
-    expect(chapters.map(e => e.hasAttribute('hidden'))).toEqual([true,true,false]);
+  it('rebuilds the chapter at the breakpoint and disconnects the old media observer', () => {
+    const f = fixture(true); f.execute('action-connect-integration.js');
+    const mobileObserver = f.observers[0];
     f.queries['(max-width: 760px)'].matches = false;
     f.mediaListeners['(max-width: 760px)'][0]();
-    expect(chapters.every(e => !e.hasAttribute('hidden'))).toBe(true);
+    expect(mobileObserver.disconnect).toHaveBeenCalledOnce();
+    expect(f.document.querySelector('.ac-mobile-knowledge')).toBeNull();
+    expect(f.document.querySelectorAll('.ac-output-tab')).toHaveLength(3);
+    f.queries['(max-width: 760px)'].matches = true;
+    f.mediaListeners['(max-width: 760px)'][0]();
+    expect(f.document.querySelector('.ac-granola-shell')).toBeNull();
+    expect(f.document.querySelectorAll('#capture')).toHaveLength(1);
   });
   it('ships the actual phone hero with readable copy before the interaction bundle', () => {
     const { document } = parseHTML(fs.readFileSync(path.resolve('dist/public/index.html'),'utf8'));
     const hero = document.querySelector('#memova-static-snapshot .mobile-knowledge-intro')!;
     expect(hero.querySelector('h1')).not.toBeNull();
-    expect(hero.querySelector('.mobile-copy-zh')?.textContent).toBe('理解 Context · 搭建知识库 · 公开构建');
-    expect(hero.querySelector('.mobile-intro-manual-link')?.getAttribute('href')).toBe('#social-distribution');
+    const intro = hero.querySelector('.mobile-intro-description .mobile-copy-zh')!.textContent;
+    expect(intro).toContain('知识库与社媒内容');
+    expect(intro.length).toBeLessThan(30);
+    expect(hero.querySelector('.mobile-intro-download')?.getAttribute('href')).toBe('https://apps.apple.com/us/app/memova-ai/id6796284954');
+    expect(hero.querySelector('.mobile-intro-steps a[href="#return"] .mobile-copy-zh')?.textContent).toBe('反馈');
     expect(hero.querySelector('video,iframe')).toBeNull();
     expect(hero.querySelectorAll('img')).toHaveLength(1);
-    expect(hero.querySelector('.mobile-intro-art')?.getAttribute('aria-hidden')).toBe('true');
+    expect(hero.querySelector('.mobile-intro-astronaut')?.getAttribute('aria-hidden')).toBe('true');
+    expect(hero.querySelector('.mobile-intro-scenario-note .mobile-copy-zh')?.textContent).toContain('假想演示');
     expect(document.querySelector('link[as="image"]')?.getAttribute('media')).toBe('(min-width: 761px)');
     expect(document.querySelector('script[data-critical-language]')).not.toBeNull();
   });

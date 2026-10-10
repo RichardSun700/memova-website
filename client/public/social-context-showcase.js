@@ -2,6 +2,7 @@
   const section = document.getElementById("social-distribution");
   if (!section || section.querySelector(".social-context-showcase")) return;
   const desktop = window.matchMedia("(min-width: 1000px)");
+  const phone = window.matchMedia("(max-width: 760px)");
   const originalHeader = section.querySelector(".memova-social-rail__copy");
   const editor = section.querySelector("[data-share-prototype]");
   const originalParent = editor?.parentElement;
@@ -83,6 +84,9 @@
       close: "Close",
       demoNote: "Imagined first-person demo · Your review comes before publishing.",
       channelNote: "Publish to X and LinkedIn. Prepare content for more channels.",
+      disclosureOpen: "Transcript & demo details",
+      demoPurposeMobile: "See how Memova turns meeting context into drafts for each platform.",
+      feedbackNext: "After sharing, bring feedback into your knowledge base",
     },
     zh: {
       eyebrow: "03 · 公开构建",
@@ -159,6 +163,9 @@
       close: "关闭",
       demoNote: "第一人称假想演示 · 发布前由你审核。",
       channelNote: "直接发布到 X 和 LinkedIn，为更多平台准备内容。",
+      disclosureOpen: "查看转录与演示说明",
+      demoPurposeMobile: "展示 Memova 如何将会议背景，变成不同平台的社媒草稿。",
+      feedbackNext: "发布之后，让反馈回到知识库",
     },
   };
 
@@ -229,6 +236,67 @@
     },
   };
 
+  // Phone drafts are edited separately so the original desktop examples stay intact.
+  const phoneMeetingExamples = {
+    training: {
+      en: {
+        xCopy: "Before my small step came countless rehearsals.\n\nI want focused practice, one mission phase at a time. #Apollo11 #Memova",
+        linkedinCopy: "This mission made me rethink training.\n\nMy approach: shorter sessions, one mission phase at a time, with lessons carried forward. Recommendations in my debrief. #Apollo11 #Memova",
+        otherCopy: "POV: you saw my liftoff, not the rehearsals.\n\nI practiced each mission phase. Now the preparation becomes action. #Apollo11 #Memova",
+      },
+      zh: {
+        xCopy: "这一小步，我练过无数次。\n\n每次专注一个任务阶段。#Apollo11 #Memova",
+        linkedinCopy: "这次任务让我重新思考训练。\n\n我更倾向于短而专注的练习，把复盘带到下一轮。具体建议在这份任务复盘里。#Apollo11 #Memova",
+        otherCopy: "POV：你看到我的起飞，我记得之前每次练习。\n\n准备，终于变成行动。#Apollo11 #Memova",
+      },
+    },
+    decisions: {
+      en: {
+        xCopy: "This footprint hides my decisions before landing.\n\nI’m keeping the why, too, for the next crew. #Apollo11 #Memova",
+        linkedinCopy: "After landing, I want to pass our decisions to the next crew.\n\nEvidence, judgment and lessons belong together. The full record is in my debrief. #Apollo11 #Memova",
+        otherCopy: "POV: I made more decisions than this clip can show.\n\nThe video keeps a moment. My notes keep the reasoning. #Apollo11 #Memova",
+      },
+      zh: {
+        xCopy: "脚印照片里，藏着我着陆前的判断。\n\n结果之外，也留下依据。#Apollo11 #Memova",
+        linkedinCopy: "着陆之后，我想把决策过程交给下一支乘组。\n\n把依据、判断和复盘连起来。完整记录在这份任务复盘里。#Apollo11 #Memova",
+        otherCopy: "POV：我的判断，远比这段起飞画面多。\n\n影像留下瞬间，任务记录留下依据。#Apollo11 #Memova",
+      },
+    },
+    teamwork: {
+      en: {
+        xCopy: "A footprint on the Moon. A whole team behind it.\n\nI’m keeping our teamwork in the record. #Apollo11 #Memova",
+        linkedinCopy: "This mission reminded me: teamwork needs shared context.\n\nI’m connecting roles, evidence and lessons, so we work better next time. More in my debrief. #Apollo11 #Memova",
+        otherCopy: "POV: one rocket, a whole team.\n\nI could leave Earth because others prepared every part. This clip is for them. #Apollo11 #Memova",
+      },
+      zh: {
+        xCopy: "月面是一串脚印，背后是一整个团队。\n\n我想记住我们怎样一起完成任务。#Apollo11 #Memova",
+        linkedinCopy: "这次任务让我确信：协作需要共享背景。\n\n我把角色、依据和复盘连起来，留给下一次协作。具体方法在我的复盘里。#Apollo11 #Memova",
+        otherCopy: "POV：一枚火箭，整个团队。\n\n我能出发，是因为他们准备好了每个环节。#Apollo11 #Memova",
+      },
+    },
+  };
+
+  const phoneCopy = {
+    en: {
+      title: "From a meeting.",
+      titleAccent: "To your next post.",
+      intro: "Memova captures meeting highlights. Review a draft, then publish.",
+      meetingCaveat: "Fictional transcript · Not Neil’s words.",
+      quoteSpeaker: "Fictional Neil perspective",
+      reviewDrafts: "Review this draft",
+      demoPurposeMobile: "Memova turns one meeting into platform-ready drafts.",
+    },
+    zh: {
+      title: "会议里的观点，",
+      titleAccent: "成为社媒草稿。",
+      intro: "Memova 自动提取会议金句，审核后一键发布。",
+      meetingCaveat: "虚构转录 · 非尼尔原话",
+      quoteSpeaker: "尼尔视角 · 虚构发言",
+      reviewDrafts: "查看并审核草稿",
+      demoPurposeMobile: "展示 Memova 如何将同一份会议资料，转为不同平台的草稿。",
+    },
+  };
+
   const showcase = document.createElement("div");
   showcase.className = "social-context-showcase";
   showcase.setAttribute("data-no-translate", "");
@@ -248,10 +316,15 @@
         <strong id="social-demo-disclosure-title" data-showcase-copy="demoLabel"></strong>
         <p data-showcase-copy="demoDisclosure"></p>
         <p class="social-context-showcase__demo-purpose" data-showcase-copy="demoPurpose"></p>
+        <p class="social-context-showcase__mobile-purpose" data-showcase-copy="demoPurposeMobile"></p>
+        <details class="social-context-showcase__mobile-details">
+          <summary data-showcase-copy="disclosureOpen"></summary>
+          <div data-mobile-disclosure-body></div>
+        </details>
       </aside>
       <article class="meeting-social-demo" aria-labelledby="meeting-social-demo-title">
         <div class="meeting-social-demo__context">
-          <div class="meeting-social-demo__heading"><img src="./demo/icons/memova-meeting.svg" width="32" height="44" alt=""><div><p data-showcase-copy="meetingLabel"></p><h3 id="meeting-social-demo-title" data-showcase-copy="meetingName"></h3></div></div>
+          <div class="meeting-social-demo__heading"><img ${phone.matches ? "" : 'src="./demo/icons/memova-meeting.svg"'} width="32" height="44" alt=""><div><p data-showcase-copy="meetingLabel"></p><h3 id="meeting-social-demo-title" data-showcase-copy="meetingName"></h3></div><select class="meeting-social-demo__mobile-choice" data-mobile-highlight aria-label="Choose a highlight">${Object.keys(meetingExamples).map(key => `<option value="${key}" data-showcase-copy="${key}Topic"></option>`).join("")}</select></div>
           <p class="meeting-social-demo__flow" data-showcase-copy="meetingFlow"></p>
           <p class="meeting-social-demo__context-copy" data-showcase-copy="meetingContext"></p>
           <p class="meeting-social-demo__caveat" data-showcase-copy="meetingCaveat"></p>
@@ -269,6 +342,7 @@
           <div class="meeting-social-demo__actions"><p aria-live="polite" aria-atomic="true" data-meeting-result></p><button type="button" class="social-context-showcase__open" data-meeting-review data-showcase-open="x" data-showcase-copy="reviewDrafts"></button></div>
         </div>
       </article>
+      <div class="social-context-showcase__mobile-bridge" aria-hidden="true"><span>↓</span></div>
       <div class="social-context-showcase__tabs" role="tablist" aria-label="Preview posts by platform">
         ${["x", "linkedin", "other"].map((platform) => `<button type="button" role="tab" id="social-showcase-tab-${platform}" aria-controls="social-showcase-panel-${platform}" data-showcase-tab="${platform}"><span data-showcase-copy="${platform}Tab"></span></button>`).join("")}
       </div>
@@ -285,9 +359,11 @@
           </article>
         `).join("")}
       </div>
+      <div class="social-context-showcase__mobile-review" data-mobile-review></div>
     </div>
     <div class="social-context-showcase__principles"><span data-showcase-copy="principleOne"></span><span data-showcase-copy="principleTwo"></span><span data-showcase-copy="principleThree"></span></div>
     <p class="social-context-showcase__channel-note" data-showcase-copy="channelNote"></p>
+    <a class="social-context-showcase__feedback-next" href="#return"><span data-showcase-copy="feedbackNext"></span> <span aria-hidden="true">↓</span></a>
   `;
   section.querySelector(".memova-social-rail__inner").prepend(showcase);
   section.dataset.desktopShowcase = "true";
@@ -306,10 +382,55 @@
   const video = showcase.querySelector("[data-showcase-video]");
   const playButton = showcase.querySelector("[data-showcase-play]");
   const videoStatus = showcase.querySelector("[data-showcase-video-status]");
+  const mobileHighlight = showcase.querySelector("[data-mobile-highlight]");
   const getCopy = () => {
     const lang = document.documentElement.dataset.siteLanguage === "zh" ? "zh" : "en";
-    return { ...translations[lang], ...meetingExamples[activeQuote][lang] };
+    return { ...translations[lang], ...(phone.matches ? phoneCopy[lang] : {}), ...meetingExamples[activeQuote][lang], ...(phone.matches ? phoneMeetingExamples[activeQuote][lang] : {}) };
   };
+
+  const disclosure = showcase.querySelector(".social-context-showcase__disclosure");
+  const fullDisclosure = [...disclosure.querySelectorAll(":scope > p:not(.social-context-showcase__mobile-purpose)")];
+  const mobilePurpose = disclosure.querySelector(".social-context-showcase__mobile-purpose");
+  const disclosureBody = disclosure.querySelector("[data-mobile-disclosure-body]");
+  const transcript = showcase.querySelector(".meeting-social-demo__transcript");
+  const transcriptParent = transcript.parentElement;
+  const reviewButton = showcase.querySelector("[data-meeting-review]");
+  const reviewStatus = showcase.querySelector("[data-meeting-result]");
+  const actions = reviewButton.parentElement;
+  const mobileReview = showcase.querySelector("[data-mobile-review]");
+  const flow = showcase.querySelector(".social-context-showcase__flow");
+  const desktopMeetingIcon = showcase.querySelector(".meeting-social-demo__heading > img");
+  const desktopMeetingIconSource = desktopMeetingIcon.getAttribute("src") || "./demo/icons/memova-meeting.svg";
+  let phoneMeetingIcon;
+  let transcriptWasOpen = false;
+  let phoneLayout = false;
+  function updatePhoneLayout() {
+    if (phoneLayout === phone.matches) return;
+    phoneLayout = phone.matches;
+    if (phoneLayout) {
+      if (!phoneMeetingIcon) {
+        phoneMeetingIcon = document.createElement("span");
+        phoneMeetingIcon.className = "mobile-app-entry-icon mobile-app-entry-icon--meeting";
+        phoneMeetingIcon.setAttribute("aria-hidden", "true");
+        phoneMeetingIcon.innerHTML = '<img src="./brand/app-entry-icons-reference-20261010.jpg" width="1280" height="2781" loading="lazy" decoding="async" alt="">';
+      }
+      desktopMeetingIcon.removeAttribute("src");
+      desktopMeetingIcon.replaceWith(phoneMeetingIcon);
+      transcriptWasOpen = transcript.open;
+      transcript.open = true;
+      disclosureBody.append(...fullDisclosure, transcript);
+      mobileReview.append(reviewStatus, reviewButton);
+      flow.append(disclosure);
+    } else {
+      phoneMeetingIcon?.replaceWith(desktopMeetingIcon);
+      desktopMeetingIcon.setAttribute("src", desktopMeetingIconSource);
+      fullDisclosure.forEach(node => disclosure.insertBefore(node, mobilePurpose));
+      transcript.open = transcriptWasOpen;
+      transcriptParent.append(transcript);
+      actions.append(reviewStatus, reviewButton);
+      flow.prepend(disclosure);
+    }
+  }
 
   playButton.addEventListener("click", async () => {
     if (!video.getAttribute("src")) video.src = "./social-share-assets/apollo-launch-short.mp4";
@@ -370,12 +491,18 @@
     showcase.querySelectorAll("[data-meeting-transcript]").forEach((node) => { node.dataset.selected = String(node.dataset.meetingTranscript === activeQuote); });
     showcase.querySelector("[data-meeting-time]").textContent = meetingExamples[activeQuote].time;
     showcase.querySelector("[data-meeting-choices]").setAttribute("aria-label", copy.quotesLabel);
+    mobileHighlight.setAttribute("aria-label", copy.quotesLabel);
+    mobileHighlight.value = activeQuote;
     showcase.querySelector("[data-meeting-result]").textContent = copy.draftsReady.replace("{topic}", copy[`${activeQuote}Topic`]);
     video.setAttribute("aria-label", copy.videoHook);
     showcase.querySelector("[role=tablist]").setAttribute("aria-label", copy.tabsLabel);
     if (dialog.open) syncDraftToEditor(editor.dataset.platform);
     alignDraftCopy();
     updateVideoButton();
+    announceExample();
+  }
+  function announceExample() {
+    window.dispatchEvent?.(new CustomEvent("memova:socialexamplechange", { detail: { topic: activeQuote, platform: activePlatform } }));
   }
   function alignDraftCopy() {
     const captions = [...showcase.querySelectorAll(".social-context-showcase__post-copy")];
@@ -390,12 +517,14 @@
     lastOutputWidth = entry.contentRect.width;
     alignDraftCopy();
   }).observe(showcase.querySelector(".social-context-showcase__outputs"));
-  showcase.querySelectorAll("[data-meeting-quote]").forEach((button) => button.addEventListener("click", () => {
-    if (button.dataset.meetingQuote === activeQuote) return;
-    activeQuote = button.dataset.meetingQuote;
+  function chooseHighlight(key) {
+    if (key === activeQuote) return;
+    activeQuote = key;
     video.pause();
     renderLanguage();
-  }));
+  }
+  showcase.querySelectorAll("[data-meeting-quote]").forEach((button) => button.addEventListener("click", () => chooseHighlight(button.dataset.meetingQuote)));
+  mobileHighlight.addEventListener("change", () => chooseHighlight(mobileHighlight.value));
   function updatePanels() {
     tabs.forEach((tab) => {
       const selected = tab.dataset.showcaseTab === activePlatform;
@@ -414,6 +543,7 @@
     });
     if (!desktop.matches && activePlatform !== "other") video.pause();
     showcase.querySelector("[data-meeting-review]").dataset.showcaseOpen = activePlatform === "other" ? "tiktok" : activePlatform;
+    announceExample();
   }
   tabs.forEach((tab, index) => {
     tab.addEventListener("click", () => { activePlatform = tab.dataset.showcaseTab; updatePanels(); });
@@ -453,10 +583,13 @@
     if (["x", "linkedin", "tiktok"].includes(platform)) showcase.querySelector(`[data-showcase-copy="${platform === "tiktok" ? "otherCopy" : `${platform}Copy`}"]`).textContent = editor.querySelector("[data-share-copy]").textContent;
     originalParent.append(editor);
     alignDraftCopy();
+    announceExample();
     trigger?.focus();
   });
   desktop.addEventListener("change", updateBreakpoint);
+  phone.addEventListener("change", () => { updatePhoneLayout(); renderLanguage(); });
   window.addEventListener("memova:languagechange", renderLanguage);
+  updatePhoneLayout();
   renderLanguage();
   updateBreakpoint();
   // Wait for the homepage's layout and initial scroll setup before resolving

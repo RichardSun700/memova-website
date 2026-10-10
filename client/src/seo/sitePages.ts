@@ -42,7 +42,7 @@ const publicPages: SitePage[] = [
     schemaType: "SoftwareApplication",
     hero: {
       eyebrow: "Context · Knowledge · Build in public",
-      title: "Understand context. Build knowledge.",
+      title: "From context to building in public.",
       intro:
         "Collect and understand your context. Build a connected knowledge base, then turn everyday progress into social content for founders building in public.",
     },

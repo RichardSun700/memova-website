@@ -60,7 +60,7 @@ describe("production homepage performance", () => {
     const { document } = parseHTML(html);
     const snapshot = document.getElementById("memova-static-snapshot")!;
     expect(snapshot.querySelectorAll("h1")).toHaveLength(1);
-    expect(snapshot.querySelector("h1")?.textContent).toContain("Understand context.");
+    expect(snapshot.querySelector("h1")?.textContent).toContain("building in public.");
     expect(snapshot.querySelector(".five-header")).not.toBeNull();
     expect(snapshot.querySelector(".kb-lunar-backdrop,.kb-orbit-card")).toBeNull();
     expect(report.heroImage).toBe(report.heroAssets.src);
