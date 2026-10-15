@@ -10,8 +10,19 @@ memova-language-switch{position:relative;display:block;flex:0 0 auto;order:2;fon
 .memova-language-options button span{visibility:hidden}.memova-language-options button[aria-pressed="true"] span{visibility:visible}
 memova-language-switch button:focus-visible{outline:3px solid #6b86e8;outline-offset:3px}
 .five-header{gap:clamp(12px,1.4vw,24px)}.five-header .five-nav{order:1}.five-header .five-menu{order:3;margin-left:0}
-@media(min-width:1281px) and (max-width:1500px){.five-header .five-nav{gap:16px}.five-header .five-nav>div{gap:14px}.five-header .five-community-button{padding-inline:12px}}
-@media(max-width:1280px){.five-header memova-language-switch{margin-left:auto}.five-header .five-menu{flex-shrink:0}.memova-language-trigger{min-height:44px}}
+@media(min-width:1024px) and (max-width:1500px){.five-header .five-nav{gap:16px}.five-header .five-nav>div{gap:14px}.five-header .five-community-button{padding-inline:12px}}
+/* Keep laptop navigation visible before switching to the tablet menu. */
+@media(min-width:1024px) and (max-width:1279px){
+  .five-header{padding-inline:16px;gap:12px}
+  .five-header .five-nav{min-width:0;gap:12px}
+  .five-header .five-nav>div{gap:10px;flex-shrink:0}
+  .five-header .five-community-button{padding-inline:10px}
+  .five-header .five-nav a.memova-download-button[href]{padding-inline:12px}
+  .five-header .five-account-trigger{gap:6px}
+}
+/* The account remains available by avatar and its accessible button name. */
+@media(min-width:1024px) and (max-width:1199px){.five-header .five-account-name{display:none}}
+@media(max-width:1023px){.five-header memova-language-switch{margin-left:auto}.five-header .five-menu{flex-shrink:0}.memova-language-trigger{min-height:44px}}
 @media(max-width:420px){.five-header{gap:8px}}
 /* System Chinese fonts avoid another font download; retain the original art,
  * section geometry and motion. CJK headings need normal tracking to stay legible. */

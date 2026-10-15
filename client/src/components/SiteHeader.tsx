@@ -31,7 +31,7 @@ export default function SiteHeader({ current }: { current: string }) {
       if (!accountRef.current?.contains(event.target as Node))
         setAccountOpen(false);
     };
-    const desktop = window.matchMedia("(min-width: 1281px)");
+    const desktop = window.matchMedia("(min-width: 1024px)");
     const closeMobile = () => setOpen(false);
     window.addEventListener("keydown", closeOnEscape);
     window.addEventListener("pointerdown", closeAccountOutside);

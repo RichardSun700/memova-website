@@ -273,7 +273,7 @@
 .memova-site-header-space { height: 72px; }
 .five-header a.five-mobile-app-store[href],
 .five-header .five-nav > .five-mobile-language { display: none; }
-@media(max-width:1280px) {
+@media(max-width:1023px) {
   .five-header .five-menu { width:40px;height:40px;display:grid;place-items:center;border:1px solid var(--five-line);border-radius:10px;background:rgba(255,255,255,.72);cursor:pointer; }
   .five-header .five-nav { position:absolute;top:72px;left:0;right:0;padding:24px;display:none;align-items:stretch;flex-direction:column;border-bottom:1px solid var(--five-line);background:rgba(238,242,250,.98);box-shadow:0 20px 40px rgba(36,54,93,.1);max-height:calc(100dvh - 72px);overflow-y:auto; }
   .five-header .five-nav.is-open { display:flex; }

@@ -8769,7 +8769,7 @@ img, video, svg { max-width: 100%; }
 }
 
 </style>
-<link rel="stylesheet" href="/pricing/navigation.css">
+<link rel="stylesheet" href="/pricing/navigation.css?v=20261015-desktop-nav">
 </head>
 <body>
   <div id="root" class="memova-seo-shell" data-seo-snapshot="true" data-seo-shell-version="2" data-production-homepage="apollo-living-book-v1" data-page-summary="Memova connects the context you choose to remember into living Books that grow over time, become useful Pages, and support actions and sharing that remain under your control.">
@@ -9947,6 +9947,12 @@ function Header() {
     const [authUser, setAuthUser] = useState(readHomepageAuthUser);
     const accountMenuRef = useRef(null);
     useEffect(() => {
+        const desktop = window.matchMedia("(min-width: 1024px)");
+        const closeMobileMenu = () => setOpen(false);
+        desktop.addEventListener("change", closeMobileMenu);
+        return () => desktop.removeEventListener("change", closeMobileMenu);
+    }, []);
+    useEffect(() => {
         const refreshAuthUser = () => {
             setAuthUser(readHomepageAuthUser());
             void fetchHomepageAuthUser().then(setAuthUser);
@@ -10378,11 +10384,11 @@ render(h(ApolloHomepagePreview, null), document.getElementById("root"));
 <script src="./final-history-arc.js?v=20261010-vision-finale"></script>
 <link rel="stylesheet" href="./memova-premium-finish.css?v=20260901-app-download-blue1">
 
-<link rel="stylesheet" href="/brand/site-header.css?v=20261010-app-store-header">
+<link rel="stylesheet" href="/brand/site-header.css?v=20261015-desktop-nav">
 <link rel="stylesheet" href="/brand/download-button.css">
 <link rel="stylesheet" href="/brand/app-download.css">
 <script src="/brand/app-download.js"></script>
-<link rel="stylesheet" href="/brand/site-language.css">
+<link rel="stylesheet" href="/brand/site-language.css?v=20261015-desktop-nav">
 <script src="/brand/site-language.js"></script>
 <link rel="stylesheet" href="./homepage-mobile-layout.css?v=20261010-visual-reading">
 <link rel="stylesheet" href="./social-context-showcase.css?v=20261009-meeting1">
