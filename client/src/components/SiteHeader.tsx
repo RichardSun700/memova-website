@@ -217,13 +217,13 @@ export default function SiteHeader({ current }: { current: string }) {
             </p>
             <a
               className="five-community-qr-link"
-              href="https://discord.gg/wAeCmpy86"
+              href="https://discord.gg/E9u5FFvhdu"
               target="_blank"
               rel="noopener noreferrer"
               aria-label="Open the Memova Discord community"
             >
               <img
-                src="/community/discord-community-qr.png"
+                src="/community/discord-community-qr-e9u5ffvhdu.png"
                 alt="QR code for the Memova Discord community"
                 width="300"
                 height="300"
@@ -231,7 +231,7 @@ export default function SiteHeader({ current }: { current: string }) {
             </a>
             <a
               className="five-community-open"
-              href="https://discord.gg/wAeCmpy86"
+              href="https://discord.gg/E9u5FFvhdu"
               target="_blank"
               rel="noopener noreferrer"
             >

@@ -109,8 +109,8 @@ describe("production homepage", () => {
     expect(homepage).not.toContain(
       'href: "#waitlist", onClick: () => setOpen(false) }, "Download the app"'
     );
-    expect(homepage).toContain("/community/discord-community-qr.png");
-    expect(homepage).toContain("https://discord.gg/wAeCmpy86");
+    expect(homepage).toContain("/community/discord-community-qr-e9u5ffvhdu.png");
+    expect(homepage).toContain("https://discord.gg/E9u5FFvhdu");
     expect(homepage).toContain('role: "dialog"');
   });
 

@@ -4,8 +4,8 @@ import { ExternalLink, LogOut, UserRound, X } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { shouldSkipInitialMarketingMotion } from "@/seo/seoHandoff";
 
-const DISCORD_COMMUNITY_URL = "https://discord.gg/wAeCmpy86";
-const DISCORD_COMMUNITY_QR = "/community/discord-community-qr.png";
+const DISCORD_COMMUNITY_URL = "https://discord.gg/E9u5FFvhdu";
+const DISCORD_COMMUNITY_QR = "/community/discord-community-qr-e9u5ffvhdu.png";
 
 const navLinks: Array<{ label: string; href: string; section?: string }> = [
   { label: "How It Works", href: "/how-it-works" },
