@@ -1,11 +1,10 @@
 import React, { useEffect, useRef, useState } from "react";
-import { ArrowUpRight, Pause, Play } from "@phosphor-icons/react";
+import { Pause, Play } from "@phosphor-icons/react";
 
 // Original opening: orbit first, gather and fade to both sides on scroll, then rest.
 export function StoryOrbit({
   stories,
   lang,
-  onOpen,
   frozen,
   transitionRef,
   geometryRef,
@@ -13,8 +12,7 @@ export function StoryOrbit({
   const field = useRef(null),
     elapsed = useRef(0);
   const [paused, setPaused] = useState(false),
-    [hovered, setHovered] = useState(false),
-    [focused, setFocused] = useState(false);
+    [hovered, setHovered] = useState(false);
   const [visible, setVisible] = useState(true),
     [documentVisible, setDocumentVisible] = useState(true),
     [reduced, setReduced] = useState(false);
@@ -47,7 +45,6 @@ export function StoryOrbit({
     const stopped =
       paused ||
       hovered ||
-      focused ||
       frozen ||
       reduced ||
       !visible ||
@@ -57,7 +54,7 @@ export function StoryOrbit({
       const narrow = compact(),
         gather = narrow ? 0 : transitionRef?.current?.gather || 0;
       const rx = Math.max(0, width / 2 - (width < 1150 ? 82 : 104)),
-        ry = height / 2 - (height < 760 ? 95 : 105);
+        ry = height / 2 - (height < 760 ? 107 : 117);
       const angles = items.map(
         (_, i) =>
           -Math.PI / 2 +
@@ -90,7 +87,7 @@ export function StoryOrbit({
         const scale = 1 - gather * 0.24;
         return {
           x,
-          y,
+          y: y - (item.clientHeight - (item.clientWidth * 2) / 3) * scale / 2,
           width: item.clientWidth * scale,
           height: ((item.clientWidth * 2) / 3) * scale,
         };
@@ -137,7 +134,6 @@ export function StoryOrbit({
     geometryRef,
     paused,
     hovered,
-    focused,
     frozen,
     reduced,
     visible,
@@ -148,49 +144,34 @@ export function StoryOrbit({
       <ul
         ref={field}
         className="story-orbit"
-        aria-label={L("探索九个 My Day 故事", "Explore nine My Day stories")}
-        onFocusCapture={() => setFocused(true)}
-        onBlurCapture={(e) => {
-          if (!e.currentTarget.contains(e.relatedTarget)) setFocused(false);
-        }}
+        aria-label={L("从凌晨到夜晚的九个生活场景", "Nine everyday scenes in time order")}
       >
         {stories.map((story, i) => (
           <li className="orbit-item" key={story.id}>
-            <a
+            <figure
               className="orbit-story"
-              href={story.page}
-              aria-label={L(
-                "阅读 My Day：" + story.titleZh,
-                "Read My Day: " + story.titleEn,
-              )}
               style={{ "--tilt": `${[-3, 2, -2, 3, -1, 2, -3, 2, -1][i]}deg` }}
               onMouseEnter={() => setHovered(true)}
               onMouseLeave={() => setHovered(false)}
-              onClick={(e) => {
-                if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
-                e.preventDefault();
-                onOpen(story.id);
-              }}
             >
               <span className="orbit-image">
                 <img
                   src={story.image}
-                  alt=""
-                  width="1536"
-                  height="1024"
+                  alt={L(story.altZh, story.altEn)}
+                  width="1100"
+                  height="733"
+                  draggable="false"
                   fetchPriority={i < 3 ? "high" : "auto"}
                 />
-                <span className="orbit-open">
-                  <ArrowUpRight size={19} />
-                </span>
               </span>
-              <span className="orbit-caption">
-                <span>{L(story.titleZh, story.titleEn)}</span>
-                <span className="orbit-caption-arrow">
-                  <ArrowUpRight size={13} />
+              <figcaption className="orbit-caption">
+                <span className="orbit-caption-heading">
+                  <time className="orbit-time" dateTime={story.time}>{story.time}</time>
+                  <span className="orbit-title">{L(story.titleZh, story.titleEn)}</span>
                 </span>
-              </span>
-            </a>
+                <span className="orbit-description">{L(story.descriptionZh, story.descriptionEn)}</span>
+              </figcaption>
+            </figure>
           </li>
         ))}
       </ul>
@@ -198,8 +179,8 @@ export function StoryOrbit({
         className="orbit-motion"
         aria-pressed={paused || reduced}
         aria-label={L(
-          paused ? "继续旋转故事图片" : "暂停旋转故事图片",
-          paused ? "Resume story motion" : "Pause story motion",
+          paused ? "继续旋转场景图片" : "暂停旋转场景图片",
+          paused ? "Resume scene motion" : "Pause scene motion",
         )}
         disabled={reduced}
         onClick={() => setPaused(!paused)}

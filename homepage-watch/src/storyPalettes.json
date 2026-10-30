@@ -1,56 +1,56 @@
 [
   {
-    "id": "partner-conversation",
-    "image": "/assets/stories/clay-v4/partner-conversation.webp",
-    "color": "#d75f48",
-    "secondary": "#b3c7e7"
+    "id": "day-0030-sleep",
+    "image": "/assets/day-photos-v1/00-sleep.webp",
+    "color": "#a39074",
+    "secondary": "#675946"
   },
   {
-    "id": "dating-boundaries",
-    "image": "/assets/stories/clay-v4/dating-boundaries.webp",
-    "color": "#f5a898",
-    "secondary": "#98554e"
+    "id": "day-0700-doorway",
+    "image": "/assets/day-photos-v1/07-morning-rush.webp",
+    "color": "#3f6175",
+    "secondary": "#bf8381"
   },
   {
-    "id": "colleague-feedback",
-    "image": "/assets/stories/clay-v4/colleague-feedback.webp",
-    "color": "#ddaf58",
-    "secondary": "#d56134"
+    "id": "day-0815-coffee",
+    "image": "/assets/day-photos-v1/08-coffee.webp",
+    "color": "#5f8d4c",
+    "secondary": "#b8783a"
   },
   {
-    "id": "repair-dispute",
-    "image": "/assets/stories/clay-v4/repair-dispute.webp",
-    "color": "#bdcfa9",
-    "secondary": "#f2997d"
+    "id": "day-0930-meeting",
+    "image": "/assets/day-photos-v1/09-meeting.webp",
+    "color": "#615a45",
+    "secondary": "#91b6ad"
   },
   {
-    "id": "campus-safety",
-    "image": "/assets/stories/clay-v4/campus-safety.webp",
-    "color": "#7489b5",
-    "secondary": "#b4c7ef"
+    "id": "day-1230-lunch",
+    "image": "/assets/day-photos-v1/12-lunch.webp",
+    "color": "#b76220",
+    "secondary": "#8b4d20"
   },
   {
-    "id": "speaking-up",
-    "image": "/assets/stories/clay-v4/speaking-up.webp",
-    "color": "#9e7069",
-    "secondary": "#e9bd64"
+    "id": "day-1530-work",
+    "image": "/assets/day-photos-v1/15-work-reflection.webp",
+    "color": "#ae5204",
+    "secondary": "#a78c72"
   },
   {
-    "id": "parent-child-conversation",
-    "image": "/assets/stories/clay-v4/parent-child-conversation.webp",
-    "color": "#687a9a",
-    "secondary": "#b28864"
+    "id": "day-1830-exercise",
+    "image": "/assets/day-photos-v1/18-exercise.webp",
+    "color": "#d4b89d",
+    "secondary": "#b68e6c"
   },
   {
-    "id": "workplace-conversation",
-    "image": "/assets/stories/clay-v4/workplace-conversation.webp",
-    "color": "#b7c7e5",
-    "secondary": "#e37254"
+    "id": "day-2000-together",
+    "image": "/assets/day-photos-v1/20-home-conversation.webp",
+    "color": "#90642e",
+    "secondary": "#6b6e58"
   },
   {
-    "id": "launch-retrospective",
-    "image": "/assets/stories/clay-v4/launch-retrospective.webp",
-    "color": "#4e5a75",
-    "secondary": "#fdb19f"
+    "id": "day-2230-journal",
+    "image": "/assets/day-photos-v1/22-daily-reflection.webp",
+    "color": "#b07744",
+    "secondary": "#7b7262"
   }
 ]

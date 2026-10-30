@@ -21,7 +21,7 @@ describe("production homepage performance", () => {
     const hero = document.querySelector('#root[data-seo-snapshot="true"] #top')!;
     expect(hero).not.toBeNull();
     expect(hero.querySelector("h1")?.textContent?.replace(/\s+/g, ""))
-      .toBe("全天候记录生活，积累个人知识库。");
+      .toBe("Recordallday.Buildyourknowledge.");
     expect(hero.querySelector(".hero-intro")?.textContent).toContain("Apple Watch");
     expect(hero.querySelector("video, iframe")).toBeNull();
     expect(document.querySelector(".kb-lunar-backdrop, .kb-orbit-card, #memova-desktop-snapshot")).toBeNull();

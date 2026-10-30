@@ -536,7 +536,6 @@ export function OpeningExperience({
         <StoryOrbit
           stories={stories}
           lang={lang}
-          onOpen={onOpen}
           frozen={frozen}
           transitionRef={transition}
           geometryRef={geometry}
@@ -611,11 +610,11 @@ export function OpeningExperience({
           <div className="story-invitation">
             <span className="desktop-story-invitation">
             {L(
-              "点击场景图片，查看完整 My Day 示例",
-              "Choose a picture to read a complete My Day example",
+              "从凌晨到夜晚，记录每一段日常",
+              "From midnight to night, a day in everyday moments",
             )}
             </span>
-            <span className="mobile-story-invitation">{L("左右滑动，探索 9 个日常故事", "Swipe through 9 everyday stories")}<ArrowRight size={14} /></span>
+            <span className="mobile-story-invitation">{L("左右滑动，按时间看一天的日常", "Swipe through a day, in time order")}<ArrowRight size={14} /></span>
           </div>
         </div>
         <a

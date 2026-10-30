@@ -32,7 +32,7 @@
   }
 
   .lower-sections .cloud-transform-section.cloud-has-results .lower-privacy-layout {
-    grid-template-rows: repeat(3, max-content);
+    grid-template-rows: repeat(2, max-content);
   }
 
   .lower-sections .cloud-transform-section.cloud-has-results .lower-privacy-copy {
@@ -642,4 +642,168 @@
   .lower-sections .lower-pro-feature-art:hover img {
     transform: none;
   }
+}
+
+/* Mobile results replace the current viewport instead of extending the page.
+   The native dialog keeps the background inert and restores the current place. */
+@media (max-width: 849px), (max-width: 1000px) and (max-height: 500px) {
+  .cloud-mobile-outcomes[open] {
+    position: fixed;
+    inset: 0;
+    display: grid;
+    grid-template-rows: auto minmax(0, 1fr) auto;
+    gap: 14px;
+    box-sizing: border-box;
+    width: 100%;
+    max-width: none;
+    height: 100vh;
+    height: 100dvh;
+    max-height: none;
+    margin: 0;
+    padding: max(18px, env(safe-area-inset-top)) 18px max(16px, env(safe-area-inset-bottom));
+    overflow: hidden;
+    overscroll-behavior: none;
+    border: 0;
+    color: #293e59;
+    background: linear-gradient(155deg, #f4f7fc, #e7effa);
+    font: inherit;
+    animation: cloud-mobile-outcomes-in 260ms cubic-bezier(.22, .7, .2, 1) both;
+  }
+
+  .cloud-mobile-outcomes::backdrop { background: #e8eff9; }
+
+  .cloud-mobile-outcomes-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 10px;
+    min-width: 0;
+  }
+
+  .cloud-mobile-outcomes-eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    color: #5d70ae;
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: .06em;
+    line-height: 1.6;
+  }
+
+  .cloud-mobile-outcomes-header h3 {
+    margin: 9px 0 4px;
+    font-size: 23px;
+    font-weight: 500;
+    line-height: 1.25;
+    letter-spacing: -.025em;
+  }
+
+  .cloud-mobile-outcomes-header p {
+    margin: 0;
+    color: #667b98;
+    font-size: 11px;
+    line-height: 1.55;
+  }
+
+  .cloud-mobile-outcomes-close {
+    display: grid;
+    flex: 0 0 auto;
+    width: 44px;
+    height: 44px;
+    place-items: center;
+    padding: 0;
+    border: 1px solid #d3def0;
+    border-radius: 50%;
+    color: #526986;
+    background: #ffffffa6;
+    cursor: pointer;
+  }
+
+  .lower-sections .cloud-mobile-outcomes .cloud-result-stack {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+    min-height: 0;
+    height: 100%;
+  }
+
+  .lower-sections .cloud-mobile-outcomes .cloud-result-card {
+    height: 100%;
+    min-height: 0;
+    max-height: none;
+    aspect-ratio: auto;
+    opacity: 1;
+    transform: none;
+    animation: none;
+    border-color: #d4dff0;
+    border-radius: 14px;
+    box-shadow: 0 4px 12px #2943610b;
+  }
+
+  .cloud-processing-demo:is([data-phase="moving"], [data-phase="processing"]) .cloud-mobile-outcomes .cloud-result-card.is-selected .cloud-result-image {
+    opacity: .45;
+    transition: opacity 360ms ease;
+  }
+
+  .cloud-mobile-outcomes .cloud-result-card.is-selected .cloud-result-image {
+    transition: opacity 360ms ease;
+  }
+
+  .cloud-mobile-outcomes-footer {
+    display: grid;
+    justify-items: center;
+    gap: 7px;
+  }
+
+  .cloud-mobile-outcomes-back {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+    width: 100%;
+    min-height: 44px;
+    padding: 10px 16px;
+    border: 1px solid #c5d4ed;
+    border-radius: 8px;
+    color: #425f9f;
+    background: #ffffffb3;
+    font: inherit;
+    font-size: 13px;
+    cursor: pointer;
+  }
+
+  .cloud-mobile-outcomes-footer p {
+    margin: 0;
+    color: #71829a;
+    font-size: 10px;
+    line-height: 1.5;
+  }
+
+  .cloud-mobile-outcomes button:focus-visible {
+    outline: 2px solid #657dd7;
+    outline-offset: 3px;
+  }
+}
+
+@media (max-width: 849px) and (max-height: 700px) {
+  .cloud-mobile-outcomes[open] { gap: 10px; padding-block: max(12px, env(safe-area-inset-top)) max(10px, env(safe-area-inset-bottom)); }
+  .cloud-mobile-outcomes-header h3 { margin-top: 5px; font-size: 21px; }
+  .lower-sections .cloud-mobile-outcomes .cloud-result-stack { gap: 9px; }
+  .lower-sections .cloud-mobile-outcomes .cloud-result-copy { gap: 2px; padding: 28px 14px 10px; }
+  .lower-sections .cloud-mobile-outcomes .cloud-result-copy strong { font-size: 14px; }
+  .lower-sections .cloud-mobile-outcomes .cloud-result-label { font-size: 9px; }
+  .lower-sections .cloud-mobile-outcomes .cloud-result-status { font-size: 10px; }
+}
+
+@media (max-width: 1000px) and (max-height: 500px) and (orientation: landscape) {
+  .lower-sections .cloud-mobile-outcomes .cloud-result-stack {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-rows: minmax(0, 1fr);
+  }
+}
+
+@keyframes cloud-mobile-outcomes-in {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: none; }
 }

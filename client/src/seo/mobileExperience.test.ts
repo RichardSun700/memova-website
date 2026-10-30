@@ -74,10 +74,10 @@ describe('mobile reading and loading flow', () => {
   it('ships readable Watch copy and accessible phone navigation before the interaction bundle', () => {
     const { document } = parseHTML(fs.readFileSync(path.resolve('dist/public/index.html'), 'utf8'));
     const hero = document.querySelector('#root[data-seo-snapshot="true"] #top')!;
-    expect(hero.querySelector('h1')?.textContent?.replace(/\s+/g, '')).toBe('全天候记录生活，积累个人知识库。');
+    expect(hero.querySelector('h1')?.textContent?.replace(/\s+/g, '')).toBe('Recordallday.Buildyourknowledge.');
     const intro = hero.querySelector('.hero-intro')!.textContent!;
-    expect(intro).toContain('离线转写、搜索');
-    expect(intro.length).toBeLessThan(120);
+    expect(intro).toContain('Transcribe and search offline on iPhone');
+    expect(intro.length).toBeLessThan(160);
     expect(hero.querySelector('.hero-actions a')?.getAttribute('href')).toBe('https://apps.apple.com/us/app/memova-ai/id6796284954');
     expect(hero.querySelector('video,iframe')).toBeNull();
     expect(document.querySelector('a.skip-link')?.getAttribute('href')).toBe('#main');
