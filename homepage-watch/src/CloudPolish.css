@@ -1,0 +1,191 @@
+/* Visual refinement only. Source/result geometry and phase choreography stay in
+   CloudProcessingDemo.css. Import after that file and lower.css. */
+.cloud-processing-demo .cloud-source-panel {
+  border-color: #dce4f0;
+  border-radius: var(--radius-card, 14px);
+  background: linear-gradient(150deg, #ffffff, #fbfcff);
+  box-shadow: var(--shadow-card, 0 12px 34px #263e5b09);
+  transition:
+    border-color var(--motion-fast, 180ms) var(--ease-out, cubic-bezier(.22, .7, .2, 1)),
+    box-shadow var(--motion-slow, 420ms) var(--ease-out, cubic-bezier(.22, .7, .2, 1));
+}
+
+.cloud-processing-demo .cloud-source-panel:focus-within {
+  border-color: #becde6;
+}
+
+.cloud-processing-demo .lower-choice-heading p,
+.cloud-processing-demo .lower-choice-summary small,
+.cloud-processing-demo .lower-choice-feedback {
+  color: #697b94;
+}
+
+.cloud-processing-demo .lower-choice-row {
+  border-top-color: #e3e9f2;
+  border-radius: var(--radius-control, 8px);
+  transition:
+    background-color var(--motion-fast, 180ms) var(--ease-out, cubic-bezier(.22, .7, .2, 1)),
+    box-shadow var(--motion-fast, 180ms) var(--ease-out, cubic-bezier(.22, .7, .2, 1)),
+    transform 500ms ease;
+}
+
+.cloud-processing-demo .lower-choice-row:not(.is-busy):hover {
+  background-color: #f4f7fc;
+}
+
+.cloud-processing-demo .lower-choice-row.is-selected {
+  background: linear-gradient(100deg, #edf2fc, #f5f8fd 75%, #f9fbff);
+  box-shadow: inset 0 0 0 1px #bdcce746;
+}
+
+.cloud-processing-demo .lower-choice-row.is-selected:not(.is-busy):hover {
+  background: linear-gradient(100deg, #e8effb, #f0f5fd 75%, #f7faff);
+}
+
+.cloud-processing-demo .lower-choice-row input {
+  appearance: none;
+  -webkit-appearance: none;
+  border: 1px solid #a8b7cd;
+  border-radius: 4px;
+  background: #ffffff;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 12px 12px;
+  box-shadow: inset 0 1px 1px #263e5b06;
+  transition:
+    border-color var(--motion-fast, 180ms) var(--ease-out, cubic-bezier(.22, .7, .2, 1)),
+    background-color var(--motion-fast, 180ms) var(--ease-out, cubic-bezier(.22, .7, .2, 1)),
+    box-shadow var(--motion-fast, 180ms) var(--ease-out, cubic-bezier(.22, .7, .2, 1));
+}
+
+.cloud-processing-demo .lower-choice-row:not(.is-busy):hover input:not(:checked) {
+  border-color: #7c92b8;
+}
+
+.cloud-processing-demo .lower-choice-row input:checked {
+  border-color: var(--accent, #586dcc);
+  background-color: var(--accent, #586dcc);
+  /* Phosphor Check / bold: exact path from @phosphor-icons/react. */
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 256 256'%3E%3Cpath fill='white' d='M232.49,80.49l-128,128a12,12,0,0,1-17,0l-56-56a12,12,0,1,1,17-17L96,183,215.51,63.51a12,12,0,0,1,17,17Z'/%3E%3C/svg%3E");
+  box-shadow: inset 0 1px 0 #ffffff24;
+}
+
+.cloud-processing-demo .lower-choice-row input:focus-visible {
+  outline: 2px solid var(--accent, #586dcc);
+  outline-offset: 3px;
+}
+
+.cloud-processing-demo .lower-choice-row:has(input:focus-visible) {
+  outline: none;
+  box-shadow: inset 0 0 0 1px #a7bbdf80;
+}
+
+.cloud-processing-demo .lower-choice-source {
+  color: #677b97;
+}
+
+.cloud-processing-demo .lower-choice-content q {
+  color: #52657e;
+}
+
+.cloud-processing-demo .lower-choice-row.is-selected .lower-choice-content q {
+  color: var(--ink, #283a50);
+}
+
+.cloud-processing-demo .lower-choice-summary {
+  border-top-color: #e0e7f2;
+}
+
+.cloud-processing-demo .lower-choice-confirm {
+  border-radius: var(--radius-control, 8px);
+  box-shadow: inset 0 1px 0 #ffffff1f;
+  transition:
+    background-color var(--motion-fast, 180ms) var(--ease-out, cubic-bezier(.22, .7, .2, 1)),
+    border-color var(--motion-fast, 180ms) var(--ease-out, cubic-bezier(.22, .7, .2, 1)),
+    color var(--motion-fast, 180ms) var(--ease-out, cubic-bezier(.22, .7, .2, 1)),
+    transform var(--motion-fast, 180ms) var(--ease-out, cubic-bezier(.22, .7, .2, 1));
+}
+
+.cloud-processing-demo .lower-choice-confirm:hover:not(:disabled) {
+  border-color: #4e63b6;
+  background-color: #4e63b6;
+}
+
+.cloud-processing-demo:is([data-phase="moving"], [data-phase="processing"]) .lower-choice-confirm:disabled {
+  border-color: #ccd8ee;
+  color: #536da5;
+  background: #edf2fc;
+  opacity: 1;
+  cursor: progress;
+}
+
+.cloud-processing-demo[data-phase="processing"] .lower-choice-confirm .cloud-processing-symbol {
+  animation: cloud-polish-processing calc(var(--motion-slow, 420ms) * 2) ease-in-out infinite;
+}
+
+.cloud-processing-demo[data-phase="ready"] .lower-choice-confirm:disabled {
+  border-color: #d0dbed;
+  color: #4d689b;
+  background: #eaf0fb;
+  opacity: 1;
+}
+
+.cloud-processing-demo .lower-text-button {
+  border-radius: var(--radius-control, 8px);
+  transition: color var(--motion-fast, 180ms) var(--ease-out, cubic-bezier(.22, .7, .2, 1));
+}
+
+.cloud-processing-demo .cloud-ghost-chip {
+  border-color: #d5dff0;
+  border-radius: var(--radius-control, 8px);
+  background: #f7faff;
+  box-shadow: 0 4px 12px #263e5b0a;
+}
+
+.cloud-processing-demo .cloud-results-heading {
+  color: #657a97;
+}
+
+.cloud-processing-demo .cloud-result-card {
+  border-color: #d5dfef;
+  border-radius: var(--radius-card, 14px);
+  transition:
+    border-color var(--motion-fast, 180ms) var(--ease-out, cubic-bezier(.22, .7, .2, 1)),
+    box-shadow var(--motion-fast, 180ms) var(--ease-out, cubic-bezier(.22, .7, .2, 1));
+}
+
+.cloud-processing-demo .cloud-result-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  box-shadow: inset 0 1px 0 #ffffffc7;
+  pointer-events: none;
+}
+
+.cloud-processing-demo .cloud-result-copy {
+  background: linear-gradient(transparent, #101c2c90 38%, #101c2ce6);
+}
+
+.cloud-processing-demo .cloud-result-label {
+  color: #e5edf9;
+}
+
+@keyframes cloud-polish-processing {
+  0%, 100% { opacity: .55; }
+  50% { opacity: 1; }
+}
+
+@media (forced-colors: active) {
+  .cloud-processing-demo .lower-choice-row input {
+    appearance: auto;
+    -webkit-appearance: auto;
+    background-image: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cloud-processing-demo .lower-choice-confirm .cloud-processing-symbol {
+    animation: none;
+  }
+}

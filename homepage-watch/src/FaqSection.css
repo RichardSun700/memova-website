@@ -1,0 +1,114 @@
+/* Reference-led FAQ: a centered hand-drawn mark and a quiet ruled list. */
+.lower-sections .lower-faq-embedded {
+  margin-top: 64px;
+  padding: 0 40px 30px;
+  border-top: 0;
+  background: #fff;
+  scroll-margin-top: 96px;
+}
+.lower-sections .lower-faq-embedded .lower-faq-layout {
+  display: block;
+  max-width: 680px;
+  margin-inline: auto;
+}
+.lower-sections .lower-faq-heading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 64px 0 105px;
+  text-align: center;
+}
+.lower-sections .lower-faq-question-mark {
+  display: block;
+  width: 78px;
+  height: 78px;
+  object-fit: contain;
+  transform-origin: 50% 88%;
+  animation: memova-faq-sway 4.8s ease-in-out infinite;
+}
+.lower-sections .lower-faq-heading h2 {
+  margin: 36px 0 0;
+  color: #283a50;
+  font: 400 58px/1.08 Georgia, "Times New Roman", serif;
+  letter-spacing: -.055em;
+}
+.lower-sections .lower-faq-embedded .lower-faq-list {
+  overflow: visible;
+  border: 0;
+  border-top: 1px solid #d9e0e8;
+  border-radius: 0;
+  background: transparent;
+}
+.lower-sections .lower-faq-embedded .lower-faq-item,
+.lower-sections .lower-faq-embedded .lower-faq-item:last-child {
+  border-bottom: 1px solid #d9e0e8;
+  background: transparent;
+}
+.lower-sections .lower-faq-embedded .lower-faq-item h3 button {
+  min-height: 88px;
+  gap: 28px;
+  padding: 26px 3px 26px 0;
+  color: #283a50;
+  font: 400 20px/1.55 Georgia, "Songti SC", "STSong", serif;
+  letter-spacing: -.02em;
+  background: transparent;
+  transition: color 180ms ease-out;
+}
+.lower-sections .lower-faq-embedded .lower-faq-item h3 button:hover {
+  color: #5c75ad;
+  background: transparent;
+}
+.lower-sections .lower-faq-embedded .lower-faq-item h3 button:focus-visible {
+  outline: 2px solid #7b92bd;
+  outline-offset: 5px;
+  border-radius: 2px;
+}
+.lower-sections .lower-faq-embedded .lower-faq-item h3 button svg {
+  width: 18px;
+  height: 18px;
+  flex: none;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  color: #6c7988;
+  background: transparent;
+  transition: transform 220ms ease-out, color 180ms ease-out;
+}
+.lower-sections .lower-faq-embedded .lower-faq-item.is-open h3 button svg {
+  transform: rotate(45deg);
+  color: #5c75ad;
+}
+.lower-sections .lower-faq-embedded .lower-faq-answer p {
+  max-width: 720px;
+  margin: 0;
+  padding: 0 46px 28px 0;
+  color: #78879a;
+  font-size: 14px;
+  line-height: 1.9;
+}
+.lower-sections .lower-faq-embedded .lower-faq-answer:not([hidden]) {
+  animation: memova-faq-answer 220ms ease-out both;
+}
+@keyframes memova-faq-sway {
+  0%, 100% { transform: rotate(-7deg); }
+  50% { transform: rotate(7deg); }
+}
+@keyframes memova-faq-answer {
+  from { opacity: 0; transform: translateY(-3px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@media (max-width: 600px) {
+  .lower-sections .lower-faq-embedded { margin-top: 38px; padding: 0 24px 18px; }
+  .lower-sections .lower-faq-heading { padding: 46px 0 72px; }
+  .lower-sections .lower-faq-question-mark { width: 65px; height: 65px; }
+  .lower-sections .lower-faq-heading h2 { font-size: 49px; margin-top: 19px; }
+  .lower-sections .lower-faq-embedded .lower-faq-item h3 button { min-height: 78px; padding: 23px 1px 23px 0; gap: 18px; font-size: 18px; line-height: 1.55; }
+  .lower-sections .lower-faq-embedded .lower-faq-item h3 button svg { width: 17px; height: 17px; }
+  .lower-sections .lower-faq-embedded .lower-faq-answer p { padding: 0 28px 23px 0; font-size: 13px; line-height: 1.9; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .lower-sections .lower-faq-question-mark { animation: none; transform: none; }
+  .lower-sections .lower-faq-embedded .lower-faq-answer:not([hidden]) { animation: none; }
+  .lower-sections .lower-faq-embedded .lower-faq-item h3 button,
+  .lower-sections .lower-faq-embedded .lower-faq-item h3 button svg { transition: none; }
+}

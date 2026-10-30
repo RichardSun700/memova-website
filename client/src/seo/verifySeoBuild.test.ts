@@ -2,7 +2,7 @@ import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
 import { afterEach, describe, expect, it } from "vitest";
-import { collectSeoBuildErrors } from "../../../scripts/verify-seo-build.mjs";
+import { collectProductionHomepageErrors, collectSeoBuildErrors } from "../../../scripts/verify-seo-build.mjs";
 import { sitePages } from "./sitePages";
 
 const temporaryDirectories: string[] = [];
@@ -57,8 +57,8 @@ describe("SEO build verification", () => {
     const homepage = fs.readFileSync(path.join(output, "index.html"), "utf8");
 
     expect(collectSeoBuildErrors(output, sitePages)).toEqual([]);
-    expect(homepage).toContain('id="memova-seo-shell-styles"');
-    expect(homepage).toContain('data-seo-shell-version="2"');
+    expect(homepage).toContain('data-production-homepage="watch-life-v1"');
+    expect(homepage).toContain('data-seo-snapshot="true"');
     expect(homepage).not.toContain('id="manus-runtime"');
     expect(homepage).not.toContain("__MANUS_HOST_DEV__");
   });
@@ -104,24 +104,69 @@ describe("SEO build verification", () => {
     ).toBe(true);
   });
 
-  it("rejects a stale or unstyled SEO shell", () => {
+  it("rejects a stale or unstyled legacy public route shell", () => {
     const output = path.resolve(process.cwd(), "dist/public");
     const directory = fs.mkdtempSync(
       path.join(os.tmpdir(), "memova-seo-stale-shell-")
     );
     temporaryDirectories.push(directory);
     fs.cpSync(output, directory, { recursive: true });
-    const homepagePath = path.join(directory, "index.html");
-    const homepage = fs
-      .readFileSync(homepagePath, "utf8")
+    const shellPath = path.join(directory, "support", "index.html");
+    const shell = fs
+      .readFileSync(shellPath, "utf8")
       .replace('id="memova-seo-shell-styles"', 'id="removed-shell-styles"')
       .replace('data-seo-shell-version="2"', 'data-seo-shell-version="1"');
-    fs.writeFileSync(homepagePath, homepage);
+    fs.writeFileSync(shellPath, shell);
 
     const errors = collectSeoBuildErrors(directory, sitePages);
 
-    expect(errors).toContain("/ has no critical SEO shell styles");
-    expect(errors).toContain("/ has no current SEO shell version");
+    expect(errors).toContain("/support has no critical SEO shell styles");
+    expect(errors).toContain("/support has no current SEO shell version");
+  });
+
+  it("rejects a stale homepage marker, missing static chapters and a blank heading", () => {
+    const output = path.resolve("dist/public");
+    const homepage = fs.readFileSync(path.join(output, "index.html"), "utf8")
+      .replace('data-production-homepage="watch-life-v1"', 'data-production-homepage="retired-homepage"')
+      .replace(/<h1\b[^>]*>[\s\S]*?<\/h1>/, "<h1></h1>")
+      .replace('id="experience"', 'id="removed-experience"');
+    const errors = collectProductionHomepageErrors(homepage, sitePages[0], output);
+    expect(errors).toContain("/ has no current production homepage marker");
+    expect(errors).toContain("/ static homepage does not match its visible page heading");
+    expect(errors).toContain("/ is missing static homepage section #experience");
+  });
+
+  it("rejects a missing homepage entry and local development URLs", () => {
+    const output = path.resolve("dist/public");
+    const homepage = fs.readFileSync(path.join(output, "index.html"), "utf8")
+      .replace(/(<script\b[^>]*type="module"[^>]*src=")[^"]+/, '$1/missing-homepage-entry.js')
+      .replace("</body>", '<img src="http://localhost:5173/preview.png"></body>');
+    const errors = collectProductionHomepageErrors(homepage, sitePages[0], output);
+    expect(errors).toContain("/ references a missing local homepage resource: /missing-homepage-entry.js");
+    expect(errors).toContain("/ references a local development server or source entry");
+  });
+
+  it("rejects stale homepage structured data and accidental noindex metadata", () => {
+    const output = path.resolve("dist/public");
+    const homepage = fs.readFileSync(path.join(output, "index.html"), "utf8")
+      .replace(/(<script\b[^>]*type="application\/ld\+json"[^>]*>)[\s\S]*?(<\/script>)/g,
+        '$1{"name":"Retired homepage","url":"https://memova.ai/"}$2')
+      .replace("</head>", '<meta name="robots" content="noindex, nofollow"></head>')
+      .replace(/(<meta\b[^>]*name="robots"[^>]*content=")[^"]+/, '$1noindex, nofollow');
+    const errors = collectProductionHomepageErrors(homepage, sitePages[0], output);
+    expect(errors).toContain("/ structured data does not describe the current homepage");
+    expect(errors).toContain("/ must remain indexable");
+  });
+
+  it("rejects a production file at Cloudflare Pages' 25 MiB limit", () => {
+    const directory = fs.mkdtempSync(path.join(os.tmpdir(), "memova-seo-oversized-"));
+    temporaryDirectories.push(directory);
+    const oversized = path.join(directory, "oversized.mp4");
+    fs.writeFileSync(oversized, "");
+    fs.truncateSync(oversized, 25 * 1024 * 1024);
+    expect(collectSeoBuildErrors(directory, [])).toContain(
+      "oversized.mp4 exceeds the Cloudflare Pages file limit of 25 MiB"
+    );
   });
 
   it("requires a top-level noindex 404 document for Cloudflare Pages", () => {

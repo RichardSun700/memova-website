@@ -1,0 +1,86 @@
+{
+  "title": "Fridge clear-out assistant",
+  "subtitle": "Less dinner indecision. Use what you already have.",
+  "original": [
+    "I just opened the fridge to cook and found another box of mushrooms I’d forgotten to eat. It made me wonder: could I make a “fridge clear-out assistant”? Take a photo of the ingredients in your fridge, and it recommends something you can cook tonight, prioritizing things that are close to expiring. Ideally, it would take no more than 20 minutes, without buying a whole new set of seasonings.",
+    "I think the hardest part isn’t knowing how to cook. It’s deciding what to eat every day. A photo probably can’t tell when the ingredients were bought, though, and entering everything by hand would be too much work. Maybe users could pick three ingredients they want to use up, and get just two dish suggestions each time?",
+    "I’d like to ask a few friends who live alone to try it for a week, to see whether they actually use it and whether they throw away less food."
+  ],
+  "explore": [
+    "The core of this idea isn’t just recommending recipes. It’s reducing the effort of deciding what to eat tonight. “Pick three ingredients you want to use up, get just two dishes” is a good starting point for a one-week trial, but it would help to clarify the recommendation rules first.",
+    "For the first version, I’d suggest not trying to determine expiration dates. Let users choose the ingredient they most want to use up first. That indicates a priority for using it, not that it is still safe to eat. Aim for recipes that take no more than 20 minutes and use seasonings people already have. Don’t force all three ingredients into the same dish. You could even recommend meals to your friends manually at first, to see whether that helps before adding photo recognition.",
+    "The trial log can stay light: record whether they cooked the suggestion and what they used up. If they didn’t, leave one sentence about why. At the end of the week, look back at which ingredients were still thrown away. That can begin to distinguish “the suggestion didn’t fit” from “I never remembered to use it.” To judge whether waste actually decreased, you’d still need a reference point from before the trial."
+  ],
+  "questions": [
+    "Are the “two dishes” two dinner options to choose between, or two dishes to cook together as one meal? That directly affects the 20-minute target and how much of each ingredient is needed.",
+    "When your friends first try it, would you be willing to ask them to select the seasonings they usually keep at home once? Or would you rather skip even that step and offer only very simple seasoning options?",
+    "What do you most want to test that week: whether they use it repeatedly, whether deciding on dinner feels easier, or whether they actually throw away less food? You can keep the log minimal based on that priority."
+  ],
+  "reply": "Two alternatives—choose one.",
+  "followup": [
+    "Understood: offer two alternatives, and the user chooses one to cook, rather than making both dishes for the same meal. The 20-minute goal should therefore apply to each option separately, and there’s no need to reserve enough ingredients for both at once.",
+    "To really reduce indecision, both options should try to use the ingredient the user most wants to finish, but have a clear difference—for example, “less effort” versus “uses up one more ingredient.” Show only the dish name, estimated time, which ingredients it uses and which existing seasonings it needs. There’s no need to force all three ingredients into every option.",
+    "During the one-week trial, you can also record which option they chose, or why they chose neither. That helps you see whether two alternatives are enough to help people decide, rather than merely showing whether you supplied a recipe."
+  ],
+  "enhanced": [
+    [
+      {
+        "text": "I just opened the fridge to cook and found another box of mushrooms I’d forgotten to eat. It made me wonder: could I make a “fridge clear-out assistant”? Take a photo of the ingredients in your fridge, and it recommends something you can cook tonight, prioritizing things close to expiring. Ideally it would take no more than 20 minutes, without buying a whole new set of seasonings. Those 20 minutes should include washing and chopping, not just time on the stove. Similar products already exist: SuperCook finds recipes from ingredients you have, while Samsung Food+ offers ingredient scanning, a food list and “Use It Up” recipe discovery."
+      },
+      {
+        "sources": [
+          1,
+          2
+        ]
+      },
+      {
+        "text": " Seen that way, the idea may be worth testing for more than ingredient recognition: can it cut the number of steps, reduce indecision and help someone decide what to eat tonight?"
+      }
+    ],
+    [
+      {
+        "text": "I think the hardest part isn’t knowing how to cook. It’s deciding what to eat every day. A photo probably can’t tell when the ingredients were bought, and entering everything by hand would be too much work. When Samsung introduced food-date reminders in 2024, users still set the use-by dates themselves; at least that approach didn’t solve the source-of-date problem with a single photo."
+      },
+      {
+        "sources": [
+          3
+        ]
+      },
+      {
+        "text": " Maybe users could start by picking three ingredients they want to use up, then get just two dish suggestions. They could also tap the ingredient they most want to use first. Keep “use this first” separate from “determine whether it is about to expire.” A photo can be optional, without maintaining a full fridge inventory from day one. List the required seasonings and show whether anything missing can be omitted or substituted, so people don’t choose a meal only to discover they need another shopping trip. A recipe recommendation cannot guarantee that an ingredient is safe to eat: USDA guidance explains that many food dates primarily indicate quality rather than safety, and storage temperature and handling also affect the food’s condition."
+      },
+      {
+        "sources": [
+          4
+        ]
+      }
+    ],
+    [
+      {
+        "text": "I’d like to ask a few friends who live alone to try it for a week, to see whether they actually use it and whether they throw away less food. Start with a lightweight test: choose three ingredients each day and offer two options. Record how long it takes to decide, whether they actually cook, and whether they use the ingredient they most wanted to finish. To assess food waste, briefly record what they normally throw away before the trial, rather than relying only on their impressions afterward. A few people testing it for one week may not prove that waste has fallen, but it can at least show whether the assistant helps people make a decision—or becomes one more thing they have to maintain."
+      }
+    ]
+  ],
+  "sources": [
+    {
+      "id": 1,
+      "title": "SuperCook",
+      "context": "Ingredient-based recipe discovery"
+    },
+    {
+      "id": 2,
+      "title": "Samsung Food+",
+      "context": "Ingredient scanning, food lists and “Use It Up”"
+    },
+    {
+      "id": 3,
+      "title": "Samsung’s 2024 food-date reminders",
+      "context": "User-entered dates in the original reply"
+    },
+    {
+      "id": 4,
+      "title": "USDA food-date guidance",
+      "context": "Quality, safety, storage and handling"
+    }
+  ]
+}

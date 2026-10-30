@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Memova · 手机预览</title>
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; min-height: 100dvh; background: #e7edf7; color: #526681; font: 12px/1.5 -apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif; }
+    header { max-width: 430px; padding: 12px 20px 10px; margin: auto; display: flex; justify-content: space-between; align-items: center; min-height: 46px; }
+    header a { color: inherit; text-decoration: none; min-height: 28px; display: flex; align-items: center; }
+    main { width: min(390px, calc(100% - 24px)); height: calc(100dvh - 58px); max-height: 844px; margin: 0 auto 12px; border: 1px solid #cbd7e7; border-radius: 22px; overflow: hidden; background: #f4f7fc; box-shadow: 0 14px 48px #3b50651a; }
+    iframe { display: block; border: 0; width: 100%; height: 100%; }
+    @media (max-width: 560px) { body { background: #f4f7fc; } header { display: none; } main { width: 100%; height: 100dvh; max-height: none; margin: 0; border: 0; border-radius: 0; box-shadow: none; } }
+  </style>
+</head>
+<body>
+  <header><span>Memova · 手机预览</span><a href="/">打开网页 ↗</a></header>
+  <main><iframe src="/" title="Memova 手机网页" allow="autoplay; fullscreen"></iframe></main>
+  <script>
+    if (location.hash) document.querySelector('iframe').src = '/' + location.hash;
+  </script>
+</body>
+</html>

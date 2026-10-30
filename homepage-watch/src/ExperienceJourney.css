@@ -1,0 +1,254 @@
+.experience-section {
+  overflow: clip;
+}
+.experience-runway {
+  height: calc(280svh - 77px);
+  margin-top: 45px;
+}
+.journey-sticky {
+  --journey-progress: 0;
+  position: sticky;
+  top: 77px;
+  height: calc(100svh - 77px);
+  display: flex;
+  flex-direction: column;
+  padding: 20px 0 16px;
+}
+.journey-sticky .chapter-tabs {
+  flex: 0 0 auto;
+  margin: 0 auto 42px;
+}
+.journey-panels {
+  position: relative;
+  flex: 1 1 auto;
+  min-height: 0;
+  max-height: 560px;
+}
+.journey-panel.experience-layout {
+  --exit: clamp(0, calc((var(--journey-progress) - var(--panel-index) - .18) * 1.5625), 1);
+  --depth: clamp(0, calc(var(--panel-index) - var(--journey-progress)), 2);
+  --copy-enter: clamp(0, calc((var(--journey-progress) - var(--panel-index) + .4) * 5), 1);
+  --copy-leave: clamp(0, calc((var(--panel-index) + .6 - var(--journey-progress)) * 2.5), 1);
+  position: absolute;
+  inset: 0;
+  z-index: calc(3 - var(--panel-index));
+  display: grid;
+  grid-template-columns: 300px minmax(0, 1fr);
+  gap: 52px;
+  min-height: 0;
+  pointer-events: none;
+}
+.journey-panel .experience-copy {
+  display: block;
+  opacity: calc(var(--copy-enter) * var(--copy-leave));
+  transform: translateY(calc((1 - var(--copy-enter)) * 14px - (1 - var(--copy-leave)) * 14px));
+  will-change: opacity, transform;
+}
+.journey-panel .experience-stage {
+  height: 100%;
+  min-height: 0;
+  max-height: 560px;
+  overflow: hidden;
+  border: 1px solid #cedbed;
+  border-radius: 9px;
+  background: #e3ecf8;
+  transform-origin: 50% 70%;
+  transform:
+    translateX(calc(var(--exit) * 135%))
+    translateY(calc(var(--exit) * 58px - var(--depth) * 28px))
+    rotate(calc(var(--exit) * 10deg))
+    scale(calc(1 - var(--depth) * .035 - var(--exit) * .025));
+  will-change: transform;
+}
+.journey-panel[data-front="true"] .experience-copy,
+.journey-panel[data-front="true"] .experience-stage {
+  pointer-events: auto;
+}
+.journey-sticky .experience-bottom {
+  flex: 0 0 auto;
+  margin-top: 22px;
+  padding-top: 13px;
+}
+.journey-panel .search-film {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  border: 0;
+  border-radius: 0;
+}
+.journey-panel .search-film video {
+  flex: 1 1 auto;
+  min-height: 0;
+  height: 0;
+  aspect-ratio: auto;
+  object-fit: contain;
+}
+.journey-panel .search-film-caption {
+  flex: 0 0 auto;
+  padding: 12px 17px;
+}
+/* Fit the actual product assets to the viewport-height stage without cropping. */
+@media (min-width: 850px) and (max-height: 800px) {
+  .journey-panel .capture-watch-wrap { top: 50px; left: 34px; }
+  .journey-panel .capture-watch-wrap .watch-device { width: 174px; }
+  .journey-panel .capture-phone-wrap { top: 23px; left: 34%; width: 185px; }
+  .journey-panel .capture-paper { right: 25px; bottom: 65px; width: 228px; padding: 17px 19px; }
+  .journey-panel .capture-paper p { font-size: 18px; }
+  .journey-panel .reflect-phone { width: 181px; top: 18px; left: 40px; }
+  .journey-panel .reflection-paper { top: 69px; right: 27px; width: 250px; padding: 17px 20px; }
+  .journey-panel .reflection-paper h4 { font-size: 21px; margin: 11px 0; }
+  .journey-panel .reflection-paper > p { font-size: 11px; line-height: 1.8; }
+  .journey-panel .reflection-paper > img { max-height: 97px; width: 100%; object-fit: cover; }
+  .journey-panel .experience-copy h3 { font-size: 34px; line-height: 1.4; }
+  .journey-panel .experience-copy .chapter-footnote { margin-top: 24px; }
+}
+@media (min-width: 850px) and (max-width: 1150px) {
+  .journey-panel.experience-layout { grid-template-columns: 250px minmax(0, 1fr); gap: 28px; }
+  .journey-panel .experience-copy > p { max-width: 245px; }
+  .journey-panel .capture-watch-wrap { left: 22px; }
+  .journey-panel .capture-watch-wrap .watch-device { width: 155px; }
+  .journey-panel .capture-phone-wrap { left: 39%; width: 178px; }
+  .journey-panel .capture-paper { right: 18px; bottom: 77px; width: 206px; }
+  .journey-panel .reflect-phone { left: 24px; width: 168px; }
+  .journey-panel .reflection-paper { right: 18px; width: 215px; }
+}
+/* Ordinary tabs remain available when continuous scroll motion is unsuitable. */
+.journey-sticky[data-scroll-driven="false"] {
+  position: relative;
+  top: auto;
+  height: auto;
+}
+.experience-runway:has(.journey-sticky[data-scroll-driven="false"]) {
+  height: auto;
+}
+.journey-sticky[data-scroll-driven="false"] .journey-panels {
+  flex: none;
+}
+.journey-sticky[data-scroll-driven="false"] .journey-panel {
+  display: none;
+}
+.journey-sticky[data-scroll-driven="false"] .journey-panel[data-front="true"] {
+  display: grid;
+  position: relative;
+  inset: auto;
+}
+.journey-sticky[data-scroll-driven="false"] .experience-stage {
+  height: 520px;
+  transform: none;
+}
+.journey-sticky[data-scroll-driven="false"] .experience-copy {
+  opacity: 1;
+  transform: none;
+}
+@media (max-width: 849px), (max-width: 1000px) and (max-height: 500px) {
+  .experience-runway { margin-top: 28px; height: auto; }
+  .journey-sticky { position: relative; top: auto; height: auto; padding: 0; }
+  .journey-sticky .chapter-tabs {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    width: 100%;
+    max-width: 620px;
+    margin: 0 0 24px;
+  }
+  .journey-sticky .chapter-tabs > button {
+    justify-content: center;
+    min-width: 0;
+    min-height: 48px;
+    padding: 10px 6px;
+    font-size: 13px;
+    line-height: 1.4;
+    white-space: normal;
+    touch-action: manipulation;
+  }
+  .journey-sticky .chapter-tabs > button > span:first-child,
+  .journey-sticky .chapter-tabs .chapter-english { display: none; }
+  .journey-sticky .chapter-tabs > button::after { left: 6px; right: 6px; }
+  .journey-sticky .chapter-tabs > button:focus-visible { outline: 2px solid #626fe0; outline-offset: -3px; }
+  .journey-sticky .journey-panels { flex: none; max-height: none; }
+  .journey-panel.experience-layout {
+    display: none;
+    position: relative;
+    inset: auto;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 20px;
+    min-width: 0;
+  }
+  .journey-panel.experience-layout[data-front="true"] { display: grid; }
+  .journey-panel .experience-copy {
+    max-width: 640px;
+    padding: 0;
+    opacity: 1;
+    transform: none;
+    will-change: auto;
+  }
+  .journey-panel .experience-copy h3 { font-size: clamp(28px, 4.5vw, 34px); line-height: 1.35; margin: 10px 0 14px; }
+  .journey-panel .experience-copy > p { max-width: none; margin: 0 0 12px; font-size: 14px; line-height: 1.85; }
+  .journey-panel .experience-copy > .text-link {
+    display: inline-flex;
+    align-items: center;
+    width: fit-content;
+    max-width: 100%;
+    min-height: 44px;
+    margin: 2px 18px 0 0;
+    padding-block: 6px;
+    font-size: 13px;
+  }
+  .journey-panel .experience-copy > .secondary-link { margin-top: 2px !important; }
+  .journey-sticky .journey-panel .experience-stage,
+  .journey-sticky[data-scroll-driven="false"] .experience-stage {
+    height: auto;
+    min-height: 0;
+    max-height: none;
+    transform: none;
+    will-change: auto;
+  }
+  .journey-sticky .experience-bottom { margin-top: 18px; padding-top: 12px; flex-wrap: wrap; gap: 8px 18px; font-size: 11px; line-height: 1.6; }
+  .journey-sticky .experience-bottom > span:last-child { display: flex; }
+}
+@media (max-width: 560px) {
+  /* Give the actual UI the screen width; copy and tab hit targets keep the site gutter. */
+  .journey-panel .experience-stage {
+    width: calc(100% + var(--page-gutter, 22px) * 2);
+    margin-inline: calc(var(--page-gutter, 22px) * -1);
+    border-inline: 0;
+    border-radius: 0;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .journey-panel .experience-copy,
+  .journey-panel .experience-stage { will-change: auto; }
+}
+
+.journey-panel .myday-chimes-corner {
+  position: absolute;
+  z-index: 8;
+  top: 4px;
+  right: 22px;
+}
+.journey-panel .has-wind-chimes .reflection-paper {
+  top: 176px;
+  padding: 16px 20px;
+  transition: opacity 200ms ease;
+}
+.journey-panel .has-wind-chimes .reflection-paper > img {
+  max-height: 84px;
+  width: 100%;
+  object-fit: cover;
+  margin: 9px 0;
+}
+.journey-panel .has-wind-chimes .reflection-paper h4 {
+  margin: 9px 0;
+  font-size: 21px;
+}
+.journey-panel .has-wind-chimes .reflection-paper > p {
+  font-size: 11px;
+  line-height: 1.7;
+}
+.journey-panel .is-reading-chime .reflection-paper {
+  opacity: 0;
+  pointer-events: none;
+}
+@media (min-width: 850px) and (max-height: 800px) {
+  /* The full phone view keeps the illustration; make room for the observation. */
+  .journey-panel .has-wind-chimes .reflection-paper > img { display: none; }
+}

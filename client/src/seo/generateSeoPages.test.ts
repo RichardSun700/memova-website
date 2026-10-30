@@ -58,7 +58,7 @@ describe("SEO build generator", () => {
 
     expect(html).toContain('class="memova-seo-shell"');
     expect(html).toContain(page.hero!.title);
-    expect(html).toContain("Context · Knowledge · Build in public");
+    expect(html).toContain(page.hero!.eyebrow);
     expect(html).toContain("Living Book");
     expect(html).toContain("Download the app");
     expect(html).toContain('href="https://apps.apple.com/us/app/memova-ai/id6796284954"');

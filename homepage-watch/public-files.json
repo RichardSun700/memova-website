@@ -1,0 +1,404 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-10-30T12:34:53.310184+00:00",
+  "pathBase": "public/",
+  "fileCount": 77,
+  "totalBytes": 120618648,
+  "largestFileBytes": 24468633,
+  "perFileLimitBytes": 26214400,
+  "verification": {
+    "completeAllowlistCopied": true,
+    "everyFileMatchesSourceSha256": true,
+    "allFilesAtOrBelow25MiB": true,
+    "publishedTextMachinePathScan": "passed",
+    "selfContainedExamplesCopiedByteForByte": true,
+    "sourceApplicationUnchangedByThisCopy": true
+  },
+  "files": [
+    {
+      "path": "assets/chimes/breeze-chime.png",
+      "sha256": "077453df39ced4dec07dd9742cbe130151692e35f347c0c34c4fb5873812dbc1",
+      "sizeBytes": 1826646
+    },
+    {
+      "path": "assets/chimes/memory-chime.png",
+      "sha256": "64a4e707b740baa43db5586bed96c587debfd09ed111a1385ba855b08d8795ff",
+      "sizeBytes": 1779689
+    },
+    {
+      "path": "assets/chimes/voice-chime.png",
+      "sha256": "af76d94ab8d58e424c6d4815f11a4fad344067ff75eb9d68daeb7a779edfe739",
+      "sizeBytes": 1628025
+    },
+    {
+      "path": "assets/community/memova-discord-qr.webp",
+      "sha256": "d37220b1092c0a596d47aadd2a0d61c2afbb6219f36954d7c62debb19f15e605",
+      "sizeBytes": 586
+    },
+    {
+      "path": "assets/faq/question-mark-handdrawn.png",
+      "sha256": "213746bfea59a6b31b0182279ba8e629afac0f2bb7bb4c7ef049807a63f81749",
+      "sizeBytes": 364385
+    },
+    {
+      "path": "assets/feature-meeting.webp",
+      "sha256": "cc3c9106c9ebb81c18db6cf2a82fcaf1397fa9d9b0ff84f19f5d3e5d54a3090a",
+      "sizeBytes": 708308
+    },
+    {
+      "path": "assets/feature-mentor.webp",
+      "sha256": "2975a5009ebaed0dece8f0a9f939d85b3e4560025ce3290a6cc6e3fe36a365bf",
+      "sizeBytes": 569394
+    },
+    {
+      "path": "assets/feature-recap.webp",
+      "sha256": "3df676692328c77395ac236c2d8f9dda46af2543b265dc133370d2cdbee68336",
+      "sizeBytes": 1240804
+    },
+    {
+      "path": "assets/feature-spark.webp",
+      "sha256": "c93b8b0b40dcaf070f52f0ea9b50596dbb243021b2509c5dc748357596848e74",
+      "sizeBytes": 652036
+    },
+    {
+      "path": "assets/fonts/LICENSE-DM-Sans.txt",
+      "sha256": "9af36190332437f5ecd09974de43c1f7c77a310a996cdd8ceb25628b458840e1",
+      "sizeBytes": 4482
+    },
+    {
+      "path": "assets/fonts/LICENSE-Instrument-Serif.txt",
+      "sha256": "129ed7618959716959f2941fdd5b49e0ad6e6c1d78726761786a00253d865521",
+      "sizeBytes": 4405
+    },
+    {
+      "path": "assets/fonts/dm-sans-400.ttf",
+      "sha256": "b0ae3e89a7d3ef2b1838bb4b1ceb0b17cc3435af061eee809d76aa623ff116e9",
+      "sizeBytes": 48280
+    },
+    {
+      "path": "assets/fonts/dm-sans-600.ttf",
+      "sha256": "b79a2ea7a38f33fd96a282fadb9ce97626bb0724a44d21075859f0e50239993a",
+      "sizeBytes": 48280
+    },
+    {
+      "path": "assets/fonts/dm-sans-700.ttf",
+      "sha256": "2a8e7f713ee79fbccdef3cef5c787aff47580299f7da60144961e7db2ec08211",
+      "sizeBytes": 48200
+    },
+    {
+      "path": "assets/fonts/instrument-serif-italic.ttf",
+      "sha256": "fecf4861d5202405b8bd45c683858b6870642a026784fe0dbf88ff55dedee8a0",
+      "sizeBytes": 64208
+    },
+    {
+      "path": "assets/fonts/instrument-serif-normal.ttf",
+      "sha256": "a99e3db50076202713812ed541feeb23ffeebb61db1fa6b1cf48fe590d37ef18",
+      "sizeBytes": 62284
+    },
+    {
+      "path": "assets/meeting-library-preview.png",
+      "sha256": "ef15084c72758b74849e6779f3bfbda529592a36d9865908cf2488c28793b978",
+      "sizeBytes": 67836
+    },
+    {
+      "path": "assets/memova-icon-transparent.png",
+      "sha256": "a195dcdd4768ec721737d3ac888b7f2a3a5453ce2523a4b4c8344c881f9571d1",
+      "sizeBytes": 1131083
+    },
+    {
+      "path": "assets/memova-wordmark-tight.png",
+      "sha256": "6d915d838472d1c68c75b592f2255c395cfc09b1396b291a9735a70cba2f54e8",
+      "sizeBytes": 150940
+    },
+    {
+      "path": "assets/mentor-classroom/classroom-female-mentor-v2.png",
+      "sha256": "fadb3637314a324709901b9dcc13f6a89c443bf44793a2d527469910163e5ab3",
+      "sizeBytes": 2015560
+    },
+    {
+      "path": "assets/mentor-classroom/colleague-feedback.png",
+      "sha256": "f25a20e53c3aa2a520e9721724290cfb7cabc2226d53eae61520611013638ef9",
+      "sizeBytes": 18830
+    },
+    {
+      "path": "assets/mentor-classroom/dating-boundaries.png",
+      "sha256": "bdaeb82b4825d9fd33ffc211a12af51e28089064ffda2b1dfb4e5fe5f678a298",
+      "sizeBytes": 17974
+    },
+    {
+      "path": "assets/mentor-classroom/parent-child-conversation.png",
+      "sha256": "117b25b7e5eef515419a3be5ec83e0856a9caeecb60800b0fc89c9d843b6a4a0",
+      "sizeBytes": 20727
+    },
+    {
+      "path": "assets/mentor-classroom/partner-conversation.png",
+      "sha256": "2fe7e256b11a717f8d4465dd7dfe6d842d05db3e12b20f388ede492401073594",
+      "sizeBytes": 22450
+    },
+    {
+      "path": "assets/mentor-classroom/speaking-up.png",
+      "sha256": "9f86f3cf361691ffa68a86f2319ad681e6f6d140866cb0eb499da99bed675774",
+      "sizeBytes": 25438
+    },
+    {
+      "path": "assets/michael-today.jpg",
+      "sha256": "f507c3ac5650b435643b73f6264c7434cc127ea61c9ee3f1a56eaf97b532a25a",
+      "sizeBytes": 42674
+    },
+    {
+      "path": "assets/myday-cover-layout.css",
+      "sha256": "027a5a23dc02db9efa660a7ac8d8b5545584fca306938316e9e8d91bade1eda8",
+      "sizeBytes": 806
+    },
+    {
+      "path": "assets/myday-forest-cover.webp",
+      "sha256": "42b285faf6a8323e17cb952415c8234fceba769b785a27ca63a5ff8752413639",
+      "sizeBytes": 1648812
+    },
+    {
+      "path": "assets/pro-campaign-v2/card-meeting-outcomes-v2.png",
+      "sha256": "b4e12b44ae17190f10d5b484e7f15d667658e66f763bf7f09f63961e654ba9dc",
+      "sizeBytes": 1667020
+    },
+    {
+      "path": "assets/pro-campaign-v2/card-mentor-chat.webp",
+      "sha256": "6d5008e56bb44de671a23a48883cea9d5a4c2bbb7d60f7ea8f3a44b081af66eb",
+      "sizeBytes": 21294
+    },
+    {
+      "path": "assets/pro-campaign-v2/card-recap-calendar.webp",
+      "sha256": "84f30ddd5eee8ddd2a46afb57735fb99d16dd1cdf3780881304518361f46dafc",
+      "sizeBytes": 23218
+    },
+    {
+      "path": "assets/pro-campaign-v2/card-spark-notebook.webp",
+      "sha256": "a45f9bca78c2daabaa79946899f380efc925f6af1dac0f861eddfb2ff731eff2",
+      "sizeBytes": 25360
+    },
+    {
+      "path": "assets/pro-campaign-v2/myday-conversation-demo-hrv-v6.png",
+      "sha256": "e6b6e5d22c51436c2229b8171747bb1b96c574e87b802bf80000afad744fbcac",
+      "sizeBytes": 36830
+    },
+    {
+      "path": "assets/pro-campaign-v2/myday-cover-screen.webp",
+      "sha256": "351a26afdd23e0267d1e744477f8240ab543fa2ad81b677efb3f18af338aee41",
+      "sizeBytes": 273058
+    },
+    {
+      "path": "assets/pro-campaign-v2/retrospective-phone-bezel.png",
+      "sha256": "ee2514d74d2f75f3541405fa2f20811f159879a66586778cfd8c9c84c44959df",
+      "sizeBytes": 353980
+    },
+    {
+      "path": "assets/pro-campaign-v2/spark-tools-transparent.png",
+      "sha256": "5a999346939e0237d541fcbd0c913aa25644f03df6fa249798858340ab2c38d4",
+      "sizeBytes": 1232598
+    },
+    {
+      "path": "assets/search-birthday.webp",
+      "sha256": "9e2754df003e378dd2c67d163c8efad6ea7177a7e56338cda4bb687b13be1923",
+      "sizeBytes": 94352
+    },
+    {
+      "path": "assets/smoky-hero.webp",
+      "sha256": "3801333a3156dc35cc2b3fed20967a8e9a768a66356594e323bac887475f0c12",
+      "sizeBytes": 340312
+    },
+    {
+      "path": "assets/stories/clay-v4/campus-safety.webp",
+      "sha256": "eaef665b2fc0542ecea9fe7786888534538dae42afc43b41f891a960cff385cf",
+      "sizeBytes": 34262
+    },
+    {
+      "path": "assets/stories/clay-v4/colleague-feedback.webp",
+      "sha256": "fe8745942b92c51469899fa2908ff4592eeaa5059e5090d6f16f73f6ff082e8a",
+      "sizeBytes": 35894
+    },
+    {
+      "path": "assets/stories/clay-v4/dating-boundaries.webp",
+      "sha256": "fdc34ab398f020ace6d07ae7c902c19d633593b4318884900e58f039f30f9517",
+      "sizeBytes": 43292
+    },
+    {
+      "path": "assets/stories/clay-v4/launch-retrospective.webp",
+      "sha256": "8caf6a6eae443264fd693674858042378fbd3be84127b1407a23e62a3d85089e",
+      "sizeBytes": 39018
+    },
+    {
+      "path": "assets/stories/clay-v4/parent-child-conversation.webp",
+      "sha256": "4e4df7852aca8a40410ecbab3e66fcb021f05b1fc6cdf18597b30c3f9d8a6886",
+      "sizeBytes": 52662
+    },
+    {
+      "path": "assets/stories/clay-v4/partner-conversation.webp",
+      "sha256": "7589cb9c36eb68b1f5a2bb634e45c8965d8a4e515c49bd58bd9340e1cc5e4f79",
+      "sizeBytes": 31382
+    },
+    {
+      "path": "assets/stories/clay-v4/repair-dispute.webp",
+      "sha256": "f2d13a067f7ef7e8e884a42deb707b487fe860d388ed66a0635e99cd6ed836f0",
+      "sizeBytes": 32184
+    },
+    {
+      "path": "assets/stories/clay-v4/speaking-up.webp",
+      "sha256": "1ce0cb331745180cebe04c73fca15b52916999abbcb5f3923c45d1426989dce7",
+      "sizeBytes": 29210
+    },
+    {
+      "path": "assets/stories/clay-v4/workplace-conversation.webp",
+      "sha256": "a0775dbaddeab2269a62c88188754f50a17d5ca8377f0048c789ea09d5b6720b",
+      "sizeBytes": 35132
+    },
+    {
+      "path": "assets/video/myday-context-comic-v8-poster.jpg",
+      "sha256": "e1b1c35c27d02221627d6af91891f4fdbd1577d233ab78fff1de123058d79728",
+      "sizeBytes": 116952
+    },
+    {
+      "path": "assets/video/myday-context-comic-v8.mp4",
+      "sha256": "f06c50564a0a17c20d6ea4d207b602bb802cb879e979bfa9a23c233092b1498c",
+      "sizeBytes": 4234797
+    },
+    {
+      "path": "assets/video/search-demo-en-v5-poster.jpg",
+      "sha256": "2f9cd61296b5cb5f1738dbae500befb2ec9dcce03205028db60110bea9129b9e",
+      "sizeBytes": 59684
+    },
+    {
+      "path": "assets/video/search-demo-en-v5.mp4",
+      "sha256": "bab920defce1e306b84530a5f678f6fe53395f4c4728435fd2d234e9199258b3",
+      "sizeBytes": 3874820
+    },
+    {
+      "path": "assets/video/timeline-meeting-v6-poster.jpg",
+      "sha256": "2efb079b54523c33adb1692d269c90659ffb032e9b0ba6d1538dbae85e40e1eb",
+      "sizeBytes": 108927
+    },
+    {
+      "path": "assets/video/timeline-meeting-v6.mp4",
+      "sha256": "248e74fe857c60b01abc3cb48e5f0f783eeb266c157626906ba99408d81fb54c",
+      "sizeBytes": 5754890
+    },
+    {
+      "path": "assets/watch-hardware.png",
+      "sha256": "541045d6b4c5f2c87b7f4f16041f64eba5b12498b9bb6fc9a3179a6c42d4bcf0",
+      "sizeBytes": 172380
+    },
+    {
+      "path": "examples/MyDay_Workplace_Conversation_Reference_Layout.html",
+      "sha256": "33c22651381572b971a8177e603532a4b68b8ba36fbcc5f078e3b90448ad9166",
+      "sizeBytes": 6667395
+    },
+    {
+      "path": "examples/launch-retrospective.html",
+      "sha256": "3511d0ec71038a39ddd8451963c4c3f4ccec6a40b6ed3a822beb1265d62deaab",
+      "sizeBytes": 665374
+    },
+    {
+      "path": "examples/meeting-outcome-library.html",
+      "sha256": "d29370593688c98b25156c07cfabcf25f52e804b8645cce74c6640543939e704",
+      "sizeBytes": 6357
+    },
+    {
+      "path": "examples/meeting-outcome-library/app.js",
+      "sha256": "d327d0e0c2542f52960e75d70fa38851ac2c809baea1d6d1cea9e93c3231e6d8",
+      "sizeBytes": 6267
+    },
+    {
+      "path": "examples/meeting-outcome-library/meeting.json",
+      "sha256": "4bf482a56edf8f69d7b3e55848de858ef202212a4cd4edcad6304daeddace046",
+      "sizeBytes": 7089
+    },
+    {
+      "path": "examples/meeting-outcome-library/style.css",
+      "sha256": "82efe01db02f5b8a53ef933b958dc239020ddf78b00cbd6b317669e9d22bbb8c",
+      "sizeBytes": 16463
+    },
+    {
+      "path": "examples/smoky-travel-page.html",
+      "sha256": "f68e1a479083fc40b7763336ec3fd540fb40ec50fef2cdd20e478bd9aa43df32",
+      "sizeBytes": 2998161
+    },
+    {
+      "path": "examples/spark-fridge-idea.html",
+      "sha256": "0a7a12c00f38f5bdfd96c56b1af13b0805acebe04140d8a24c30163f1aeadd02",
+      "sizeBytes": 2225
+    },
+    {
+      "path": "examples/spark-fridge-idea/app.js",
+      "sha256": "3da93bad2ca45527f0834b0354a206eae076f8032e0757be144ef30c7bb93074",
+      "sizeBytes": 7362
+    },
+    {
+      "path": "examples/spark-fridge-idea/conversation.json",
+      "sha256": "603a4545c6e81d8bf3c9f764bd4d35284fa4409a5428e0a6e2bdc478aa24072e",
+      "sizeBytes": 7544
+    },
+    {
+      "path": "examples/spark-fridge-idea/style.css",
+      "sha256": "bff50eff1414308d5e5aaab0be09f59c71379e7c7fdadf3681feeefb2e41d4af",
+      "sizeBytes": 7895
+    },
+    {
+      "path": "examples/stories/campus-safety.html",
+      "sha256": "0ae8cf341d1e031c91f5407f10841d3b2490b68f22d0b75f58d77b79a1c9947b",
+      "sizeBytes": 3270824
+    },
+    {
+      "path": "examples/stories/colleague-feedback.html",
+      "sha256": "addb0ebda13e840329609c600cc2e7e65d197a84a41bebfb1830d95a202e76d7",
+      "sizeBytes": 3374892
+    },
+    {
+      "path": "examples/stories/dating-boundaries.html",
+      "sha256": "8044e54423a82d0d304339304fda84821ac2e6773cab9f77d647fc51c55bf32d",
+      "sizeBytes": 3384850
+    },
+    {
+      "path": "examples/stories/launch-retrospective.html",
+      "sha256": "010b2ea92438be994be2850436afa69f1cf18bd35c8e905c51c73c178c9c7059",
+      "sizeBytes": 3733736
+    },
+    {
+      "path": "examples/stories/parent-child-conversation.html",
+      "sha256": "09bbd2988d5b4bf33740aade60df036bf849a2adc9be36692092e6a6420013fe",
+      "sizeBytes": 3295203
+    },
+    {
+      "path": "examples/stories/partner-conversation.html",
+      "sha256": "4845fb098c4c49d32fab69a53e1e26e650e1bc50b3f34d3366ef139c40b90032",
+      "sizeBytes": 3369111
+    },
+    {
+      "path": "examples/stories/repair-dispute.html",
+      "sha256": "b8000a8895ced6b568d585f1d994c01a6006b99b14895a7f515cd4a664d4599b",
+      "sizeBytes": 3371213
+    },
+    {
+      "path": "examples/stories/speaking-up.html",
+      "sha256": "2b1551780157b52a3f54bbab8abba16b9fcb972eaa264f36f5614e6eeb0b282f",
+      "sizeBytes": 3264596
+    },
+    {
+      "path": "examples/stories/workplace-conversation.html",
+      "sha256": "d7ad345c99f345d71e3ca391bd8f508ed97f40eba1f993d9e720ed0e902694b0",
+      "sizeBytes": 3737001
+    },
+    {
+      "path": "examples/watch-prototype.html",
+      "sha256": "8c408d316c3bbf2d75bf17408330734a715f80aebe6da342995aa455dad25758",
+      "sizeBytes": 22018310
+    },
+    {
+      "path": "memova-launch.mp4",
+      "sha256": "6cd76793e0a2c8f822c497c2b3c10704887e56c124ff6f76e1bab3b464c63475",
+      "sizeBytes": 24468633
+    },
+    {
+      "path": "mobile-preview.html",
+      "sha256": "56bcaecc75fb5c2e7b7f5c0d83a9af2728c134cbf8282e701bc8d89c8d6fd1a2",
+      "sizeBytes": 1497
+    }
+  ]
+}

@@ -1,0 +1,645 @@
+/* Import after the desktop finish. Narrow layouts only; product content,
+   pricing, selected-result behavior and desktop choreography stay unchanged. */
+@media (max-width: 849px), (max-width: 1000px) and (max-height: 500px) {
+  .lower-sections .lower-shell {
+    width: min(1248px, calc(100% - var(--page-gutter, 22px) * 2));
+    min-width: 0;
+    padding-inline: 0;
+  }
+
+  .lower-sections .lower-privacy > .lower-shell,
+  .lower-sections .lower-possibilities > .lower-shell {
+    padding-block: 48px;
+  }
+
+  .lower-sections .lower-pro > .lower-shell {
+    padding-top: 48px;
+    padding-bottom: 24px;
+  }
+
+  .lower-sections .lower-privacy-layout,
+  .lower-sections .cloud-transform-section.cloud-has-results .lower-privacy-layout {
+    grid-template-columns: minmax(0, 1fr);
+    align-items: start;
+    gap: 28px;
+    transition: none;
+  }
+
+  .lower-sections .lower-privacy-copy,
+  .lower-sections .cloud-transform-section.cloud-has-results .lower-privacy-copy {
+    max-width: none;
+    min-width: 0;
+  }
+
+  .lower-sections .cloud-transform-section.cloud-has-results .lower-privacy-layout {
+    grid-template-rows: repeat(3, max-content);
+  }
+
+  .lower-sections .cloud-transform-section.cloud-has-results .lower-privacy-copy {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  .lower-sections .cloud-transform-section.cloud-has-results .cloud-source-panel {
+    grid-column: 1;
+    grid-row: 2;
+  }
+
+  .lower-sections .cloud-transform-section.cloud-has-results .cloud-result-region {
+    grid-column: 1;
+    grid-row: 3;
+  }
+
+  .lower-sections :is(.lower-privacy, .lower-possibilities, .lower-pro) .lower-heading {
+    max-width: 100%;
+    font-size: clamp(30px, 5vw, 36px);
+    line-height: 1.36;
+    letter-spacing: -0.025em;
+    white-space: normal;
+    overflow-wrap: break-word;
+    text-wrap: pretty;
+    transition: none;
+  }
+
+  .lower-sections[data-lang="en"] :is(.lower-privacy, .lower-possibilities, .lower-pro) .lower-heading {
+    font-size: clamp(34px, 5.7vw, 44px);
+    line-height: 1.15;
+  }
+
+  .lower-sections .lower-heading > span {
+    display: block;
+  }
+
+  .lower-sections .lower-heading > span + span::before {
+    content: none;
+  }
+
+  .lower-sections .lower-eyebrow {
+    margin-bottom: 16px;
+    font-size: 11px;
+    line-height: 1.6;
+  }
+
+  .lower-sections .lower-privacy .lower-body,
+  .lower-sections .lower-section-intro .lower-body {
+    width: auto;
+    max-width: 44em;
+    margin-top: 18px;
+    font-size: 14px;
+    line-height: 1.85;
+  }
+
+  .lower-sections .lower-trust-note,
+  .lower-sections .cloud-transform-section.cloud-has-results .lower-trust-note {
+    align-items: start;
+    gap: 9px;
+    margin-top: 22px;
+    font-size: 12px;
+    line-height: 1.75;
+  }
+
+  .lower-sections .lower-trust-note svg {
+    margin-top: 2px;
+  }
+
+  /* Processing keeps title, source and full-width covers in the parent flow. */
+  .lower-sections .cloud-processing-demo,
+  .lower-sections .cloud-processing-demo:not([data-phase="selecting"]) {
+    grid-template-columns: minmax(0, 1fr);
+    align-items: start;
+    gap: 0;
+    width: 100%;
+    min-width: 0;
+    transition: none;
+  }
+
+  .lower-sections .cloud-processing-demo:not([data-phase="selecting"]) {
+    display: contents;
+  }
+
+  .lower-sections .cloud-processing-demo .cloud-source-panel {
+    width: 100%;
+    max-width: none;
+    min-width: 0;
+    padding: 22px 18px 18px;
+  }
+
+  .lower-sections .cloud-processing-demo .lower-choice-heading {
+    gap: 11px;
+    padding-bottom: 20px;
+  }
+
+  .lower-sections .cloud-processing-demo .lower-choice-heading > div {
+    min-width: 0;
+  }
+
+  .lower-sections .cloud-processing-demo .lower-choice-heading > .cloud-processing-symbol {
+    margin-top: 2px;
+  }
+
+  .lower-sections .cloud-processing-demo .lower-choice-heading h3 {
+    margin-bottom: 7px;
+    font-size: 16px;
+    line-height: 1.5;
+  }
+
+  .lower-sections .cloud-processing-demo .lower-choice-heading p {
+    font-size: 12px;
+    line-height: 1.75;
+  }
+
+  .lower-sections .cloud-processing-demo .lower-choice-row {
+    display: grid;
+    grid-template-columns: 22px minmax(0, 1fr);
+    gap: 12px;
+    min-height: 48px;
+    padding-block: 18px;
+  }
+
+  .lower-sections .cloud-processing-demo .lower-choice-row input {
+    width: 22px;
+    height: 22px;
+    margin-top: 1px;
+    background-size: 16px 16px;
+  }
+
+  .lower-sections .cloud-processing-demo .lower-choice-source {
+    justify-content: flex-start;
+    gap: 5px 12px;
+    margin-bottom: 9px;
+    font-size: 12px;
+    line-height: 1.6;
+  }
+
+  .lower-sections .cloud-processing-demo .lower-choice-source > span {
+    font-size: 11px;
+  }
+
+  .lower-sections .cloud-processing-demo .lower-choice-content q {
+    font-size: 14px;
+    line-height: 1.8;
+    overflow-wrap: break-word;
+  }
+
+  .lower-sections .cloud-processing-demo .lower-choice-summary {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    padding-top: 18px;
+    font-size: 13px;
+    line-height: 1.65;
+  }
+
+  .lower-sections .cloud-processing-demo .lower-choice-summary > span {
+    align-items: flex-start;
+  }
+
+  .lower-sections .cloud-processing-demo .lower-choice-summary > span > svg,
+  .lower-sections .cloud-processing-demo .lower-choice-summary > span > .cloud-processing-symbol {
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  .lower-sections .cloud-processing-demo .lower-choice-summary small {
+    margin-left: 0;
+    font-size: 12px;
+    line-height: 1.7;
+  }
+
+  .lower-sections .cloud-processing-demo .lower-choice-actions {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 6px 12px;
+    margin-top: 20px;
+  }
+
+  .lower-sections .cloud-processing-demo .lower-choice-confirm {
+    grid-column: 1 / -1;
+    min-width: 0;
+    min-height: 48px;
+    padding: 12px;
+    font-size: 14px;
+    line-height: 1.6;
+  }
+
+  .lower-sections .cloud-processing-demo .lower-text-button {
+    min-width: 0;
+    min-height: 44px;
+    margin-left: 0;
+    padding: 10px 6px;
+    font-size: 13px;
+    line-height: 1.6;
+  }
+
+  .lower-sections .cloud-processing-demo .lower-choice-feedback {
+    min-height: 3.4em;
+    margin-top: 10px;
+    font-size: 12px;
+    line-height: 1.7;
+  }
+
+  /* The finite processing feedback stays in the source panel. Desktop's
+     sideways decorative transfer cannot protrude into the mobile page. */
+  .lower-sections .cloud-processing-demo .cloud-process-node,
+  .lower-sections .cloud-processing-demo .cloud-ghost-chip {
+    display: none;
+  }
+
+  .lower-sections .cloud-processing-demo .cloud-result-region {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .lower-sections .cloud-processing-demo .cloud-result-stack {
+    grid-template-columns: minmax(0, 1fr);
+    width: 100%;
+    max-width: none;
+    gap: 16px;
+    margin-inline: 0;
+  }
+
+  .lower-sections .cloud-processing-demo .cloud-results-heading {
+    font-size: 12px;
+    line-height: 1.7;
+  }
+
+  .lower-sections .cloud-processing-demo .cloud-result-card {
+    aspect-ratio: 16 / 9;
+    max-height: 230px;
+  }
+
+  .lower-sections .cloud-processing-demo .cloud-result-image {
+    inset: 0;
+  }
+
+  .lower-sections .cloud-processing-demo .cloud-result-copy {
+    box-sizing: border-box;
+    min-height: 0;
+    gap: 5px;
+    padding: 38px 16px 14px;
+  }
+
+  .lower-sections .cloud-processing-demo .cloud-result-label {
+    font-size: 11px;
+    line-height: 1.4;
+  }
+
+  .lower-sections .cloud-processing-demo .cloud-result-copy strong {
+    font-size: 15px;
+    line-height: 1.45;
+    overflow-wrap: break-word;
+  }
+
+  .lower-sections .cloud-processing-demo .cloud-result-status {
+    font-size: 12px;
+    line-height: 1.5;
+  }
+
+  /* Outcome cards keep their complete destinations and real product artwork. */
+  .lower-sections .lower-section-intro {
+    display: block;
+    margin-bottom: 28px;
+  }
+
+  .lower-sections .lower-possibilities-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 24px;
+  }
+
+  .lower-sections .lower-possibilities .lower-possibility-art {
+    aspect-ratio: 1.5;
+  }
+
+  .lower-sections .lower-possibilities .lower-possibility-meta {
+    margin: 20px 20px 0;
+    font-size: 11px;
+    line-height: 1.6;
+  }
+
+  .lower-sections .lower-possibilities .lower-possibility-meta > span:first-child {
+    width: 27px;
+    height: 27px;
+    font-size: 10px;
+  }
+
+  .lower-sections .lower-possibilities .lower-possibility-title {
+    margin: 12px 20px 0;
+    font-size: 25px;
+    line-height: 1.4;
+    overflow-wrap: break-word;
+  }
+
+  .lower-sections[data-lang="en"] .lower-possibility-title {
+    font-size: 28px;
+    line-height: 1.2;
+  }
+
+  .lower-sections .lower-possibilities .lower-possibility-body {
+    min-height: 0;
+    margin: 13px 20px 20px;
+    font-size: 14px;
+    line-height: 1.8;
+  }
+
+  .lower-sections .lower-possibilities .lower-possibility-action {
+    width: calc(100% - 40px);
+    min-height: 52px;
+    margin: auto 20px 14px;
+    padding-top: 13px;
+    font-size: 13px;
+  }
+
+  /* Keep all four approved colors, complete images and their fixed order. */
+  .lower-sections .lower-pro-features {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px 12px;
+    padding-bottom: 26px;
+  }
+
+  .lower-sections .lower-pro-feature {
+    min-width: 0;
+    padding-bottom: 16px;
+  }
+
+  .lower-sections .lower-pro-feature-art {
+    aspect-ratio: 0.96;
+    padding: 5px;
+  }
+
+  .lower-sections .lower-pro-feature-art img {
+    object-fit: contain;
+  }
+
+  .lower-sections .lower-pro-feature-art > span {
+    right: 8px;
+    bottom: 8px;
+    width: 32px;
+    height: 32px;
+  }
+
+  .lower-sections .lower-pro-feature h3 {
+    margin: 15px 12px 8px;
+    font-size: 14px;
+    line-height: 1.5;
+    overflow-wrap: break-word;
+  }
+
+  .lower-sections .lower-pro-feature > p {
+    margin-inline: 12px;
+    font-size: 12px;
+    line-height: 1.8;
+  }
+
+  .lower-sections .lower-pro .lower-plan-layout {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 18px;
+    padding-top: 16px;
+  }
+
+  .lower-sections .lower-pro .lower-free-plan,
+  .lower-sections .lower-pro .lower-pro-plan {
+    padding: 23px 20px;
+  }
+
+  .lower-sections .lower-plan-kicker {
+    margin-bottom: 18px;
+    font-size: 12px;
+  }
+
+  .lower-sections .lower-pro .lower-free-plan h3 {
+    font-size: 26px;
+    line-height: 1.4;
+  }
+
+  .lower-sections .lower-pro .lower-free-plan li {
+    gap: 11px;
+    padding-block: 13px;
+    font-size: 14px;
+    line-height: 1.7;
+  }
+
+  .lower-sections .lower-pro .lower-free-plan li svg {
+    flex-shrink: 0;
+  }
+
+  .lower-sections .lower-plan-controls {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    align-items: end;
+    gap: 18px;
+  }
+
+  .lower-sections .lower-region-control > span {
+    margin-bottom: 8px;
+    font-size: 12px;
+    line-height: 1.6;
+  }
+
+  .lower-sections .lower-region-control select {
+    width: 100%;
+    min-height: 48px;
+    padding: 11px 32px 11px 12px;
+    font-size: 16px;
+    line-height: 1.5;
+  }
+
+  .lower-sections .lower-billing-toggle {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-self: end;
+    width: 100%;
+  }
+
+  .lower-sections .lower-billing-toggle button {
+    min-width: 0;
+    min-height: 44px;
+    padding: 11px 12px;
+    font-size: 14px;
+    line-height: 1.5;
+  }
+
+  .lower-sections .lower-plan-price {
+    flex-wrap: wrap;
+    gap: 8px 12px;
+    margin-top: 26px;
+    margin-bottom: 15px;
+  }
+
+  .lower-sections .lower-plan-price > span {
+    font-size: clamp(42px, 9vw, 50px);
+  }
+
+  .lower-sections .lower-plan-price > small {
+    font-size: 14px;
+    line-height: 1.6;
+  }
+
+  .lower-sections .lower-price-region-note,
+  .lower-sections .lower-subscription-note {
+    font-size: 12px;
+    line-height: 1.8;
+  }
+
+  .lower-sections .lower-pro-download {
+    display: flex;
+    width: 100%;
+    min-height: 48px;
+    gap: 16px;
+    margin-top: 22px;
+    padding: 12px 14px;
+    font-size: 14px;
+    line-height: 1.6;
+  }
+
+  .lower-sections .lower-pro-download svg {
+    flex-shrink: 0;
+  }
+
+  .lower-sections .lower-faq-embedded {
+    margin-top: 30px;
+    padding-top: 24px;
+  }
+
+  .lower-sections .lower-faq-embedded .lower-faq-layout {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 14px;
+  }
+
+  .lower-sections .lower-faq-kicker {
+    margin-top: 0;
+    font-size: 12px;
+  }
+
+  .lower-sections .lower-faq-embedded .lower-faq-item h3 button {
+    min-height: 64px;
+    gap: 16px;
+    padding: 16px;
+    font-size: 14px;
+    line-height: 1.7;
+  }
+
+  .lower-sections .lower-faq-embedded .lower-faq-item h3 button > span {
+    min-width: 0;
+    overflow-wrap: break-word;
+  }
+
+  .lower-sections .lower-faq-embedded .lower-faq-item h3 button svg {
+    width: 30px;
+    height: 30px;
+    flex-shrink: 0;
+  }
+
+  .lower-sections .lower-faq-embedded .lower-faq-answer p {
+    padding: 0 20px 20px 16px;
+    font-size: 14px;
+    line-height: 1.85;
+    overflow-wrap: break-word;
+  }
+
+  .lower-sections .lower-footer-compact {
+    margin-top: 24px;
+  }
+
+  .lower-sections .lower-footer-compact .lower-footer-bottom {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    align-items: start;
+    gap: 14px;
+    padding-top: 22px;
+  }
+
+  .lower-sections .lower-footer-compact .lower-footer-brand {
+    justify-self: start;
+    min-height: 44px;
+    font-size: 12px;
+  }
+
+  .lower-sections .lower-footer-compact .lower-footer-download {
+    justify-content: center;
+    width: 100%;
+    min-height: 48px;
+    gap: 10px;
+    padding: 12px 16px;
+    font-size: 14px;
+    line-height: 1.6;
+  }
+
+  .lower-sections .lower-footer-compact .lower-footer-bottom nav {
+    justify-content: flex-start;
+    gap: 4px 24px;
+    width: 100%;
+    min-width: 0;
+    margin-left: 0;
+  }
+
+  .lower-sections .lower-footer-compact .lower-footer-bottom nav a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    font-size: 13px;
+    line-height: 1.6;
+  }
+
+  .lower-sections .lower-footer-compact .lower-footer-bottom > p {
+    width: 100%;
+    font-size: 12px;
+    line-height: 1.7;
+  }
+}
+
+@media (min-width: 700px) and (max-width: 849px) {
+  .lower-sections .lower-privacy > .lower-shell,
+  .lower-sections .lower-possibilities > .lower-shell {
+    padding-block: 58px;
+  }
+
+  .lower-sections .lower-pro > .lower-shell {
+    padding-top: 58px;
+  }
+
+  .lower-sections .cloud-processing-demo .cloud-result-stack {
+    grid-template-columns: minmax(0, 1fr);
+    width: 100%;
+    gap: 14px;
+  }
+
+  .lower-sections .cloud-processing-demo .cloud-results-heading {
+    grid-column: 1 / -1;
+  }
+
+  .lower-sections .cloud-processing-demo .cloud-result-image {
+    inset: 0;
+  }
+
+  .lower-sections .cloud-processing-demo .cloud-result-copy {
+    min-height: 0;
+    padding: 38px 18px 15px;
+  }
+
+  .lower-sections .cloud-processing-demo .cloud-result-copy strong {
+    font-size: 14px;
+  }
+
+  .lower-sections .lower-plan-controls {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 22px;
+  }
+
+  .lower-sections .lower-footer-compact .lower-footer-bottom {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    align-items: center;
+  }
+
+  .lower-sections .lower-footer-compact .lower-footer-bottom nav,
+  .lower-sections .lower-footer-compact .lower-footer-bottom > p {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 849px) and (hover: none) {
+  .lower-sections .lower-possibilities .lower-possibility-button:is(:hover, :focus-visible),
+  .lower-sections .lower-possibility-button:hover .lower-possibility-art img,
+  .lower-sections .lower-pro-feature-art:hover img {
+    transform: none;
+  }
+}

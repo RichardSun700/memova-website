@@ -1,48 +1,124 @@
 import fs from "node:fs";
 import path from "node:path";
-import { fileURLToPath } from "node:url";
-import { optimizeProductionHomepage } from "./optimize-production-homepage.mjs";
+import { createHash } from "node:crypto";
+import { fileURLToPath, pathToFileURL } from "node:url";
+import { build } from "vite";
+import react from "@vitejs/plugin-react";
+import { parseHTML } from "linkedom";
 import { buildNeilManualCover } from "./build-neil-manual-cover.mjs";
 
-const projectRoot = path.resolve(
-  path.dirname(fileURLToPath(import.meta.url)),
-  "..",
-);
-const sourcePath = path.join(projectRoot, "client", "homepage", "index.html");
-const outputPath = path.join(projectRoot, "dist", "public", "index.html");
-const cloudflareFileLimit = 25 * 1024 * 1024;
+const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
+const source = path.join(root, "homepage-watch");
+const output = path.join(root, "dist/public");
+const client = path.join(root, "dist/watch-homepage");
+const server = path.join(root, "dist/watch-ssr");
+const limit = 25 * 1024 * 1024;
+const hash = bytes => createHash("sha256").update(bytes).digest("hex");
 
-if (!fs.existsSync(sourcePath)) {
-  throw new Error(`Production homepage source is missing: ${sourcePath}`);
+function filesIn(directory) {
+  return fs.readdirSync(directory, { withFileTypes: true })
+    .sort((a, b) => a.name.localeCompare(b.name))
+    .flatMap(entry => entry.isDirectory()
+      ? filesIn(path.join(directory, entry.name))
+      : [path.join(directory, entry.name)]);
 }
 
-const source = fs.readFileSync(sourcePath, "utf8");
-for (const requiredMarker of [
-  'data-production-homepage="apollo-living-book-v1"',
-  'rel="canonical" href="https://memova.ai/"',
-  'sizes="96x96" href="/favicon-96x96.png"',
-  'rel="manifest" href="/site.webmanifest"',
-  'type="application/ld+json"',
-  '/analytics/ga4-consent.js',
-]) {
-  if (!source.includes(requiredMarker)) {
-    throw new Error(`Production homepage is missing ${requiredMarker}`);
+// Keep all legacy generated pages, API inputs and bundles before staging home.
+const legacyHtml = fs.readFileSync(path.join(output, "index.html"), "utf8");
+const { document: legacy } = parseHTML(legacyHtml);
+await buildNeilManualCover(path.join(root, "client/public"), output);
+await build({ configFile: path.join(source, "vite.config.mjs"), logLevel: "warn" });
+await build({
+  configFile: false,
+  root: source,
+  plugins: [react()],
+  logLevel: "warn",
+  build: {
+    outDir: server,
+    emptyOutDir: true,
+    copyPublicDir: false,
+    ssr: path.join(source, "src/entry-server.jsx"),
+    rollupOptions: { output: { entryFileNames: "entry-server.mjs" } },
+  },
+});
+const { renderHomepage } = await import(pathToFileURL(path.join(server, "entry-server.mjs")));
+const markup = renderHomepage();
+const builtFiles = filesIn(client);
+const revisionHash = createHash("sha256");
+for (const file of builtFiles) revisionHash.update(path.relative(client, file)).update(fs.readFileSync(file));
+revisionHash.update(markup);
+const revision = revisionHash.digest("hex").slice(0, 16);
+const assetPrefix = `/assets/watch-${revision}/`;
+// Content-address every new asset, including plain-named videos and fonts, to
+// retain the existing immutable cache policy without stale content on updates.
+const rewriteAssets = text => text
+  .replaceAll("/assets/", assetPrefix)
+  .replaceAll('"assets/', `"${assetPrefix.slice(1)}`)
+  .replaceAll("'assets/", `'${assetPrefix.slice(1)}`);
+const records = [];
+for (const file of builtFiles) {
+  const relative = path.relative(client, file).split(path.sep).join("/");
+  if (relative === "index.html") continue;
+  const targetRelative = relative.startsWith("assets/")
+    ? assetPrefix.slice(1) + relative.slice("assets/".length) : relative;
+  let data = fs.readFileSync(file);
+  if ((relative.startsWith("assets/") && /\.(?:js|css)$/.test(relative)) ||
+      ["wind-chimes.html", "mentor-classroom.html"].includes(relative)) {
+    data = Buffer.from(rewriteAssets(data.toString("utf8")));
+  } else if (relative.startsWith("examples/") && relative.endsWith(".html")) {
+    // Only actual external URLs change. Preserve source words and embedded
+    // asset-map keys in the complete exported prototypes.
+    data = Buffer.from(data.toString("utf8")
+      .replaceAll("/assets/memova-icon-transparent.png", assetPrefix + "memova-icon-transparent.png")
+      .replaceAll("/assets/myday-cover-layout.css", assetPrefix + "myday-cover-layout.css"));
   }
+  if (data.length >= limit) throw new Error(`Pages asset exceeds25MiB: ${relative}`);
+  const target = path.join(output, targetRelative);
+  if (fs.existsSync(target) && !fs.readFileSync(target).equals(data)) {
+    throw new Error(`New homepage would overwrite an existing route/asset: ${targetRelative}`);
+  }
+  fs.mkdirSync(path.dirname(target), { recursive: true });
+  fs.writeFileSync(target, data);
+  records.push({ source: relative, path: "/" + targetRelative, sha256: hash(data), size: data.length });
 }
 
-const sourceSize = fs.statSync(sourcePath).size;
-if (sourceSize >= cloudflareFileLimit) {
-  throw new Error(
-    `Production homepage is ${sourceSize} bytes; Cloudflare Pages files must remain below 25 MiB`,
-  );
+let html = rewriteAssets(fs.readFileSync(path.join(client, "index.html"), "utf8"));
+const { document: homepage } = parseHTML(html);
+const retainedHead = [...legacy.head.querySelectorAll(
+  'title,meta[name="description"],meta[name="robots"],meta[property^="og:"],meta[name^="twitter:"],link[rel="canonical"],link[rel="icon"],link[rel="apple-touch-icon"],link[rel="manifest"],script[type="application/ld+json"]'
+)];
+for (const node of retainedHead) {
+  const tag = node.tagName.toLowerCase();
+  let selector;
+  if (tag === "title") selector = "title";
+  else if (tag === "meta") selector = node.hasAttribute("name")
+    ? `meta[name="${node.getAttribute("name")}"]` : `meta[property="${node.getAttribute("property")}"]`;
+  else if (tag === "link") selector = `link[rel="${node.getAttribute("rel")}"][href="${node.getAttribute("href")}"]`;
+  else selector = 'script[type="application/ld+json"]';
+  homepage.head.querySelectorAll(selector).forEach(existing => existing.remove());
+  homepage.head.appendChild(node.cloneNode(true));
 }
-
-fs.mkdirSync(path.dirname(outputPath), { recursive: true });
-await buildNeilManualCover(path.join(projectRoot, "client", "public"), path.dirname(outputPath));
-const report = await optimizeProductionHomepage(source,
-  path.join(projectRoot, "client", "public"), path.dirname(outputPath));
-console.log(
-  `Staged production homepage: ${path.relative(projectRoot, outputPath)} ` +
-  `(${report.sizes.html} bytes; gzip ${report.sizes.htmlGzip} bytes; ` +
-  `${report.images.length} independently cached images)`,
-);
+const analytics = legacy.querySelector('script[src^="/analytics/ga4-consent.js"]');
+if (!analytics) throw new Error("Missing existing consent-aware analytics bootstrap");
+homepage.head.appendChild(analytics.cloneNode(true));
+const mount = homepage.getElementById("root");
+if (!mount) throw new Error("Missing new homepage root");
+mount.setAttribute("data-production-homepage", "watch-life-v1");
+mount.setAttribute("data-seo-snapshot", "true");
+mount.setAttribute("data-homepage-revision", revision);
+mount.innerHTML = rewriteAssets(markup);
+// Keep existing inbound section links useful during the homepage migration.
+for (const [id, destination] of Object.entries({ waitlist: "download", capture: "experience", act: "experience" })) {
+  if (homepage.getElementById(id)) continue;
+  const node = homepage.createElement("span");
+  node.id = id;
+  node.setAttribute("aria-hidden", "true");
+  homepage.getElementById(destination)?.prepend(node);
+}
+html = homepage.toString();
+if (!/^<!doctype/i.test(html)) html = "<!doctype html>\n" + html;
+if (Buffer.byteLength(html) >= limit) throw new Error("Homepage HTML exceeds Pages limit");
+fs.writeFileSync(path.join(output, "index.html"), html);
+records.push({ source: "index.html", path: "/index.html", sha256: hash(Buffer.from(html)), size: Buffer.byteLength(html) });
+fs.writeFileSync(path.join(output, "homepage-assets.json"), JSON.stringify({ revision, assets: records }, null, 2) + "\n");
+console.log(`Staged Watch homepage: ${records.length} files, revision ${revision}, SSR ${Buffer.byteLength(html)} bytes`);

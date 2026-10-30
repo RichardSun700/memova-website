@@ -1,0 +1,313 @@
+.cloud-processing-demo {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 0px;
+  align-items: center;
+  gap: 0;
+  min-width: 0;
+  transition: grid-template-columns 650ms cubic-bezier(0.2, 0.7, 0.2, 1), gap 650ms ease;
+}
+
+.cloud-processing-demo:not([data-phase="selecting"]) {
+  display: contents;
+}
+
+.cloud-processing-demo .cloud-source-panel {
+  position: relative;
+  min-width: 0;
+}
+
+.cloud-processing-demo .cloud-processing-symbol {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  flex: 0 0 auto;
+  color: inherit;
+  vertical-align: middle;
+}
+
+.cloud-processing-demo .cloud-processing-symbol > svg:last-child {
+  position: absolute;
+  top: -2px;
+  right: -4px;
+  padding: 1px;
+  color: var(--accent, #586dcc);
+  background: #fff;
+}
+
+.cloud-processing-demo .lower-choice-row {
+  position: relative;
+  transition: background-color 300ms ease, transform 500ms ease;
+}
+
+.cloud-processing-demo .lower-choice-row.is-busy {
+  cursor: default;
+}
+
+.cloud-processing-demo .lower-choice-row.is-selected {
+  background: linear-gradient(90deg, #eaf0ff60, #eaf0ff00 90%);
+}
+
+.cloud-processing-demo .lower-choice-row input:disabled {
+  cursor: default;
+  opacity: 0.7;
+}
+
+.cloud-processing-demo[data-phase="moving"] .lower-choice-row.is-selected {
+  animation: cloud-row-compress 650ms ease both;
+}
+
+.cloud-processing-demo .cloud-ghost-chip {
+  position: absolute;
+  z-index: 4;
+  top: 18px;
+  right: 0;
+  display: grid;
+  gap: 4px;
+  width: 84px;
+  padding: 8px 10px;
+  border: 1px solid #d4def2;
+  border-radius: 4px;
+  background: #f6f9ff;
+  color: #677b9c;
+  box-shadow: 0 6px 18px #5978b21a;
+  font-size: 8px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.cloud-processing-demo .cloud-ghost-chip i {
+  height: 2px;
+  border-radius: 2px;
+  background: #b1c1e0;
+}
+
+.cloud-processing-demo .cloud-ghost-chip i:last-child {
+  width: 68%;
+}
+
+.cloud-processing-demo[data-phase="moving"] .cloud-ghost-chip {
+  animation: cloud-chip-transfer 620ms cubic-bezier(0.3, 0, 0.2, 1) both;
+  animation-delay: calc(var(--cloud-order) * 35ms);
+}
+
+.cloud-processing-demo .cloud-select-all {
+  margin-left: auto;
+}
+
+.cloud-processing-demo .cloud-process-node {
+  position: absolute;
+  z-index: 5;
+  top: 50%;
+  left: 50%;
+  display: grid;
+  width: 38px;
+  height: 38px;
+  place-items: center;
+  border: 1px solid #cddbf1;
+  border-radius: 50%;
+  color: var(--accent, #586dcc);
+  background: #f5f8ff;
+  box-shadow: 0 0 0 6px #e8eff973;
+  transform: translate(-50%, -50%) scale(0.8);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 250ms ease, transform 350ms ease;
+}
+
+.cloud-processing-demo[data-phase="moving"] .cloud-process-node,
+.cloud-processing-demo[data-phase="processing"] .cloud-process-node {
+  opacity: 1;
+  visibility: visible;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.cloud-processing-demo[data-phase="processing"] .cloud-process-node {
+  animation: cloud-process-pulse 700ms ease-in-out infinite;
+}
+
+.cloud-processing-demo .cloud-result-region {
+  min-width: 0;
+  height: 0;
+  overflow: hidden;
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 350ms ease 250ms;
+}
+
+.cloud-processing-demo:not([data-phase="selecting"]) .cloud-result-region {
+  height: auto;
+  visibility: visible;
+  opacity: 1;
+}
+
+.cloud-processing-demo .cloud-result-stack {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 16px;
+  width: 100%;
+}
+
+.cloud-processing-demo .cloud-results-heading {
+  margin: 0 0 1px;
+  color: var(--muted, #728096);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.09em;
+  line-height: 1.7;
+}
+
+.cloud-processing-demo .cloud-result-card {
+  position: relative;
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  max-height: 230px;
+  overflow: hidden;
+  padding: 0;
+  border: 1px solid #d4def0;
+  border-radius: 6px;
+  color: #fff;
+  background: #233449;
+  font: inherit;
+  text-align: left;
+  cursor: default;
+  opacity: 0;
+  transform: translateX(16px) scale(0.84);
+  transform-origin: left center;
+  transition: border-color 180ms ease, box-shadow 180ms ease;
+}
+
+.cloud-processing-demo[data-phase="processing"] .cloud-result-card.is-selected {
+  animation: cloud-result-grow 650ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  animation-delay: calc(var(--cloud-order) * 140ms);
+}
+
+.cloud-processing-demo[data-phase="processing"] .cloud-result-card.is-unselected,
+.cloud-processing-demo[data-phase="ready"] .cloud-result-card {
+  opacity: 1;
+  transform: none;
+}
+
+.cloud-processing-demo .cloud-result-image {
+  position: absolute;
+  inset: 0;
+  display: block;
+}
+
+.cloud-processing-demo .cloud-result-image img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.cloud-processing-demo .cloud-result-card[data-result="myday"] .cloud-result-image img {
+  object-position: 50% 72%;
+}
+
+.cloud-processing-demo .cloud-result-copy {
+  position: absolute;
+  inset: auto 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding: 38px 22px 17px;
+  color: #fff;
+  background: linear-gradient(transparent, #101c2c90 38%, #101c2ce6);
+}
+
+.cloud-processing-demo .cloud-result-label {
+  color: #e5edf9;
+  font-size: 9px;
+  line-height: 1.3;
+}
+
+.cloud-processing-demo .cloud-result-copy strong {
+  color: #fff;
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 1.45;
+}
+
+.cloud-processing-demo .cloud-result-status {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 5px;
+  margin-top: 2px;
+  color: #dce7f7;
+  font-size: 10px;
+  line-height: 1.4;
+}
+
+.cloud-processing-demo .cloud-result-card.is-unselected .cloud-result-image {
+  opacity: 0.22;
+  filter: grayscale(0.8);
+}
+
+.cloud-processing-demo[data-phase="processing"] .cloud-result-card.is-unselected,
+.cloud-processing-demo[data-phase="ready"] .cloud-result-card.is-unselected {
+  opacity: 0.5;
+}
+
+.cloud-processing-demo .cloud-result-card.is-unselected .cloud-result-copy {
+  color: #c3ccda;
+  background: linear-gradient(transparent, #172538bf 45%, #172538eb);
+}
+
+@keyframes cloud-row-compress {
+  0%, 100% { transform: none; }
+  55% { transform: translateX(-6px) scale(0.985); }
+}
+
+@keyframes cloud-chip-transfer {
+  0% { opacity: 0; transform: translateX(-15px) scale(1); }
+  18% { opacity: 0.9; }
+  100% { opacity: 0; transform: translateX(84px) scale(0.5); }
+}
+
+@keyframes cloud-process-pulse {
+  0%, 100% { box-shadow: 0 0 0 5px #e8eff980; }
+  50% { box-shadow: 0 0 0 12px #e8eff900; }
+}
+
+@keyframes cloud-result-grow {
+  0% { opacity: 0; transform: translateX(16px) scale(0.84); }
+  100% { opacity: 1; transform: none; }
+}
+
+@media (max-width: 849px), (max-width: 1000px) and (max-height: 500px) {
+  .cloud-processing-demo:not([data-phase="selecting"]) {
+    display: contents;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 20px;
+  }
+  .cloud-processing-demo .cloud-result-stack {
+    width: 100%;
+    max-width: none;
+    margin-inline: 0;
+  }
+  .cloud-processing-demo .cloud-process-node {
+    display: none;
+  }
+}
+
+.cloud-processing-demo[data-reduced="true"],
+.cloud-processing-demo[data-reduced="true"] *,
+.cloud-processing-demo[data-reduced="true"] *::before,
+.cloud-processing-demo[data-reduced="true"] *::after {
+  animation: none !important;
+  transition: none !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cloud-processing-demo,
+  .cloud-processing-demo *,
+  .cloud-processing-demo *::before,
+  .cloud-processing-demo *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}

@@ -5,12 +5,28 @@ import { describe, expect, it } from "vitest";
 
 import {
   REQUIRED_TRACKED_PATHS,
+  PRODUCTION_SOURCE_SCOPES,
   findProductionSourceViolations,
 } from "../../../scripts/verify-production-source.mjs";
 
 const allRequiredPaths = new Set(REQUIRED_TRACKED_PATHS);
 
 describe("findProductionSourceViolations", () => {
+  it("checks the new Watch source, example and unified dependency lock", () => {
+    expect(REQUIRED_TRACKED_PATHS).toEqual(expect.arrayContaining([
+      "homepage-watch/index.html",
+      "homepage-watch/wind-chimes.html",
+      "homepage-watch/mentor-classroom.html",
+      "homepage-watch/vite.config.mjs",
+      "homepage-watch/src/App.jsx",
+      "homepage-watch/public/examples/watch-prototype.html",
+      "pnpm-lock.yaml",
+    ]));
+    expect(PRODUCTION_SOURCE_SCOPES).toEqual(expect.arrayContaining([
+      "homepage-watch", "pnpm-lock.yaml", "vite.config.ts", "wrangler.toml", "functions",
+    ]));
+  });
+
   it("requires the Book of Memova homepage in every production source", () => {
     expect(REQUIRED_TRACKED_PATHS).toContain(
       "client/public/thebookofmemova/index.html",

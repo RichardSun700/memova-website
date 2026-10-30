@@ -1,0 +1,210 @@
+{
+  "title": "Launch Retrospective",
+  "date": "2026-10-28",
+  "timeRange": "15:00–15:30",
+  "durationMinutes": 30,
+  "participants": [
+    {
+      "name": "Michael",
+      "role": "Marketing"
+    },
+    {
+      "name": "Alex",
+      "role": "Project Lead"
+    },
+    {
+      "name": "Jordan",
+      "role": "Design"
+    },
+    {
+      "name": "Sam",
+      "role": "Engineering"
+    }
+  ],
+  "summary": "The team reviewed early launch feedback and identified confusion around locating saved notes as a potential onboarding issue. The team agreed to investigate the feedback and explore improvements to the post-recording experience.",
+  "keyQuote": {
+    "text": "If people have to figure out where their notes went, we're making them work too hard.",
+    "speaker": "Michael",
+    "sourceTurnIds": [
+      "retro-06"
+    ]
+  },
+  "highlights": [
+    {
+      "id": "michael-retro-feedback",
+      "title": "A recurring question about saved notes",
+      "text": "Michael notices the same question appearing more than once: users are unsure where to find their saved notes after recording.",
+      "sourceTurnIds": [
+        "retro-04",
+        "retro-06"
+      ]
+    },
+    {
+      "id": "michael-retro-screen",
+      "title": "Make the next step clearer",
+      "text": "The confirmation screen says the recording is saved, but does not show what to do next. A clearer screen and a direct link are directions to explore.",
+      "sourceTurnIds": [
+        "retro-07",
+        "retro-08"
+      ]
+    },
+    {
+      "id": "michael-retro-investigation",
+      "title": "Gather evidence and review options",
+      "text": "The team will gather and group feedback, explore options, and review them at the next product sync. Priority and release timing remain undecided.",
+      "sourceTurnIds": [
+        "retro-09",
+        "retro-10",
+        "retro-11",
+        "retro-12",
+        "retro-13"
+      ]
+    }
+  ],
+  "actions": [
+    {
+      "id": "michael-action-feedback",
+      "owner": "Michael",
+      "title": "Compile and categorize user feedback",
+      "shortTitle": "Collect the evidence.",
+      "category": "User feedback",
+      "text": "Group comments by the point where users get confused.",
+      "dueDate": null,
+      "timing": "No due date set",
+      "state": "Open",
+      "sourceTurnIds": [
+        "retro-10"
+      ]
+    },
+    {
+      "id": "michael-action-design",
+      "owner": "Jordan",
+      "title": "Explore a clearer post-recording screen",
+      "shortTitle": "Make the next step obvious.",
+      "category": "Design exploration",
+      "text": "Make the next step after saving more obvious.",
+      "dueDate": null,
+      "timing": "No due date set",
+      "state": "Open",
+      "sourceTurnIds": [
+        "retro-11"
+      ]
+    },
+    {
+      "id": "michael-action-engineering",
+      "owner": "Sam",
+      "title": "Assess a direct link to the saved note",
+      "shortTitle": "Assess the direct link.",
+      "category": "Engineering assessment",
+      "text": "Check the engineering work required for a direct link.",
+      "dueDate": null,
+      "timing": "No due date set",
+      "state": "Open",
+      "sourceTurnIds": [
+        "retro-12"
+      ]
+    },
+    {
+      "id": "michael-action-sync",
+      "owner": "Alex",
+      "title": "Review feedback and proposals at the next sync",
+      "shortTitle": "Bring it back to the team.",
+      "category": "Next product sync",
+      "text": "Review the feedback and proposals with the team at the next product sync.",
+      "dueDate": null,
+      "timing": "Next product sync",
+      "state": "Open",
+      "sourceTurnIds": [
+        "retro-13"
+      ]
+    }
+  ],
+  "transcript": [
+    {
+      "id": "retro-01",
+      "speaker": "Alex",
+      "text": "Thanks, everyone. The launch is behind us, and we've had some good early feedback. Let's talk about what worked and what we should improve before the next release.",
+      "time": "15:00:00"
+    },
+    {
+      "id": "retro-02",
+      "speaker": "Jordan",
+      "text": "The new onboarding flow looks much cleaner. We also saw fewer people dropping off during the first screen.",
+      "time": "15:02:37"
+    },
+    {
+      "id": "retro-03",
+      "speaker": "Sam",
+      "text": "Agreed. The app is stable so far. We did get a few reports about slow uploads, but nothing that looks like a major outage.",
+      "time": "15:04:27"
+    },
+    {
+      "id": "retro-04",
+      "speaker": "Michael",
+      "text": "I've been looking through the user feedback, and I noticed something interesting. Several people didn't understand what happened to their notes after recording. They weren't sure where to find them later.",
+      "time": "15:06:45"
+    },
+    {
+      "id": "retro-05",
+      "speaker": "Alex",
+      "text": "Is that really a product issue? Maybe those users just haven't spent enough time exploring the app.",
+      "time": "15:09:37"
+    },
+    {
+      "id": "retro-06",
+      "speaker": "Michael",
+      "text": "Maybe, but I've seen the same question come up more than once. If people have to figure out where their notes went, we're making them work too hard.",
+      "time": "15:11:22"
+    },
+    {
+      "id": "retro-07",
+      "speaker": "Jordan",
+      "text": "That's fair. The current confirmation screen tells users their recording is saved, but it doesn't really show them where to go next.",
+      "time": "15:13:59"
+    },
+    {
+      "id": "retro-08",
+      "speaker": "Sam",
+      "text": "We could add a direct link to the saved note. That shouldn't be a big change on the engineering side.",
+      "time": "15:16:08"
+    },
+    {
+      "id": "retro-09",
+      "speaker": "Alex",
+      "text": "Okay, that sounds reasonable. Michael, can you share a few examples of the feedback? I'd like us to understand how often this happens before we prioritize it.",
+      "time": "15:18:08"
+    },
+    {
+      "id": "retro-10",
+      "speaker": "Michael",
+      "text": "Absolutely. I'll pull together the comments and group them by the point where users get confused. That should help us see whether it's a recurring issue.",
+      "time": "15:20:40"
+    },
+    {
+      "id": "retro-11",
+      "speaker": "Jordan",
+      "text": "I'll explore a clearer post-recording screen and make the next step more obvious.",
+      "time": "15:23:08"
+    },
+    {
+      "id": "retro-12",
+      "speaker": "Sam",
+      "text": "I'll check what it would take to add a direct link to the saved note.",
+      "time": "15:24:34"
+    },
+    {
+      "id": "retro-13",
+      "speaker": "Alex",
+      "text": "Great. Let's review the feedback and proposed changes at our next product sync.",
+      "time": "15:26:10"
+    },
+    {
+      "id": "retro-14",
+      "speaker": "Michael",
+      "text": "Sounds good. I think making the next step clearer could help users feel more confident that their notes are actually there.",
+      "time": "15:27:35"
+    }
+  ],
+  "scopeNote": "This meeting agreed on investigation and exploration. No release date, priority or measured result was committed.",
+  "timeNote": "Times follow the example’s demo schedule."
+}

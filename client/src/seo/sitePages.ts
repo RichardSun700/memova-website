@@ -31,20 +31,20 @@ export type SitePage = {
 const publicPages: SitePage[] = [
   {
     path: "/",
-    title: "Memova — Your Context, Finally Understood",
+    title: "Memova — Apple Watch 全天记录与个人知识库",
     description:
-      "Memova turns conversations, notes, files, and experiences into living Books, shareable Pages, and reviewable next actions.",
+      "使用 Apple Watch 全天记录生活，在 iPhone 上离线转写与搜索，积累个人知识库。默认本地保存，由你选择上传的内容，回顾一天、探索灵感并整理会议成果。",
     index: true,
     changeFrequency: "weekly",
     priority: 1,
     summary:
-      "Memova connects the context you choose to remember into living Books that grow over time, become useful Pages, and support actions and sharing that remain under your control.",
+      "Memova 让 Apple Watch 全天记录生活，在 iPhone 上离线转写与搜索，找回当时的原话并积累个人知识库。录音默认保存在本地，上传哪些内容由你决定。通过每日回顾、个人导师、Spark 探索与创作，以及会议成果与交互网页，让你选择的日常记录逐渐变得有用。",
     schemaType: "SoftwareApplication",
     hero: {
-      eyebrow: "Context · Knowledge · Build in public",
-      title: "From context to building in public.",
+      eyebrow: "MEMOVA FOR APPLE WATCH",
+      title: "全天候记录生活，积累个人知识库。",
       intro:
-        "Collect and understand your context. Build a connected knowledge base, then turn everyday progress into social content for founders building in public.",
+        "轻点 Apple Watch 开始录音，熄屏后继续。在 iPhone 上离线转写、搜索，找回当时的原话。",
     },
   },
   {
@@ -252,7 +252,7 @@ export function getStructuredData(page: SitePage) {
     name: page.title,
     description: page.description,
     url,
-    inLanguage: "en-US",
+    inLanguage: page.path === "/" ? "zh-CN" : "en-US",
     isPartOf: {
       "@type": "WebSite",
       name: "Memova",
