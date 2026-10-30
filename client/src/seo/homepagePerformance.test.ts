@@ -2,94 +2,93 @@ import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
 import { createHash } from "node:crypto";
-import { Script, runInNewContext } from "node:vm";
+import { runInNewContext } from "node:vm";
+import { gzipSync } from "node:zlib";
 import { afterEach, describe, expect, it } from "vitest";
 import sharp from "sharp";
 import { parseHTML } from "linkedom";
 import { optimizeProductionHomepage } from "../../../scripts/optimize-production-homepage.mjs";
 
 const temporaryDirectories: string[] = [];
-function firstPaint(phone: boolean) {
-  const { document } = parseHTML(fs.readFileSync(path.resolve("dist/public/index.html"), "utf8"));
-  const bootstrap = document.querySelector("script[data-critical-hero]")!;
-  runInNewContext(bootstrap.textContent!, {
-    document, window: { matchMedia: () => ({ matches: !phone }) },
-  });
-  return document;
-}
 afterEach(() => {
   for (const dir of temporaryDirectories.splice(0)) fs.rmSync(dir, { recursive: true, force: true });
 });
 
 describe("production homepage performance", () => {
-  it("shows phone product value without mounting or requesting either desktop animation", () => {
-    const document = firstPaint(true);
-    const hero = document.querySelector("#memova-static-snapshot #top")!;
-    expect(hero.querySelector(".mobile-copy-en")?.textContent).toContain("Build in public");
-    expect(hero.querySelector("video, iframe, [data-scatter-card], .kb-orbit-card")).toBeNull();
-    expect(hero.querySelectorAll("img")).toHaveLength(1);
-    const artwork = hero.querySelector(".mobile-intro-astronaut")!;
-    expect(artwork.getAttribute("srcset")).toContain("360w");
-    expect(artwork.getAttribute("srcset")).toContain("720w");
-    expect(artwork.getAttribute("width")).toBe("1304");
-    expect(artwork.getAttribute("height")).toBe("1206");
-    expect(document.querySelector('link[rel="preload"][as="image"]')?.getAttribute("media")).toBe("(min-width: 761px)");
-    expect(document.querySelector("#memova-desktop-snapshot,.kb-lunar-backdrop,.kb-corner-pair-phase")).toBeNull();
-    expect(hero.querySelector('a[href="#social-distribution"]')).not.toBeNull();
-    expect(hero.querySelector('a[href="#capture"]')).not.toBeNull();
-  });
-
-  it("restores both original desktop scenes before the interaction bundle arrives", () => {
-    const document = firstPaint(false);
-    const hero = document.querySelector("#memova-static-snapshot #top")!;
-    expect(hero.classList.contains("kb-story-scroll")).toBe(true);
-    expect(hero.querySelectorAll(".kb-orbit-card")).toHaveLength(7);
-    expect(hero.querySelector(".kb-corner-pair-phase")).not.toBeNull();
-    expect(hero.querySelector(".kb-lunar-backdrop")?.getAttribute("srcset")).toContain("800w");
-    expect(hero.querySelector(".mobile-knowledge-intro")).toBeNull();
-    expect(document.querySelectorAll("#memova-static-snapshot")).toHaveLength(1);
-    expect(document.getElementById("memova-desktop-snapshot")).toBeNull();
-  });
-
-  it("ships a small, renderable HTML shell and cacheable assets within the budgets", () => {
-    const output = path.resolve("dist/public");
-    const html = fs.readFileSync(path.join(output, "index.html"), "utf8");
-    const report = JSON.parse(fs.readFileSync(path.join(output, "homepage-assets.json"), "utf8"));
-    expect(Buffer.byteLength(html)).toBeLessThan(512 * 1024);
-    expect(html).toContain('id="memova-static-snapshot"');
+  it("ships the real opening without waiting for a client render or downloading embedded demos", () => {
+    const html = fs.readFileSync(path.resolve("dist/public/index.html"), "utf8");
     const { document } = parseHTML(html);
-    const snapshot = document.getElementById("memova-static-snapshot")!;
-    expect(snapshot.querySelectorAll("h1")).toHaveLength(1);
-    expect(snapshot.querySelector("h1")?.textContent).toContain("building in public.");
-    expect(snapshot.querySelector(".five-header")).not.toBeNull();
-    expect(snapshot.querySelector(".kb-lunar-backdrop,.kb-orbit-card")).toBeNull();
-    expect(report.heroImage).toBe(report.heroAssets.src);
-    const artworkVariants = report.images.filter((image: { origin: string }) => image.origin.startsWith("intro-astronaut:"));
-    expect(artworkVariants).toHaveLength(2);
-    expect(artworkVariants.find((image: { origin: string }) => image.origin === "intro-astronaut:360").bytes).toBeLessThan(30 * 1024);
-    expect(artworkVariants.find((image: { origin: string }) => image.origin === "intro-astronaut:720").bytes).toBeLessThan(80 * 1024);
-    expect([...snapshot.querySelectorAll(".five-page-rail a")].map(link => link.getAttribute("href")))
-      .toEqual(["#top", "#act", "#share", "#return", "#waitlist"]);
-    expect(snapshot.textContent).not.toContain("Personal superalignment");
-    expect(document.querySelector('link[rel="stylesheet"]')).toBeNull();
-    const initialStyles = document.querySelector("head > style#memova-seo-shell-styles")?.textContent;
-    expect(initialStyles).toContain(".kb-lunar-backdrop");
-    expect(initialStyles).toContain(".mobile-knowledge-intro");
-    expect(html).not.toContain("?.remove()");
+    const hero = document.querySelector('#root[data-seo-snapshot="true"] #top')!;
+    expect(hero).not.toBeNull();
+    expect(hero.querySelector("h1")?.textContent?.replace(/\s+/g, ""))
+      .toBe("全天候记录生活，积累个人知识库。");
+    expect(hero.querySelector(".hero-intro")?.textContent).toContain("Apple Watch");
+    expect(hero.querySelector("video, iframe")).toBeNull();
+    expect(document.querySelector(".kb-lunar-backdrop, .kb-orbit-card, #memova-desktop-snapshot")).toBeNull();
     expect(html).not.toContain("data:image/");
-    expect(html.match(/<script defer src=/g)).toHaveLength(1);
-    for (const metric of ["htmlGzip", "javascriptGzip", "cssGzip"]) {
-      expect(report.sizes[metric]).toBeLessThan(100 * 1024);
+    expect(Buffer.byteLength(html)).toBeLessThan(512 * 1024);
+    expect(gzipSync(html).length).toBeLessThan(128 * 1024);
+  });
+
+  it("resolves every built entry and stylesheet with bounded transfer size", () => {
+    const output = path.resolve("dist/public");
+    const { document } = parseHTML(fs.readFileSync(path.join(output, "index.html"), "utf8"));
+    const modules = [...new Set([
+      ...[...document.querySelectorAll('script[type="module"][src]')]
+        .map(script => script.getAttribute("src")!),
+      ...[...document.querySelectorAll('link[rel="modulepreload"][href]')]
+        .map(link => link.getAttribute("href")!),
+    ])];
+    const styles = [...document.querySelectorAll('link[rel="stylesheet"][href]')]
+      .map(link => link.getAttribute("href")!);
+    expect(modules.length).toBeGreaterThan(0);
+    expect(styles.length).toBeGreaterThan(0);
+    let scriptGzip = 0;
+    let cssGzip = 0;
+    for (const [urls, kind] of [[modules, "javascript"], [styles, "css"]] as const) {
+      for (const url of urls) {
+        const pathname = new URL(url, "https://memova.ai").pathname;
+        if (pathname === "/analytics/ga4-consent.js") expect(kind).toBe("javascript");
+        else expect(pathname).toMatch(/^\/assets\/.+-[A-Za-z0-9_-]+\.(?:js|css)$/);
+        const bytes = fs.readFileSync(path.join(output, pathname));
+        const source = bytes.toString("utf8");
+        expect(source).not.toMatch(/https?:\/\/(?:localhost|127\.0\.0\.1|0\.0\.0\.0|terminal\.local)(?::\d+)?(?:[\/"'\s]|$)/);
+        expect(source).not.toContain("/@vite/client");
+        expect(source).not.toContain("__MANUS_HOST_DEV__");
+        if (kind === "javascript") scriptGzip += gzipSync(bytes).length;
+        else cssGzip += gzipSync(bytes).length;
+      }
     }
-    for (const url of [report.jsUrl, report.cssUrl, ...report.images.map((image: { url: string }) => image.url)]) {
-      const bytes = fs.readFileSync(path.join(output, url));
-      const hash = createHash("sha256").update(bytes).digest("hex").slice(0, 20);
-      expect(url).toContain(`/assets/homepage/`);
-      expect(url).toContain(hash);
+    expect(scriptGzip).toBeLessThan(250 * 1024);
+    expect(cssGzip).toBeLessThan(100 * 1024);
+    const css = styles.map(url => fs.readFileSync(path.join(output, url), "utf8")).join("\n");
+    expect(css).toContain("prefers-reduced-motion");
+    expect(css).toContain("@media");
+  });
+
+  it("records deployable, reproducible homepage assets including every example entry", () => {
+    const output = path.resolve("dist/public");
+    const report = JSON.parse(fs.readFileSync(path.join(output, "homepage-assets.json"), "utf8"));
+    const assets: { source: string; path: string; sha256: string; size: number }[] = report.assets;
+    expect(Array.isArray(assets)).toBe(true);
+    expect(assets.length).toBeGreaterThan(10);
+    expect(new Set(assets.map(asset => asset.path)).size).toBe(assets.length);
+    for (const asset of assets) {
+      expect(asset.source).toBeTruthy();
+      expect(asset.path).toMatch(/^\//);
+      const file = path.resolve(output, `.${asset.path}`);
+      expect(file.startsWith(output + path.sep), asset.path).toBe(true);
+      const bytes = fs.readFileSync(file);
+      expect(bytes.length, asset.path).toBe(asset.size);
+      expect(bytes.length, asset.path).toBeLessThan(25 * 1024 * 1024);
+      expect(createHash("sha256").update(bytes).digest("hex"), asset.path).toBe(asset.sha256);
     }
-    const js = fs.readFileSync(path.join(output, report.jsUrl), "utf8");
-    expect(() => new Script(js)).not.toThrow();
-    expect(js).not.toContain("/demo/media/memova-pairs//assets/");
+    for (const entry of ["/wind-chimes.html", "/mentor-classroom.html", "/examples/watch-prototype.html"]) {
+      expect(assets.some(asset => asset.path === entry), entry).toBe(true);
+    }
+    const html = fs.readFileSync(path.join(output, "index.html"), "utf8");
+    expect(html).not.toMatch(/https?:\/\/(?:localhost|127\.0\.0\.1|0\.0\.0\.0|terminal\.local)(?::\d+)?(?:[\/"'\s]|$)/);
+    expect(fs.existsSync(path.join(output, "_worker.js"))).toBe(false);
   });
 
   it("preserves script execution order, CSS order and lossless image pixels", async () => {

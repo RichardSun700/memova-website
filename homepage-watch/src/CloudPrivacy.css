@@ -1,0 +1,94 @@
+.cloud-transform-section[id] {
+  scroll-margin-top: 77px;
+}
+.cloud-transform-section .lower-privacy-layout {
+  position: relative;
+}
+.cloud-transform-section .lower-privacy-copy {
+  min-width: 0;
+}
+.cloud-transform-section .lower-heading {
+  transition: font-size 700ms cubic-bezier(.22,.7,.2,1);
+}
+.cloud-transform-section.cloud-has-results .lower-privacy-layout {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-rows: max-content 1fr;
+  align-items: start;
+  gap: 20px 36px;
+}
+.cloud-transform-section.cloud-has-results .lower-privacy-copy {
+  grid-column: 1;
+  grid-row: 1;
+  max-width: 100%;
+}
+.cloud-transform-section.cloud-has-results .cloud-processing-demo {
+  display: contents;
+}
+.cloud-transform-section.cloud-has-results .cloud-source-panel {
+  grid-column: 1;
+  grid-row: 2;
+  width: 100%;
+  max-width: 100%;
+  padding: 24px;
+}
+.cloud-transform-section.cloud-has-results .cloud-result-region {
+  grid-column: 2;
+  grid-row: 1 / span 2;
+  align-self: start;
+  width: 100%;
+}
+.cloud-transform-section.cloud-has-results .lower-privacy-layout::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: linear-gradient(transparent, #d6e1f0 12%, #d6e1f0 88%, transparent);
+  pointer-events: none;
+}
+.cloud-transform-section.cloud-has-results .lower-heading {
+  font-size: 36px;
+  line-height: 1.32;
+}
+.cloud-transform-section.cloud-has-results .lower-body {
+  font-size: 12px;
+  line-height: 1.9;
+}
+.cloud-transform-section.cloud-has-results .lower-trust-note {
+  font-size: 10px;
+  align-items: start;
+}
+.cloud-transform-section.cloud-has-results .lower-trust-note svg {
+  margin-top: 2px;
+}
+@media (max-width: 849px), (max-width: 1000px) and (max-height: 500px) {
+  .cloud-transform-section.cloud-has-results .lower-privacy-layout {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: repeat(3, max-content);
+    gap: 32px;
+  }
+  .cloud-transform-section.cloud-has-results .lower-privacy-copy {
+    grid-column: 1;
+    grid-row: 1;
+    max-width: none;
+  }
+  .cloud-transform-section.cloud-has-results .cloud-processing-demo {
+    display: contents;
+  }
+  .cloud-transform-section.cloud-has-results .cloud-source-panel {
+    grid-column: 1;
+    grid-row: 2;
+  }
+  .cloud-transform-section.cloud-has-results .cloud-result-region {
+    grid-column: 1;
+    grid-row: 3;
+  }
+  .cloud-transform-section.cloud-has-results .lower-privacy-layout::after {
+    display: none;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .cloud-transform-section .lower-privacy-layout,
+  .cloud-transform-section .lower-heading { transition: none; }
+}

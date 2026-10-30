@@ -4,15 +4,16 @@ import { describe, expect, it } from "vitest";
 import { runInNewContext } from "node:vm";
 import { parseHTML } from "linkedom";
 
-const homepage = fs.readFileSync(
+const legacyHomepage = fs.readFileSync(
   path.resolve(process.cwd(), "client/homepage/index.html"),
   "utf8"
 );
 const publicDir = path.resolve(process.cwd(), "client/public");
+const homepage = fs.readFileSync(path.resolve("dist/public/index.html"), "utf8");
 
-function renderedHomepage(phone: boolean) {
+function renderedLegacyHomepage(phone: boolean) {
   const { document } = parseHTML('<html><body><div id="root"></div></body></html>');
-  const code = [...homepage.matchAll(/<script\b[^>]*>([\s\S]*?)<\/script>/gi)]
+  const code = [...legacyHomepage.matchAll(/<script\b[^>]*>([\s\S]*?)<\/script>/gi)]
     .find(match => match[1].includes('function ApolloHomepagePreview()'))![1];
   runInNewContext(code, {
     document,
@@ -34,18 +35,17 @@ function readPngSize(fileName: string) {
 
 describe("production homepage", () => {
   it("uses the current Liquid Blue Mist icon as the stable search favicon", () => {
-    expect(homepage).toContain(
-      '<link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">'
-    );
-    expect(homepage).toContain(
-      '<link rel="icon" type="image/svg+xml" href="/brand/memova-app-icon-liquid-blue.svg">'
-    );
-    expect(homepage).toContain(
-      '<link rel="manifest" href="/site.webmanifest">'
-    );
-    expect(homepage).toContain(
-      '"logo":{"@type":"ImageObject","url":"https://memova.ai/favicon.png"'
-    );
+    const { document } = parseHTML(homepage);
+    expect(document.querySelector('link[rel="icon"][sizes="96x96"]')?.getAttribute("href"))
+      .toBe("/favicon-96x96.png");
+    expect(document.querySelector('link[rel="icon"][type="image/svg+xml"]')?.getAttribute("href"))
+      .toBe("/brand/memova-app-icon-liquid-blue.svg");
+    expect(document.querySelector('link[rel="manifest"]')?.getAttribute("href"))
+      .toBe("/site.webmanifest");
+    const structuredData = [...document.querySelectorAll('script[type="application/ld+json"]')]
+      .map(script => JSON.parse(script.textContent || "{}"));
+    expect(structuredData.length).toBeGreaterThan(0);
+    expect(JSON.stringify(structuredData)).toContain("https://memova.ai/");
     expect(homepage).not.toContain("favicon.ico?v=");
 
     expect(readPngSize("favicon-96x96.png")).toEqual({ width: 96, height: 96 });
@@ -78,76 +78,80 @@ describe("production homepage", () => {
     );
   });
 
-  it("replaces the signup form with the existing App Store download flow", () => {
-    for (const phone of [false, true]) {
-      const document = renderedHomepage(phone);
-      const downloadSection = document.querySelector("#waitlist")!;
-      expect(downloadSection.querySelector("form, input")).toBeNull();
-      expect(downloadSection.querySelector(".memova-download-button")?.getAttribute("href"))
-        .toBe("https://apps.apple.com/us/app/memova-ai/id6796284954");
-      expect(downloadSection.querySelector("h2")?.textContent)
-        .toContain(phone ? "Start with your next meeting." : "Build a memory");
+  it("renders the real Watch homepage and every chapter before JavaScript starts", () => {
+    const { document } = parseHTML(homepage);
+    const root = document.querySelector('#root[data-production-homepage="watch-life-v1"][data-seo-snapshot="true"]')!;
+    expect(root).not.toBeNull();
+    expect(root.querySelectorAll("h1")).toHaveLength(1);
+    expect(root.querySelector("h1")?.textContent?.replace(/\s+/g, ""))
+      .toBe("全天候记录生活，积累个人知识库。");
+    expect(root.querySelector(".hero-intro")?.textContent).toContain("离线转写、搜索");
+    expect(root.querySelector(".trust-line")?.textContent).toContain("默认本地保存，上传内容由你决定");
+    for (const id of ["experience", "privacy", "pro", "faq", "download"]) {
+      expect(root.querySelector(`#${id}`), id).not.toBeNull();
     }
-    expect(homepage).not.toContain('fetch("/api/waitlist"');
+    expect(root.querySelector("#experience h2")).not.toBeNull();
+    expect(root.querySelector("#privacy h2")).not.toBeNull();
+    expect(root.querySelector("#pro")?.textContent).toContain("US$39.99");
+    expect(root.querySelector("#pro")?.textContent).toContain("实际价格与自动续订条款请在 App 内确认");
+    expect(root.querySelector("#top video, #top iframe")).toBeNull();
+    expect(root.querySelector("#download form, #download input")).toBeNull();
+    expect(homepage).not.toContain('class="memova-seo-shell');
     expect(homepage).not.toContain("Join early access");
-    expect(homepage).toContain('src="/brand/app-download.js"');
   });
 
-  it("links to Memova AI on the App Store immediately after the community invitation", () => {
-    const communityButton = homepage.indexOf('"Join Community"');
-    const appDownloadLink = homepage.indexOf(
-      '"Download the app"',
-      communityButton
-    );
-
-    expect(communityButton).toBeGreaterThan(-1);
-    expect(appDownloadLink).toBeGreaterThan(communityButton);
-    expect(homepage).toContain(
-      'h("a", { className: "memova-download-button", href: "https://apps.apple.com/us/app/memova-ai/id6796284954", target: "_blank", rel: "noopener noreferrer", "aria-label": "Download Memova AI on the App Store", onClick: () => setOpen(false) }, "Download the app")'
-    );
-    expect(homepage).not.toContain("data-app-download-placeholder");
-    expect(homepage).not.toContain(
-      'href: "#waitlist", onClick: () => setOpen(false) }, "Download the app"'
-    );
-    expect(homepage).toContain("/community/discord-community-qr-e9u5ffvhdu.png");
-    expect(homepage).toContain("https://discord.gg/E9u5FFvhdu");
-    expect(homepage).toContain('role: "dialog"');
+  it("keeps downloads, community controls, MCP and legal links reachable", () => {
+    const { document } = parseHTML(homepage);
+    const appStore = "https://apps.apple.com/us/app/memova-ai/id6796284954";
+    expect(document.querySelector('.hero-actions a')?.getAttribute("href")).toBe(appStore);
+    expect(document.querySelector('.lower-footer-download')?.getAttribute("href")).toBe(appStore);
+    expect(document.querySelectorAll(`a[href="${appStore}"]`).length).toBeGreaterThanOrEqual(4);
+    expect(document.querySelector('.header-community[aria-haspopup="dialog"]')).not.toBeNull();
+    expect(document.querySelector('.mobile-menu-community[aria-haspopup="dialog"]')).not.toBeNull();
+    for (const pathname of ["mcp", "privacy", "support", "terms"]) {
+      expect(document.querySelector(`a[href="https://memova.ai/${pathname}/"]`), pathname).not.toBeNull();
+    }
+    expect(document.querySelector('a.skip-link[href="#main"]')).not.toBeNull();
+    expect(document.querySelector('#mobile-navigation[hidden]')).not.toBeNull();
+    expect(document.querySelector('.mobile-menu-toggle')?.getAttribute("aria-controls"))
+      .toBe("mobile-navigation");
+    expect(document.querySelector('.language-button')?.getAttribute("aria-label")).toBe("Switch to English");
   });
 
-  it("shows the signed-in Memova account in the standalone homepage header", () => {
-    const appDownloadControl = homepage.indexOf(
+  it("preserves the retained legacy account header and account labels", () => {
+    const appDownloadControl = legacyHomepage.indexOf(
       'h("a", { className: "memova-download-button", href: "https://apps.apple.com/us/app/memova-ai/id6796284954"'
     );
-    const accountControl = homepage.indexOf(
+    const accountControl = legacyHomepage.indexOf(
       'authUser\n                    ? h("div", { className: "five-account-menu"'
     );
 
-    expect(homepage).toContain(
+    expect(legacyHomepage).toContain(
       'const HOMEPAGE_AUTH_STORAGE_KEY = "memova.auth.v1";'
     );
-    expect(homepage).toContain(
+    expect(legacyHomepage).toContain(
       'const HOMEPAGE_LOGIN_HREF = "/login?source=homepage&v=20260831";'
     );
-    expect(homepage).toContain("window.location.assign(HOMEPAGE_LOGIN_HREF)");
-    expect(homepage).toContain("function readHomepageAuthUser()");
-    expect(homepage).toContain("async function fetchHomepageAuthUser()");
-    expect(homepage).toContain("authUser?.avatar_url_expires_at");
-    expect(homepage).toContain('className: "five-account-trigger"');
-    expect(homepage).toContain('className: "five-account-popover"');
-    expect(homepage).toContain('"aria-haspopup": "menu"');
-    expect(homepage).toContain('h("span", null, "Profile")');
-    expect(homepage).toContain('"Log out"');
-    expect(homepage).toContain(
+    expect(legacyHomepage).toContain("window.location.assign(HOMEPAGE_LOGIN_HREF)");
+    expect(legacyHomepage).toContain("function readHomepageAuthUser()");
+    expect(legacyHomepage).toContain("async function fetchHomepageAuthUser()");
+    expect(legacyHomepage).toContain("authUser?.avatar_url_expires_at");
+    expect(legacyHomepage).toContain('className: "five-account-trigger"');
+    expect(legacyHomepage).toContain('className: "five-account-popover"');
+    expect(legacyHomepage).toContain('"aria-haspopup": "menu"');
+    expect(legacyHomepage).toContain('h("span", null, "Profile")');
+    expect(legacyHomepage).toContain('"Log out"');
+    expect(legacyHomepage).toContain(
       'return user?.display_name?.trim() || "Memova account";'
     );
-    expect(homepage).not.toContain('h("small", null, authUser.email)');
-    expect(homepage).not.toContain("authUser.email || homepageAccountLabel");
-    expect(homepage).not.toContain('user?.email?.split("@")[0]');
+    expect(legacyHomepage).not.toContain('h("small", null, authUser.email)');
+    expect(legacyHomepage).not.toContain("authUser.email || homepageAccountLabel");
+    expect(legacyHomepage).not.toContain('user?.email?.split("@")[0]');
     expect(appDownloadControl).toBeGreaterThan(-1);
     expect(accountControl).toBeGreaterThan(appDownloadControl);
   });
 
-  it("embeds only the original manual cover and keeps the full guides behind links", () => {
+  it("preserves the original manual cover and standalone guide links", () => {
     const captureScript = fs.readFileSync(
       path.join(publicDir, "capture-personal-manual-integration.js"),
       "utf8"
@@ -166,14 +170,14 @@ describe("production homepage", () => {
     );
 
     const manualLanding = fs.readFileSync(path.join(publicDir, "personal-manual/index.html"), "utf8");
-    expect(homepage).not.toContain("h(CaptureManualPage, null)");
-    expect(homepage).not.toContain("capture-personal-manual-integration.js?v=");
-    expect(homepage).not.toContain("homepage-manual-cover.css?v=");
-    expect(homepage).toContain('"Work Style"');
+    expect(legacyHomepage).not.toContain("h(CaptureManualPage, null)");
+    expect(legacyHomepage).not.toContain("capture-personal-manual-integration.js?v=");
+    expect(legacyHomepage).not.toContain("homepage-manual-cover.css?v=");
+    expect(legacyHomepage).toContain('"Work Style"');
     expect(manualLanding).toContain('src="/capture-personal-manual-integration.js"');
     expect(manualLanding).toContain('href="/homepage-manual-cover.css"');
     expect(sampleMarkupAbsolutePaths(captureScript)).toBe(true);
-    expect(homepage).not.toContain("personal-manual-discovery-stack.css?v=");
+    expect(legacyHomepage).not.toContain("personal-manual-discovery-stack.css?v=");
     const sampleMarkup = captureScript.slice(captureScript.indexOf("function renderNeilSample()"), captureScript.indexOf("function renderInstruction("));
     expect(sampleMarkup).toContain("Neil Armstrong original Personal Manual cover");
     expect(sampleMarkup).toContain("View full manual →");
@@ -184,7 +188,7 @@ describe("production homepage", () => {
     expect(captureScript).not.toContain("work-types-discovery");
     expect(captureScript).not.toContain("Discover the 16 work types");
     for (const phone of [false, true]) {
-      const document = renderedHomepage(phone);
+      const document = renderedLegacyHomepage(phone);
       expect(document.querySelectorAll('a[href="/personal-manual/work-types/"]')).toHaveLength(2);
       expect(document.querySelectorAll('#waitlist')).toHaveLength(1);
     }

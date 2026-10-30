@@ -2,6 +2,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 import { Script } from "node:vm";
+import { parseHTML } from "linkedom";
 import {
   SITE_URL,
   getCanonicalUrl,
@@ -32,6 +33,94 @@ function listProductionArtifacts(directory) {
     if (entry.isDirectory()) return listProductionArtifacts(entryPath);
     return /\.(?:html|js)$/i.test(entry.name) ? [entryPath] : [];
   });
+}
+
+function listProductionFiles(directory) {
+  if (!fs.existsSync(directory)) return [];
+  return fs.readdirSync(directory, { withFileTypes: true }).flatMap(entry => {
+    const entryPath = path.join(directory, entry.name);
+    return entry.isDirectory() ? listProductionFiles(entryPath) : [entryPath];
+  });
+}
+
+export function collectProductionHomepageErrors(html, page, outputDir) {
+  const errors = [];
+  const { document } = parseHTML(html);
+  const root = document.getElementById("root");
+  const visibleHeading = root?.querySelector("h1")?.textContent.replace(/\s+/g, "");
+  if (root?.getAttribute("data-production-homepage") !== "watch-life-v1") {
+    errors.push("/ has no current production homepage marker");
+  }
+  if (root?.getAttribute("data-seo-snapshot") !== "true") {
+    errors.push("/ has no static visible SEO snapshot");
+  }
+  if (root?.querySelectorAll("h1").length !== 1 ||
+      visibleHeading !== page.hero?.title.replace(/\s+/g, "")) {
+    errors.push("/ static homepage does not match its visible page heading");
+  }
+  for (const id of ["top", "experience", "privacy", "pro", "faq", "download"]) {
+    if (!root?.querySelector(`#${id}`)) {
+      errors.push(`/ is missing static homepage section #${id}`);
+    }
+  }
+  if (!root?.querySelector("main") || normalizeVisibleText(root?.innerHTML || "").length < 500) {
+    errors.push("/ has no complete static homepage body");
+  }
+  if (document.documentElement.lang !== "zh-CN") {
+    errors.push("/ does not declare the Chinese homepage language");
+  }
+  if (document.title !== page.title ||
+      document.querySelector('meta[name="description"]')?.getAttribute("content") !== page.description) {
+    errors.push("/ does not use the current homepage search metadata");
+  }
+  if (/noindex/i.test(document.querySelector('meta[name="robots"]')?.getAttribute("content") || "")) {
+    errors.push("/ must remain indexable");
+  }
+  try {
+    const schemas = [...document.querySelectorAll('script[type="application/ld+json"]')]
+      .map(script => JSON.parse(script.textContent));
+    if (!schemas.some(schema => schema.url === `${SITE_URL}/` && schema.name === page.title)) {
+      errors.push("/ structured data does not describe the current homepage");
+    }
+  } catch {
+    errors.push("/ has invalid JSON-LD structured data");
+  }
+  if (!document.querySelector('script[type="module"][src]')) {
+    errors.push("/ has no built homepage module entry");
+  }
+  if (!document.querySelector('link[rel="stylesheet"][href], style')) {
+    errors.push("/ has no homepage styles");
+  }
+  if ([...document.querySelectorAll('script[src]')].filter(node => node.getAttribute("src").split("?")[0] === "/analytics/ga4-consent.js").length !== 1) {
+    errors.push("/ must use the shared consent-aware analytics bootstrap once");
+  }
+  for (const [selector, attribute, expected] of [
+    ['link[rel="canonical"]', "href", "https://memova.ai/"],
+    ['link[rel="icon"][sizes="96x96"]', "href", "/favicon-96x96.png"],
+    ['link[rel="manifest"]', "href", "/site.webmanifest"],
+  ]) {
+    if (document.querySelector(selector)?.getAttribute(attribute) !== expected) {
+      errors.push(`/ is missing the production ${selector}`);
+    }
+  }
+  const resources = [
+    ...document.querySelectorAll("script[src], img[src], iframe[src], video[src], source[src]"),
+    ...document.querySelectorAll('link[rel="stylesheet"][href], link[rel="modulepreload"][href], link[rel="icon"][href], link[rel="manifest"][href]'),
+  ];
+  for (const element of resources) {
+    const reference = element.getAttribute("src") || element.getAttribute("href");
+    if (!reference || /^(?:data:|https?:|\/\/)/.test(reference)) continue;
+    const url = new URL(reference, SITE_URL);
+    const localPath = path.resolve(outputDir, `.${decodeURIComponent(url.pathname)}`);
+    if (!localPath.startsWith(`${path.resolve(outputDir)}${path.sep}`) ||
+        !fs.existsSync(localPath) || !fs.statSync(localPath).isFile()) {
+      errors.push(`/ references a missing local homepage resource: ${reference}`);
+    }
+  }
+  if (/https?:\/\/(?:localhost|127\.0\.0\.1|0\.0\.0\.0|terminal\.local)(?::\d+)?(?:[\/"'\s]|$)|\/@vite\/client|src=["']\/src\//i.test(html)) {
+    errors.push("/ references a local development server or source entry");
+  }
+  return errors;
 }
 
 function normalizeVisibleText(html) {
@@ -185,24 +274,28 @@ export function collectSeoBuildErrors(outputDir, pages) {
     if (!html.includes('data-seo-snapshot="true"')) {
       errors.push(`${page.path} has no static visible SEO snapshot`);
     }
-    if (!html.includes('id="memova-seo-shell-styles"')) {
-      errors.push(`${page.path} has no critical SEO shell styles`);
-    }
-    if (!html.includes('data-seo-shell-version="2"')) {
-      errors.push(`${page.path} has no current SEO shell version`);
-    }
-    if (!html.includes('class="memova-seo-shell')) {
-      errors.push(`${page.path} does not use the branded SEO shell`);
+    if (page.path === "/") {
+      errors.push(...collectProductionHomepageErrors(html, page, outputDir));
+    } else {
+      if (!html.includes('id="memova-seo-shell-styles"')) {
+        errors.push(`${page.path} has no critical SEO shell styles`);
+      }
+      if (!html.includes('data-seo-shell-version="2"')) {
+        errors.push(`${page.path} has no current SEO shell version`);
+      }
+      if (!html.includes('class="memova-seo-shell')) {
+        errors.push(`${page.path} does not use the branded SEO shell`);
+      }
     }
     if (html.includes('<main data-seo-snapshot="true"><article>')) {
       errors.push(`${page.path} still uses the unstyled legacy SEO snapshot`);
     }
-    if (!html.includes(page.summary)) {
+    if (page.path !== "/" && !html.includes(page.summary)) {
       errors.push(
         `${page.path} static snapshot does not match the route summary`
       );
     }
-    if (page.hero && !visibleText.includes(page.hero.title)) {
+    if (page.path !== "/" && page.hero && !visibleText.includes(page.hero.title)) {
       errors.push(
         `${page.path} static shell does not match its visible page heading`
       );
@@ -212,6 +305,12 @@ export function collectSeoBuildErrors(outputDir, pages) {
     }
     if (sitemap && !sitemap.includes(`<loc>${canonical}</loc>`)) {
       errors.push(`sitemap.xml is missing ${canonical}`);
+    }
+  }
+
+  for (const filePath of listProductionFiles(outputDir)) {
+    if (fs.statSync(filePath).size >= 25 * 1024 * 1024) {
+      errors.push(`${path.relative(outputDir, filePath)} exceeds the Cloudflare Pages file limit of 25 MiB`);
     }
   }
 

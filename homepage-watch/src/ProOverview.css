@@ -1,0 +1,62 @@
+/* One Pro presentation and one shared subscription panel. */
+.pro-overview {
+  width: 100%;
+  min-width: 0;
+  margin-inline: auto;
+  overflow: hidden;
+  border: 1px solid #d4dfef;
+  border-radius: 22px;
+  color: var(--ink, #283a50);
+  background: #fff;
+}
+.pro-overview button { font-family: inherit; cursor: pointer; }
+.pro-overview-plan {
+  padding: 28px 36px 22px;
+  border-top: 1px solid #4667c7;
+  color: #fff;
+  background: linear-gradient(110deg, #486bd4, #3556b7);
+}
+.pro-overview-purchase {
+  display: grid;
+  grid-template-columns: minmax(110px, 1fr) minmax(180px, 220px) minmax(300px, 1.65fr);
+  align-items: center;
+  gap: 14px 28px;
+  min-width: 0;
+}
+.pro-overview-paid-label { margin: 0; color: #fff; font-size: 11px; line-height: 1.4; font-weight: 600; letter-spacing: .1em; }
+.pro-overview-controls { min-width: 0; }
+.pro-overview-billing { display: flex; gap: 3px; padding: 3px; border: 1px solid #ffffff55; border-radius: 8px; background: #ffffff12; }
+.pro-overview-billing button { flex: 1; min-width: 0; min-height: 38px; padding: 8px 14px; border: 0; border-radius: 5px; color: #fff; background: transparent; font-size: 12px; line-height: 1.5; touch-action: manipulation; transition: color .18s ease, background-color .18s ease; }
+.pro-overview-billing button:hover { background: #ffffff18; }
+.pro-overview-billing button[aria-pressed="true"] { color: #3454b3; background: #fff; }
+.pro-overview-price-action { display: flex; align-items: center; justify-content: flex-end; gap: 22px; min-width: 0; }
+.pro-overview-price { display: flex; align-items: baseline; flex-wrap: wrap; gap: 4px 7px; margin: 0; color: #fff; font-variant-numeric: tabular-nums; line-height: 1.2; }
+.pro-overview-price strong { font-size: 36px; font-weight: 400; letter-spacing: -.055em; }
+.pro-overview-price > span { color: #e6edff; font-size: 12px; line-height: 1.5; }
+.pro-overview-download { display: inline-flex; align-items: center; justify-content: space-between; flex-shrink: 0; gap: 22px; min-height: 44px; padding: 10px 14px; border: 1px solid #fff; border-radius: 7px; color: #3454b3; background: #fff; font-size: 13px; font-weight: 600; line-height: 1.5; text-decoration: none; touch-action: manipulation; transition: background-color .18s ease; }
+.pro-overview-download:hover { background: #edf2ff; }
+.pro-overview-download svg { flex-shrink: 0; }
+.pro-overview-terms { margin: 18px 0 0; color: #e6edff; font-size: 10px; line-height: 1.8; }
+.pro-overview :is(button, a, select):focus-visible { outline: 2px solid var(--accent, #586dcc); outline-offset: 3px; }
+.pro-overview-plan :is(button, a):focus-visible { outline-color: #fff; }
+@media (max-width: 1000px) {
+  .pro-overview-plan { padding: 24px; }
+  .pro-overview-purchase { grid-template-columns: minmax(100px, 1fr) 200px; gap: 18px; }
+  .pro-overview-price-action { grid-column: 1 / -1; justify-content: space-between; }
+}
+@media (max-width: 849px), (max-width: 1000px) and (max-height: 500px) {
+  .pro-overview { border-radius: 17px; }
+  .pro-overview-plan { padding: 20px; }
+  .pro-overview-purchase { grid-template-columns: minmax(0, 1fr); gap: 14px; }
+  .pro-overview-controls { width: 100%; }
+  .pro-overview-price-action { justify-content: space-between; gap: 8px; }
+  .pro-overview-price strong { font-size: 32px; }
+  .pro-overview-download { gap: 10px; padding-inline: 12px; font-size: 12px; }
+}
+@media (max-width: 359px) {
+  .pro-overview-plan { padding: 16px; }
+  .pro-overview-price-action { flex-wrap: wrap; gap: 14px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .pro-overview-billing button, .pro-overview-download { transition: none; }
+}

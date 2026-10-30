@@ -1,0 +1,56 @@
+[
+  {
+    "id": "partner-conversation",
+    "image": "/assets/stories/clay-v4/partner-conversation.webp",
+    "color": "#d75f48",
+    "secondary": "#b3c7e7"
+  },
+  {
+    "id": "dating-boundaries",
+    "image": "/assets/stories/clay-v4/dating-boundaries.webp",
+    "color": "#f5a898",
+    "secondary": "#98554e"
+  },
+  {
+    "id": "colleague-feedback",
+    "image": "/assets/stories/clay-v4/colleague-feedback.webp",
+    "color": "#ddaf58",
+    "secondary": "#d56134"
+  },
+  {
+    "id": "repair-dispute",
+    "image": "/assets/stories/clay-v4/repair-dispute.webp",
+    "color": "#bdcfa9",
+    "secondary": "#f2997d"
+  },
+  {
+    "id": "campus-safety",
+    "image": "/assets/stories/clay-v4/campus-safety.webp",
+    "color": "#7489b5",
+    "secondary": "#b4c7ef"
+  },
+  {
+    "id": "speaking-up",
+    "image": "/assets/stories/clay-v4/speaking-up.webp",
+    "color": "#9e7069",
+    "secondary": "#e9bd64"
+  },
+  {
+    "id": "parent-child-conversation",
+    "image": "/assets/stories/clay-v4/parent-child-conversation.webp",
+    "color": "#687a9a",
+    "secondary": "#b28864"
+  },
+  {
+    "id": "workplace-conversation",
+    "image": "/assets/stories/clay-v4/workplace-conversation.webp",
+    "color": "#b7c7e5",
+    "secondary": "#e37254"
+  },
+  {
+    "id": "launch-retrospective",
+    "image": "/assets/stories/clay-v4/launch-retrospective.webp",
+    "color": "#4e5a75",
+    "secondary": "#fdb19f"
+  }
+]

@@ -1,0 +1,60 @@
+@font-face { font-family: "Chime DM Sans"; src: url('/assets/fonts/dm-sans-400.ttf'); font-weight: 400; font-display: swap; }
+@font-face { font-family: "Chime Instrument"; src: url('/assets/fonts/instrument-serif-normal.ttf'); font-weight: 400; font-display: swap; }
+.wind-chimes, .wind-chimes * { box-sizing: border-box; }
+.wind-chimes {
+  position: relative; width: 280px; height: 204px; color: #344a5d;
+  font: 12px/1.7 "Chime DM Sans", "PingFang SC", sans-serif;
+  isolation: isolate; perspective: 700px;
+}
+.wind-chimes-bank { height: 174px; position: relative; perspective: 700px; }
+.wind-chime {
+  position: absolute; top: calc(var(--chime-index) * 6px); left: calc(8px + var(--chime-index) * 76px);
+  width: 112px; height: 168px; padding: 0; border: 0; background: transparent;
+  transform-origin: 50% 4%; transform: translateY(var(--chime-lift,0px)) rotateZ(var(--chime-angle,0deg)) rotateY(var(--chime-yaw,0deg));
+  touch-action: none; user-select: none; cursor: grab; -webkit-tap-highlight-color: transparent;
+  z-index: calc(3 - var(--chime-index));
+}
+.wind-chime:active { cursor: grabbing; }
+.wind-chime:hover, .wind-chime:focus-visible { z-index: 5; }
+.wind-chime:focus-visible { outline: 1px solid #91a8be; outline-offset: -15px; border-radius: 40%; }
+.wind-chime img { display: block; width: 100%; height: 100%; object-fit: contain; pointer-events: none; filter: drop-shadow(0 4px 5px #334d6b16); }
+.wind-chime:disabled { cursor: default; }
+.wind-chimes-guide { display: flex; align-items: center; justify-content: center; gap: 8px; position: relative; z-index: 6; white-space: nowrap; font-size: 9px; color: #667e94; }
+.wind-chimes-guide > span { padding: 3px 9px; border-radius: 20px; background: #f8fbffd9; }
+.wind-chimes-sound { display: grid; place-items: center; background: #f8fbffe6; border: 1px solid #dce5ed; color: #71879b; width: 24px; height: 24px; padding: 0; border-radius: 50%; cursor: pointer; }
+.wind-chimes-sound:focus-visible, .wind-paper-close:focus-visible, .wind-paper-return:focus-visible, .wind-paper-book:focus-visible { outline: 2px solid #7d9ab1; outline-offset: 2px; }
+.wind-chime-paper {
+  position: absolute; z-index: 8; top: 194px; right: 1px; width: 278px;
+  padding: 20px 20px 14px; border: 1px solid #e7e2d6; border-radius: 3px 5px 5px 3px;
+  max-height: min(280px, calc(100vh - 204px)); overflow-y: auto; scrollbar-width: thin;
+  background: #fffcf5; box-shadow: 0 10px 30px #263d5220, 0 1px 3px #635d4510;
+  transform-origin: 72% 0; animation: unfold-chime-paper 450ms cubic-bezier(.2,.7,.2,1) both;
+}
+.wind-paper-eyebrow { display: block; font-size: 8px; letter-spacing: .1em; color: #9a927e; padding-right: 10px; }
+.wind-chime-paper h4 { font: 400 23px/1.25 "Chime Instrument", "Songti SC", serif; margin: 10px 0 11px; color: #425153; }
+.wind-chime-paper p { margin: 0; font-size: 12px; line-height: 1.75; color: #65716f; }
+.wind-chime-paper .wind-paper-small { margin-top: 12px; padding-top: 12px; border-top: 1px solid #ebe6d9; color: #939081; font-size: 10px; }
+.wind-paper-close { position: absolute; right: 9px; top: 9px; width: 24px; height: 24px; padding: 0; display: grid; place-items: center; background: transparent; border: 0; color: #9b9a8f; cursor: pointer; }
+.wind-paper-book { display: flex; gap: 10px; align-items: start; text-decoration: none; padding: 12px 0 0; margin-top: 13px; border-top: 1px solid #e8e1d4; color: #71816f; }
+.wind-paper-book > svg { flex: none; margin-top: 3px; }
+.wind-paper-book > span { display: grid; gap: 1px; }
+.wind-paper-book strong { font-size: 11px; font-weight: 500; line-height: 1.4; }
+.wind-paper-book small { font-size: 8px; color: #989585; line-height: 1.4; }
+.wind-paper-book em { font-size: 8px; font-style: normal; margin-top: 3px; display: flex; gap: 4px; align-items: center; line-height: 1.4; }
+.wind-paper-return { display: block; margin: 17px 0 0 auto; font: inherit; font-size: 9px; background: transparent; border: 0; border-bottom: 1px solid #d6d8c8; color: #8b9684; padding: 1px 0; cursor: pointer; }
+.wind-chime-announcement { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+.wind-chimes--compact { width: 220px; height: 157px; }
+.wind-chimes--compact .wind-chimes-bank { height: 134px; }
+.wind-chimes--compact .wind-chime { left: calc(var(--chime-index) * 61px); width: 95px; height: 140px; top: calc(var(--chime-index) * 3px - 6px); }
+.wind-chimes--compact .wind-chimes-guide { font-size: 8px; gap: 4px; }
+.wind-chimes--compact .wind-chimes-guide > span { padding: 1px 6px; }
+.wind-chimes--compact .wind-chimes-sound { width: 21px; height: 21px; }
+.wind-chimes--compact .wind-chime-paper { width: 255px; top: 154px; right: 0; padding: 18px 20px 13px; }
+.wind-chimes--compact .wind-chime-paper h4 { font-size: 23px; margin: 10px 0; }
+.wind-chimes--compact .wind-chime-paper p { font-size: 11px; line-height: 1.75; }
+.wind-chimes--compact .wind-paper-small { font-size: 9px; margin-top: 9px; padding-top: 9px; }
+.wind-chimes--compact .wind-paper-book { padding-top: 9px; margin-top: 9px; }
+.wind-chimes--compact .wind-paper-return { margin-top: 12px; }
+@keyframes unfold-chime-paper { from { opacity: 0; transform: perspective(700px) rotateX(-17deg) scaleY(.82) translateY(-8px); } to { opacity: 1; transform: none; } }
+.wind-chimes[data-reduced="true"] .wind-chime-paper { animation: none; }
+@media (prefers-reduced-motion: reduce) { .wind-chime-paper { animation: none; } }

@@ -1,0 +1,170 @@
+.emotion-watch {
+  position: relative;
+  flex: 0 0 auto;
+  width: 270px;
+  aspect-ratio: 7 / 11;
+  font-family:
+    "DM Sans",
+    -apple-system,
+    BlinkMacSystemFont,
+    "PingFang SC",
+    sans-serif;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  user-select: none;
+  transition: opacity 650ms ease;
+  isolation: isolate;
+}
+
+.emotion-watch.is-unlocked {
+  opacity: 1;
+  visibility: visible;
+}
+
+.emotion-watch-hardware {
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  -webkit-user-drag: none;
+}
+
+/* Source screen: x=59..506, y=196..694 in the 560 × 880 hardware PNG. */
+.emotion-watch-screen {
+  position: absolute;
+  z-index: 1;
+  left: 10.535714%;
+  top: 22.272727%;
+  width: 79.821429%;
+  height: 56.590909%;
+  overflow: hidden;
+  border-radius: 22% / 18%;
+  color: #f4f5f8;
+  background: #020303;
+  container-type: inline-size;
+}
+
+.emotion-watch-screen::after {
+  position: absolute;
+  z-index: 3;
+  inset: 0;
+  content: "";
+  border-radius: inherit;
+  background: linear-gradient(
+    119deg,
+    #ffffff04,
+    transparent 31%,
+    transparent 79%,
+    #bfd2e503
+  );
+  pointer-events: none;
+}
+
+.emotion-watch-signals,
+.emotion-watch-live {
+  position: absolute;
+  inset: 0;
+  transition: opacity 420ms ease, transform 520ms cubic-bezier(.22, 1, .36, 1), filter 420ms ease;
+}
+.emotion-watch-signals { opacity: 1; transform: translateY(0); filter: blur(0); }
+.emotion-watch-live { z-index: 2; opacity: 0; transform: translateY(8px); filter: blur(3px); pointer-events: none; }
+.emotion-watch.is-interactive .emotion-watch-signals { opacity: 0; transform: translateY(-6px); filter: blur(3px); }
+.emotion-watch.is-interactive .emotion-watch-live { opacity: 1; transform: translateY(0); filter: blur(0); pointer-events: auto; }
+.emotion-watch-live iframe { display: block; width: 100%; height: 100%; border: 0; outline: none; background: #000; }
+.emotion-watch-crown { position: absolute; z-index: 4; left: 92.5%; top: 30.5%; width: 7.5%; height: 13%; min-width: 22px; min-height: 44px; padding: 0; border: 0; border-radius: 6px; background: transparent; pointer-events: auto; cursor: pointer; }
+.emotion-watch-crown:focus-visible { outline: 1px solid #e5edfa; outline-offset: 1px; }
+
+.emotion-watch-curves {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.emotion-watch-status {
+  position: absolute;
+  z-index: 2;
+  top: 9.25%;
+  left: 12%;
+  right: 12%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  line-height: 1;
+}
+
+.emotion-watch-brand {
+  display: flex;
+  align-items: center;
+  gap: 1.8cqw;
+  font-size: 4.55cqw;
+  font-weight: 500;
+  letter-spacing: -0.025em;
+  color: #e8edf6;
+}
+
+.emotion-watch-brand img {
+  display: block;
+  width: 7.3cqw;
+  height: 7.3cqw;
+  object-fit: contain;
+}
+
+.emotion-watch-status time {
+  font-size: 5.2cqw;
+  font-weight: 550;
+  letter-spacing: -0.025em;
+  font-variant-numeric: tabular-nums;
+}
+
+.emotion-watch-track-label {
+  position: absolute;
+  z-index: 2;
+  left: 12%;
+  right: 9%;
+  display: flex;
+  align-items: center;
+  gap: 2.3cqw;
+  font-size: clamp(10.5px, 6cqw, 13px);
+  line-height: 1.1;
+  font-weight: 500;
+  letter-spacing: -0.015em;
+  color: #dce4e8;
+  white-space: nowrap;
+}
+
+.emotion-watch-track-label > span {
+  flex: 0 0 auto;
+  width: 1.7cqw;
+  height: 1.7cqw;
+  border-radius: 50%;
+  background: var(--track-color);
+}
+
+.emotion-watch-caption {
+  position: absolute;
+  z-index: 2;
+  left: 12%;
+  right: 12%;
+  bottom: 8.6%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 3.9cqw;
+  line-height: 1.3;
+  font-weight: 400;
+  letter-spacing: 0.025em;
+  color: #718087;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .emotion-watch {
+    transition: none;
+  }
+  .emotion-watch-signals, .emotion-watch-live { transition: none; transform: none !important; filter: none !important; }
+}

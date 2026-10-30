@@ -1,7 +1,18 @@
 import { describe, expect, it } from "vitest";
-import { SITE_URL, getSitePage, sitePages } from "./sitePages";
+import { SITE_URL, getSitePage, getStructuredData, sitePages } from "./sitePages";
 
 describe("sitePages", () => {
+  it("describes the Watch homepage while preserving other routes' metadata language", () => {
+    const homepage = getSitePage("/");
+    expect(homepage.title).toBe("Memova — Apple Watch 全天记录与个人知识库");
+    expect(homepage.hero?.title).toBe("全天候记录生活，积累个人知识库。");
+    expect(homepage.description).toContain("离线转写与搜索");
+    expect(homepage.description).toContain("默认本地保存");
+    expect(homepage.description).toContain("选择上传");
+    expect(getStructuredData(homepage).inLanguage).toBe("zh-CN");
+    expect(getStructuredData(getSitePage("/support")).inLanguage).toBe("en-US");
+  });
+
   it("gives every indexable page unique search metadata and a static summary", () => {
     const indexable = sitePages.filter(page => page.index);
 

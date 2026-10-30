@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+ <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+ <meta name="color-scheme" content="light">
+ <title>Launch Retrospective — Meeting Outcomes</title>
+ <meta name="description" content="A launch retrospective, organized into original words, highlights and four clear follow-ups. A Memova meeting outcome example.">
+ <link rel="stylesheet" href="./meeting-outcome-library/style.css">
+ <script src="./meeting-outcome-library/app.js" defer></script>
+</head>
+<body>
+ <main class="meeting-paper">
+  <header class="library-brand"><img src="/assets/memova-icon-transparent.png" width="22" height="22" alt=""><span>MEMOVA / MEETING OUTCOME</span></header>
+  <section class="meeting-hero" aria-labelledby="meeting-title">
+   <div class="hero-copy">
+    <p class="eyebrow">LAUNCH RETROSPECTIVE · OCT 28, 2026</p>
+    <h1 id="meeting-title">One meeting.<br>Four ways <span class="word-with-note">forward<span class="inline-note" aria-hidden="true"><i></i><i></i><i></i></span></span>.</h1>
+    <p class="hero-description">Find the question. Follow the discussion.<br>Know who takes the next step.</p>
+    <a class="black-pill" href="#outcomes">View the outcomes <span aria-hidden="true">↗</span></a>
+    <p class="meeting-meta">4 people <i></i> 30 minutes <i></i> 15:00–15:30</p>
+   </div>
+   <div class="document-shelf" aria-label="Open the meeting report">
+    <button class="report-book report-book--transcript" data-report="transcript" type="button" disabled aria-label="Open Transcript">
+     <span class="book-category">01 / TRANSCRIPT</span><strong>The original<br>words.</strong>
+     <span class="book-rule"></span><span class="book-bottom">Michael · Alex<br>Jordan · Sam <b>↗</b></span>
+    </button>
+    <button class="report-book report-book--highlights" data-report="highlights" type="button" disabled aria-label="Open Highlights">
+     <span class="book-category">02 / HIGHLIGHTS</span><strong>Find the<br>turning<br>point.</strong>
+     <span class="book-orbit" aria-hidden="true"></span><span class="book-bottom">What mattered<br>in the discussion <b>↗</b></span>
+    </button>
+    <button class="report-book report-book--summary" data-report="summary" type="button" disabled aria-label="Open Summary">
+     <span class="book-category">03 / SUMMARY</span><strong>Who does<br>what<br>next.</strong>
+     <span class="book-lines" aria-hidden="true"></span><span class="book-bottom">Four areas of ownership.<br>One next product sync. <b>↗</b></span>
+    </button>
+   </div>
+  </section>
+
+  <section class="outcomes" id="outcomes" aria-labelledby="outcomes-title">
+   <div class="outcomes-heading"><p class="eyebrow">THE MEETING, ORGANIZED</p><h2 id="outcomes-title"><span>Next</span> <span>steps.</span></h2></div>
+   <div class="bento-scene">
+    <article class="bento-card issue-card"><p class="tiny-kicker">THE RECURRING QUESTION</p><h3>Saved.<br>But where?</h3><p>Several users were unsure where to find their notes after recording.</p><button type="button" class="text-button" data-source="retro-04" disabled>Read the original words <span aria-hidden="true">↗</span></button></article>
+    <article class="bento-card owners-card"><div class="owner-initials" aria-label="Michael, Alex, Jordan and Sam"><span>M</span><span>A</span><span>J</span><span>S</span></div><strong class="big-number">4</strong><h3>Owners. Clear follow-ups.</h3><p>Feedback, design, engineering<br>and the next team review.</p></article>
+    <article class="bento-card direction-card"><p class="tiny-kicker">THE AGREED DIRECTION</p><h3>Start with the evidence.</h3><p>Collect the recurring feedback. Explore a clearer next step after recording. Assess the options together.</p><div class="direction-footer"><span>Next product sync</span><button type="button" data-report="summary" disabled aria-label="Read the meeting summary">↗</button></div></article>
+   </div>
+   <div class="section-caption"><span>Investigation and exploration come first.</span><span>No release date or priority was set.</span></div>
+  </section>
+
+  <section class="followups" aria-labelledby="followups-title">
+   <header class="section-intro"><div><p class="eyebrow">FOLLOW-UP OWNERSHIP</p><h2 id="followups-title">From discussion<br>to a next action.</h2></div><p>Four commitments from the meeting.<br>Check the source behind each one.</p></header>
+   <div id="followup-list" class="followup-list"></div>
+   <p class="review-note">Checkmarks are personal review marks for this preview.</p>
+  </section>
+
+  <section class="source-quote" aria-labelledby="quote-title">
+   <p class="eyebrow" id="quote-title">THE WORDS BEHIND THE WORK</p>
+   <blockquote>“If people have to figure out where their notes went, we’re making them work too hard.”</blockquote>
+   <div><span>Michael · Original conversation</span><button type="button" data-source="retro-06" disabled>Read the conversation <span aria-hidden="true">↗</span></button></div>
+  </section>
+  <footer class="library-footer"><span>Memova · Launch Retrospective</span><span>Times follow the example’s demo schedule.</span><button type="button" data-report="transcript" disabled>Transcript ↗</button></footer>
+ </main>
+
+ <dialog class="report-dialog" id="report-dialog" aria-labelledby="report-title">
+  <header class="report-header"><div><p class="eyebrow">MEMOVA / LAUNCH RETROSPECTIVE</p><h2 id="report-title">Meeting report</h2></div><button id="close-report" type="button" aria-label="Close report">×</button></header>
+  <div class="report-tabs" role="tablist" aria-label="Meeting report">
+   <button type="button" role="tab" id="report-tab-transcript" data-report-tab="transcript" aria-selected="true" aria-controls="report-panel">Transcript</button>
+   <button type="button" role="tab" id="report-tab-highlights" data-report-tab="highlights" aria-selected="false" aria-controls="report-panel" tabindex="-1">Highlights</button>
+   <button type="button" role="tab" id="report-tab-summary" data-report-tab="summary" aria-selected="false" aria-controls="report-panel" tabindex="-1">Summary</button>
+  </div>
+  <div class="report-panel" id="report-panel" role="tabpanel" aria-labelledby="report-tab-transcript" tabindex="0"></div>
+ </dialog>
+ <p class="sr-only" id="meeting-status" role="status" aria-live="polite"></p>
+</body>
+</html>
+

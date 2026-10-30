@@ -4,6 +4,14 @@ import path from "node:path";
 
 export const REQUIRED_TRACKED_PATHS = [
   "client/homepage/index.html",
+  "homepage-watch/index.html",
+  "homepage-watch/wind-chimes.html",
+  "homepage-watch/mentor-classroom.html",
+  "homepage-watch/vite.config.mjs",
+  "homepage-watch/src/main.jsx",
+  "homepage-watch/src/App.jsx",
+  "homepage-watch/public/examples/watch-prototype.html",
+  "pnpm-lock.yaml",
   "client/public/favicon.ico",
   "client/public/favicon-96x96.png",
   "client/public/favicon-192x192.png",
@@ -29,12 +37,17 @@ export const REQUIRED_TRACKED_PATHS = [
   "client/public/_redirects",
 ];
 
-const PRODUCTION_SOURCE_SCOPES = [
+export const PRODUCTION_SOURCE_SCOPES = [
   "client/homepage",
   "client/public",
   "client/src/seo",
+  "homepage-watch",
   "scripts",
   "package.json",
+  "pnpm-lock.yaml",
+  "vite.config.ts",
+  "wrangler.toml",
+  "functions",
 ];
 
 export function findProductionSourceViolations(statusOutput, trackedPaths) {

@@ -71,20 +71,24 @@ describe('mobile reading and loading flow', () => {
     expect(f.document.querySelector('.ac-granola-shell')).toBeNull();
     expect(f.document.querySelectorAll('#capture')).toHaveLength(1);
   });
-  it('ships the actual phone hero with readable copy before the interaction bundle', () => {
-    const { document } = parseHTML(fs.readFileSync(path.resolve('dist/public/index.html'),'utf8'));
-    const hero = document.querySelector('#memova-static-snapshot .mobile-knowledge-intro')!;
-    expect(hero.querySelector('h1')).not.toBeNull();
-    const intro = hero.querySelector('.mobile-intro-description .mobile-copy-zh')!.textContent;
-    expect(intro).toContain('知识库与社媒内容');
-    expect(intro.length).toBeLessThan(30);
-    expect(hero.querySelector('.mobile-intro-download')?.getAttribute('href')).toBe('https://apps.apple.com/us/app/memova-ai/id6796284954');
-    expect(hero.querySelector('.mobile-intro-steps a[href="#return"] .mobile-copy-zh')?.textContent).toBe('反馈');
+  it('ships readable Watch copy and accessible phone navigation before the interaction bundle', () => {
+    const { document } = parseHTML(fs.readFileSync(path.resolve('dist/public/index.html'), 'utf8'));
+    const hero = document.querySelector('#root[data-seo-snapshot="true"] #top')!;
+    expect(hero.querySelector('h1')?.textContent?.replace(/\s+/g, '')).toBe('全天候记录生活，积累个人知识库。');
+    const intro = hero.querySelector('.hero-intro')!.textContent!;
+    expect(intro).toContain('离线转写、搜索');
+    expect(intro.length).toBeLessThan(120);
+    expect(hero.querySelector('.hero-actions a')?.getAttribute('href')).toBe('https://apps.apple.com/us/app/memova-ai/id6796284954');
     expect(hero.querySelector('video,iframe')).toBeNull();
-    expect(hero.querySelectorAll('img')).toHaveLength(1);
-    expect(hero.querySelector('.mobile-intro-astronaut')?.getAttribute('aria-hidden')).toBe('true');
-    expect(hero.querySelector('.mobile-intro-scenario-note .mobile-copy-zh')?.textContent).toContain('假想演示');
-    expect(document.querySelector('link[as="image"]')?.getAttribute('media')).toBe('(min-width: 761px)');
-    expect(document.querySelector('script[data-critical-language]')).not.toBeNull();
+    expect(document.querySelector('a.skip-link')?.getAttribute('href')).toBe('#main');
+    const menu = document.querySelector('.mobile-menu-toggle')!;
+    expect(menu.getAttribute('aria-expanded')).toBe('false');
+    const navigation = document.getElementById(menu.getAttribute('aria-controls')!);
+    expect(navigation?.hasAttribute('hidden')).toBe(true);
+    for (const id of ['experience', 'privacy', 'pro']) {
+      expect(navigation?.querySelector(`a[href="#${id}"]`)).not.toBeNull();
+      expect(document.getElementById(id)).not.toBeNull();
+    }
+    expect(navigation?.querySelector('.mobile-menu-download')?.getAttribute('href')).toBe('https://apps.apple.com/us/app/memova-ai/id6796284954');
   });
 });
