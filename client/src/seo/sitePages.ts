@@ -31,20 +31,20 @@ export type SitePage = {
 const publicPages: SitePage[] = [
   {
     path: "/",
-    title: "Memova — Apple Watch 全天记录与个人知识库",
+    title: "Memova — Record all day. Build your personal knowledge base.",
     description:
-      "使用 Apple Watch 全天记录生活，在 iPhone 上离线转写与搜索，积累个人知识库。默认本地保存，由你选择上传的内容，回顾一天、探索灵感并整理会议成果。",
+      "Tap to record on Apple Watch. Keep going with the screen off. Transcribe and search offline on iPhone. Find the original words. Saved locally by default. You choose what to upload.",
     index: true,
     changeFrequency: "weekly",
     priority: 1,
     summary:
-      "Memova 让 Apple Watch 全天记录生活，在 iPhone 上离线转写与搜索，找回当时的原话并积累个人知识库。录音默认保存在本地，上传哪些内容由你决定。通过每日回顾、个人导师、Spark 探索与创作，以及会议成果与交互网页，让你选择的日常记录逐渐变得有用。",
+      "Record all day on Apple Watch and build your personal knowledge base. Transcribe and search offline on iPhone to find the original words. Saved locally by default. You choose what to upload. Revisit your day with My Day, find practical communication guidance, explore and create with Spark, and organize meeting outcomes into interactive webpages.",
     schemaType: "SoftwareApplication",
     hero: {
       eyebrow: "MEMOVA FOR APPLE WATCH",
-      title: "全天候记录生活，积累个人知识库。",
+      title: "Record all day. Build your knowledge.",
       intro:
-        "轻点 Apple Watch 开始录音，熄屏后继续。在 iPhone 上离线转写、搜索，找回当时的原话。",
+        "Tap to record on Apple Watch. Keep going with the screen off. Transcribe and search offline on iPhone. Find the original words.",
     },
   },
   {
@@ -252,7 +252,7 @@ export function getStructuredData(page: SitePage) {
     name: page.title,
     description: page.description,
     url,
-    inLanguage: page.path === "/" ? "zh-CN" : "en-US",
+    inLanguage: "en-US",
     isPartOf: {
       "@type": "WebSite",
       name: "Memova",

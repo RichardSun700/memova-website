@@ -1,0 +1,101 @@
+[
+  {
+    "id": "day-0030-sleep",
+    "image": "/assets/day-photos-v1/00-sleep.webp",
+    "time": "00:30",
+    "titleZh": "安静入睡",
+    "titleEn": "Time to rest",
+    "descriptionZh": "床头灯照着枕头，让忙碌的一天在安静中结束。",
+    "descriptionEn": "A quiet bedside light ends a busy day.",
+    "altZh": "亮着的床头灯照向床上的枕头和被褥。",
+    "altEn": "A lit bedside lamp beside a bed with pillows."
+  },
+  {
+    "id": "day-0700-doorway",
+    "image": "/assets/day-photos-v1/07-morning-rush.webp",
+    "time": "07:00",
+    "titleZh": "准备出门",
+    "titleEn": "Ready to go",
+    "descriptionZh": "鞋子已经放在门边，准备出门开始新的一天。",
+    "descriptionEn": "Shoes by the door, ready for a new day.",
+    "altZh": "门边放着一双鞋，阳光斜照在地面上。",
+    "altEn": "A pair of shoes by a doorway in diagonal sunlight."
+  },
+  {
+    "id": "day-0815-coffee",
+    "image": "/assets/day-photos-v1/08-coffee.webp",
+    "time": "08:15",
+    "titleZh": "早晨咖啡",
+    "titleEn": "Morning coffee",
+    "descriptionZh": "买一杯外带咖啡，在上班路上给自己片刻停留。",
+    "descriptionEn": "A takeaway coffee before the workday begins.",
+    "altZh": "窗边木桌上的外带咖啡杯，旁边有绿植。",
+    "altEn": "A takeaway coffee on a wooden table beside a plant."
+  },
+  {
+    "id": "day-0930-meeting",
+    "image": "/assets/day-photos-v1/09-meeting.webp",
+    "time": "09:30",
+    "titleZh": "上午会议",
+    "titleEn": "Team meeting",
+    "descriptionZh": "会议开始前，把今天想要讨论的问题先理清楚。",
+    "descriptionEn": "A moment to gather thoughts before the meeting.",
+    "altZh": "长桌旁排列着空椅子的会议室。",
+    "altEn": "An empty meeting room with chairs along a long table."
+  },
+  {
+    "id": "day-1230-lunch",
+    "image": "/assets/day-photos-v1/12-lunch.webp",
+    "time": "12:30",
+    "titleZh": "午餐闲聊",
+    "titleEn": "Lunch together",
+    "descriptionZh": "和朋友一起吃午饭，聊聊彼此近况和新的推荐。",
+    "descriptionEn": "Lunch with a friend, sharing news and new finds.",
+    "altZh": "白色桌面上摆着两盘三文鱼配米饭。",
+    "altEn": "Two plates of salmon and rice on a white table."
+  },
+  {
+    "id": "day-1530-work",
+    "image": "/assets/day-photos-v1/15-work-reflection.webp",
+    "time": "15:30",
+    "titleZh": "整理工作",
+    "titleEn": "Afternoon work",
+    "descriptionZh": "摊开资料和笔记，整理下午收到的反馈与想法。",
+    "descriptionEn": "Notes and feedback to sort through this afternoon.",
+    "altZh": "笔记本电脑旁放着橙色笔记本、笔、文件和咖啡。",
+    "altEn": "A laptop, orange notebook, pens, papers, and coffee."
+  },
+  {
+    "id": "day-1830-exercise",
+    "image": "/assets/day-photos-v1/18-exercise.webp",
+    "time": "18:30",
+    "titleZh": "运动放松",
+    "titleEn": "Time to move",
+    "descriptionZh": "铺开垫子、备好水，让工作后的身体慢慢动起来。",
+    "descriptionEn": "Mat and water ready for some movement after work.",
+    "altZh": "瑜伽垫上摆着水瓶、跳绳和折好的白毛巾。",
+    "altEn": "A yoga mat with a water bottle, jump rope, and towel."
+  },
+  {
+    "id": "day-2000-together",
+    "image": "/assets/day-photos-v1/20-home-conversation.webp",
+    "time": "20:00",
+    "titleZh": "晚间交流",
+    "titleEn": "Evening together",
+    "descriptionZh": "摆好两只杯子，和家人或伴侣聊聊今天。",
+    "descriptionEn": "Two cups and time to talk about the day at home.",
+    "altZh": "圆形木桌上放着两只带杯碟的杯子和蜡烛。",
+    "altEn": "Two cups with saucers and a candle on a round table."
+  },
+  {
+    "id": "day-2230-journal",
+    "image": "/assets/day-photos-v1/22-daily-reflection.webp",
+    "time": "22:30",
+    "titleZh": "睡前回顾",
+    "titleEn": "Daily reflection",
+    "descriptionZh": "翻开手账，记下今天发生的事和自己此刻的感受。",
+    "descriptionEn": "A few lines on the day and how it felt.",
+    "altZh": "摊开的手写日记旁放着铅笔、蜡烛和花。",
+    "altEn": "An open handwritten journal with a pencil, candle, and flowers."
+  }
+]

@@ -96,6 +96,8 @@ for (const file of builtFiles) {
 
 let html = rewriteAssets(fs.readFileSync(path.join(client, "index.html"), "utf8"));
 const { document: homepage } = parseHTML(html);
+// Match the English SSR snapshot and client default before JavaScript runs.
+homepage.documentElement.lang = "en";
 const retainedHead = [...legacy.head.querySelectorAll(
   'title,meta[name="description"],meta[name="robots"],meta[property^="og:"],meta[name^="twitter:"],link[rel="canonical"],link[rel="icon"],link[rel="apple-touch-icon"],link[rel="manifest"],script[type="application/ld+json"]'
 )];

@@ -8,7 +8,6 @@ import {
   Check,
   BookOpen,
   Globe,
-  ArrowLeft,
   List,
   UsersThree,
 } from "@phosphor-icons/react";
@@ -18,12 +17,12 @@ import { ExperienceJourney } from "./ExperienceJourney";
 import { useSiteNavigation } from "./useSiteNavigation";
 import { useCompactLayout } from "./useCompactLayout";
 import { ProFeatureVisual } from "./ProFeatureVisual";
-import storyPages from "./storyPages.json";
+import dayScenes from "./dayScenes.json";
 import { APP_STORE_URL as STORE, COMMUNITY_URL, COMMUNITY_QR, MCP_OVERVIEW_URL } from "./siteLinks";
 import "./lower.css";
 const A = "/assets/";
 export function App() {
-  const [lang, setLang] = useState("zh"),
+  const [lang, setLang] = useState("en"),
     [modal, setModal] = useState(null),
     [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const mobileMenuButton = useRef(null);
@@ -54,8 +53,6 @@ export function App() {
   const closeRef = useRef(),
     returnRef = useRef(),
     L = (zh, en) => (lang === "zh" ? zh : en);
-  const activeStory = storyPages.find((story) => story.id === modal);
-  const activeStoryIndex = storyPages.findIndex((story) => story.id === modal);
   const timeline = [
     [
       "09:30",
@@ -224,7 +221,7 @@ export function App() {
         <div className="opening-section">
           <OpeningExperience
             lang={lang}
-            stories={storyPages}
+            stories={dayScenes}
             onOpen={setModal}
             frozen={!!modal}
             compact={compact}
@@ -244,8 +241,7 @@ export function App() {
           <section
             className={
               "modal " +
-              (modal === "community" ? "community-modal" : modal === "video" ? "video-modal" : "case-modal") +
-              (activeStory ? " story-case-modal" : "")
+              (modal === "community" ? "community-modal" : modal === "video" ? "video-modal" : "case-modal")
             }
             role="dialog"
             aria-modal="true"
@@ -283,90 +279,13 @@ export function App() {
                     "Memova for Apple Watch · Product film",
                   )}
                 </h2>
-                <video src="/memova-launch.mp4" controls autoPlay playsInline />
-              </>
-            ) : activeStory ? (
-              <>
-                <aside className="modal-copy">
-                  <span className="eyebrow">MY DAY STORIES</span>
-                  <h2 id="modal-title">
-                    {L(activeStory.titleZh, activeStory.titleEn)}
-                  </h2>
-                  <p>
-                    {L(activeStory.descriptionZh, activeStory.descriptionEn)}
-                  </p>
-                  <div className="modal-source-note">
-                    <BookOpen size={17} />
-                    <span>
-                      {L(
-                        "原话 · 今日观察 · 一个小提示",
-                        "Original words · An observation · A small tip",
-                      )}
-                    </span>
-                  </div>
-                  <p className="story-meta">
-                    {L(
-                      "Memova My Day 示例故事",
-                      "A Memova My Day example story",
-                    )}
-                  </p>
-                  <a
-                    className="text-link story-page-link"
-                    href={activeStory.page}
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    {L("在新窗口阅读完整网页", "Open the complete page")}
-                    <ArrowUpRight size={15} />
-                  </a>
-                  <div className="story-pager">
-                    <span>
-                      {String(activeStoryIndex + 1).padStart(2, "0")} /{" "}
-                      {String(storyPages.length).padStart(2, "0")}
-                    </span>
-                    <button
-                      aria-label={L("上一个故事", "Previous story")}
-                      onClick={() =>
-                        setModal(
-                          storyPages[
-                            (activeStoryIndex - 1 + storyPages.length) %
-                              storyPages.length
-                          ].id,
-                        )
-                      }
-                    >
-                      <ArrowLeft size={16} />
-                    </button>
-                    <button
-                      aria-label={L("下一个故事", "Next story")}
-                      onClick={() =>
-                        setModal(
-                          storyPages[(activeStoryIndex + 1) % storyPages.length]
-                            .id,
-                        )
-                      }
-                    >
-                      <ArrowRight size={16} />
-                    </button>
-                  </div>
-                </aside>
-                <div className="modal-content">
-                  <iframe
-                    key={activeStory.id}
-                    src={activeStory.page + "?chimeLang=" + lang}
-                    title={L(activeStory.titleZh, activeStory.titleEn)}
-                    onLoad={(e) => {
-                      try {
-                        e.currentTarget.contentWindow.addEventListener(
-                          "keydown",
-                          (event) => {
-                            if (event.key === "Escape") setModal(null);
-                          },
-                        );
-                      } catch {}
-                    }}
-                  />
-                </div>
+                <video
+                  key={lang}
+                  src={L("/memova-launch.mp4", "/assets/video/memova-launch-en-v1.mp4")}
+                  controls
+                  autoPlay
+                  playsInline
+                />
               </>
             ) : (
               <>

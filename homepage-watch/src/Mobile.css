@@ -63,7 +63,9 @@
   .opening-stage .orbit-item { position: relative; width: 164px; scroll-snap-align: start; will-change: auto; }
   .opening-stage .orbit-story { transform: none; }
   .opening-stage .orbit-image { border-radius: 10px; }
-  .opening-stage .orbit-caption { font-size: 12px; line-height: 1.5; margin-top: 10px; opacity: 1; }
+  .opening-stage .orbit-caption { font-size: 11px; line-height: 1.5; margin-top: 9px; opacity: 1; }
+  .opening-stage .orbit-time { font-size: 10px; }
+  .opening-stage .orbit-title { font-size: 12px; }
   .opening-stage .orbit-caption > span:first-child { flex: 1; min-width: 0; overflow-wrap: anywhere; }
   .opening-stage .orbit-caption-arrow { flex: 0 0 auto; }
   .opening-stage .orbit-open { opacity: 1; transform: none; width: 27px; height: 27px; }

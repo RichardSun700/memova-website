@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-30T12:34:53.310184+00:00",
+  "generatedAt": "2026-10-30T13:33:39.819853+00:00",
   "pathBase": "public/",
-  "fileCount": 77,
-  "totalBytes": 120618555,
+  "fileCount": 74,
+  "totalBytes": 122546245,
   "largestFileBytes": 24468633,
   "perFileLimitBytes": 26214400,
   "verification": {
@@ -34,6 +34,51 @@
       "path": "assets/community/memova-discord-qr.webp",
       "sha256": "d37220b1092c0a596d47aadd2a0d61c2afbb6219f36954d7c62debb19f15e605",
       "sizeBytes": 586
+    },
+    {
+      "path": "assets/day-photos-v1/00-sleep.webp",
+      "sha256": "8440ff30dccd0e996c845568f648bc5cdabc60130c6c5d9d47d32d6aa7516626",
+      "sizeBytes": 80822
+    },
+    {
+      "path": "assets/day-photos-v1/07-morning-rush.webp",
+      "sha256": "8f9c4a28728fbff1a0fef9bf2a661494e45a91f8a7877c1bb4945ca09a5073d4",
+      "sizeBytes": 150866
+    },
+    {
+      "path": "assets/day-photos-v1/08-coffee.webp",
+      "sha256": "7fa5d76c57545f2b89fddbcdfcf723e9f35356a0b9cdd8fbe361060bb6674abc",
+      "sizeBytes": 59530
+    },
+    {
+      "path": "assets/day-photos-v1/09-meeting.webp",
+      "sha256": "6563d5ea2ea74a89fd3b6157d28c0265717e758ad58f1026e7db3a265953d7ce",
+      "sizeBytes": 81648
+    },
+    {
+      "path": "assets/day-photos-v1/12-lunch.webp",
+      "sha256": "a3e92d3127fa8563654d76bc7a9da1862a0095fd649e06f020aba97e26cd159a",
+      "sizeBytes": 157976
+    },
+    {
+      "path": "assets/day-photos-v1/15-work-reflection.webp",
+      "sha256": "992f638cec3d060ae17849bdb5a7cec2b7297e2bb4d995d6d2f926b802ce7bd1",
+      "sizeBytes": 74566
+    },
+    {
+      "path": "assets/day-photos-v1/18-exercise.webp",
+      "sha256": "e093888cb08cda1baaa012fea92e3158855d3ae86a1e13df7813ff43e5531977",
+      "sizeBytes": 203176
+    },
+    {
+      "path": "assets/day-photos-v1/20-home-conversation.webp",
+      "sha256": "ebb3108404af5aaed6cb7bb98fb2627c8ac56534a37804f8eddde82af7d6ecd4",
+      "sizeBytes": 115558
+    },
+    {
+      "path": "assets/day-photos-v1/22-daily-reflection.webp",
+      "sha256": "7f0edca0bc78de725e6ee4ba126e64213e113573cc9bfa5a0009e199fcbe70eb",
+      "sizeBytes": 148920
     },
     {
       "path": "assets/faq/question-mark-handdrawn.png",
@@ -206,49 +251,9 @@
       "sizeBytes": 340312
     },
     {
-      "path": "assets/stories/clay-v4/campus-safety.webp",
-      "sha256": "eaef665b2fc0542ecea9fe7786888534538dae42afc43b41f891a960cff385cf",
-      "sizeBytes": 34262
-    },
-    {
-      "path": "assets/stories/clay-v4/colleague-feedback.webp",
-      "sha256": "fe8745942b92c51469899fa2908ff4592eeaa5059e5090d6f16f73f6ff082e8a",
-      "sizeBytes": 35894
-    },
-    {
-      "path": "assets/stories/clay-v4/dating-boundaries.webp",
-      "sha256": "fdc34ab398f020ace6d07ae7c902c19d633593b4318884900e58f039f30f9517",
-      "sizeBytes": 43292
-    },
-    {
-      "path": "assets/stories/clay-v4/launch-retrospective.webp",
-      "sha256": "8caf6a6eae443264fd693674858042378fbd3be84127b1407a23e62a3d85089e",
-      "sizeBytes": 39018
-    },
-    {
-      "path": "assets/stories/clay-v4/parent-child-conversation.webp",
-      "sha256": "4e4df7852aca8a40410ecbab3e66fcb021f05b1fc6cdf18597b30c3f9d8a6886",
-      "sizeBytes": 52662
-    },
-    {
-      "path": "assets/stories/clay-v4/partner-conversation.webp",
-      "sha256": "7589cb9c36eb68b1f5a2bb634e45c8965d8a4e515c49bd58bd9340e1cc5e4f79",
-      "sizeBytes": 31382
-    },
-    {
-      "path": "assets/stories/clay-v4/repair-dispute.webp",
-      "sha256": "f2d13a067f7ef7e8e884a42deb707b487fe860d388ed66a0635e99cd6ed836f0",
-      "sizeBytes": 32184
-    },
-    {
-      "path": "assets/stories/clay-v4/speaking-up.webp",
-      "sha256": "1ce0cb331745180cebe04c73fca15b52916999abbcb5f3923c45d1426989dce7",
-      "sizeBytes": 29210
-    },
-    {
-      "path": "assets/stories/clay-v4/workplace-conversation.webp",
-      "sha256": "a0775dbaddeab2269a62c88188754f50a17d5ca8377f0048c789ea09d5b6720b",
-      "sizeBytes": 35132
+      "path": "assets/video/memova-launch-en-v1.mp4",
+      "sha256": "a6c7c57e088ca8429cec5fe6d02f22986d46d093ac5b03f40e8d029a67aefcfc",
+      "sizeBytes": 15300435
     },
     {
       "path": "assets/video/myday-context-comic-v8-poster.jpg",
@@ -296,11 +301,6 @@
       "sizeBytes": 665374
     },
     {
-      "path": "examples/meeting-outcome-library.html",
-      "sha256": "d29370593688c98b25156c07cfabcf25f52e804b8645cce74c6640543939e704",
-      "sizeBytes": 6357
-    },
-    {
       "path": "examples/meeting-outcome-library/app.js",
       "sha256": "d327d0e0c2542f52960e75d70fa38851ac2c809baea1d6d1cea9e93c3231e6d8",
       "sizeBytes": 6267
@@ -316,14 +316,39 @@
       "sizeBytes": 16463
     },
     {
+      "path": "examples/meeting-outcome-library.html",
+      "sha256": "d29370593688c98b25156c07cfabcf25f52e804b8645cce74c6640543939e704",
+      "sizeBytes": 6357
+    },
+    {
+      "path": "examples/mentor-sources/colleague-feedback.html",
+      "sha256": "addb0ebda13e840329609c600cc2e7e65d197a84a41bebfb1830d95a202e76d7",
+      "sizeBytes": 3374892
+    },
+    {
+      "path": "examples/mentor-sources/dating-boundaries.html",
+      "sha256": "8044e54423a82d0d304339304fda84821ac2e6773cab9f77d647fc51c55bf32d",
+      "sizeBytes": 3384850
+    },
+    {
+      "path": "examples/mentor-sources/parent-child-conversation.html",
+      "sha256": "09bbd2988d5b4bf33740aade60df036bf849a2adc9be36692092e6a6420013fe",
+      "sizeBytes": 3295203
+    },
+    {
+      "path": "examples/mentor-sources/partner-conversation.html",
+      "sha256": "4845fb098c4c49d32fab69a53e1e26e650e1bc50b3f34d3366ef139c40b90032",
+      "sizeBytes": 3369111
+    },
+    {
+      "path": "examples/mentor-sources/speaking-up.html",
+      "sha256": "2b1551780157b52a3f54bbab8abba16b9fcb972eaa264f36f5614e6eeb0b282f",
+      "sizeBytes": 3264596
+    },
+    {
       "path": "examples/smoky-travel-page.html",
       "sha256": "f68e1a479083fc40b7763336ec3fd540fb40ec50fef2cdd20e478bd9aa43df32",
       "sizeBytes": 2998161
-    },
-    {
-      "path": "examples/spark-fridge-idea.html",
-      "sha256": "0a7a12c00f38f5bdfd96c56b1af13b0805acebe04140d8a24c30163f1aeadd02",
-      "sizeBytes": 2225
     },
     {
       "path": "examples/spark-fridge-idea/app.js",
@@ -341,49 +366,9 @@
       "sizeBytes": 7895
     },
     {
-      "path": "examples/stories/campus-safety.html",
-      "sha256": "0ae8cf341d1e031c91f5407f10841d3b2490b68f22d0b75f58d77b79a1c9947b",
-      "sizeBytes": 3270824
-    },
-    {
-      "path": "examples/stories/colleague-feedback.html",
-      "sha256": "addb0ebda13e840329609c600cc2e7e65d197a84a41bebfb1830d95a202e76d7",
-      "sizeBytes": 3374892
-    },
-    {
-      "path": "examples/stories/dating-boundaries.html",
-      "sha256": "8044e54423a82d0d304339304fda84821ac2e6773cab9f77d647fc51c55bf32d",
-      "sizeBytes": 3384850
-    },
-    {
-      "path": "examples/stories/launch-retrospective.html",
-      "sha256": "010b2ea92438be994be2850436afa69f1cf18bd35c8e905c51c73c178c9c7059",
-      "sizeBytes": 3733736
-    },
-    {
-      "path": "examples/stories/parent-child-conversation.html",
-      "sha256": "09bbd2988d5b4bf33740aade60df036bf849a2adc9be36692092e6a6420013fe",
-      "sizeBytes": 3295203
-    },
-    {
-      "path": "examples/stories/partner-conversation.html",
-      "sha256": "4845fb098c4c49d32fab69a53e1e26e650e1bc50b3f34d3366ef139c40b90032",
-      "sizeBytes": 3369111
-    },
-    {
-      "path": "examples/stories/repair-dispute.html",
-      "sha256": "b8000a8895ced6b568d585f1d994c01a6006b99b14895a7f515cd4a664d4599b",
-      "sizeBytes": 3371213
-    },
-    {
-      "path": "examples/stories/speaking-up.html",
-      "sha256": "2b1551780157b52a3f54bbab8abba16b9fcb972eaa264f36f5614e6eeb0b282f",
-      "sizeBytes": 3264596
-    },
-    {
-      "path": "examples/stories/workplace-conversation.html",
-      "sha256": "d7ad345c99f345d71e3ca391bd8f508ed97f40eba1f993d9e720ed0e902694b0",
-      "sizeBytes": 3737001
+      "path": "examples/spark-fridge-idea.html",
+      "sha256": "0a7a12c00f38f5bdfd96c56b1af13b0805acebe04140d8a24c30163f1aeadd02",
+      "sizeBytes": 2225
     },
     {
       "path": "examples/watch-prototype.html",
@@ -397,8 +382,8 @@
     },
     {
       "path": "mobile-preview.html",
-      "sha256": "56bcaecc75fb5c2e7b7f5c0d83a9af2728c134cbf8282e701bc8d89c8d6fd1a2",
-      "sizeBytes": 1497
+      "sha256": "01508f109dbab6227984a0fbbabf843b8ef828352fa2863d6fb81a3396a3ada5",
+      "sizeBytes": 1500
     }
   ],
   "normalization": "Font license text uses LF in Git; license wording and all application/example content preserved."

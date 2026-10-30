@@ -3,6 +3,7 @@ import path from "node:path";
 import { describe, expect, it } from "vitest";
 import { runInNewContext } from "node:vm";
 import { parseHTML } from "linkedom";
+import { getSitePage } from "./sitePages";
 
 const legacyHomepage = fs.readFileSync(
   path.resolve(process.cwd(), "client/homepage/index.html"),
@@ -34,6 +35,59 @@ function readPngSize(fileName: string) {
 }
 
 describe("production homepage", () => {
+  it("opens with matching English document, social metadata and structured data", () => {
+    const page = getSitePage("/");
+    const source = fs.readFileSync(path.resolve("homepage-watch/index.html"), "utf8");
+    for (const html of [source, homepage]) {
+      const { document } = parseHTML(html);
+      expect(document.documentElement.lang).toBe("en");
+      expect(document.title).toBe(page.title);
+      expect(document.querySelector('meta[name="description"]')?.getAttribute("content"))
+        .toBe(page.description);
+      expect(document.querySelector('meta[property="og:title"]')?.getAttribute("content"))
+        .toBe(page.title);
+      expect(document.querySelector('meta[property="og:description"]')?.getAttribute("content"))
+        .toBe(page.description);
+    }
+    const { document } = parseHTML(homepage);
+    const schemas = [...document.querySelectorAll('script[type="application/ld+json"]')]
+      .map(script => JSON.parse(script.textContent || "{}"));
+    expect(schemas).toContainEqual(expect.objectContaining({
+      url: "https://memova.ai/", name: page.title, description: page.description, inLanguage: "en-US",
+    }));
+  });
+
+  it("shows nine chronological photo scenes without links to retired My Day stories", () => {
+    const { document } = parseHTML(homepage);
+    const gallery = document.querySelector(".story-orbit")!;
+    const cards = [...gallery.querySelectorAll("figure")];
+    expect(cards).toHaveLength(9);
+    expect(cards.map(card => {
+      const time = card.querySelector("time");
+      return time?.getAttribute("datetime") ?? time?.getAttribute("dateTime");
+    }))
+      .toEqual(["00:30", "07:00", "08:15", "09:30", "12:30", "15:30", "18:30", "20:00", "22:30"]);
+    expect(gallery.querySelector("a, button, [tabindex]")).toBeNull();
+    expect(gallery.querySelector(".orbit-open, .orbit-caption-arrow")).toBeNull();
+    for (const card of cards) {
+      expect(card.querySelector("img")?.getAttribute("src")).toContain("/day-photos-v1/");
+      expect(card.querySelector("img")?.getAttribute("alt")?.length).toBeGreaterThan(5);
+      expect(card.querySelector(".orbit-description")?.textContent?.length).toBeGreaterThan(10);
+    }
+    expect(homepage).not.toContain("/examples/stories/");
+  });
+
+  it("retires the nine old gallery routes while keeping independent feature examples", () => {
+    const output = path.resolve("dist/public");
+    expect(fs.existsSync(path.join(output, "examples/stories"))).toBe(false);
+    for (const source of ["partner-conversation", "dating-boundaries", "colleague-feedback", "parent-child-conversation", "speaking-up"]) {
+      expect(fs.existsSync(path.join(output, `examples/mentor-sources/${source}.html`))).toBe(true);
+    }
+    for (const example of ["MyDay_Workplace_Conversation_Reference_Layout.html", "watch-prototype.html", "meeting-outcome-library.html", "spark-fridge-idea.html"]) {
+      expect(fs.existsSync(path.join(output, "examples", example))).toBe(true);
+    }
+  });
+
   it("uses the current Liquid Blue Mist icon as the stable search favicon", () => {
     const { document } = parseHTML(homepage);
     expect(document.querySelector('link[rel="icon"][sizes="96x96"]')?.getAttribute("href"))
@@ -84,16 +138,16 @@ describe("production homepage", () => {
     expect(root).not.toBeNull();
     expect(root.querySelectorAll("h1")).toHaveLength(1);
     expect(root.querySelector("h1")?.textContent?.replace(/\s+/g, ""))
-      .toBe("全天候记录生活，积累个人知识库。");
-    expect(root.querySelector(".hero-intro")?.textContent).toContain("离线转写、搜索");
-    expect(root.querySelector(".trust-line")?.textContent).toContain("默认本地保存，上传内容由你决定");
+      .toBe("Recordallday.Buildyourknowledge.");
+    expect(root.querySelector(".hero-intro")?.textContent).toContain("Transcribe and search offline on iPhone");
+    expect(root.querySelector(".trust-line")?.textContent).toContain("Saved locally by default. You choose what to upload.");
     for (const id of ["experience", "privacy", "pro", "faq", "download"]) {
       expect(root.querySelector(`#${id}`), id).not.toBeNull();
     }
     expect(root.querySelector("#experience h2")).not.toBeNull();
     expect(root.querySelector("#privacy h2")).not.toBeNull();
     expect(root.querySelector("#pro")?.textContent).toContain("US$39.99");
-    expect(root.querySelector("#pro")?.textContent).toContain("实际价格与自动续订条款请在 App 内确认");
+    expect(root.querySelector("#pro")?.textContent).toContain("Prices shown in USD. Confirm the price and auto-renewal terms in the app.");
     expect(root.querySelector("#top video, #top iframe")).toBeNull();
     expect(root.querySelector("#download form, #download input")).toBeNull();
     expect(homepage).not.toContain('class="memova-seo-shell');
@@ -115,7 +169,7 @@ describe("production homepage", () => {
     expect(document.querySelector('#mobile-navigation[hidden]')).not.toBeNull();
     expect(document.querySelector('.mobile-menu-toggle')?.getAttribute("aria-controls"))
       .toBe("mobile-navigation");
-    expect(document.querySelector('.language-button')?.getAttribute("aria-label")).toBe("Switch to English");
+    expect(document.querySelector('.language-button')?.getAttribute("aria-label")).toBe("切换到中文");
   });
 
   it("preserves the retained legacy account header and account labels", () => {

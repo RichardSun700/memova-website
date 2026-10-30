@@ -66,12 +66,16 @@ export function collectProductionHomepageErrors(html, page, outputDir) {
   if (!root?.querySelector("main") || normalizeVisibleText(root?.innerHTML || "").length < 500) {
     errors.push("/ has no complete static homepage body");
   }
-  if (document.documentElement.lang !== "zh-CN") {
-    errors.push("/ does not declare the Chinese homepage language");
+  if (document.documentElement.lang !== "en") {
+    errors.push("/ does not declare the English homepage language");
   }
   if (document.title !== page.title ||
       document.querySelector('meta[name="description"]')?.getAttribute("content") !== page.description) {
     errors.push("/ does not use the current homepage search metadata");
+  }
+  if (document.querySelector('meta[property="og:title"]')?.getAttribute("content") !== page.title ||
+      document.querySelector('meta[property="og:description"]')?.getAttribute("content") !== page.description) {
+    errors.push("/ does not use the current English homepage social metadata");
   }
   if (/noindex/i.test(document.querySelector('meta[name="robots"]')?.getAttribute("content") || "")) {
     errors.push("/ must remain indexable");
@@ -79,7 +83,8 @@ export function collectProductionHomepageErrors(html, page, outputDir) {
   try {
     const schemas = [...document.querySelectorAll('script[type="application/ld+json"]')]
       .map(script => JSON.parse(script.textContent));
-    if (!schemas.some(schema => schema.url === `${SITE_URL}/` && schema.name === page.title)) {
+    if (!schemas.some(schema => schema.url === `${SITE_URL}/` && schema.name === page.title &&
+        schema.description === page.description && schema.inLanguage === "en-US")) {
       errors.push("/ structured data does not describe the current homepage");
     }
   } catch {

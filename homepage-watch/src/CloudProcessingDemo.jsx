@@ -1,5 +1,6 @@
-import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
-import { Check, CheckCircle, Cloud, Sparkle } from "@phosphor-icons/react";
+import { useCallback, useEffect, useId, useLayoutEffect, useRef, useState } from "react";
+import { ArrowLeft, Check, CheckCircle, Cloud, Sparkle, X } from "@phosphor-icons/react";
+import { useCompactLayout } from "./useCompactLayout";
 import "./CloudProcessingDemo.css";
 
 const isBusy = (phase) => phase === "moving" || phase === "processing";
@@ -34,11 +35,31 @@ export function CloudProcessingDemo({
   const run = useRef(0);
   const phaseCallback = useRef(onPhaseChange);
   const sourcePanel = useRef(null);
+  const outcomesDialog = useRef(null);
+  const outcomesTitleId = useId();
+  const compact = useCompactLayout();
   const beforeLayout = useRef(null);
   const layoutAnimations = useRef([]);
   const busy = isBusy(phase);
   const ready = phase === "ready";
+  const mobileResultsOpen = compact && phase !== "selecting";
   const selectedCount = quotes.filter((item) => selected.includes(item.id)).length;
+
+  useLayoutEffect(() => {
+    const dialog = outcomesDialog.current;
+    if (!mobileResultsOpen || !dialog) return;
+    const previousFocus = document.activeElement;
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    dialog.showModal();
+    return () => {
+      if (dialog.open) dialog.close();
+      document.body.style.overflow = previousOverflow;
+      const returnTarget = previousFocus?.isConnected && !previousFocus.disabled && previousFocus !== document.body
+        ? previousFocus : sourcePanel.current?.querySelector(".cloud-select-all");
+      returnTarget?.focus({ preventScroll: true });
+    };
+  }, [mobileResultsOpen]);
 
   useEffect(() => { phaseCallback.current = onPhaseChange; }, [onPhaseChange]);
   const cancelTimers = useCallback(() => {
@@ -140,12 +161,42 @@ export function CloudProcessingDemo({
     ? copy.privacySelection(selectedCount)
     : L(`已选择 ${selectedCount} 段对话`, `${selectedCount} conversations selected`);
   const feedback = phase === "moving"
-    ? L(`正在准备 ${selectedCount} 段所选对话…`, `Preparing ${selectedCount} selected conversations…`)
+    ? L(`正在准备 ${selectedCount} 段所选对话…`, `Preparing ${selectedCount} selected ${selectedCount === 1 ? "conversation" : "conversations"}…`)
     : phase === "processing"
       ? L("正在演示云端处理…", "Demonstrating cloud processing…")
       : ready
-        ? L(`${selectedCount} 个示例封面已就绪。`, `${selectedCount} example covers are ready.`)
+        ? L(`${selectedCount} 个示例封面已就绪。`, `${selectedCount} example ${selectedCount === 1 ? "cover is" : "covers are"} ready.`)
         : "\u00a0";
+
+  function resultCards(mobile = false) {
+    return quotes.map((item, index) => {
+      const result = item.result || {};
+      const chosen = selected.includes(item.id);
+      const available = ready && chosen;
+      const title = translated(result.title, language, translated(item.source, language));
+      return (
+        <article
+          className={`cloud-result-card${chosen ? " is-selected" : " is-unselected"}${available ? " is-ready" : ""}`}
+          data-result={result.key}
+          style={{ "--cloud-order": index }}
+          key={item.id}
+          aria-label={available ? L(`示例封面：${title}`, `Example cover: ${title}`)
+            : `${title} · ${chosen ? L("等待示例成果", "Waiting for example outcome") : L("未选择", "Not selected")}`}
+        >
+          <span className="cloud-result-image">
+            {result.image && <img src={result.image} alt={translated(result.alt, language)} loading={mobile ? "eager" : "lazy"} />}
+          </span>
+          <span className="cloud-result-copy">
+            <span className="cloud-result-label">{translated(result.label, language)}</span>
+            <strong>{title}</strong>
+            <span className="cloud-result-status">
+              {chosen ? ready ? L("示例成果", "Example outcome") : L("演示处理中", "Processing demo") : L("未选择", "Not selected")}
+            </span>
+          </span>
+        </article>
+      );
+    });
+  }
 
   return (
     <div className="cloud-processing-demo" data-phase={phase} data-reduced={reduced}>
@@ -225,38 +276,36 @@ export function CloudProcessingDemo({
       <div className="cloud-process-node" aria-hidden="true">
         {ready ? <CheckCircle size={24} weight="light" /> : <CloudSymbol size={25} />}
       </div>
-      <aside className="cloud-result-region" aria-hidden={phase === "selecting"} aria-busy={busy}>
+      {!compact && <aside className="cloud-result-region" aria-hidden={phase === "selecting"} aria-busy={busy}>
         <div className="cloud-result-stack">
           <p className="cloud-results-heading">{L("示例成果", "EXAMPLE OUTCOMES")}</p>
-          {quotes.map((item, index) => {
-            const result = item.result || {};
-            const chosen = selected.includes(item.id);
-            const available = ready && chosen;
-            const title = translated(result.title, language, translated(item.source, language));
-            return (
-              <article
-                className={`cloud-result-card${chosen ? " is-selected" : " is-unselected"}${available ? " is-ready" : ""}`}
-                data-result={result.key}
-                style={{ "--cloud-order": index }}
-                key={item.id}
-                aria-label={available ? L(`示例封面：${title}`, `Example cover: ${title}`)
-                  : `${title} · ${chosen ? L("等待示例成果", "Waiting for example outcome") : L("未选择", "Not selected")}`}
-              >
-                <span className="cloud-result-image">
-                  {result.image && <img src={result.image} alt={translated(result.alt, language)} loading="lazy" />}
-                </span>
-                <span className="cloud-result-copy">
-                  <span className="cloud-result-label">{translated(result.label, language)}</span>
-                  <strong>{title}</strong>
-                  <span className="cloud-result-status">
-                    {chosen ? ready ? L("示例成果", "Example outcome") : L("演示处理中", "Processing demo") : L("未选择", "Not selected")}
-                  </span>
-                </span>
-              </article>
-            );
-          })}
+          {resultCards()}
         </div>
-      </aside>
+      </aside>}
+      {mobileResultsOpen && (
+        <dialog
+          ref={outcomesDialog}
+          className="cloud-mobile-outcomes"
+          aria-labelledby={outcomesTitleId}
+          onCancel={(event) => { event.preventDefault(); reset(); }}
+        >
+          <header className="cloud-mobile-outcomes-header">
+            <div>
+              <span className="cloud-mobile-outcomes-eyebrow"><CloudSymbol size={16} />{L("所选对话 → 示例网页", "SELECTED WORDS → EXAMPLE PAGES")}</span>
+              <h3 id={outcomesTitleId}>{ready ? L("你的示例成果", "Your example pages") : L("正在整理所选内容…", "Preparing your pages…")}</h3>
+              <p role="status" aria-live="polite" aria-atomic="true">{feedback}</p>
+            </div>
+            <button type="button" className="cloud-mobile-outcomes-close" onClick={reset} aria-label={L("关闭成果，重新选择", "Close outcomes and choose again")}><X size={19} /></button>
+          </header>
+          <div className="cloud-result-stack" aria-busy={busy}>
+            {resultCards(true)}
+          </div>
+          <footer className="cloud-mobile-outcomes-footer">
+            <button type="button" className="cloud-mobile-outcomes-back" onClick={reset}><ArrowLeft size={16} />{copy.privacyReset || L("重新选择", "Choose again")}</button>
+            <p>{L("仅为示例演示，不上传内容。", "Demo only. Nothing is uploaded.")}</p>
+          </footer>
+        </dialog>
+      )}
     </div>
   );
 }

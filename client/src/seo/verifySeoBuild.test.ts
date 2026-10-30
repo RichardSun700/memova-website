@@ -136,6 +136,18 @@ describe("SEO build verification", () => {
     expect(errors).toContain("/ is missing static homepage section #experience");
   });
 
+  it("rejects a Chinese document default or stale language in homepage social and structured metadata", () => {
+    const output = path.resolve("dist/public");
+    const homepage = fs.readFileSync(path.join(output, "index.html"), "utf8")
+      .replace(/<html\b[^>]*>/, '<html lang="zh-CN">')
+      .replace(/(<meta\b[^>]*property="og:title"[^>]*content=")[^"]+/, '$1旧的中文标题')
+      .replace(/"inLanguage":"en-US"/g, '"inLanguage":"zh-CN"');
+    const errors = collectProductionHomepageErrors(homepage, sitePages[0], output);
+    expect(errors).toContain("/ does not declare the English homepage language");
+    expect(errors).toContain("/ does not use the current English homepage social metadata");
+    expect(errors).toContain("/ structured data does not describe the current homepage");
+  });
+
   it("rejects a missing homepage entry and local development URLs", () => {
     const output = path.resolve("dist/public");
     const homepage = fs.readFileSync(path.join(output, "index.html"), "utf8")
