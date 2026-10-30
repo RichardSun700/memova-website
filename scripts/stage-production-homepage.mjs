@@ -24,6 +24,18 @@ function filesIn(directory) {
 }
 
 // Keep all legacy generated pages, API inputs and bundles before staging home.
+const inventory = JSON.parse(fs.readFileSync(path.join(source, "public-files.json"), "utf8"));
+const actualPublic = filesIn(path.join(source, "public"))
+  .map(file => path.relative(path.join(source, "public"), file).split(path.sep).join("/")).sort();
+if (JSON.stringify(actualPublic) !== JSON.stringify(inventory.files.map(file => file.path).sort())) {
+  throw new Error("Homepage public files differ from the reviewed publishing inventory");
+}
+for (const item of inventory.files) {
+  const bytes = fs.readFileSync(path.join(source, "public", item.path));
+  if (bytes.length !== item.sizeBytes || hash(bytes) !== item.sha256 || bytes.length >= limit) {
+    throw new Error(`Homepage public inventory mismatch: ${item.path}`);
+  }
+}
 const legacyHtml = fs.readFileSync(path.join(output, "index.html"), "utf8");
 const { document: legacy } = parseHTML(legacyHtml);
 await buildNeilManualCover(path.join(root, "client/public"), output);

@@ -3,7 +3,7 @@
   "generatedAt": "2026-10-30T12:34:53.310184+00:00",
   "pathBase": "public/",
   "fileCount": 77,
-  "totalBytes": 120618648,
+  "totalBytes": 120618555,
   "largestFileBytes": 24468633,
   "perFileLimitBytes": 26214400,
   "verification": {
@@ -62,8 +62,8 @@
     },
     {
       "path": "assets/fonts/LICENSE-DM-Sans.txt",
-      "sha256": "9af36190332437f5ecd09974de43c1f7c77a310a996cdd8ceb25628b458840e1",
-      "sizeBytes": 4482
+      "sha256": "2af94f4fb533be8fa23282eb33e08ca311ddf47c2f32777e2040b282deeec65c",
+      "sizeBytes": 4389
     },
     {
       "path": "assets/fonts/LICENSE-Instrument-Serif.txt",
@@ -400,5 +400,6 @@
       "sha256": "56bcaecc75fb5c2e7b7f5c0d83a9af2728c134cbf8282e701bc8d89c8d6fd1a2",
       "sizeBytes": 1497
     }
-  ]
+  ],
+  "normalization": "Font license text uses LF in Git; license wording and all application/example content preserved."
 }
