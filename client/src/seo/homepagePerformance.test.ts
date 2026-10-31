@@ -15,6 +15,37 @@ afterEach(() => {
 });
 
 describe("production homepage performance", () => {
+  it("does not spend the first-paint budget preloading gallery photos or offscreen demo media", async () => {
+    const output = path.resolve("dist/public");
+    const { document } = parseHTML(fs.readFileSync(path.join(output, "index.html"), "utf8"));
+    const photos = [...document.querySelectorAll(".story-orbit img")];
+    expect(photos).toHaveLength(9);
+    const earlyPhotos = [...document.querySelectorAll('link[rel="preload"][as="image"]')]
+      .filter(link => link.getAttribute("href")?.includes("/day-photos-v1/"));
+    expect(earlyPhotos.length).toBe(0);
+    let photoBytes = 0;
+    for (const image of photos) {
+      expect(image.getAttribute("loading")).toBe("lazy");
+      const bytes = fs.readFileSync(path.join(output, image.getAttribute("src")!));
+      photoBytes += bytes.length;
+      expect((await sharp(bytes).metadata()).width).toBeLessThanOrEqual(640);
+    }
+    expect(photoBytes).toBeLessThan(300 * 1024);
+
+    const icon = document.querySelector(".site-header .brand > img")!;
+    const iconBytes = fs.readFileSync(path.join(output, icon.getAttribute("src")!));
+    expect(iconBytes.length).toBeLessThan(40 * 1024);
+    expect((await sharp(iconBytes).metadata()).width).toBeLessThanOrEqual(192);
+
+    const demos = [...document.querySelectorAll(".product-demo-film video")];
+    expect(demos).toHaveLength(3);
+    for (const video of demos) {
+      expect(video.hasAttribute("src")).toBe(false);
+      expect(video.hasAttribute("poster")).toBe(false);
+      expect(video.getAttribute("preload")).toBe("none");
+    }
+  });
+
   it("ships the real opening without waiting for a client render or downloading embedded demos", () => {
     const html = fs.readFileSync(path.resolve("dist/public/index.html"), "utf8");
     const { document } = parseHTML(html);

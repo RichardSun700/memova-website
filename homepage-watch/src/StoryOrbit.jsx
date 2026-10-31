@@ -158,10 +158,12 @@ export function StoryOrbit({
                 <img
                   src={story.image}
                   alt={L(story.altZh, story.altEn)}
-                  width="1100"
-                  height="733"
+                  width="640"
+                  height="426"
                   draggable="false"
-                  fetchPriority={i < 3 ? "high" : "auto"}
+                  loading="lazy"
+                  decoding="async"
+                  fetchPriority="low"
                 />
               </span>
               <figcaption className="orbit-caption">

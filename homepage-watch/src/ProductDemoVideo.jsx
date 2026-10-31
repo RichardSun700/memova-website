@@ -12,6 +12,7 @@ export const ProductDemoVideo = forwardRef(function ProductDemoVideo({
   const stepMenu = useRef(null);
   const pendingSeek = useRef(null);
   const descriptionId = useId();
+  const [mediaReady, setMediaReady] = useState(false);
   const [visible, setVisible] = useState(false);
   const [playing, setPlaying] = useState(false);
   const [manualPause, setManualPause] = useState(false);
@@ -34,14 +35,30 @@ export const ProductDemoVideo = forwardRef(function ProductDemoVideo({
   }, []);
 
   async function expand() {
+    setMediaReady(true);
     try {
       if (document.fullscreenElement === film.current) await document.exitFullscreen();
       else if (document.fullscreenEnabled && film.current.requestFullscreen) await film.current.requestFullscreen();
-      else video.current.webkitEnterFullscreen?.();
+      // iOS requires metadata and a fresh user gesture for native fullscreen.
+      // The first tap may only start loading; retain the control for a retry.
+      else if (video.current.readyState >= 1) video.current.webkitEnterFullscreen?.();
     } catch {
       setCanExpand(false);
     }
   }
+
+  useEffect(() => {
+    // Observe the stationary deck rather than a transformed/hidden chapter.
+    // Once requested, keep media mounted so tab changes do not download it again.
+    const target = film.current.closest(".journey-sticky") || film.current;
+    const observer = new IntersectionObserver((entries) => {
+      if (!entries.some(entry => entry.isIntersecting)) return;
+      setMediaReady(true);
+      observer.disconnect();
+    }, { rootMargin: "400px 0px", threshold: 0 });
+    observer.observe(target);
+    return () => observer.disconnect();
+  }, []);
 
   useEffect(() => {
     const preference = matchMedia("(prefers-reduced-motion: reduce)");
@@ -83,14 +100,14 @@ export const ProductDemoVideo = forwardRef(function ProductDemoVideo({
     let cancelled = false;
     const sync = () => {
       node.muted = true;
-      if (visible && active && !suspended && !document.hidden && !manualPause && (!reduced || requestedPlay)) {
+      if (mediaReady && visible && active && !suspended && !document.hidden && !manualPause && (!reduced || requestedPlay)) {
         node.play().catch(() => { if (!cancelled) setPlaying(false); });
       } else node.pause();
     };
     sync();
     document.addEventListener("visibilitychange", sync);
     return () => { cancelled = true; document.removeEventListener("visibilitychange", sync); node.pause(); };
-  }, [src, visible, active, suspended, manualPause, reduced, requestedPlay]);
+  }, [src, mediaReady, visible, active, suspended, manualPause, reduced, requestedPlay]);
 
   useEffect(() => { setFailed(false); setPhase(0); pendingSeek.current = null; }, [src]);
   useEffect(() => { if (!active && stepMenu.current) stepMenu.current.open = false; }, [active]);
@@ -102,6 +119,7 @@ export const ProductDemoVideo = forwardRef(function ProductDemoVideo({
   function seek(time) {
     const next = Number(time);
     if (!Number.isFinite(next) || next < 0) return;
+    setMediaReady(true);
     pendingSeek.current = next;
     applyPendingSeek();
   }
@@ -125,9 +143,9 @@ export const ProductDemoVideo = forwardRef(function ProductDemoVideo({
     <div ref={film} className={"search-film product-demo-film product-demo-" + kind} data-demo={kind}>
       <div className="product-demo-picture">
         <video
-          ref={video} src={src}
-          autoPlay={!reduced && active && visible && !manualPause && !suspended}
-          muted loop playsInline preload="metadata" poster={poster}
+          ref={video} src={mediaReady ? src : undefined}
+          autoPlay={mediaReady && !reduced && active && visible && !manualPause && !suspended}
+          muted loop playsInline preload={mediaReady ? "metadata" : "none"} poster={mediaReady ? poster : undefined}
           width="1440" height="810" aria-label={description} aria-describedby={descriptionId}
           onPlay={() => setPlaying(true)} onPause={() => setPlaying(false)}
           onError={() => setFailed(true)}
@@ -183,7 +201,7 @@ export const ProductDemoVideo = forwardRef(function ProductDemoVideo({
           </button>
           <button className="search-film-toggle" onClick={() => {
             if (playing) setManualPause(true);
-            else { setRequestedPlay(true); setManualPause(false); }
+            else { setMediaReady(true); setRequestedPlay(true); setManualPause(false); }
           }} aria-label={L(playing ? "暂停演示" : "播放演示", playing ? "Pause demo" : "Play demo")}>
             {playing ? <Pause size={13} weight="fill" /> : <Play size={13} weight="fill" />}
             {L(playing ? "暂停" : "播放", playing ? "Pause" : "Play")}

@@ -2,7 +2,7 @@
 
 This is source documentation for the nine user-selected homepage photographs, in chronological order. It is not shipped as a public page.
 
-Delivery files are in `public/assets/day-photos-v1/`. All nine are 1100 × 733 WebP files, quality 90, created with Pillow LANCZOS. Processing is limited to focal cropping, resizing and delivery compression. No exposure, color, retouching, relighting, object edits or AI generation were applied. Original ICC profiles are preserved when supplied. The output ratio is 1100:733, approximately 3:2.
+Delivery files are in `public/assets/day-photos-v1/`. The 2026-10-31 performance revision keeps the same nine photographs and approved crops, resizing the retained 1100 × 733 delivery images to 640 × 426 with Sharp Lanczos3 and WebP quality 74. Processing is limited to resizing and delivery compression; no additional crop, exposure, color, retouching, relighting, object edits or AI generation were applied. Original ICC profiles are preserved when supplied. The displayed ratio remains approximately 3:2.
 
 The downloaded originals, machine-readable crop boxes, hashes and QA contact sheets are archived outside the deployment repository at `website-preview/app/qa/day-photos-v1/`. Originals were downloaded using curl with default TLS certificate verification.
 
@@ -22,7 +22,7 @@ The official Pexels and Unsplash license pages were reviewed on 2026-10-30. Thes
 
 ## Crop notes
 
-Coordinates below are `(left, top, right, bottom)` floating-point pixel boundaries in the EXIF-oriented original. The region is sampled directly to the delivery dimensions in one resize step.
+Coordinates below are `(left, top, right, bottom)` floating-point pixel boundaries in the EXIF-oriented original. They describe the approved crop used for the retained 1100 × 733 images. The current 640 × 426 performance files are resized from those cropped images without changing the selected region.
 
 - **00:30 · `00-sleep.webp`** — original 2000 × 3000; crop `(0, 850, 2000, 2182.727273)`. Full original width; crop the middle/lower bedroom so the bedside lamp, pillow, headboard and upper bed remain together.
 - **07:00 · `07-morning-rush.webp`** — original 3543 × 2397; crop `(0, 18.036818, 3543, 2378.963182)`. Near-full landscape frame; remove only the narrow top/bottom excess, retaining both doorway shoes and the diagonal sunlight.
@@ -38,12 +38,12 @@ Coordinates below are `(left, top, right, bottom)` floating-point pixel boundari
 
 | File | Bytes | SHA-256 |
 | --- | ---: | --- |
-| `00-sleep.webp` | 80822 | `8440ff30dccd0e996c845568f648bc5cdabc60130c6c5d9d47d32d6aa7516626` |
-| `07-morning-rush.webp` | 150866 | `8f9c4a28728fbff1a0fef9bf2a661494e45a91f8a7877c1bb4945ca09a5073d4` |
-| `08-coffee.webp` | 59530 | `7fa5d76c57545f2b89fddbcdfcf723e9f35356a0b9cdd8fbe361060bb6674abc` |
-| `09-meeting.webp` | 81648 | `6563d5ea2ea74a89fd3b6157d28c0265717e758ad58f1026e7db3a265953d7ce` |
-| `12-lunch.webp` | 157976 | `a3e92d3127fa8563654d76bc7a9da1862a0095fd649e06f020aba97e26cd159a` |
-| `15-work-reflection.webp` | 74566 | `992f638cec3d060ae17849bdb5a7cec2b7297e2bb4d995d6d2f926b802ce7bd1` |
-| `18-exercise.webp` | 203176 | `e093888cb08cda1baaa012fea92e3158855d3ae86a1e13df7813ff43e5531977` |
-| `20-home-conversation.webp` | 115558 | `ebb3108404af5aaed6cb7bb98fb2627c8ac56534a37804f8eddde82af7d6ecd4` |
-| `22-daily-reflection.webp` | 148920 | `7f0edca0bc78de725e6ee4ba126e64213e113573cc9bfa5a0009e199fcbe70eb` |
+| `00-sleep.webp` | 13974 | `0d438f4c1083e1cfd74c69806668658e2b82ffa4d02cf9d17e1a3ccc23ce1185` |
+| `07-morning-rush.webp` | 11356 | `fa586d3cb13e23ea4c7943051ca53a0297db5b4e60eedc0e1e338aef1578827b` |
+| `08-coffee.webp` | 10222 | `373c96a3a54e3d420c48a7bcde1d6125edd921b338db1e666281736c4efac623` |
+| `09-meeting.webp` | 14920 | `a8895818fc54e27d3a1f4b61da76ef6050408d174165294cd343a23cbaaf3253` |
+| `12-lunch.webp` | 38388 | `ca51515c7ba74511b9088e379c566f46c936b64affcdb502cae4a03be186630e` |
+| `15-work-reflection.webp` | 16894 | `c0c33b5129089d06c84e1e661f707d0208733e93eaaf1aa8f8fac865f820ce57` |
+| `18-exercise.webp` | 13530 | `07b4b3e192fde29a4243dced80f6a39b3677b2529c43b9351990325e7a26683a` |
+| `20-home-conversation.webp` | 18018 | `638364ffe47c4bf759745a1e235fc7af82bb5daaa1938c6408b4620ff509a553` |
+| `22-daily-reflection.webp` | 33616 | `61d531d2dba2bb75ec6cda6fb60eb926e15b747e6273150e26fa3d987d69eea1` |

@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-30T13:33:39.819853+00:00",
+  "generatedAt": "2026-10-31T08:47:56.691Z",
   "pathBase": "public/",
   "fileCount": 74,
-  "totalBytes": 122546245,
+  "totalBytes": 120403918,
   "largestFileBytes": 24468633,
   "perFileLimitBytes": 26214400,
   "verification": {
@@ -37,48 +37,48 @@
     },
     {
       "path": "assets/day-photos-v1/00-sleep.webp",
-      "sha256": "8440ff30dccd0e996c845568f648bc5cdabc60130c6c5d9d47d32d6aa7516626",
-      "sizeBytes": 80822
+      "sha256": "0d438f4c1083e1cfd74c69806668658e2b82ffa4d02cf9d17e1a3ccc23ce1185",
+      "sizeBytes": 13974
     },
     {
       "path": "assets/day-photos-v1/07-morning-rush.webp",
-      "sha256": "8f9c4a28728fbff1a0fef9bf2a661494e45a91f8a7877c1bb4945ca09a5073d4",
-      "sizeBytes": 150866
+      "sha256": "fa586d3cb13e23ea4c7943051ca53a0297db5b4e60eedc0e1e338aef1578827b",
+      "sizeBytes": 11356
     },
     {
       "path": "assets/day-photos-v1/08-coffee.webp",
-      "sha256": "7fa5d76c57545f2b89fddbcdfcf723e9f35356a0b9cdd8fbe361060bb6674abc",
-      "sizeBytes": 59530
+      "sha256": "373c96a3a54e3d420c48a7bcde1d6125edd921b338db1e666281736c4efac623",
+      "sizeBytes": 10222
     },
     {
       "path": "assets/day-photos-v1/09-meeting.webp",
-      "sha256": "6563d5ea2ea74a89fd3b6157d28c0265717e758ad58f1026e7db3a265953d7ce",
-      "sizeBytes": 81648
+      "sha256": "a8895818fc54e27d3a1f4b61da76ef6050408d174165294cd343a23cbaaf3253",
+      "sizeBytes": 14920
     },
     {
       "path": "assets/day-photos-v1/12-lunch.webp",
-      "sha256": "a3e92d3127fa8563654d76bc7a9da1862a0095fd649e06f020aba97e26cd159a",
-      "sizeBytes": 157976
+      "sha256": "ca51515c7ba74511b9088e379c566f46c936b64affcdb502cae4a03be186630e",
+      "sizeBytes": 38388
     },
     {
       "path": "assets/day-photos-v1/15-work-reflection.webp",
-      "sha256": "992f638cec3d060ae17849bdb5a7cec2b7297e2bb4d995d6d2f926b802ce7bd1",
-      "sizeBytes": 74566
+      "sha256": "c0c33b5129089d06c84e1e661f707d0208733e93eaaf1aa8f8fac865f820ce57",
+      "sizeBytes": 16894
     },
     {
       "path": "assets/day-photos-v1/18-exercise.webp",
-      "sha256": "e093888cb08cda1baaa012fea92e3158855d3ae86a1e13df7813ff43e5531977",
-      "sizeBytes": 203176
+      "sha256": "07b4b3e192fde29a4243dced80f6a39b3677b2529c43b9351990325e7a26683a",
+      "sizeBytes": 13530
     },
     {
       "path": "assets/day-photos-v1/20-home-conversation.webp",
-      "sha256": "ebb3108404af5aaed6cb7bb98fb2627c8ac56534a37804f8eddde82af7d6ecd4",
-      "sizeBytes": 115558
+      "sha256": "638364ffe47c4bf759745a1e235fc7af82bb5daaa1938c6408b4620ff509a553",
+      "sizeBytes": 18018
     },
     {
       "path": "assets/day-photos-v1/22-daily-reflection.webp",
-      "sha256": "7f0edca0bc78de725e6ee4ba126e64213e113573cc9bfa5a0009e199fcbe70eb",
-      "sizeBytes": 148920
+      "sha256": "61d531d2dba2bb75ec6cda6fb60eb926e15b747e6273150e26fa3d987d69eea1",
+      "sizeBytes": 33616
     },
     {
       "path": "assets/faq/question-mark-handdrawn.png",
@@ -147,13 +147,13 @@
     },
     {
       "path": "assets/memova-icon-transparent.png",
-      "sha256": "a195dcdd4768ec721737d3ac888b7f2a3a5453ce2523a4b4c8344c881f9571d1",
-      "sizeBytes": 1131083
+      "sha256": "756d560e0eda3ea6278cd59629c70a44358a16b8ed3f869889f207b35437df1f",
+      "sizeBytes": 26885
     },
     {
       "path": "assets/memova-wordmark-tight.png",
-      "sha256": "6d915d838472d1c68c75b592f2255c395cfc09b1396b291a9735a70cba2f54e8",
-      "sizeBytes": 150940
+      "sha256": "7e8eace6e77b1c00ce5fa1e6719ad611995d3d66114ec77173defa39274eedfb",
+      "sizeBytes": 14955
     },
     {
       "path": "assets/mentor-classroom/classroom-female-mentor-v2.png",

@@ -293,6 +293,9 @@ export function EmotionWatch({
         height="880"
         alt=""
         draggable="false"
+        loading="lazy"
+        decoding="async"
+        fetchPriority="low"
       />
       <div className="emotion-watch-screen">
         <div className="emotion-watch-signals" aria-hidden="true">
@@ -304,6 +307,8 @@ export function EmotionWatch({
                 width="18"
                 height="18"
                 alt=""
+                loading="lazy"
+                decoding="async"
               />
               <span>Memova</span>
             </span>
