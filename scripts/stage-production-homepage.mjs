@@ -6,6 +6,7 @@ import { build } from "vite";
 import react from "@vitejs/plugin-react";
 import { parseHTML } from "linkedom";
 import { buildNeilManualCover } from "./build-neil-manual-cover.mjs";
+import { externalizePrototypeAssets } from "./externalize-prototype-assets.mjs";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const source = path.join(root, "homepage-watch");
@@ -58,6 +59,9 @@ const markup = renderHomepage();
 const builtFiles = filesIn(client);
 const revisionHash = createHash("sha256");
 for (const file of builtFiles) revisionHash.update(path.relative(client, file)).update(fs.readFileSync(file));
+// Publishing transforms also affect the bytes served under immutable paths.
+revisionHash.update(fs.readFileSync(fileURLToPath(import.meta.url)));
+revisionHash.update(fs.readFileSync(new URL("./externalize-prototype-assets.mjs", import.meta.url)));
 revisionHash.update(markup);
 const revision = revisionHash.digest("hex").slice(0, 16);
 const assetPrefix = `/assets/watch-${revision}/`;
@@ -68,6 +72,11 @@ const rewriteAssets = text => text
   .replaceAll('"assets/', `"${assetPrefix.slice(1)}`)
   .replaceAll("'assets/", `'${assetPrefix.slice(1)}`);
 const records = [];
+const prototypeAssets = new Map();
+const externalizedExamples = new Set([
+  "examples/watch-prototype.html",
+  "examples/MyDay_Workplace_Conversation_Reference_Layout.html",
+]);
 for (const file of builtFiles) {
   const relative = path.relative(client, file).split(path.sep).join("/");
   if (relative === "index.html") continue;
@@ -84,6 +93,13 @@ for (const file of builtFiles) {
       .replaceAll("/assets/memova-icon-transparent.png", assetPrefix + "memova-icon-transparent.png")
       .replaceAll("/assets/myday-cover-layout.css", assetPrefix + "myday-cover-layout.css"));
   }
+  if (externalizedExamples.has(relative)) {
+    const externalized = externalizePrototypeAssets(data.toString("utf8"), assetPrefix);
+    data = Buffer.from(externalized.html);
+    for (const asset of externalized.assets) {
+      if (!prototypeAssets.has(asset.path)) prototypeAssets.set(asset.path, { ...asset, source: relative });
+    }
+  }
   if (data.length >= limit) throw new Error(`Pages asset exceeds25MiB: ${relative}`);
   const target = path.join(output, targetRelative);
   if (fs.existsSync(target) && !fs.readFileSync(target).equals(data)) {
@@ -92,6 +108,16 @@ for (const file of builtFiles) {
   fs.mkdirSync(path.dirname(target), { recursive: true });
   fs.writeFileSync(target, data);
   records.push({ source: relative, path: "/" + targetRelative, sha256: hash(data), size: data.length });
+}
+for (const asset of prototypeAssets.values()) {
+  if (asset.bytes.length >= limit) throw new Error(`Prototype asset exceeds25MiB: ${asset.path}`);
+  const target = path.join(output, asset.path.slice(1));
+  if (fs.existsSync(target) && !fs.readFileSync(target).equals(asset.bytes)) {
+    throw new Error(`Prototype asset would overwrite different bytes: ${asset.path}`);
+  }
+  fs.mkdirSync(path.dirname(target), { recursive: true });
+  fs.writeFileSync(target, asset.bytes);
+  records.push({ source: `${asset.source}#inline:${asset.sha256}`, path: asset.path, sha256: asset.sha256, size: asset.bytes.length });
 }
 
 let html = rewriteAssets(fs.readFileSync(path.join(client, "index.html"), "utf8"));

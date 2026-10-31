@@ -21,6 +21,11 @@ import dayScenes from "./dayScenes.json";
 import { APP_STORE_URL as STORE, COMMUNITY_URL, COMMUNITY_QR, MCP_OVERVIEW_URL } from "./siteLinks";
 import "./lower.css";
 const A = "/assets/";
+const modalFocusables = (root) => [...(root?.querySelectorAll(
+  'a[href],button,input,select,textarea,iframe,video[controls],audio[controls],summary,[tabindex]',
+) || [])].filter((node) => !node.disabled && node.tabIndex >= 0 &&
+  !node.closest('[hidden],[inert]') && node.getClientRects().length > 0);
+
 export function App() {
   const [lang, setLang] = useState("en"),
     [modal, setModal] = useState(null),
@@ -51,8 +56,11 @@ export function App() {
     };
   }, [mobileMenuOpen, headerRef]);
   const closeRef = useRef(),
+    modalRef = useRef(),
+    caseFrameCleanup = useRef(),
     returnRef = useRef(),
     L = (zh, en) => (lang === "zh" ? zh : en);
+  const modalOpen = Boolean(modal);
   const timeline = [
     [
       "09:30",
@@ -111,18 +119,21 @@ export function App() {
     );
   }, [lang]);
   useEffect(() => {
-    if (!modal) return;
+    if (!modalOpen) return;
     returnRef.current = document.activeElement;
+    const previousOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
-    setTimeout(() => closeRef.current?.focus(), 30);
+    const focusTimer = setTimeout(() => closeRef.current?.focus({ preventScroll: true }), 30);
+    // Tab events inside an iframe do not bubble to the parent document.
+    // Catch focus returning outside the dialog, including injected page controls.
+    const containFocus = (event) => {
+      if (modalRef.current && !modalRef.current.contains(event.target))
+        closeRef.current?.focus({ preventScroll: true });
+    };
     const key = (e) => {
       if (e.key === "Escape") setModal(null);
       if (e.key === "Tab") {
-        const nodes = [
-            ...document.querySelectorAll(
-              ".modal a,.modal button,.modal input,.modal iframe,.modal video",
-            ),
-          ].filter((n) => !n.disabled),
+        const nodes = modalFocusables(modalRef.current),
           first = nodes[0],
           last = nodes.at(-1);
         if (e.shiftKey && document.activeElement === first) {
@@ -135,12 +146,39 @@ export function App() {
       }
     };
     window.addEventListener("keydown", key);
+    document.addEventListener("focusin", containFocus);
     return () => {
-      document.body.style.overflow = "";
+      clearTimeout(focusTimer);
+      caseFrameCleanup.current?.();
+      caseFrameCleanup.current = null;
+      document.body.style.overflow = previousOverflow;
       window.removeEventListener("keydown", key);
-      returnRef.current?.focus();
+      document.removeEventListener("focusin", containFocus);
+      if (returnRef.current?.isConnected) returnRef.current.focus({ preventScroll: true });
     };
-  }, [modal]);
+  }, [modalOpen]);
+
+  function onCaseFrameLoad(event) {
+    caseFrameCleanup.current?.();
+    const child = event.currentTarget.contentDocument;
+    if (!child) return;
+    const key = (event) => {
+      if (event.defaultPrevented) return;
+      if (event.key === "Escape") {
+        event.preventDefault();
+        setModal(null);
+      } else if (event.key === "Tab") {
+        const nodes = modalFocusables(child);
+        if (!nodes.length || event.shiftKey && child.activeElement === nodes[0] ||
+          !event.shiftKey && child.activeElement === nodes.at(-1)) {
+          event.preventDefault();
+          closeRef.current?.focus({ preventScroll: true });
+        }
+      }
+    };
+    child.addEventListener("keydown", key);
+    caseFrameCleanup.current = () => child.removeEventListener("keydown", key);
+  }
   return (
     <>
       <a className="skip-link" href="#main">
@@ -239,6 +277,7 @@ export function App() {
           }}
         >
           <section
+            ref={modalRef}
             className={
               "modal " +
               (modal === "community" ? "community-modal" : modal === "video" ? "video-modal" : "case-modal")
@@ -348,16 +387,7 @@ export function App() {
                 <div className="modal-content">
                   {pageFor[modal] ? (
                     <iframe
-                      onLoad={(e) => {
-                        try {
-                          e.currentTarget.contentWindow.addEventListener(
-                            "keydown",
-                            (event) => {
-                              if (event.key === "Escape") setModal(null);
-                            },
-                          );
-                        } catch {}
-                      }}
+                      onLoad={onCaseFrameLoad}
                       title={caseTitles[modal]}
                       src={"/examples/" + pageFor[modal] + (modal === "myday" ? "?chimeLang=" + lang : "")}
                     />

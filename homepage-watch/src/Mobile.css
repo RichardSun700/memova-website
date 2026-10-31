@@ -22,6 +22,8 @@
   .site-header .mobile-navigation:not([hidden]) {
     display: flex; flex-direction: column; gap: 4px;
     position: absolute; top: calc(100% + 1px); left: 0; right: 0;
+    max-height: calc(100dvh - 65px); overflow-y: auto;
+    overscroll-behavior-y: contain;
     padding: 12px 20px 20px; margin: 0;
     background: #f6f8fc; border-bottom: 1px solid #d8e2ee;
     box-shadow: 0 16px 26px #29426412;

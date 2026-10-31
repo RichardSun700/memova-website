@@ -22,7 +22,9 @@ corepack pnpm run check:seo
 
 The build keeps legacy Vite and SEO generation first. `scripts/stage-production-homepage.mjs` then builds this homepage and its Mentor/Chimes entries, renders real first-paint/SEO content with React server rendering, and stages the new entries into `dist/public` without replacing other routes. The client retains its existing interactions and replaces the server-rendered opening when mounted.
 
-All new `/assets` files use a content-addressed `/assets/watch-<revision>/` directory, including fonts and video posters, so the retained immutable caching rule stays correct. Complete examples stay at `/examples/`; only their external favicon/cover-style URLs are updated during staging. Source case text and recording evidence remain intact. The launch film uses a 1080p H.264/AAC fast-start MP4 under the25MiB Pages limit; its full duration and original audio are preserved.
+All new `/assets` files use a content-addressed `/assets/watch-<revision>/` directory, including fonts and video posters, so the retained immutable caching rule stays correct. Complete examples stay at `/examples/`; their external favicon/cover-style URLs are updated during staging. Source case text and recording evidence remain intact. The launch film uses a 1080p H.264/AAC fast-start MP4 under the25MiB Pages limit; its full duration and original audio are preserved.
+
+The Watch and My Day source examples remain self-contained. During staging, their embedded base64 images and fonts are extracted into deduplicated, versioned files with identical binary bytes. Published examples request those resources as needed instead of downloading every embedded image with the HTML; case text, scripts and interactions are preserved.
 
 The legacy `/privacy`, `/terms`, `/support`, account/OAuth/MCP routes, Journal, direct demo links, personal-manual functions and D1 binding remain in the original application. Do not copy a Sites Worker or change the Pages project/database bindings.
 
