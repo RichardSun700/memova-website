@@ -66,6 +66,7 @@
   pointer-events: none;
 }
 .watch-assembly button,
+.watch-assembly [role="button"],
 .watch-assembly [role="slider"] {
   pointer-events: auto;
 }
@@ -155,6 +156,10 @@ html[lang="en"] .assembly-heading h2 {
     transparent 98%
   );
 }
+.mystery-panel.is-tap-to-open {
+  cursor: pointer;
+  touch-action: pan-y;
+}
 .mystery-answer {
   position: absolute;
   inset: 0;
@@ -204,6 +209,7 @@ html[lang="en"] .assembly-heading h2 {
   animation: watch-pull-hand 2.8s cubic-bezier(.3, 0, .2, 1) infinite;
 }
 .mystery-hand-gesture > svg { position: absolute; inset: 0; width: 100%; height: 100%; animation-play-state: inherit; }
+.mystery-hand-gesture.is-tap-gesture { transform: none; animation: none; }
 .gesture-open-hand { opacity: 1; animation: watch-hand-open 2.8s linear infinite; }
 .gesture-closed-hand { opacity: 0; animation: watch-hand-closed 2.8s linear infinite; }
 .mystery-panel.is-dragging .mystery-hand-gesture,

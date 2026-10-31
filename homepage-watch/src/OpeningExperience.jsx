@@ -9,6 +9,7 @@ import {
   Play,
   Hand,
   HandGrabbing,
+  HandTap,
 } from "@phosphor-icons/react";
 import { StoryOrbit } from "./StoryOrbit";
 import {
@@ -334,8 +335,6 @@ export function OpeningExperience({
     geometry = useRef([]);
   const transition = useRef({ gather: 0, progress: 0 });
   const dragStart = useRef(0),
-    dragStartY = useRef(0),
-    pendingTouch = useRef(false),
     unlockedRef = useRef(false);
   const dragging = useRef(false),
     unlockPosition = useRef(0),
@@ -438,11 +437,18 @@ export function OpeningExperience({
     const p = clamp(value);
     unlockPosition.current = p;
     setPosition(p);
-    // The device appears only at the actual right-hand endpoint, never by scrolling.
+    // Only a completed drag, keyboard action or compact-screen tap reveals it.
     if (p >= 1 && canUnlock) {
       unlockedRef.current = true;
       setUnlocked(true);
     }
+  }
+  function revealOnTap() {
+    if (desktop || unlockedRef.current) return;
+    cancelAnimationFrame(returnFrame.current);
+    dragging.current = false;
+    setDragging(false);
+    setLight(1);
   }
   function pointerPosition(e, initial = false) {
     const bounds = rail.current.getBoundingClientRect();
@@ -451,7 +457,7 @@ export function OpeningExperience({
     setLight(raw >= 0.995 ? 1 : raw, !initial && dragged);
   }
   function release(e) {
-    pendingTouch.current = false;
+    if (!desktop) return;
     dragging.current = false;
     setDragging(false);
     if (e.currentTarget.hasPointerCapture(e.pointerId))
@@ -692,33 +698,27 @@ export function OpeningExperience({
             </EmotionWatch>
             <div
               ref={rail}
-              className={"mystery-panel" + (isDragging ? " is-dragging" : "")}
-              role={unlocked ? undefined : "slider"}
+              className={"mystery-panel" + (compact ? " is-tap-to-open" : "") + (isDragging ? " is-dragging" : "")}
+              role={unlocked ? undefined : compact ? "button" : "slider"}
               tabIndex={unlocked ? -1 : 0}
               aria-hidden={unlocked}
-              aria-label={L(
+              aria-label={compact ? L("轻点屏幕，开启手表", "Tap the screen to reveal your Watch") : L(
                 "按住黑屏向右拖动，揭晓答案",
                 "Hold the dark panel and drag right to reveal",
               )}
-              aria-valuemin={0}
-              aria-valuemax={100}
-              aria-valuenow={Math.round(position * 100)}
-              aria-valuetext={L(
+              aria-valuemin={desktop && !unlocked ? 0 : undefined}
+              aria-valuemax={desktop && !unlocked ? 100 : undefined}
+              aria-valuenow={desktop && !unlocked ? Math.round(position * 100) : undefined}
+              aria-valuetext={desktop && !unlocked ? L(
                 `已拖动 ${Math.round(position * 100)}%，拖到最右边解锁`,
                 `At ${Math.round(position * 100)}%. Drag to the right edge to unlock.`,
-              )}
+              ) : undefined}
               style={{ "--unlock-x": `${position * 100}%` }}
+              onClick={revealOnTap}
               onPointerDown={(e) => {
-                if (e.button !== 0) return;
+                if (!desktop || unlockedRef.current || e.button !== 0) return;
                 cancelAnimationFrame(returnFrame.current);
                 dragStart.current = e.clientX;
-                dragStartY.current = e.clientY;
-                // Let a vertical touch remain a normal page scroll. Only an
-                // intentional horizontal gesture takes ownership of the panel.
-                if (e.pointerType === "touch" && !desktop) {
-                  pendingTouch.current = true;
-                  return;
-                }
                 e.preventDefault();
                 dragging.current = true;
                 pointerPosition(e, true);
@@ -727,27 +727,22 @@ export function OpeningExperience({
                 e.currentTarget.focus({ preventScroll: true });
               }}
               onPointerMove={(e) => {
-                if (pendingTouch.current) {
-                  const dx = Math.abs(e.clientX - dragStart.current);
-                  const dy = Math.abs(e.clientY - dragStartY.current);
-                  if (dy > 8 && dy >= dx) { pendingTouch.current = false; return; }
-                  if (dx <= 8 || dx <= dy) return;
-                  pendingTouch.current = false;
-                  dragging.current = true;
-                  setDragging(true);
-                  e.currentTarget.setPointerCapture(e.pointerId);
-                  e.currentTarget.focus({ preventScroll: true });
-                }
-                if (dragging.current) pointerPosition(e);
+                if (desktop && dragging.current) pointerPosition(e);
               }}
               onPointerUp={release}
               onPointerCancel={release}
               onLostPointerCapture={() => {
-                pendingTouch.current = false;
                 dragging.current = false;
                 setDragging(false);
               }}
               onKeyDown={(e) => {
+                if (compact) {
+                  if (e.key === "Enter" || e.key === " ") {
+                    e.preventDefault();
+                    revealOnTap();
+                  }
+                  return;
+                }
                 const keys = {
                   ArrowRight: position + 0.1,
                   ArrowLeft: position - 0.1,
@@ -813,13 +808,15 @@ export function OpeningExperience({
                 </text>
               </svg>
               <span className="mystery-label">
-                <span className="mystery-hand-gesture" aria-hidden="true"
+                <span className={"mystery-hand-gesture" + (compact ? " is-tap-gesture" : "")} aria-hidden="true"
                   style={{ animationPlayState: animationActive && assemblyVisible ? "running" : "paused" }}>
-                  <Hand className="gesture-open-hand" size={26} weight="light" />
-                  <HandGrabbing className="gesture-closed-hand" size={26} weight="light" />
+                  {compact ? <HandTap size={26} weight="light" /> : <>
+                    <Hand className="gesture-open-hand" size={26} weight="light" />
+                    <HandGrabbing className="gesture-closed-hand" size={26} weight="light" />
+                  </>}
                 </span>
                 <span className="mystery-hint-title">
-                  {L(
+                  {compact ? L("轻点屏幕，开启手表", "Tap the screen to reveal.") : L(
                     isDragging ? "继续向右拖动" : "按住黑屏，向右拖动",
                     isDragging
                       ? "Keep dragging right"
@@ -827,7 +824,7 @@ export function OpeningExperience({
                   )}
                 </span>
                 <span className="mystery-hint-detail">
-                  {L(
+                  {compact ? L("一触即开，发现你的 Apple Watch", "One tap. Meet your Apple Watch.") : L(
                     "拖到右边缘，拆开你的礼物",
                     "Reach the right edge. Unwrap the reveal.",
                   )}
