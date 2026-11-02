@@ -48,12 +48,19 @@ export default function SiteHeader({ current }: { current: string }) {
       <header className="five-header">
         <a className="five-brand" href="/" aria-label="Memova home">
           <img
+            className="five-brand-icon"
             src="/brand/memova-app-icon-liquid-blue.svg"
             alt=""
-            width="31"
-            height="31"
+            width="32"
+            height="32"
           />
-          <span>MEMOVA</span>
+          <img
+            className="five-brand-wordmark"
+            src="/brand/memova-wordmark-blue.svg"
+            alt=""
+            width="110"
+            height="14"
+          />
         </a>
         <a
           className="memova-download-button five-mobile-app-store"

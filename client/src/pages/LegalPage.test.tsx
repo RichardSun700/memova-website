@@ -69,6 +69,11 @@ describe("complete bilingual legal documents", () => {
     expect(f.document.documentElement.lang).toBe(language === "zh" ? "zh-CN" : "en-US");
     expect(f.document.title).toBe(`${title} — Memova`);
     expect(JSON.parse(f.document.querySelector("#memova-structured-data")!.textContent!).inLanguage).toBe(language === "zh" ? "zh-CN" : "en-US");
+    for (const chrome of [f.document.querySelector("header")!, f.document.querySelector("footer")!]) {
+      expect(chrome.querySelector(".memova-brand-icon")?.getAttribute("src")).toBe("/brand/memova-app-icon-liquid-blue.svg");
+      expect(chrome.querySelector(".memova-brand-wordmark")?.getAttribute("src")).toBe("/brand/memova-wordmark-blue.svg");
+      expect(chrome.querySelector("[src*=memova_logo_0eb30acc]")).toBeNull();
+    }
   });
 
   it("honors an explicit URL language ahead of a stored choice and switches the body, metadata and navigation together", async () => {

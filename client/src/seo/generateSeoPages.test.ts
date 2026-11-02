@@ -28,6 +28,18 @@ function listHtmlFiles(directory: string): string[] {
 }
 
 describe("SEO build generator", () => {
+  it.each(["/", "/mcp", "/privacy", "/terms"])("uses the official icon and wordmark in the %s prerendered header", route => {
+    const page = sitePages.find(candidate => candidate.path === route)!;
+    const { document } = parseHTML(renderPageHtml(template, page));
+    const brand = document.querySelector("header a[aria-label='Memova home']")!;
+
+    expect(brand.querySelectorAll("img")).toHaveLength(2);
+    expect(brand.querySelector(".memova-seo-brand-icon")?.getAttribute("src")).toBe("/brand/memova-app-icon-liquid-blue.svg");
+    expect(brand.querySelector(".memova-seo-brand-wordmark")?.getAttribute("src")).toBe("/brand/memova-wordmark-blue.svg");
+    expect(brand.textContent).toBe("");
+    expect(document.querySelector("#memova-seo-shell-styles")!.textContent).not.toContain("mix-blend-mode: multiply");
+  });
+
   it("injects route metadata, structured data, and visible matching copy", () => {
     const page = sitePages.find(candidate => candidate.path === "/mcp")!;
     const html = renderPageHtml(template, page);

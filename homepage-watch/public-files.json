@@ -2,8 +2,8 @@
   "schemaVersion": 1,
   "generatedAt": "2026-10-31T08:47:56.691Z",
   "pathBase": "public/",
-  "fileCount": 74,
-  "totalBytes": 120403918,
+  "fileCount": 76,
+  "totalBytes": 120423921,
   "largestFileBytes": 24468633,
   "perFileLimitBytes": 26214400,
   "verification": {
@@ -106,16 +106,6 @@
       "sizeBytes": 652036
     },
     {
-      "path": "assets/fonts/LICENSE-DM-Sans.txt",
-      "sha256": "2af94f4fb533be8fa23282eb33e08ca311ddf47c2f32777e2040b282deeec65c",
-      "sizeBytes": 4389
-    },
-    {
-      "path": "assets/fonts/LICENSE-Instrument-Serif.txt",
-      "sha256": "129ed7618959716959f2941fdd5b49e0ad6e6c1d78726761786a00253d865521",
-      "sizeBytes": 4405
-    },
-    {
       "path": "assets/fonts/dm-sans-400.ttf",
       "sha256": "b0ae3e89a7d3ef2b1838bb4b1ceb0b17cc3435af061eee809d76aa623ff116e9",
       "sizeBytes": 48280
@@ -141,19 +131,39 @@
       "sizeBytes": 62284
     },
     {
+      "path": "assets/fonts/LICENSE-DM-Sans.txt",
+      "sha256": "2af94f4fb533be8fa23282eb33e08ca311ddf47c2f32777e2040b282deeec65c",
+      "sizeBytes": 4389
+    },
+    {
+      "path": "assets/fonts/LICENSE-Instrument-Serif.txt",
+      "sha256": "129ed7618959716959f2941fdd5b49e0ad6e6c1d78726761786a00253d865521",
+      "sizeBytes": 4405
+    },
+    {
       "path": "assets/meeting-library-preview.png",
       "sha256": "ef15084c72758b74849e6779f3bfbda529592a36d9865908cf2488c28793b978",
       "sizeBytes": 67836
     },
     {
+      "path": "assets/memova-app-icon-liquid-blue.svg",
+      "sha256": "3385e77ffd04ce6557d69cabd2b9f1aeb1aa3201699570276cdf6b3d67af7245",
+      "sizeBytes": 31512
+    },
+    {
       "path": "assets/memova-icon-transparent.png",
-      "sha256": "756d560e0eda3ea6278cd59629c70a44358a16b8ed3f869889f207b35437df1f",
-      "sizeBytes": 26885
+      "sha256": "4627985c423502d078fa163eddbfed279aa347d090bafa0ed231bcee2f658806",
+      "sizeBytes": 5654
+    },
+    {
+      "path": "assets/memova-wordmark-blue.svg",
+      "sha256": "c8f5138cf7bc72448a375f0d92bf6d787af3c0ea764ce41c26433bda3a862b96",
+      "sizeBytes": 17947
     },
     {
       "path": "assets/memova-wordmark-tight.png",
-      "sha256": "7e8eace6e77b1c00ce5fa1e6719ad611995d3d66114ec77173defa39274eedfb",
-      "sizeBytes": 14955
+      "sha256": "60b9d17b43392e74199e79fab53a65a06b77b02aa6094ceffd07288fa9d66628",
+      "sizeBytes": 6730
     },
     {
       "path": "assets/mentor-classroom/classroom-female-mentor-v2.png",
@@ -291,11 +301,6 @@
       "sizeBytes": 172380
     },
     {
-      "path": "examples/MyDay_Workplace_Conversation_Reference_Layout.html",
-      "sha256": "33c22651381572b971a8177e603532a4b68b8ba36fbcc5f078e3b90448ad9166",
-      "sizeBytes": 6667395
-    },
-    {
       "path": "examples/launch-retrospective.html",
       "sha256": "3511d0ec71038a39ddd8451963c4c3f4ccec6a40b6ed3a822beb1265d62deaab",
       "sizeBytes": 665374
@@ -346,6 +351,11 @@
       "sizeBytes": 3264596
     },
     {
+      "path": "examples/MyDay_Workplace_Conversation_Reference_Layout.html",
+      "sha256": "33c22651381572b971a8177e603532a4b68b8ba36fbcc5f078e3b90448ad9166",
+      "sizeBytes": 6667395
+    },
+    {
       "path": "examples/smoky-travel-page.html",
       "sha256": "f68e1a479083fc40b7763336ec3fd540fb40ec50fef2cdd20e478bd9aa43df32",
       "sizeBytes": 2998161
@@ -372,7 +382,7 @@
     },
     {
       "path": "examples/watch-prototype.html",
-      "sha256": "8c408d316c3bbf2d75bf17408330734a715f80aebe6da342995aa455dad25758",
+      "sha256": "2e21fad70020d30ba8be09c1c3b81b3e0cdb67f86466e136960d12c3509c021a",
       "sizeBytes": 22018310
     },
     {

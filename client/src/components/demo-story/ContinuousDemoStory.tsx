@@ -2683,7 +2683,7 @@ function KnowledgeBaseChapter({
                     loading="lazy"
                     decoding="async"
                     className="kb-cosmos-brand"
-                    src="/demo/brand/memova-logo.png"
+                    src="/brand/memova-app-icon-liquid-blue.svg"
                     alt="Memova"
                   />
                 </div>
@@ -3408,7 +3408,7 @@ function AskMemovaSurface({ compact = false }: { compact?: boolean }) {
         <img
           loading="lazy"
           decoding="async"
-          src="/demo/brand/memova-logo.png"
+          src="/brand/memova-app-icon-liquid-blue.svg"
           alt=""
         />
         <div>

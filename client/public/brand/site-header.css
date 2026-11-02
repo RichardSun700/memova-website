@@ -20,19 +20,23 @@
 .five-brand {
   display: inline-flex;
   align-items: center;
-  gap: 12px;
-  color: var(--five-ink);
-  font-size: 14px;
-  font-weight: 700;
-  letter-spacing: .18em;
+  gap: 10px;
 }
 
-.five-brand > img {
-  width: 31px;
-  height: 31px;
+.five-brand > img.five-brand-icon {
+  width: 32px;
+  height: 32px;
   display: block;
-  border-radius: 9px;
-  box-shadow: 0 8px 20px rgba(69, 94, 147, .2), inset 0 1px rgba(255, 255, 255, .7);
+  flex-shrink: 0;
+  object-fit: contain;
+}
+
+.five-brand > img.five-brand-wordmark {
+  display: block;
+  width: 110px;
+  height: auto;
+  flex-shrink: 0;
+  object-fit: contain;
 }
 
 .five-menu { display: none; margin-left: auto; border: 0; color: var(--five-ink); background: transparent; }
@@ -319,6 +323,6 @@
   .five-mobile-language .memova-language-trigger { width: auto; min-width: 80px; justify-content: flex-start; padding-inline: 12px; }
   .five-mobile-language .memova-language-options { left: 0; right: auto; top: auto; bottom: calc(100% + 8px); }
 }
-@media(max-width:374px) { .five-header .five-brand > span { display: none; } }
+@media(max-width:410px) { .five-header .five-brand > img.five-brand-wordmark { display: none; } }
 @media(max-width:360px) { header.five-header { padding-inline: 12px; } }
 @media(prefers-reduced-motion:reduce) { .five-header * { transition:none!important; } }

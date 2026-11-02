@@ -5,6 +5,7 @@
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 import { Shield, Lock, Zap } from "lucide-react";
+import MemovaBrand from "@/components/MemovaBrand";
 
 export default function CTASection() {
   const ref = useRef(null);
@@ -83,11 +84,7 @@ export default function CTASection() {
           className="memova-marketing-footer mt-20 pt-6 border-t border-[#E8EEF7]"
         >
           <div className="flex items-center justify-center mb-3">
-            <img
-              src="/memova-logo-transparent.png"
-              alt="Memova Logo"
-              className="h-10 sm:h-12 w-auto max-w-[140px] object-contain opacity-70 transition-opacity hover:opacity-90"
-            />
+            <MemovaBrand compact />
           </div>
           <div className="mb-3 flex flex-wrap items-center justify-center gap-5">
             <a

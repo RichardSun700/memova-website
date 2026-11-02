@@ -1,7 +1,7 @@
 import { latestJournalEntry } from "../content/journalEntries";
 
 export const SITE_URL = "https://memova.ai";
-export const SOCIAL_IMAGE = `${SITE_URL}/memova-logo-transparent.png`;
+export const SOCIAL_IMAGE = `${SITE_URL}/brand/memova-app-icon-512.png`;
 
 export type ChangeFrequency = "weekly" | "monthly" | "yearly";
 export type SchemaType =

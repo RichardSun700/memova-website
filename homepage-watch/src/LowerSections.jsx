@@ -15,7 +15,7 @@ const ASSETS = {
   mentor: "/assets/feature-mentor.webp",
   spark: "/assets/feature-spark.webp",
   meeting: "/assets/feature-meeting.webp",
-  icon: "/assets/memova-icon-transparent.png",
+  icon: "/assets/memova-app-icon-liquid-blue.svg",
 };
 
 // Dialogue stays in its original language when the interface language changes.
@@ -448,7 +448,7 @@ function FooterSection({ copy, lang }) {
       <div className="lower-footer-bottom">
         <a className="lower-footer-brand" href="#top" aria-label="Memova">
           <img src={ASSETS.icon} alt="" />
-          <span>MEMOVA</span>
+          <img className="lower-footer-wordmark" src="/assets/memova-wordmark-blue.svg" alt="" />
         </a>
         <a
           href={APP_STORE}

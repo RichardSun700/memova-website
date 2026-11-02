@@ -45,6 +45,10 @@ function escapeAttribute(value) {
   return escapeText(value).replaceAll('"', "&quot;");
 }
 
+function renderBrandImages() {
+  return '<img class="memova-seo-brand-icon" src="/brand/memova-app-icon-liquid-blue.svg" alt="" width="32" height="32" /><img class="memova-seo-brand-wordmark" src="/brand/memova-wordmark-blue.svg" alt="" width="110" height="14" />';
+}
+
 const SEO_SHELL_STYLE_ID = "memova-seo-shell-styles";
 const SEO_SHELL_VERSION = "2";
 const SEO_SHELL_STYLES = `
@@ -71,19 +75,9 @@ const SEO_SHELL_STYLES = `
       width: min(80rem, calc(100% - 2rem));
       margin: 0 auto;
     }
-    .memova-seo-shell__brand { display: inline-flex; align-items: center; gap: 0.5rem; }
-    .memova-seo-shell__brand img { width: auto; height: 4rem; object-fit: contain; }
-    .memova-seo-shell__brand span {
-      position: absolute;
-      width: 1px;
-      height: 1px;
-      padding: 0;
-      margin: -1px;
-      overflow: hidden;
-      clip: rect(0, 0, 0, 0);
-      white-space: nowrap;
-      border: 0;
-    }
+    .memova-seo-shell__brand { display: inline-flex; align-items: center; gap: 10px; flex-shrink: 0; }
+    .memova-seo-brand-icon { display: block; width: 32px; height: 32px; object-fit: contain; flex-shrink: 0; }
+    .memova-seo-brand-wordmark { display: block; width: 110px; height: auto; object-fit: contain; flex-shrink: 0; }
     .memova-seo-shell__nav-group {
       display: flex;
       align-items: center;
@@ -310,17 +304,8 @@ const SEO_SHELL_STYLES = `
     .memova-seo-legal__brand {
       display: inline-flex;
       align-items: center;
-      gap: 0.65rem;
-      font-size: 0.8rem;
-      font-weight: 800;
-      letter-spacing: 0.18em;
-    }
-    .memova-seo-legal__brand img {
-      width: 5.6rem;
-      height: 1.8rem;
-      object-fit: cover;
-      object-position: 50% 69%;
-      mix-blend-mode: multiply;
+      gap: 10px;
+      flex-shrink: 0;
     }
     html[data-legal-language="en"] [data-legal-language="zh"],
     html[data-legal-language="zh"] [data-legal-language="en"] { display: none; }
@@ -560,7 +545,7 @@ function renderLegalPolicySnapshot(page, markdownPath, chinesePath, currentPath)
   const termsCurrent = currentPath === "/terms" ? ' aria-current="page"' : "";
   const policy = renderLegalBlocks(fs.readFileSync(markdownPath, "utf8"));
   const chinesePolicy = renderLegalBlocks(fs.readFileSync(chinesePath, "utf8"));
-  return `<div id="root"><div class="memova-seo-shell memova-seo-shell--legal" data-no-translate data-seo-snapshot="true" data-seo-shell-version="${SEO_SHELL_VERSION}" data-page-summary="${escapeAttribute(page.summary)}"><header class="memova-seo-legal__header"><div class="memova-seo-legal__header-inner"><a class="memova-seo-legal__brand" href="/"><img alt="Memova" src="/manus-storage/memova_logo_0eb30acc.png" width="90" height="29" /><span>MEMOVA</span></a><div class="memova-seo-legal__actions"><a class="memova-seo-legal__home" href="/"><span data-legal-language="en">&larr; Home</span><span data-legal-language="zh">&larr; 首页</span></a><memova-language-switch></memova-language-switch></div></div></header><main class="memova-seo-legal__main"><nav class="memova-seo-legal__tabs" data-legal-language="en" aria-label="Legal documents"><a class="memova-seo-legal__tab" href="/privacy"${privacyCurrent}>Privacy Policy</a><a class="memova-seo-legal__tab" href="/terms"${termsCurrent}>Terms of Service</a></nav><nav class="memova-seo-legal__tabs" data-legal-language="zh" aria-label="法律文件"><a class="memova-seo-legal__tab" href="/privacy?lang=zh"${privacyCurrent}>隐私协议</a><a class="memova-seo-legal__tab" href="/terms?lang=zh"${termsCurrent}>服务条款</a></nav><article class="memova-seo-legal__article" lang="en" data-legal-language="en">${policy}</article><article class="memova-seo-legal__article" lang="zh-CN" data-legal-language="zh">${chinesePolicy}</article></main></div></div>`;
+  return `<div id="root"><div class="memova-seo-shell memova-seo-shell--legal" data-no-translate data-seo-snapshot="true" data-seo-shell-version="${SEO_SHELL_VERSION}" data-page-summary="${escapeAttribute(page.summary)}"><header class="memova-seo-legal__header"><div class="memova-seo-legal__header-inner"><a class="memova-seo-legal__brand" href="/" aria-label="Memova home">${renderBrandImages()}</a><div class="memova-seo-legal__actions"><a class="memova-seo-legal__home" href="/"><span data-legal-language="en">&larr; Home</span><span data-legal-language="zh">&larr; 首页</span></a><memova-language-switch></memova-language-switch></div></div></header><main class="memova-seo-legal__main"><nav class="memova-seo-legal__tabs" data-legal-language="en" aria-label="Legal documents"><a class="memova-seo-legal__tab" href="/privacy"${privacyCurrent}>Privacy Policy</a><a class="memova-seo-legal__tab" href="/terms"${termsCurrent}>Terms of Service</a></nav><nav class="memova-seo-legal__tabs" data-legal-language="zh" aria-label="法律文件"><a class="memova-seo-legal__tab" href="/privacy?lang=zh"${privacyCurrent}>隐私协议</a><a class="memova-seo-legal__tab" href="/terms?lang=zh"${termsCurrent}>服务条款</a></nav><article class="memova-seo-legal__article" lang="en" data-legal-language="en">${policy}</article><article class="memova-seo-legal__article" lang="zh-CN" data-legal-language="zh">${chinesePolicy}</article></main></div></div>`;
 }
 
 function renderLegalLanguageBootstrap(currentPath) {
@@ -605,7 +590,7 @@ export function renderTermsOfServiceSnapshot(page) {
 }
 
 function renderSeoShellNav() {
-  return `<header class="memova-seo-shell__nav"><a class="memova-seo-shell__brand" href="/" aria-label="Memova home"><img src="/memova-logo-transparent.png" alt="Memova" width="87" height="64" /><span>Memova</span></a><div class="memova-seo-shell__nav-group"><nav class="memova-seo-shell__nav-links" aria-label="Primary"><a href="/#product">Product</a><a href="/#book">Living Book</a><a href="/#use-cases">Use Cases</a><a href="/journal">Journal</a><a href="/mcp">MCP</a></nav><a class="memova-seo-shell__nav-cta memova-download-button" href="https://apps.apple.com/us/app/memova-ai/id6796284954" target="_blank" rel="noopener noreferrer">Download the app</a></div></header>`;
+  return `<header class="memova-seo-shell__nav"><a class="memova-seo-shell__brand" href="/" aria-label="Memova home">${renderBrandImages()}</a><div class="memova-seo-shell__nav-group"><nav class="memova-seo-shell__nav-links" aria-label="Primary"><a href="/#product">Product</a><a href="/#book">Living Book</a><a href="/#use-cases">Use Cases</a><a href="/journal">Journal</a><a href="/mcp">MCP</a></nav><a class="memova-seo-shell__nav-cta memova-download-button" href="https://apps.apple.com/us/app/memova-ai/id6796284954" target="_blank" rel="noopener noreferrer">Download the app</a></div></header>`;
 }
 
 function renderHomeSnapshot(page) {

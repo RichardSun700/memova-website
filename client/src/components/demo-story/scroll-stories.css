@@ -390,8 +390,6 @@
   width: min(78%, 136px);
   height: auto;
   display: block;
-  opacity: 0.94;
-  filter: saturate(0.9) contrast(1.03);
 }
 
 .kb-orbit-card {

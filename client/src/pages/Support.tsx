@@ -1,4 +1,5 @@
 import SiteFooter from "@/components/SiteFooter";
+import MemovaBrand from "@/components/MemovaBrand";
 import { ArrowLeft, ExternalLink, Mail, ShieldCheck, Wrench } from "lucide-react";
 import { useEffect } from "react";
 
@@ -28,15 +29,8 @@ export default function Support() {
     <div className="min-h-screen bg-[#FAFCFF] text-[#0F2B3C]">
       <header className="border-b border-[#E8F0F8]/70 bg-white/85 backdrop-blur-xl">
         <div className="container flex min-h-[64px] items-center justify-between gap-4">
-          <a href="/" className="flex items-center gap-2.5">
-            <img
-              alt="MEMOVA"
-              className="h-[1.8rem] w-[5.6rem] shrink-0 object-cover object-[50%_69%] mix-blend-multiply"
-              src="/manus-storage/memova_logo_0eb30acc.png"
-            />
-            <span className="text-[13px] font-bold tracking-[0.18em] text-[#0F2B3C]">
-              MEMOVA
-            </span>
+          <a href="/" aria-label="Memova home">
+            <MemovaBrand />
           </a>
           <a
             href="/"

@@ -200,8 +200,8 @@ section[id] {
   gap: 10px;
 }
 .brand img {
-  width: 29px;
-  height: 29px;
+  width: 32px;
+  height: 32px;
 }
 .brand span {
   font-family: var(--serif);
@@ -1507,8 +1507,8 @@ html[lang="en"] .hero h1 {
 }
 
 .brand .brand-wordmark {
-  width: 100px;
-  height: 30px;
+  width: 110px;
+  height: auto;
   object-fit: contain;
 }
 .hero-art-caption {

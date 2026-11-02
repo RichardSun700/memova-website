@@ -346,39 +346,44 @@
 .memova-brand-lockup {
   display: inline-flex;
   align-items: center;
-  gap: 12px;
-  color: var(--memova-account-ink, #111a30);
-  font-size: 14px;
-  font-weight: 800;
-  letter-spacing: 0.18em;
+  gap: 10px;
   line-height: 1;
+  flex-shrink: 0;
+  vertical-align: middle;
 }
 
-.memova-brand-lockup > img {
-  width: 34px;
-  height: 34px;
+.memova-brand-lockup > img.memova-brand-icon {
+  width: 32px;
+  height: 32px;
   display: block;
   flex: 0 0 auto;
-  border-radius: 10px;
-  box-shadow:
-    0 8px 20px rgba(69, 94, 147, 0.2),
-    inset 0 1px rgba(255, 255, 255, 0.7);
+  object-fit: contain;
   transition: transform 180ms ease;
 }
 
-a:hover .memova-brand-lockup > img {
+.memova-brand-lockup > img.memova-brand-wordmark {
+  display: block;
+  width: 110px;
+  height: auto;
+  flex: 0 0 auto;
+  object-fit: contain;
+}
+
+a:hover .memova-brand-lockup > img.memova-brand-icon {
   transform: translateY(-1px);
 }
 
 .memova-brand-lockup--compact {
   gap: 10px;
-  font-size: 12px;
 }
 
-.memova-brand-lockup--compact > img {
+.memova-brand-lockup--compact > img.memova-brand-icon {
   width: 30px;
   height: 30px;
-  border-radius: 9px;
+}
+
+.memova-brand-lockup--compact > img.memova-brand-wordmark {
+  width: 100px;
 }
 
 @media (prefers-reduced-motion: reduce) {

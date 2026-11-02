@@ -1401,6 +1401,12 @@
   height: 25px;
 }
 
+.lower-footer-compact .lower-footer-brand .lower-footer-wordmark {
+  width: 92px;
+  height: auto;
+  object-fit: contain;
+}
+
 .lower-footer-compact .lower-footer-download {
   min-height: 32px;
   gap: 7px;

@@ -127,7 +127,7 @@ describe("production homepage", () => {
           src: "/favicon-192x192.png",
           sizes: "192x192",
         }),
-        expect.objectContaining({ src: "/favicon.png", sizes: "512x512" }),
+        expect.objectContaining({ src: "/brand/memova-app-icon-512.png", sizes: "512x512" }),
       ])
     );
   });

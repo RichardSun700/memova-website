@@ -5084,10 +5084,8 @@ a.home-v2-journal-row:hover {
   inset: 0 auto auto 0;
   display: block;
   width: 100%;
-  height: auto;
-  opacity: 0.76;
-  filter: brightness(1.22) saturate(0.72)
-    drop-shadow(0 3px 10px rgba(9, 24, 55, 0.34));
+  height: 100%;
+  object-fit: contain;
 }
 
 .home-v2-case-story-rocket {
@@ -5270,8 +5268,6 @@ a.home-v2-journal-row:hover {
 .home-v2-case-story-image[data-launching="true"]
   .home-v2-case-story-track-mark {
   opacity: 1;
-  filter: brightness(1.42) saturate(0.82)
-    drop-shadow(0 4px 16px rgba(104, 147, 229, 0.5));
 }
 
 .home-v2-case-book-button:focus-visible {

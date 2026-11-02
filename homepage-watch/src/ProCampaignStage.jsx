@@ -42,7 +42,7 @@ function ProductPreview({ feature, en }) {
   if (feature.key === "spark") {
     return <div className="pro-campaign-preview pro-campaign-preview--spark">
       <div className="pro-campaign-spark-case" aria-label="English translation of a real Spark conversation">
-        <header><img src="/assets/memova-icon-transparent.png" width="21" height="21" alt="" /><span>Spark</span><small>Page &amp; Summary</small></header>
+        <header><img src="/assets/memova-app-icon-liquid-blue.svg" width="21" height="21" alt="" /><span>Spark</span><small>Page &amp; Summary</small></header>
         <div className="pro-campaign-spark-idea"><small>YOUR IDEA</small><h4>Fridge clear-out assistant.</h4><p>I opened the fridge and found another box of mushrooms I’d forgotten to eat. Could I make a fridge clear-out assistant?</p></div>
         <div className="pro-campaign-spark-prompt">Explore this idea’s key questions <ArrowUpRight size={13} /></div>
         <div className="pro-campaign-spark-question"><small>QUESTION 01</small><p>Are the two dishes alternatives to choose between, or one meal to cook together?</p></div>

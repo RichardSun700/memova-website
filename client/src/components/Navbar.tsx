@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { ExternalLink, LogOut, UserRound, X } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { shouldSkipInitialMarketingMotion } from "@/seo/seoHandoff";
+import MemovaBrand from "@/components/MemovaBrand";
 
 const DISCORD_COMMUNITY_URL = "https://discord.gg/E9u5FFvhdu";
 const DISCORD_COMMUNITY_QR = "/community/discord-community-qr-e9u5ffvhdu.png";
@@ -68,12 +69,8 @@ export default function Navbar() {
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 h-20 flex items-center justify-between">
         {/* Logo */}
-        <a href="/" className="flex items-center gap-2 group shrink-0">
-          <img
-            src="/memova-logo-transparent.png"
-            alt="Memova Logo"
-            className="h-14 sm:h-16 md:h-[72px] w-auto object-contain transition-all duration-200 group-hover:scale-[1.02] group-hover:opacity-90 drop-shadow-sm"
-          />
+        <a href="/" aria-label="Memova home" className="flex items-center gap-2 group shrink-0">
+          <MemovaBrand />
         </a>
 
         {/* Desktop nav links */}

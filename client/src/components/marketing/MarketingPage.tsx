@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import SiteFooter from "@/components/SiteFooter";
+import MemovaBrand from "@/components/MemovaBrand";
 
 type MarketingPageProps = {
   eyebrow: string;
@@ -37,11 +38,7 @@ export default function MarketingPage({ eyebrow, title, intro, children }: Marke
       <header className="border-b border-[#DDE6FF]/70 bg-white/90">
         <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-4 sm:px-6">
           <a href="/" aria-label="Memova home">
-            <img
-              src="/memova-logo-transparent.png"
-              alt="Memova"
-              className="h-14 w-auto object-contain"
-            />
+            <MemovaBrand />
           </a>
           <nav aria-label="Primary" className="hidden items-center gap-5 text-[13px] font-semibold text-[#637083] md:flex">
             <a href="/how-it-works" className="hover:text-[var(--memova-navy)]">How it works</a>
