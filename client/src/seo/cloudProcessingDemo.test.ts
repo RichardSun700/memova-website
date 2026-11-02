@@ -64,11 +64,19 @@ function mount({ phone = false, reduced = false } = {}) {
     expect(element, selector).not.toBeNull();
     act(() => element.dispatchEvent(new window.Event("click", { bubbles: true })));
   }
-  function finish() { act(() => vi.advanceTimersByTime(2000)); }
+  function advanceTime() { act(() => vi.advanceTimersByTime(2000)); }
   const phase = () => container.querySelector(".cloud-processing-demo")?.getAttribute("data-phase");
   const readyKeys = () => [...container.querySelectorAll(".cloud-result-card.is-ready")]
     .map(card => card.getAttribute("data-result"));
-  return { container, document, window, render, click, finish, phase, readyKeys, onPhaseChange };
+  return { container, document, window, render, click, advanceTime, phase, readyKeys, onPhaseChange };
+}
+
+function expectNoSimulatedProgress(container: HTMLElement) {
+  const statusText = [...container.querySelectorAll('[role="status"], .cloud-result-status, .lower-choice-confirm, .cloud-mobile-outcomes-header h3')]
+    .map(node => node.textContent || "").join(" ");
+  // The truthful local-demo disclaimer remains. Only fabricated progress
+  // claims must disappear from the immediately available results.
+  expect(statusText).not.toMatch(/preparing|processing demo|demonstrating cloud processing|演示处理中|正在准备|正在演示云端处理|正在整理所选内容/i);
 }
 
 describe("cloud processing selection and results", () => {
@@ -76,25 +84,25 @@ describe("cloud processing selection and results", () => {
     const demo = mount();
     expect(demo.container.querySelector(".lower-choice-confirm")?.hasAttribute("disabled")).toBe(true);
     demo.click(".lower-choice-confirm");
-    demo.finish();
     expect(demo.phase()).toBe("selecting");
     expect(demo.readyKeys()).toEqual([]);
     expect(demo.onPhaseChange).not.toHaveBeenCalled();
   });
 
   for (const reduced of [false, true]) {
-    it(`makes only the selected outcomes ready${reduced ? " with reduced motion" : " after processing"}`, () => {
+    it(`shows only the selected outcomes immediately${reduced ? " with reduced motion" : " with ordinary motion"}`, () => {
       const demo = mount({ reduced });
       demo.click('input[aria-label="Travel conversation"]');
       demo.click('input[aria-label="Meeting conversation"]');
       demo.click(".lower-choice-confirm");
-      demo.finish();
       expect(demo.phase()).toBe("ready");
+      expect(demo.onPhaseChange.mock.calls.map(([phase]) => phase)).toEqual(["ready"]);
       expect(demo.readyKeys()).toEqual(["travel", "meeting"]);
       const unselected = demo.container.querySelector('[data-result="myday"]')!;
       expect(unselected.classList.contains("is-ready")).toBe(false);
       expect(unselected.getAttribute("aria-label")).toContain("Not selected");
       expect(demo.container.querySelector(".lower-choice-confirm")?.hasAttribute("disabled")).toBe(true);
+      expectNoSimulatedProgress(demo.container as unknown as HTMLElement);
     });
   }
 
@@ -102,47 +110,57 @@ describe("cloud processing selection and results", () => {
     const demo = mount();
     demo.click(".cloud-select-all");
     demo.click(".lower-choice-confirm");
-    demo.finish();
     expect(demo.readyKeys()).toEqual(["travel", "myday", "meeting"]);
     demo.click(".lower-choice-actions .lower-text-button:not(.cloud-select-all)");
+    demo.advanceTime();
     expect(demo.phase()).toBe("selecting");
     expect(demo.readyKeys()).toEqual([]);
     expect([...demo.container.querySelectorAll("input")].every(input => !(input as unknown as HTMLInputElement).checked)).toBe(true);
     expect(demo.container.querySelector(".lower-choice-confirm")?.hasAttribute("disabled")).toBe(true);
+    expect(demo.onPhaseChange.mock.calls.map(([phase]) => phase)).toEqual(["ready", "selecting"]);
   });
 
-  it("cancels a processing run when reset so stale timers cannot reveal outcomes", () => {
+  it("ignores repeated submission without delaying or replacing the selected results", () => {
     const demo = mount();
     demo.click('input[aria-label="Travel conversation"]');
     demo.click(".lower-choice-confirm");
-    expect(demo.phase()).toBe("moving");
-    demo.click(".lower-choice-actions .lower-text-button:not(.cloud-select-all)");
-    demo.finish();
-    expect(demo.phase()).toBe("selecting");
-    expect(demo.readyKeys()).toEqual([]);
-    expect(demo.onPhaseChange.mock.calls.map(([phase]) => phase)).toEqual(["moving", "selecting"]);
+    expect(demo.phase()).toBe("ready");
+    expect(demo.readyKeys()).toEqual(["travel"]);
+    demo.click(".lower-choice-confirm");
+    demo.advanceTime();
+    expect(demo.phase()).toBe("ready");
+    expect(demo.readyKeys()).toEqual(["travel"]);
+    expect(demo.onPhaseChange.mock.calls.map(([phase]) => phase)).toEqual(["ready"]);
+    expectNoSimulatedProgress(demo.container as unknown as HTMLElement);
   });
 
   it("keeps the selected results when switching between English and Chinese", () => {
-    const demo = mount({ reduced: true });
+    const demo = mount();
     demo.click('input[aria-label="Work conversation"]');
     demo.click(".lower-choice-confirm");
     expect(demo.readyKeys()).toEqual(["myday"]);
+    expectNoSimulatedProgress(demo.container as unknown as HTMLElement);
     demo.render("zh");
     expect(demo.phase()).toBe("ready");
     expect(demo.readyKeys()).toEqual(["myday"]);
     expect(demo.container.querySelector('[data-result="myday"] strong')?.textContent).toBe("每日回顾");
+    expectNoSimulatedProgress(demo.container as unknown as HTMLElement);
     demo.render("en");
     expect(demo.readyKeys()).toEqual(["myday"]);
     expect(demo.container.querySelector('[data-result="myday"] strong')?.textContent).toBe("My Day");
+    expect(demo.onPhaseChange.mock.calls.map(([phase]) => phase)).toEqual(["ready"]);
   });
 
   for (const dismissal of ["choose again", "native cancel"]) {
-    it(`cancels mobile processing and restores the existing scroll lock on ${dismissal}`, () => {
+    it(`shows ready mobile covers immediately and restores the existing scroll lock on ${dismissal}`, () => {
       const demo = mount({ phone: true });
       demo.document.body.style.overflow = "clip";
       demo.click('input[aria-label="Travel conversation"]');
       demo.click(".lower-choice-confirm");
+      expect(demo.phase()).toBe("ready");
+      expect(demo.readyKeys()).toEqual(["travel"]);
+      expect(demo.onPhaseChange.mock.calls.map(([phase]) => phase)).toEqual(["ready"]);
+      expectNoSimulatedProgress(demo.container as unknown as HTMLElement);
       const dialog = demo.container.querySelector("dialog")!;
       expect(dialog.hasAttribute("open")).toBe(true);
       expect(demo.document.body.style.overflow).toBe("hidden");
@@ -151,11 +169,12 @@ describe("cloud processing selection and results", () => {
       } else {
         demo.click(".cloud-mobile-outcomes-back");
       }
-      demo.finish();
+      demo.advanceTime();
       expect(demo.phase()).toBe("selecting");
       expect(demo.container.querySelector("dialog")).toBeNull();
       expect(demo.readyKeys()).toEqual([]);
       expect(demo.document.body.style.overflow).toBe("clip");
+      expect(demo.onPhaseChange.mock.calls.map(([phase]) => phase)).toEqual(["ready", "selecting"]);
     });
   }
 });
