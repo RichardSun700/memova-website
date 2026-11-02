@@ -303,7 +303,7 @@ export function EmotionWatch({
           <div className="emotion-watch-status">
             <span className="emotion-watch-brand">
               <img
-                src="/assets/memova-icon-transparent.png"
+                src="/assets/memova-app-icon-liquid-blue.svg"
                 width="18"
                 height="18"
                 alt=""

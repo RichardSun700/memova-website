@@ -28,6 +28,7 @@ import {
   useState,
 } from "react";
 import { navigate } from "wouter/use-browser-location";
+import MemovaBrand from "@/components/MemovaBrand";
 
 import PersonalManualImageWheel, {
   type PersonalManualWheelItem,
@@ -599,7 +600,7 @@ function HomeV2Header() {
     <header className="home-v2-header">
       <div className="home-v2-container home-v2-header-inner">
         <a className="home-v2-logo" href="#top" aria-label="Memova home">
-          <img src="/memova-logo-transparent.png" alt="Memova" />
+          <MemovaBrand />
         </a>
 
         <nav className="home-v2-desktop-nav" aria-label="Primary navigation">
@@ -1504,10 +1505,10 @@ function CaseStoryImage({
         <span className="home-v2-case-story-track-crop" aria-hidden="true">
           <img
             className="home-v2-case-story-track-mark"
-            src="/memova-logo-transparent.png"
+            src="/brand/memova-app-icon-liquid-blue.svg"
             alt=""
-            width="716"
-            height="527"
+            width="1024"
+            height="1024"
             loading="lazy"
             decoding="async"
           />
@@ -2136,7 +2137,7 @@ function HomeV2Footer() {
           href="#top"
           aria-label="Back to top"
         >
-          <img src="/memova-logo-transparent.png" alt="Memova" />
+          <MemovaBrand />
         </a>
         <nav aria-label="Footer navigation">
           <a href="#product">Product</a>

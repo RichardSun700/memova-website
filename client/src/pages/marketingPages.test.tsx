@@ -176,7 +176,9 @@ describe("US iOS acquisition pages", () => {
     expect(html).toContain(
       'src="/demo/media/apollo-case-launch/rocket-v1.png"'
     );
-    expect(html).toContain('src="/memova-logo-transparent.png"');
+    expect(html).toContain('src="/brand/memova-app-icon-liquid-blue.svg"');
+    expect(html).toContain('src="/brand/memova-wordmark-blue.svg"');
+    expect(html).not.toContain('src="/memova-logo-transparent.png"');
     expect(html).not.toContain(
       'src="/demo/media/memova-closed-book-shell-v1.webp"'
     );

@@ -147,8 +147,8 @@
 }
 
 .official-logo {
-  width: 78px;
-  height: 56px;
+  width: 32px;
+  height: 32px;
   object-fit: contain;
 }
 
@@ -4041,8 +4041,8 @@
     padding: 0 15px 0 11px;
   }
   .official-logo {
-    width: 66px;
-    height: 48px;
+    width: 32px;
+    height: 32px;
   }
   .brand-lockup {
     gap: 9px;

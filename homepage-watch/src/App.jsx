@@ -186,10 +186,10 @@ export function App() {
       </a>
       <header className="site-header" ref={headerRef}>
         <a className="brand" href="#top" aria-label="Memova home">
-          <img src={A + "memova-icon-transparent.png"} alt="" />
+          <img src={A + "memova-app-icon-liquid-blue.svg"} alt="" />
           <img
             className="brand-wordmark"
-            src={A + "memova-wordmark-tight.png"}
+            src={A + "memova-wordmark-blue.svg"}
             alt="Memova"
           />
         </a>

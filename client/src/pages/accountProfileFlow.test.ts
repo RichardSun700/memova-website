@@ -125,6 +125,8 @@ describe("account profile completion", () => {
     expect(brand).toContain(
       'src="/brand/memova-app-icon-liquid-blue.svg"'
     );
+    expect(brand).toContain('src="/brand/memova-wordmark-blue.svg"');
+    expect(brand).not.toContain("<span>MEMOVA</span>");
     expect(accountShell).not.toContain("memova_logo_0eb30acc.png");
     expect(consent).toContain('src="/brand/memova-app-icon-liquid-blue.svg"');
     expect(styles).toContain("--memova-ink: #14284b");

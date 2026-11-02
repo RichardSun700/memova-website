@@ -18,11 +18,20 @@ export default function MemovaBrand({
       )}
     >
       <img
+        className="memova-brand-icon"
         src="/brand/memova-app-icon-liquid-blue.svg"
         alt=""
         aria-hidden="true"
+        width="32"
+        height="32"
       />
-      <span>MEMOVA</span>
+      <img
+        className="memova-brand-wordmark"
+        src="/brand/memova-wordmark-blue.svg"
+        alt="Memova"
+        width="110"
+        height="14"
+      />
     </span>
   );
 }

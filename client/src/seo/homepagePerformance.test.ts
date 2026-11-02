@@ -35,7 +35,12 @@ describe("production homepage performance", () => {
     const icon = document.querySelector(".site-header .brand > img")!;
     const iconBytes = fs.readFileSync(path.join(output, icon.getAttribute("src")!));
     expect(iconBytes.length).toBeLessThan(40 * 1024);
-    expect((await sharp(iconBytes).metadata()).width).toBeLessThanOrEqual(192);
+    const iconMetadata = await sharp(iconBytes).metadata();
+    if (iconMetadata.format === "svg") {
+      expect(iconBytes.equals(fs.readFileSync(path.resolve("client/public/brand/memova-app-icon-liquid-blue.svg")))).toBe(true);
+    } else {
+      expect(iconMetadata.width).toBeLessThanOrEqual(192);
+    }
 
     const demos = [...document.querySelectorAll(".product-demo-film video")];
     expect(demos).toHaveLength(3);

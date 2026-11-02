@@ -43,7 +43,7 @@ export function MentorClassroom({ preview = false }) {
   return <section className={`mentor-classroom${preview ? " mentor-classroom--preview" : ""}`} aria-label="Memova personal mentor classroom" lang="en">
     {!preview && <header className="mentor-classroom-header">
       <div className="mentor-classroom-heading">
-        <div className="mentor-classroom-brand"><img src="/assets/memova-icon-transparent.png" width="22" height="22" alt="" /><span>Memova <b>Personal mentor</b></span></div>
+        <div className="mentor-classroom-brand"><img src="/assets/memova-app-icon-liquid-blue.svg" width="22" height="22" alt="" /><span>Memova <b>Personal mentor</b></span></div>
         <h1>A little help with<br />what to say next.</h1>
         <p>Five tips from My Day. Open a note. Find words to try.</p>
       </div>
