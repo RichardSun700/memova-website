@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useId, useLayoutEffect, useRef, useState } from "react";
 import { ArrowLeft, Check, CheckCircle, Cloud, Sparkle, X } from "@phosphor-icons/react";
 import { useCompactLayout } from "./useCompactLayout";
+import { CloudOutcomeCover } from "./CloudOutcomeCover";
 import "./CloudProcessingDemo.css";
 
 const isBusy = (phase) => phase === "moving" || phase === "processing";
@@ -176,16 +177,20 @@ export function CloudProcessingDemo({
       const title = translated(result.title, language, translated(item.source, language));
       return (
         <article
-          className={`cloud-result-card${chosen ? " is-selected" : " is-unselected"}${available ? " is-ready" : ""}`}
+          className={`cloud-result-card${chosen ? " is-selected" : " is-unselected"}${available ? " is-ready" : ""}${result.preview ? " has-outcome-preview" : ""}`}
           data-result={result.key}
           style={{ "--cloud-order": index }}
           key={item.id}
           aria-label={available ? L(`示例封面：${title}`, `Example cover: ${title}`)
             : `${title} · ${chosen ? L("等待示例成果", "Waiting for example outcome") : L("未选择", "Not selected")}`}
         >
-          <span className="cloud-result-image">
-            {result.image && <img src={result.image} alt={translated(result.alt, language)} loading={mobile ? "eager" : "lazy"} />}
-          </span>
+          {result.preview ? (
+            <CloudOutcomeCover preview={result.preview} lang={language} image={result.image} alt={translated(result.alt, language)} loading={mobile ? "eager" : "lazy"} />
+          ) : (
+            <span className="cloud-result-image">
+              {result.image && <img src={result.image} alt={translated(result.alt, language)} loading={mobile ? "eager" : "lazy"} />}
+            </span>
+          )}
           <span className="cloud-result-copy">
             <span className="cloud-result-label">{translated(result.label, language)}</span>
             <strong>{title}</strong>

@@ -30,9 +30,21 @@ const QUOTES = [
     quote:
       "Definitely. You should check out Cades Cove. It's a great place to spot white-tailed deer, and you might even see black bears if you're lucky.",
     result: {
-      key: "travel", label: { zh: "旅行计划", en: "TRAVEL PAGE" },
-      title: { zh: "大烟山旅行计划", en: "Smokies travel plan" },
+      key: "travel", label: { zh: "行前会议纪要", en: "MEETING PAGE" },
+      title: { zh: "大烟山行前讨论", en: "Smokies trip briefing" },
       image: "/assets/smoky-hero.webp", alt: "The actual Smoky Mountains travel-page cover",
+      preview: {
+        kind: "travel",
+        label: { zh: "会议笔记", en: "MEETING NOTES" },
+        heading: "Cades Cove",
+        coverLines: { zh: ["大烟山", "行前讨论。"], en: ["Smokies", "trip briefing."] },
+        coverCaption: { zh: "Cades Cove · 行前查询", en: "Cades Cove · trip research" },
+        items: [
+          { zh: "自驾环线与野生动物", en: "Scenic loop & wildlife" },
+          { zh: "Michael · 进一步查询", en: "Michael · Research" },
+        ],
+        footer: { zh: "日期尚未确认", en: "Dates not confirmed" },
+      },
     },
   },
   {
@@ -44,7 +56,7 @@ const QUOTES = [
     speaker: "Michael",
     quote: "What do you mean by that?",
     result: {
-      key: "myday", label: { zh: "每日复盘", en: "MY DAY" },
+      key: "myday", label: { zh: "每日回顾", en: "DAILY RECAP" },
       title: { zh: "Michael 的 My Day", en: "Michael’s My Day" },
       image: "/assets/myday-forest-cover.webp", alt: "The actual forest cover from Michael’s My Day",
     },
@@ -60,7 +72,20 @@ const QUOTES = [
     result: {
       key: "meeting", label: { zh: "可交互会议网页", en: "MEETING PAGE" },
       title: { zh: "发布复盘与后续分工", en: "Launch review & follow-up" },
-      image: "/assets/meeting-library-preview.png", alt: "The English meeting-outcome webpage with three report covers",
+      image: "/assets/day-photos-v1/09-meeting.webp",
+      alt: { zh: "自然光下的会议桌与空椅，作为会议成果示例的封面。", en: "A sunlit conference table and empty chairs, illustrating the meeting outcome." },
+      preview: {
+        kind: "meeting",
+        label: { zh: "会议笔记", en: "MEETING NOTES" },
+        heading: { zh: "下一步", en: "Next steps" },
+        coverLines: { zh: ["产品发布", "复盘纪要。"], en: ["Launch", "retrospective."] },
+        coverCaption: { zh: "用户反馈 · 后续分工", en: "Feedback · next steps" },
+        items: [
+          { zh: "Michael · 用户反馈", en: "Michael · Feedback" },
+          { zh: "Jordan · 界面探索", en: "Jordan · Design" },
+        ],
+        footer: { zh: "下次产品同步会复核", en: "Next product sync" },
+      },
     },
   },
 ];
