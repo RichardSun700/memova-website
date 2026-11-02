@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { useLocation } from "wouter";
+import { getLegalPageMetadata, useLegalLanguage } from "./legalLanguage";
 import {
   SOCIAL_IMAGE,
   getCanonicalUrl,
@@ -20,13 +21,17 @@ function setMeta(selector: string, attributes: Record<string, string>) {
 
 export default function SiteMetadata() {
   const [location] = useLocation();
+  const language = useLegalLanguage();
+  const legalLanguage = getLegalPageMetadata(location, language) ? language : null;
 
   useEffect(() => {
-    const page = getSitePage(location);
+    const originalPage = getSitePage(location);
+    const legal = getLegalPageMetadata(location, legalLanguage || "en");
+    const page = legal ? { ...originalPage, title: legal.title, description: legal.description } : originalPage;
     const canonicalUrl = getCanonicalUrl(page);
 
     document.title = page.title;
-    document.documentElement.lang = "en-US";
+    document.documentElement.lang = legal?.htmlLang || "en-US";
     setMeta('meta[name="description"]', { name: "description", content: page.description });
     setMeta('meta[name="robots"]', {
       name: "robots",
@@ -62,8 +67,11 @@ export default function SiteMetadata() {
       jsonLd.type = "application/ld+json";
       document.head.appendChild(jsonLd);
     }
-    jsonLd.textContent = JSON.stringify(getStructuredData(page));
-  }, [location]);
+    jsonLd.textContent = JSON.stringify({
+      ...getStructuredData(page),
+      inLanguage: legal?.htmlLang || "en-US",
+    });
+  }, [location, legalLanguage]);
 
   return null;
 }

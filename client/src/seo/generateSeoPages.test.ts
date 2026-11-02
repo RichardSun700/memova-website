@@ -1,6 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { Script } from "node:vm";
+import { parseHTML } from "linkedom";
 import { describe, expect, it } from "vitest";
 import {
   PRIVATE_SPA_PAGES,
@@ -206,6 +207,47 @@ describe("SEO build generator", () => {
     expect(html).toContain(
       '<a class="memova-seo-legal__tab" href="/terms" aria-current="page">'
     );
+  });
+
+  it.each([
+    ["/privacy", "隐私协议", "20. 联系我们", "20. Contact Us"],
+    ["/terms", "服务条款", "21. 联系我们", "21. Contact Us"],
+  ])("publishes complete authored bilingual content at %s", (route, title, lastZh, lastEn) => {
+    const page = sitePages.find(candidate => candidate.path === route)!;
+    const html = renderPageHtml(template, page);
+    const { document } = parseHTML(html);
+    const english = document.querySelector('article[lang="en"]')!;
+    const chinese = document.querySelector('article[lang="zh-CN"]')!;
+    expect(english.textContent).toContain("November 2, 2026");
+    expect(chinese.textContent).toContain("2026年11月2日");
+    expect(chinese.querySelector("h1")?.textContent).toBe(title);
+    expect(english.textContent).toContain(lastEn);
+    expect(chinese.textContent).toContain(lastZh);
+    expect(english.textContent).toContain("Azure OpenAI");
+    expect(chinese.textContent).toContain("Azure OpenAI");
+    expect(english.textContent).not.toMatch(/\*\*|\]\(https?:/);
+    expect(chinese.textContent).not.toMatch(/待确认|待补充|草案版/);
+  });
+
+  it("selects Chinese before React, keeps legal links in that language and switches back", () => {
+    const page = sitePages.find(candidate => candidate.path === "/privacy")!;
+    const { document, window } = parseHTML(renderPageHtml(template, page));
+    const location = { href: "https://memova.ai/privacy?lang=zh", origin: "https://memova.ai" };
+    const script = document.querySelector("#memova-legal-language")!.textContent!;
+    new Script(script).runInNewContext({
+      document, window, location, URL,
+      localStorage: { getItem: () => "en" },
+    });
+    document.dispatchEvent(new window.Event("DOMContentLoaded"));
+    expect(document.documentElement.lang).toBe("zh-CN");
+    expect(document.title).toBe("隐私协议 — Memova");
+    expect(document.documentElement.dataset.legalLanguage).toBe("zh");
+    expect(document.querySelector('.memova-seo-legal__tab')?.getAttribute("href")).toBe("/privacy?lang=zh");
+    window.dispatchEvent(new window.CustomEvent("memova:languagechange", { detail: { language: "en" } }));
+    expect(document.title).toBe("Privacy Policy — Memova");
+    expect(document.documentElement.lang).toBe("en-US");
+    expect(document.documentElement.dataset.legalLanguage).toBe("en");
+    expect(document.querySelector('.memova-seo-legal__tab')?.getAttribute("href")).toBe("/privacy?lang=en");
   });
 
   it("generates neutral noindex shells for every private SPA route", () => {

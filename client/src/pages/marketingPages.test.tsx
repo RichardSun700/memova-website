@@ -1335,7 +1335,7 @@ describe("US iOS acquisition pages", () => {
 
     expect(policy).toContain("### Website Analytics and Cookies");
     expect(policy).toContain("Google Analytics 4");
-    expect(policy).toContain("G\\-9YJQ994J98");
+    expect(policy).toContain("G-9YJQ994J98");
     expect(policy).toContain("Privacy choices");
     expect(policy).toContain("withdraw");
   });

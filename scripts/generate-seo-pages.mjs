@@ -31,6 +31,9 @@ const termsOfServicePath = path.join(
   "terms-of-service.md"
 );
 
+const privacyPolicyZhPath = privacyPolicyPath.replace(".md", ".zh-CN.md");
+const termsOfServiceZhPath = termsOfServicePath.replace(".md", ".zh-CN.md");
+
 function escapeText(value) {
   return String(value)
     .replaceAll("&", "&amp;")
@@ -319,6 +322,11 @@ const SEO_SHELL_STYLES = `
       object-position: 50% 69%;
       mix-blend-mode: multiply;
     }
+    html[data-legal-language="en"] [data-legal-language="zh"],
+    html[data-legal-language="zh"] [data-legal-language="en"] { display: none; }
+    .memova-seo-legal__actions { display: flex; align-items: center; gap: 1rem; }
+    .memova-seo-legal__article + .memova-seo-legal__article { margin-top: 2rem; }
+    .memova-seo-legal__article a { color: #285ca5; text-decoration: underline; overflow-wrap: anywhere; }
     .memova-seo-legal__home {
       color: rgba(46, 91, 130, 0.7) !important;
       font-size: 0.8rem;
@@ -457,10 +465,26 @@ function cleanMarkdownText(value) {
 }
 
 function renderInlineMarkdown(value) {
-  const escaped = escapeText(cleanMarkdownText(value));
-  const italic = escaped.match(/^\*(.+)\*$/);
-  if (italic) return `<em>${italic[1]}</em>`;
-  return escaped.replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>");
+  const clean = cleanMarkdownText(value);
+  const italic = clean.match(/^\*([^*]+)\*$/);
+  if (italic) return `<em>${escapeText(italic[1])}</em>`;
+  const pattern = /\[([^\]]+)\]\(([^\s)]+)\)|\*\*(.+?)\*\*/g;
+  let output = "";
+  let cursor = 0;
+  for (const match of clean.matchAll(pattern)) {
+    output += escapeText(clean.slice(cursor, match.index));
+    if (match[3]) {
+      output += `<strong>${escapeText(match[3])}</strong>`;
+    } else {
+      const href = match[2];
+      const safe = /^(https?:\/\/|mailto:|\/(?!\/)|#)/i.test(href);
+      output += safe
+        ? `<a href="${escapeAttribute(href)}">${escapeText(match[1])}</a>`
+        : escapeText(match[1]);
+    }
+    cursor = match.index + match[0].length;
+  }
+  return output + escapeText(clean.slice(cursor));
 }
 
 function parseLegalMarkdown(markdown) {
@@ -531,22 +555,53 @@ function renderLegalBlocks(markdown) {
     .join("");
 }
 
-function renderLegalPolicySnapshot(page, markdownPath, currentPath) {
-  const markdown = fs.readFileSync(markdownPath, "utf8");
-  const policy = renderLegalBlocks(markdown);
-  const privacyCurrent =
-    currentPath === "/privacy" ? ' aria-current="page"' : "";
+function renderLegalPolicySnapshot(page, markdownPath, chinesePath, currentPath) {
+  const privacyCurrent = currentPath === "/privacy" ? ' aria-current="page"' : "";
   const termsCurrent = currentPath === "/terms" ? ' aria-current="page"' : "";
+  const policy = renderLegalBlocks(fs.readFileSync(markdownPath, "utf8"));
+  const chinesePolicy = renderLegalBlocks(fs.readFileSync(chinesePath, "utf8"));
+  return `<div id="root"><div class="memova-seo-shell memova-seo-shell--legal" data-no-translate data-seo-snapshot="true" data-seo-shell-version="${SEO_SHELL_VERSION}" data-page-summary="${escapeAttribute(page.summary)}"><header class="memova-seo-legal__header"><div class="memova-seo-legal__header-inner"><a class="memova-seo-legal__brand" href="/"><img alt="Memova" src="/manus-storage/memova_logo_0eb30acc.png" width="90" height="29" /><span>MEMOVA</span></a><div class="memova-seo-legal__actions"><a class="memova-seo-legal__home" href="/"><span data-legal-language="en">&larr; Home</span><span data-legal-language="zh">&larr; 首页</span></a><memova-language-switch></memova-language-switch></div></div></header><main class="memova-seo-legal__main"><nav class="memova-seo-legal__tabs" data-legal-language="en" aria-label="Legal documents"><a class="memova-seo-legal__tab" href="/privacy"${privacyCurrent}>Privacy Policy</a><a class="memova-seo-legal__tab" href="/terms"${termsCurrent}>Terms of Service</a></nav><nav class="memova-seo-legal__tabs" data-legal-language="zh" aria-label="法律文件"><a class="memova-seo-legal__tab" href="/privacy?lang=zh"${privacyCurrent}>隐私协议</a><a class="memova-seo-legal__tab" href="/terms?lang=zh"${termsCurrent}>服务条款</a></nav><article class="memova-seo-legal__article" lang="en" data-legal-language="en">${policy}</article><article class="memova-seo-legal__article" lang="zh-CN" data-legal-language="zh">${chinesePolicy}</article></main></div></div>`;
+}
 
-  return `<div id="root"><div class="memova-seo-shell memova-seo-shell--legal" data-seo-snapshot="true" data-seo-shell-version="${SEO_SHELL_VERSION}" data-page-summary="${escapeAttribute(page.summary)}"><header class="memova-seo-legal__header"><div class="memova-seo-legal__header-inner"><a class="memova-seo-legal__brand" href="/"><img alt="Memova" src="/manus-storage/memova_logo_0eb30acc.png" width="90" height="29" /><span>MEMOVA</span></a><a class="memova-seo-legal__home" href="/">&larr; Home</a></div></header><main class="memova-seo-legal__main"><nav class="memova-seo-legal__tabs" aria-label="Legal documents"><a class="memova-seo-legal__tab" href="/privacy"${privacyCurrent}>Privacy Policy</a><a class="memova-seo-legal__tab" href="/terms"${termsCurrent}>Terms of Service</a></nav><article class="memova-seo-legal__article">${policy}</article></main></div></div>`;
+function renderLegalLanguageBootstrap(currentPath) {
+  const privacy = currentPath === "/privacy";
+  const titles = JSON.stringify({
+    en: `${privacy ? "Privacy Policy" : "Terms of Service"} — Memova`,
+    zh: `${privacy ? "隐私协议" : "服务条款"} — Memova`,
+  });
+  return `<script id="memova-legal-language">(() => {
+    const titles = ${titles};
+    const normalize = value => value === "en" || value === "zh" ? value : null;
+    const sync = event => {
+      const query = normalize(new URL(location.href).searchParams.get("lang"));
+      let stored;
+      try { stored = normalize(localStorage.getItem("memova.site-language.v1")); } catch {}
+      const language = normalize(event && event.detail && event.detail.language) || query || stored || "en";
+      document.documentElement.dataset.legalLanguage = language;
+      document.documentElement.lang = language === "zh" ? "zh-CN" : "en-US";
+      document.title = titles[language];
+      document.querySelectorAll(".memova-seo-shell--legal a[href]").forEach(link => {
+        const url = new URL(link.getAttribute("href"), location.href);
+        if (url.origin === location.origin || url.origin === "https://memova.ai") {
+          url.searchParams.set("lang", language);
+          link.setAttribute("href", url.pathname + url.search + url.hash);
+        }
+      });
+    };
+    sync();
+    document.addEventListener("DOMContentLoaded", sync);
+    window.addEventListener("memova:languagechange", sync);
+    window.addEventListener("popstate", sync);
+    window.addEventListener("storage", sync);
+  })();</script>`;
 }
 
 export function renderPrivacyPolicySnapshot(page) {
-  return renderLegalPolicySnapshot(page, privacyPolicyPath, "/privacy");
+  return renderLegalPolicySnapshot(page, privacyPolicyPath, privacyPolicyZhPath, "/privacy");
 }
 
 export function renderTermsOfServiceSnapshot(page) {
-  return renderLegalPolicySnapshot(page, termsOfServicePath, "/terms");
+  return renderLegalPolicySnapshot(page, termsOfServicePath, termsOfServiceZhPath, "/terms");
 }
 
 function renderSeoShellNav() {
@@ -618,7 +673,8 @@ export function renderPageHtml(template, page, options = {}) {
     <meta property="og:image" content="${escapeAttribute(SOCIAL_IMAGE)}" />
     <meta name="twitter:card" content="summary_large_image" />
     <style id="${SEO_SHELL_STYLE_ID}">${options.journalMarkup ? "html, body { min-height: 100%; margin: 0; background: #fff; }" : SEO_SHELL_STYLES}</style>
-    <script id="memova-structured-data" type="application/ld+json">${structuredData}</script>`;
+    <script id="memova-structured-data" type="application/ld+json">${structuredData}</script>
+    ${page.path === "/privacy" || page.path === "/terms" ? renderLegalLanguageBootstrap(page.path) : ""}`;
   const snapshot = options.journalMarkup
     ? `<div id="root"><div class="memova-seo-shell memova-seo-journal-shell" data-seo-snapshot="true" data-seo-shell-version="${SEO_SHELL_VERSION}" data-page-summary="${escapeAttribute(page.summary)}">${options.journalMarkup}</div></div>`
     : page.path === "/privacy"
