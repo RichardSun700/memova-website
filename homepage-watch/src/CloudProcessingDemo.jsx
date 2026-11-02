@@ -4,7 +4,6 @@ import { useCompactLayout } from "./useCompactLayout";
 import { CloudOutcomeCover } from "./CloudOutcomeCover";
 import "./CloudProcessingDemo.css";
 
-const isBusy = (phase) => phase === "moving" || phase === "processing";
 const translated = (value, lang, fallback = "") =>
   typeof value === "string" ? value : value?.[lang] || value?.zh || value?.en || fallback;
 
@@ -32,8 +31,6 @@ export function CloudProcessingDemo({
     typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches,
   );
   const phaseRef = useRef("selecting");
-  const timers = useRef([]);
-  const run = useRef(0);
   const phaseCallback = useRef(onPhaseChange);
   const sourcePanel = useRef(null);
   const outcomesDialog = useRef(null);
@@ -41,9 +38,8 @@ export function CloudProcessingDemo({
   const compact = useCompactLayout();
   const beforeLayout = useRef(null);
   const layoutAnimations = useRef([]);
-  const busy = isBusy(phase);
   const ready = phase === "ready";
-  const mobileResultsOpen = compact && phase !== "selecting";
+  const mobileResultsOpen = compact && ready;
   const selectedCount = quotes.filter((item) => selected.includes(item.id)).length;
 
   useLayoutEffect(() => {
@@ -63,21 +59,14 @@ export function CloudProcessingDemo({
   }, [mobileResultsOpen]);
 
   useEffect(() => { phaseCallback.current = onPhaseChange; }, [onPhaseChange]);
-  const cancelTimers = useCallback(() => {
-    run.current += 1;
-    timers.current.forEach((timer) => window.clearTimeout(timer));
-    timers.current = [];
-  }, []);
   const changePhase = useCallback((next) => {
     if (phaseRef.current === next) return;
-    if (next === "moving" || next === "selecting") {
-      // Read the currently visible positions before the parent repartitions the grid.
-      beforeLayout.current = [introRef?.current, sourcePanel.current].filter(Boolean).map((node) => ({
-        node, rect: node.getBoundingClientRect(),
-      }));
-      layoutAnimations.current.forEach((animation) => animation.cancel());
-      layoutAnimations.current = [];
-    }
+    // Capture the source layout before switching directly between selection and results.
+    beforeLayout.current = [introRef?.current, sourcePanel.current].filter(Boolean).map((node) => ({
+      node, rect: node.getBoundingClientRect(),
+    }));
+    layoutAnimations.current.forEach((animation) => animation.cancel());
+    layoutAnimations.current = [];
     phaseRef.current = next;
     setPhase(next);
     phaseCallback.current?.(next);
@@ -107,21 +96,10 @@ export function CloudProcessingDemo({
     const update = () => setReduced(motion.matches);
     update();
     motion.addEventListener("change", update);
-    return () => {
-      motion.removeEventListener("change", update);
-      cancelTimers();
-    };
-  }, [cancelTimers]);
-  useEffect(() => {
-    if (reduced && isBusy(phaseRef.current)) {
-      cancelTimers();
-      changePhase("ready");
-    }
-  }, [reduced, cancelTimers, changePhase]);
+    return () => motion.removeEventListener("change", update);
+  }, []);
 
   function changeSelection(update) {
-    if (isBusy(phaseRef.current)) return;
-    cancelTimers();
     changePhase("selecting");
     setSelected(update);
   }
@@ -131,43 +109,20 @@ export function CloudProcessingDemo({
       : [...current, id]);
   }
   function reset() {
-    cancelTimers();
     setSelected([]);
     changePhase("selecting");
   }
   function process() {
     if (phaseRef.current !== "selecting" || !selectedCount) return;
-    cancelTimers();
-    if (reduced) {
-      changePhase("ready");
-      return;
-    }
-    const currentRun = run.current;
-    // Synchronous notification lets the parent move its whole source panel.
-    changePhase("moving");
-    timers.current = [
-      window.setTimeout(() => {
-        if (run.current === currentRun) changePhase("processing");
-      }, 650),
-      window.setTimeout(() => {
-        if (run.current === currentRun) {
-          timers.current = [];
-          changePhase("ready");
-        }
-      }, 1600),
-    ];
+    changePhase("ready");
   }
 
   const selectionText = typeof copy.privacySelection === "function"
     ? copy.privacySelection(selectedCount)
     : L(`已选择 ${selectedCount} 段对话`, `${selectedCount} conversations selected`);
-  const feedback = phase === "moving"
-    ? L(`正在准备 ${selectedCount} 段所选对话…`, `Preparing ${selectedCount} selected ${selectedCount === 1 ? "conversation" : "conversations"}…`)
-    : phase === "processing"
-      ? L("正在演示云端处理…", "Demonstrating cloud processing…")
-      : ready
-        ? L(`${selectedCount} 个示例封面已就绪。`, `${selectedCount} example ${selectedCount === 1 ? "cover is" : "covers are"} ready.`)
-        : "\u00a0";
+  const feedback = ready
+    ? L(`${selectedCount} 个示例封面已就绪。`, `${selectedCount} example ${selectedCount === 1 ? "cover is" : "covers are"} ready.`)
+    : "\u00a0";
 
   function resultCards(mobile = false) {
     return quotes.map((item, index) => {
@@ -182,7 +137,7 @@ export function CloudProcessingDemo({
           style={{ "--cloud-order": index }}
           key={item.id}
           aria-label={available ? L(`示例封面：${title}`, `Example cover: ${title}`)
-            : `${title} · ${chosen ? L("等待示例成果", "Waiting for example outcome") : L("未选择", "Not selected")}`}
+            : chosen ? title : `${title} · ${L("未选择", "Not selected")}`}
         >
           {result.preview ? (
             <CloudOutcomeCover preview={result.preview} lang={language} image={result.image} alt={translated(result.alt, language)} loading={mobile ? "eager" : "lazy"} />
@@ -195,7 +150,7 @@ export function CloudProcessingDemo({
             <span className="cloud-result-label">{translated(result.label, language)}</span>
             <strong>{title}</strong>
             <span className="cloud-result-status">
-              {chosen ? ready ? L("示例成果", "Example outcome") : L("演示处理中", "Processing demo") : L("未选择", "Not selected")}
+              {chosen ? L("示例成果", "Example outcome") : L("未选择", "Not selected")}
             </span>
           </span>
         </article>
@@ -213,19 +168,18 @@ export function CloudProcessingDemo({
             <p>{copy.privacyModeDescription || L("本地演示，不会上传内容。", "A local demonstration. Nothing is uploaded.")}</p>
           </div>
         </div>
-        <div className="lower-choice-list" aria-busy={busy}>
+        <div className="lower-choice-list">
           {quotes.map((item, index) => {
             const chosen = selected.includes(item.id);
             return (
               <label
-                className={`lower-choice-row${chosen ? " is-selected" : ""}${busy ? " is-busy" : ""}`}
+                className={`lower-choice-row${chosen ? " is-selected" : ""}`}
                 key={item.id}
                 style={{ "--cloud-order": index }}
               >
                 <input
                   type="checkbox"
                   checked={chosen}
-                  disabled={busy}
                   onChange={() => toggle(item.id)}
                   aria-label={translated(item.source, language)}
                 />
@@ -236,11 +190,6 @@ export function CloudProcessingDemo({
                   </span>
                   <q lang="en">{item.quote}</q>
                 </span>
-                {chosen && (
-                  <span className="cloud-ghost-chip" aria-hidden="true">
-                    <span>{item.speaker}</span><i /><i />
-                  </span>
-                )}
               </label>
             );
           })}
@@ -263,14 +212,13 @@ export function CloudProcessingDemo({
           >
             {ready ? <Check size={17} aria-hidden="true" /> : <CloudSymbol size={17} />}
             {ready ? L("示例成果已就绪", "Example outcomes ready")
-              : busy ? L("演示处理中…", "Processing demo…")
-                : copy.privacyChoose || L("处理所选", "Process selected")}
+              : copy.privacyChoose || L("处理所选", "Process selected")}
           </button>
           <button className="lower-text-button" type="button" onClick={reset}
             disabled={!selectedCount && phase === "selecting"}>
             {copy.privacyReset || L("重新选择", "Choose again")}
           </button>
-          <button className="lower-text-button cloud-select-all" type="button" disabled={busy || !quotes.length}
+          <button className="lower-text-button cloud-select-all" type="button" disabled={!quotes.length}
             onClick={() => changeSelection(selectedCount === quotes.length ? [] : quotes.map((item) => item.id))}>
             {selectedCount === quotes.length && quotes.length
               ? L("取消全选", "Clear selection") : L("全选", "Select all")}
@@ -278,10 +226,7 @@ export function CloudProcessingDemo({
         </div>
         <p className="lower-choice-feedback" role="status" aria-live="polite" aria-atomic="true">{feedback}</p>
       </div>
-      <div className="cloud-process-node" aria-hidden="true">
-        {ready ? <CheckCircle size={24} weight="light" /> : <CloudSymbol size={25} />}
-      </div>
-      {!compact && <aside className="cloud-result-region" aria-hidden={phase === "selecting"} aria-busy={busy}>
+      {!compact && <aside className="cloud-result-region" aria-hidden={!ready}>
         <div className="cloud-result-stack">
           <p className="cloud-results-heading">{L("示例成果", "EXAMPLE OUTCOMES")}</p>
           {resultCards()}
@@ -297,12 +242,12 @@ export function CloudProcessingDemo({
           <header className="cloud-mobile-outcomes-header">
             <div>
               <span className="cloud-mobile-outcomes-eyebrow"><CloudSymbol size={16} />{L("所选对话 → 示例网页", "SELECTED WORDS → EXAMPLE PAGES")}</span>
-              <h3 id={outcomesTitleId}>{ready ? L("你的示例成果", "Your example pages") : L("正在整理所选内容…", "Preparing your pages…")}</h3>
+              <h3 id={outcomesTitleId}>{L("你的示例成果", "Your example pages")}</h3>
               <p role="status" aria-live="polite" aria-atomic="true">{feedback}</p>
             </div>
             <button type="button" className="cloud-mobile-outcomes-close" onClick={reset} aria-label={L("关闭成果，重新选择", "Close outcomes and choose again")}><X size={19} /></button>
           </header>
-          <div className="cloud-result-stack" aria-busy={busy}>
+          <div className="cloud-result-stack">
             {resultCards(true)}
           </div>
           <footer className="cloud-mobile-outcomes-footer">
