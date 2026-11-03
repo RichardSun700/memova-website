@@ -95,10 +95,10 @@ const COPY = {
     privacyLabel: "02 · 本地保存与云端处理",
     privacyTitle: "离线转写，\n默认本地保存。",
     privacyBody:
-      "飞行模式下也能离线转写。录音与转写默认保存在本地；需要增强 AI 分析时，再选择要上传的对话。",
+      "飞行模式下也能转写和搜索；需要 AI 分析时，再选择要上传的对话。",
     privacyNote: "默认本地保存，上传内容由你决定。",
     privacyMode: "使用云端处理以下内容",
-    privacyModeDescription: "下方为原话节选；交互仅展示预设成果，不上传或分析对话。",
+    privacyModeDescription: "仅演示预设成果，不上传或分析对话。",
     privacySelection: (n) => `已选择 ${n} 段对话`,
     privacyRemaining: (n) =>
       n ? `其余 ${n} 段继续留在本机` : "仅你选择的内容参与处理",
@@ -115,8 +115,8 @@ const COPY = {
         key: "recap",
         title: "每日回顾",
         headline: "回顾今天，\n想好下次怎么做。",
-        body: "回看当天原话，读今日观察和一条可以尝试的沟通建议。Michael 的回顾里，重点是怎样把反馈拉回具体工作。",
-        action: "打开 Michael 的 My Day",
+        body: "回看当天原话、今日观察和沟通建议，为下次交流做准备。",
+        action: "打开 My Day",
         image: ASSETS.recap,
         color: "#d6e6fa",
         case: "myday",
@@ -125,8 +125,8 @@ const COPY = {
         key: "mentor",
         title: "个人导师",
         headline: "那句话让你不舒服，\n下次可以怎么回应？",
-        body: "带着困惑继续提问。结合原话和你允许提供的 HRV 等线索，获得可尝试的回应，也能回到原话核对。",
-        action: "查看个人导师示例",
+        body: "结合原话与你选择提供的 HRV 线索，梳理困惑，找到可以尝试的回应。",
+        action: "查看沟通建议",
         image: ASSETS.mentor,
         color: "#dce9e3",
         case: "mentor",
@@ -135,8 +135,8 @@ const COPY = {
         key: "spark",
         title: "Spark 探索与创作",
         headline: "随手记下一个想法，\n继续把它想清楚。",
-        body: "一盒忘记吃掉的蘑菇，带来了“冰箱清空助手”的想法。跟随真实 Spark 对话：探讨关键问题，澄清二选一，再查看知识库与搜索补充。案例全文为英文。",
-        action: "打开真实 Spark 对话",
+        body: "从一次记录继续追问，把想法变成文章或计划。",
+        action: "打开 Spark",
         image: ASSETS.spark,
         color: "#e7e0f2",
         case: "spark",
@@ -145,8 +145,8 @@ const COPY = {
         key: "meeting",
         title: "会议成果与交互网页",
         headline: "会议说了什么，\n接下来谁来做。",
-        body: "把发布复盘整理成会议重点、四位负责人的后续事项和原话。打开全英文会议成果网页，逐项查看讨论依据。",
-        action: "打开发布复盘网页",
+        body: "整理会议决定、负责人和后续事项，随时回看讨论依据。",
+        action: "查看会议成果",
         image: ASSETS.meeting,
         color: "#f2e6d8",
         case: "meeting",
@@ -171,27 +171,27 @@ const COPY = {
       {
         question: "还需要再买一件录音设备吗？",
         answer:
-          "使用已有的 Apple Watch，轻点开始录音，熄屏后继续。也可以用 iPhone 记录会议与想法。",
+          "用已有的 Apple Watch 轻点录音，熄屏后继续；也支持 iPhone 录音。",
       },
       {
         question: "没有网络，也能使用吗？",
         answer:
-          "可以。飞行模式下也能本地录音、转写和搜索原话。云端分析、每日回顾、Spark 与会议成果需要联网，并选择相应内容进行处理。",
+          "可以。本地录音、转写和搜索支持离线；AI 分析与 Pro 生成内容需要联网和你的授权。",
       },
       {
         question: "我的所有对话都会上传吗？",
         answer:
-          "不会。录音与转写默认保存在本地。你可以手动选择要处理的对话，或主动开启自动云端处理；会议原音的云端增强会单独说明和确认。",
+          "不会。录音与转写默认本地保存；你可以选择要处理的内容，或主动开启自动云端处理。",
       },
       {
         question: "免费版与 Pro 有什么不同？",
         answer:
-          "本地录音、转写、文字回看与离线搜索免费。Pro 提供每日回顾、个人导师、Spark 探索与创作，以及会议成果与交互网页。",
+          "录音、转写和离线搜索免费。Pro 提供每日回顾、个人导师、Spark 和会议成果。",
       },
       {
         question: "今日观察和沟通建议从哪里来？",
         answer:
-          "根据你选择提供的对话与背景，整理今日观察和可尝试的沟通小提示。你可以回到原话核对，也可以选择是否提供 HRV 等身体线索。",
+          "根据你选择提供的对话与背景生成。HRV 线索由你选择是否提供，建议可回到原话核对。",
       },
     ],
     footerTitle: "用已有的 Apple Watch，\n开始记录今天。",
@@ -207,11 +207,11 @@ const COPY = {
     privacyLabel: "02 · LOCAL STORAGE & CLOUD PROCESSING",
     privacyTitle: "Transcribe offline.\nSave locally by default.",
     privacyBody:
-      "Transcribe offline, even in airplane mode. Recordings and transcripts stay locally by default. Choose conversations to upload for enhanced AI analysis.",
+      "Transcribe and search in airplane mode. Choose which conversations to send for AI analysis.",
     privacyNote: "Saved locally by default. You choose what to upload.",
     privacyMode: "Use cloud processing for these conversations",
     privacyModeDescription:
-      "Source excerpts below. This demo shows preset results without uploading or analyzing conversations.",
+      "Preset results only. No upload or cloud analysis.",
     privacySelection: (n) =>
       `${n} ${n === 1 ? "conversation" : "conversations"} selected`,
     privacyRemaining: (n) =>
@@ -232,8 +232,8 @@ const COPY = {
         key: "recap",
         title: "Daily recap",
         headline: "Look back on today.\nKnow what to try next.",
-        body: "Revisit the original words, read an observation and find a practical communication tip. Michael’s recap focuses on keeping feedback about the work.",
-        action: "Open Michael’s My Day",
+        body: "Revisit today’s words, observations and practical advice for your next conversation.",
+        action: "Explore My Day",
         image: ASSETS.recap,
         color: "#d6e6fa",
         case: "myday",
@@ -242,8 +242,8 @@ const COPY = {
         key: "mentor",
         title: "Personal mentor",
         headline: "That comment stayed with you.\nWhat could you say next time?",
-        body: "Ask a follow-up question with the original conversation and context you choose to share, such as HRV. Get a response to try, with a way back to the source words.",
-        action: "See the mentor example",
+        body: "Explore a difficult conversation with its original words and optional HRV context, then find a response to try.",
+        action: "Explore the advice",
         image: ASSETS.mentor,
         color: "#dce9e3",
         case: "mentor",
@@ -252,8 +252,8 @@ const COPY = {
         key: "spark",
         title: "Spark exploration & creation",
         headline: "Capture a thought.\nDevelop it with Spark.",
-        body: "A forgotten box of mushrooms sparked a fridge clear-out assistant. Follow the real conversation: explore key questions, clarify a choice and review the suggested additions.",
-        action: "Open the real Spark conversation",
+        body: "Explore a recorded thought and turn it into a draft or plan.",
+        action: "Explore Spark",
         image: ASSETS.spark,
         color: "#e7e0f2",
         case: "spark",
@@ -262,8 +262,8 @@ const COPY = {
         key: "meeting",
         title: "Meeting outcomes & webpages",
         headline: "What was decided.\nWho does what next.",
-        body: "A launch review, organized into key points, four owners and the original conversation. Browse the follow-ups and check the words behind each one.",
-        action: "Open the launch review",
+        body: "Review decisions, owners and next steps, with the original discussion close at hand.",
+        action: "Explore the meeting",
         image: ASSETS.meeting,
         color: "#f2e6d8",
         case: "meeting",
@@ -288,28 +288,28 @@ const COPY = {
       {
         question: "Do I need another recording device?",
         answer:
-          "Use the Apple Watch you already have. Tap to record, and recording continues with the screen off. You can also record meetings and ideas on your iPhone.",
+          "Use your Apple Watch. Tap to record, even with the screen off. You can also record on iPhone.",
       },
       {
         question: "Can I use Memova without a connection?",
         answer:
-          "Yes. Record, transcribe and search locally in airplane mode. Cloud analysis, daily recaps, Spark and meeting outcomes need a connection and your selection of content to process.",
+          "Yes. Record, transcribe and search offline. AI analysis and Pro-generated content need a connection and your authorization.",
       },
       {
         question: "Will all my conversations be uploaded?",
         answer:
-          "No. Recordings and transcripts stay locally by default. Select conversations for manual processing, or choose to enable automatic cloud processing. Cloud enhancement of meeting audio is explained and confirmed separately.",
+          "No. Recordings and transcripts stay local by default. Select content for cloud processing, or opt into automatic processing.",
       },
       {
         question: "What is included for free, and what does Pro add?",
         answer:
-          "Local recording, transcription, text review and offline search are free. Pro adds daily recaps, a personal mentor, Spark exploration and creation, and meeting outcomes with interactive webpages.",
+          "Recording, transcription and offline search are free. Pro adds daily recaps, a personal mentor, Spark and meeting outcomes.",
       },
       {
         question:
           "Where do daily observations and communication tips come from?",
         answer:
-          "They use the conversations and context you choose to provide to suggest daily observations and communication tips. Return to the original words to check the context. You choose whether to include body signals such as HRV.",
+          "Suggestions use the conversations and context you choose to share, including optional HRV data. Check them against the original words.",
       },
     ],
     footerTitle: "Use your Apple Watch.\nStart recording today.",

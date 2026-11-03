@@ -149,9 +149,7 @@ export function CloudProcessingDemo({
           <span className="cloud-result-copy">
             <span className="cloud-result-label">{translated(result.label, language)}</span>
             <strong>{title}</strong>
-            <span className="cloud-result-status">
-              {chosen ? L("示例成果", "Example outcome") : L("未选择", "Not selected")}
-            </span>
+            {!chosen && <span className="cloud-result-status">{L("未选择", "Not selected")}</span>}
           </span>
         </article>
       );
@@ -197,11 +195,11 @@ export function CloudProcessingDemo({
         <div className="lower-choice-summary">
           <span>
             {ready ? <CheckCircle size={18} aria-hidden="true" /> : <CloudSymbol size={18} />}
-            {ready ? L("示例成果已就绪", "Example outcomes ready") : selectionText}
+            {selectionText}
           </span>
-          <small>{typeof copy.privacyRemaining === "function"
+          {selectedCount < quotes.length && <small>{typeof copy.privacyRemaining === "function"
             ? copy.privacyRemaining(quotes.length - selectedCount)
-            : L("仅处理所选内容", "Only selected content is included")}</small>
+            : L("仅处理所选内容", "Only selected content is included")}</small>}
         </div>
         <div className="lower-choice-actions">
           <button
@@ -224,7 +222,7 @@ export function CloudProcessingDemo({
               ? L("取消全选", "Clear selection") : L("全选", "Select all")}
           </button>
         </div>
-        <p className="lower-choice-feedback" role="status" aria-live="polite" aria-atomic="true">{feedback}</p>
+        <p className="lower-choice-feedback sr-only" role="status" aria-live="polite" aria-atomic="true">{feedback}</p>
       </div>
       {!compact && <aside className="cloud-result-region" aria-hidden={!ready}>
         <div className="cloud-result-stack">
@@ -241,9 +239,8 @@ export function CloudProcessingDemo({
         >
           <header className="cloud-mobile-outcomes-header">
             <div>
-              <span className="cloud-mobile-outcomes-eyebrow"><CloudSymbol size={16} />{L("所选对话 → 示例网页", "SELECTED WORDS → EXAMPLE PAGES")}</span>
-              <h3 id={outcomesTitleId}>{L("你的示例成果", "Your example pages")}</h3>
-              <p role="status" aria-live="polite" aria-atomic="true">{feedback}</p>
+              <h3 id={outcomesTitleId}>{L("示例成果", "Example pages")}</h3>
+              <p className="sr-only" role="status" aria-live="polite" aria-atomic="true">{feedback}</p>
             </div>
             <button type="button" className="cloud-mobile-outcomes-close" onClick={reset} aria-label={L("关闭成果，重新选择", "Close outcomes and choose again")}><X size={19} /></button>
           </header>

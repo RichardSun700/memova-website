@@ -1,5 +1,5 @@
 import React from "react";
-import { ArrowDown, ArrowUpRight, Microphone, Check } from "@phosphor-icons/react";
+import { ArrowUpRight, Microphone, Check } from "@phosphor-icons/react";
 import { SearchVideo } from "./SearchVideo";
 import { ProductDemoVideo } from "./ProductDemoVideo";
 import { useExperienceJourney } from "./useExperienceJourney";
@@ -36,8 +36,8 @@ export function ExperienceJourney({ lang, onOpen, suspended = false }) {
               </h2>
               <p>
                 {L(
-                  "对照原话与你允许提供的 HRV 等身体线索，理解自己的反应，留意反复出现的沟通方式。",
-                  "Review the words alongside body context such as HRV that you choose to share. Reflect on your reactions and recurring communication patterns.",
+                  "从原话到重点，按需回看与搜索。",
+                  "Find the words, revisit the highlights and review your day.",
                 )}
               </p>
             </div>
@@ -93,12 +93,12 @@ export function ExperienceJourney({ lang, onOpen, suspended = false }) {
                         <>
                           打开记录，
                           <br />
-                          随时查看<span style={{ whiteSpace: "nowrap" }}>本地转录结果。</span>
+                          查看本地转录。
                         </>,
                         <>
-                          Open your recordings.
+                          Open a recording.
                           <br />
-                          Read local transcripts anytime.
+                          Read its transcript.
                         </>,
                       )
                     : step === 1
@@ -116,31 +116,31 @@ export function ExperienceJourney({ lang, onOpen, suspended = false }) {
                         )
                       : L(
                           <>
-                            记不清那件事？
+                            模糊搜索，
                             <br />
-                            用模糊线索，找回<span style={{ whiteSpace: "nowrap" }}>原话和时间。</span>
+                            找回原话。
                           </>,
                           <>
-                            Vague memory?
+                            Search a clue.
                             <br />
-                            Find the words and time.
+                            Find the original words.
                           </>,
                         )}
                 </h3>
                 <p>
                   {step === 0
                     ? L(
-                        "按小时打开当天的对话，查看原话、重点和总结。点击一条重点，就能回到对应原文。",
-                        "Open an hour of your day to read its transcript, highlights and summary. Select a highlight to return to the original words.",
+                        "按小时查看原话、重点和总结，随时回到对话现场。",
+                        "Open any hour to read the transcript, highlights and summary.",
                       )
                     : step === 1
                       ? L(
-                          "Memova 将你选择提供的 Apple Watch HRV 数据与对应时段的对话关联起来，结合上下文帮你复盘当时的情况，提供可以尝试的建议与相关阅读，为下次遇到类似情况多一份准备。",
-                          "Memova connects the Apple Watch HRV data you choose to share with conversations from the same time. Review the situation in context, explore practical suggestions and related reading, and prepare for similar moments.",
+                          "对照你选择提供的 HRV 线索与当时的对话，获得复盘建议和相关阅读。",
+                          "Connect the HRV context you choose to share with that conversation, practical advice and further reading.",
                         )
                       : L(
-                          "只记得几个零散的词，也能找到相关记录，再回到当时的原话和时间。比如输入“熊和鹿”，找回同事推荐的 Cades Cove。文字搜索离线也能用。",
-                          "Search a few words you remember to find the relevant recording, then return to the original conversation and its time. In this example, “bears and deer” leads back to Cades Cove. Text search works offline.",
+                          "输入记得的几个词，离线找回相关原话和时间。",
+                          "Search a few remembered words to find the original conversation and its time, even offline.",
                         )}
                 </p>
                 {step === 0 ? (
@@ -152,12 +152,9 @@ export function ExperienceJourney({ lang, onOpen, suspended = false }) {
                       className="text-link secondary-link"
                       onClick={() => onOpen("meeting")}
                     >
-                      {L("查看本次会议原话", "Read the meeting discussion")}
+                      {L("查看会议原话", "Read the original conversation")}
                       <ArrowUpRight size={15} />
                     </button>
-                    <span className="chapter-footnote">
-                      MICHAEL · 2026.10.28 · {L("示例记录", "SAMPLE DAY")}
-                    </span>
                   </>
                 ) : step === 1 ? (
                   <>
@@ -165,12 +162,9 @@ export function ExperienceJourney({ lang, onOpen, suspended = false }) {
                       className="text-link"
                       onClick={() => onOpen("myday")}
                     >
-                      {L("阅读完整 My\u00a0Day", "Read the complete My\u00a0Day")}
+                      {L("打开 My\u00a0Day", "Explore My\u00a0Day")}
                       <ArrowUpRight size={16} />
                     </button>
-                    <span className="chapter-footnote">
-                      MICHAEL · MY&nbsp;DAY · OCT 28
-                    </span>
                   </>
                 ) : (
                   <>
@@ -178,12 +172,6 @@ export function ExperienceJourney({ lang, onOpen, suspended = false }) {
                       <Check size={14} />
                       {L("离线也能找回", "Available offline")}
                     </div>
-                    <span className="chapter-footnote">
-                      {L(
-                        "视频中的旅行线索示例",
-                        "Travel search example from the film",
-                      )}
-                    </span>
                   </>
                 )}
               </aside>
@@ -196,7 +184,7 @@ export function ExperienceJourney({ lang, onOpen, suspended = false }) {
                       "Timeline 真实原型操作：选择 15:00–16:00 的产品复盘会议，查看用户问题、证据要求与下次评审三条重点，定位到 26:10 的原话，再查看同一小时的背景、决定、负责人、下次评审和待确认事项。",
                       "Actual Timeline prototype: choose the 15:00–16:00 launch review, read highlights about the user problem, evidence and next review, verify the original quote at 26:10, then check the same hour’s context, decision, owners, next review and open items.",
                     )}
-                    caption={L("选定时段 → 提炼重点 → 对照原话与分工。", "Choose an hour → find key points → verify sources and next steps.")}
+                    caption={L("按时段回看对话。", "Revisit an hour of your day.")}
                     chapters={[
                       {time: 0, seekTime: 3.7, revisitAt: 38.366667, label: L("选择时段", "Selected hour")},
                       {time: 5.133333, seekTime: 5.833333, label: L("查看原话", "Transcript")},
@@ -213,7 +201,7 @@ export function ExperienceJourney({ lang, onOpen, suspended = false }) {
                       "My Day 真实原型操作：展开 Demo HRV 曲线，对照同一时段的原话和上下文解读，查看今日观察、回应建议与相关阅读，为类似情境做准备。HRV 数值、时间与参考基线均为模拟数据。",
                       "Actual My Day prototype: review the Demo HRV interval alongside the original conversation and contextual interpretation, then explore Today’s Observation, practical advice and further reading. HRV values, sample times and the reference baseline are simulated.",
                     )}
-                    caption={L("HRV 变化 → 当时的对话 → 复盘、建议与相关阅读。", "HRV changes → conversations in context → advice and further reading.")}
+                    caption={L("结合对话，回顾今天。", "Review your day in context.")}
                     chapters={[
                       {time: 0, seekTime: 4.8, revisitAt: 31.5, label: L("打开回顾", "Open My Day")},
                       {time: 7.148, seekTime: 10.5, label: L("模拟 HRV", "Demo HRV")},
@@ -230,20 +218,7 @@ export function ExperienceJourney({ lang, onOpen, suspended = false }) {
               ))}
             </div>
             <div className="experience-bottom">
-              <span>
-                {L(
-                  "产品界面示例 · Michael 的一天",
-                  "Product interface examples · A sample day with Michael",
-                )}
-              </span>
-              <span>
-                {scrollDriven
-                  ? chapter === 2
-                    ? L("继续向下，看看记录能做什么", "Keep scrolling to use your records")
-                    : L("向下滚动，依次查看三项功能", "Scroll to explore all three features")
-                  : L("选择标签，查看三项功能", "Choose a tab to explore each feature")}
-                <ArrowDown size={13} />
-              </span>
+              <span>{L("产品操作演示", "Product demos")}</span>
             </div>
               </div>
             </div>

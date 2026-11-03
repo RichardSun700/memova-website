@@ -578,15 +578,8 @@ export function OpeningExperience({
           </h1>
           <p className="hero-intro">
             {L(
-              <>
-                轻点 Apple Watch 开始录音，熄屏后继续。
-                <br />在 iPhone 上离线转写、搜索，找回当时的原话。
-              </>,
-              <>
-                Tap to record on Apple Watch. Keep going with the screen off.
-                <br />
-                Transcribe and search offline on iPhone. Find the original words.
-              </>,
+              "Apple Watch 记录，iPhone 离线转写与搜索。",
+              "Record on Apple Watch. Transcribe and search offline on iPhone.",
             )}
           </p>
           <div className="hero-actions">
@@ -613,15 +606,6 @@ export function OpeningExperience({
               "Saved locally by default. You choose what to upload.",
             )}
           </p>
-          <div className="story-invitation">
-            <span className="desktop-story-invitation">
-            {L(
-              "从凌晨到夜晚，记录每一段日常",
-              "From midnight to night, a day in everyday moments",
-            )}
-            </span>
-            <span className="mobile-story-invitation">{L("左右滑动，按时间看一天的日常", "Swipe through a day, in time order")}<ArrowRight size={14} /></span>
-          </div>
         </div>
         <a
           className="scroll-cue opening-scroll-cue"
@@ -632,8 +616,8 @@ export function OpeningExperience({
           <ArrowDown size={16} />
           <span>
             {L(
-              "向下滚动，看看记录如何汇成你的一天",
-              "Scroll to see your day come together",
+              "向下探索",
+              "Scroll to explore",
             )}
           </span>
         </a>
@@ -823,13 +807,6 @@ export function OpeningExperience({
                       : "Hold the screen. Drag right.",
                   )}
                 </span>
-                <span className="mystery-hint-detail">
-                  {compact ? L("一触即开，发现你的 Apple Watch", "One tap. Meet your Apple Watch.") : L(
-                    "拖到右边缘，拆开你的礼物",
-                    "Reach the right edge. Unwrap the reveal.",
-                  )}
-                  <ArrowRight size={17} />
-                </span>
               </span>
             </div>
           </div>
@@ -855,13 +832,10 @@ export function OpeningExperience({
               {unlocked
                 ? watchActive
                   ? watchReady
-                    ? L("轻点表盘 Logo 开始体验。示例不采集真实音频。", "Tap the logo to try it. This demo does not capture audio.")
+                    ? L("点击表盘开始。示例不采集音频。", "Tap to record. Demo only; no audio captured.")
                     : L("正在准备手表操作…", "Preparing Watch controls…")
                   : L("三条示意曲线：声音、健康、日常活动。", "Illustrative signals: Voice, Health and Daily Activities.")
-                : L(
-                    "用手表24小时记录你的日常，不遗漏任何一个细节。",
-                    "Record your everyday life, 24/7, with your Watch. Never miss a detail.",
-                  )}
+                : null}
             </span>
           </div>
           {unlocked && !watchActive && (

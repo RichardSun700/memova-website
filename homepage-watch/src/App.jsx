@@ -299,8 +299,8 @@ export function App() {
                 <span className="eyebrow">MEMOVA COMMUNITY</span>
                 <h2 id="modal-title">{L("一起聊聊你的想法。", "Join the conversation.")}</h2>
                 <p className="community-intro">{L(
-                  "扫码或打开 Discord，交流想法、认识其他用户，一起参与 Memova 的成长。",
-                  "Scan the code or open Discord to share ideas, meet early users, and help shape Memova.",
+                  "在 Discord 交流想法，参与 Memova 的改进。",
+                  "Share ideas and help shape Memova on Discord.",
                 )}</p>
                 <a className="community-qr" href={COMMUNITY_URL} target="_blank" rel="noreferrer" aria-label={L("打开 Memova Discord 社区", "Open the Memova Discord community")}>
                   <img src={COMMUNITY_QR} alt={L("Memova Discord 社区二维码", "QR code for the Memova Discord community")} width="600" height="600" />
@@ -308,7 +308,6 @@ export function App() {
                 <a className="button dark community-action" href={COMMUNITY_URL} target="_blank" rel="noreferrer">
                   {L("打开 Discord", "Open Discord")}<ArrowUpRight size={17} aria-hidden="true" />
                 </a>
-                <p className="community-invite-address">discord.gg/E9u5FFvhdu</p>
               </>
             ) : modal === "video" ? (
               <>
@@ -352,37 +351,34 @@ export function App() {
                   <p>
                     {modal === "day"
                       ? L(
-                          "2026 年 10 月 28 日的三段示例记录。打开旅行推荐、职场对话或会议复盘，查看原话及对应结果。",
-                          "Three sample records from October 28, 2026. Open the travel recommendation, workplace conversation, or launch review to read its words and results.",
+                          "查看三段对话及对应成果。",
+                          "Explore three conversations and their results.",
                         )
                       : modal === "meeting"
-                        ? "One launch review, organized into original words, highlights and four clear follow-ups. Open each report and check the discussion behind the next step."
+                        ? L("查看讨论原话、重点与后续行动。", "Read the discussion, key points and next steps.")
                         : modal === "travel"
                           ? L(
                               "从 George 提到的 Cades Cove 出发，查看大烟山旅行计划和地点介绍。",
                               "Read a Smokies travel plan based on George’s recommendation of Cades Cove.",
                             )
                           : modal === "spark"
-                            ? "Follow a real Spark exchange, translated into English: capture an idea, explore questions, clarify a choice and review suggested additions."
+                            ? L("从一个想法出发，继续探索并创作。", "Explore an idea and turn it into a draft.")
                             : modal === "mentor"
                               ? L(
-                                  "在黑板上打开一张 My Day 提示卡，读一句下次可以尝试的回应。轻拨风铃，还能展开一张小纸条。",
-                                  "Open a My Day tip on the blackboard. Find words to try next time, or touch a chime to unfold a little note.",
+                                  "找到下次可以尝试的回应。",
+                                  "Find a response to try next time.",
                                 )
                               : L(
-                                  "查看原始对话、今日观察和小提示。分析与建议都可以对照原话阅读。",
-                                  "Read the original conversation, today’s observation, and a small tip. Check the analysis and suggestions against the original words.",
+                                  "对照原话，查看今日观察与建议。",
+                                  "Read today’s observations and advice alongside the original words.",
                                 )}
                   </p>
-                  <div className="modal-source-note">
+                  {modal === "spark" && <div className="modal-source-note">
                     <BookOpen size={17} />
                     <span>
-                      {modal === "spark" ? "English translation of the supplied conversation." : modal === "meeting" ? "Original conversation and follow-up, together." : L(
-                        "原话和整理结果一起查看。",
-                        "Read the original words alongside the result.",
-                      )}
+                      English translation of the supplied conversation.
                     </span>
-                  </div>
+                  </div>}
                 </aside>
                 <div className="modal-content">
                   {pageFor[modal] ? (
