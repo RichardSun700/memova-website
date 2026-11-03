@@ -1,10 +1,12 @@
 # Watch homepage
 
+Copy/layout refinement ·2026-11-03: show one short caption per opening photo, preserve the nine-image orbit and side gathering, and keep central text clear throughout the rotation. Feature sections retain concise product descriptions and essential privacy, Demo and subscription disclosures. The user authorized this reviewed refinement for the existing preview / PR / clean-main production workflow. Independent local trip-briefing routes and My Day / Body Signals drafts are excluded.
+
 This is the approved Apple Watch website design, migrated as a separate Vite entry while preserving the existing Memova site and APIs. Runtime assets are selected in `public-files.json`; original design sources and unused iterations are intentionally excluded from public delivery.
 
 The homepage opens in English on every fresh load, retaining the manual Chinese switch. English **Watch the film** uses `assets/video/memova-launch-en-v1.mp4` from the supplied English launch movie; Chinese keeps `memova-launch.mp4`. Timeline, My Day and Offline Search demos are separate and unchanged. Initial HTML, SSR and homepage metadata also use English.
 
-The current local revision uses nine real photographs in time order from00:30 to22:30, with bilingual time/title/descriptions. They are noninteractive figures, not links or My Day story previews. Photo provenance and license links are in `PHOTO_CREDITS.md`. The nine original gallery URLs are retired; five source documents used independently by the existing Personal mentor are retained under `/examples/mentor-sources/`. The main Michael My Day, films, Watch and other feature examples remain separate.
+The current local revision uses nine real photographs in time order from00:30 to22:30, with a bilingual time and short scene label. They are noninteractive figures, not links or My Day story previews. Photo provenance and license links are in `PHOTO_CREDITS.md`. The nine original gallery URLs are retired; five source documents used independently by the existing Personal mentor are retained under `/examples/mentor-sources/`. The main Michael My Day, films, Watch and other feature examples remain separate.
 
 On mobile, processing selected conversations opens three outcome covers in a native modal over the current screen, with no extra page scrolling. Only selected outcomes become ready; Choose again and Escape cancel processing and return to the original place. Desktop retains its source-left/results-right layout.
 

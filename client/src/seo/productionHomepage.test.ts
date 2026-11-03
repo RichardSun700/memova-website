@@ -72,7 +72,9 @@ describe("production homepage", () => {
     for (const card of cards) {
       expect(card.querySelector("img")?.getAttribute("src")).toContain("/day-photos-v1/");
       expect(card.querySelector("img")?.getAttribute("alt")?.length).toBeGreaterThan(5);
-      expect(card.querySelector(".orbit-description")?.textContent?.length).toBeGreaterThan(10);
+      expect(card.querySelector(".orbit-description")).toBeNull();
+      expect(card.querySelector(".orbit-title")?.textContent?.length).toBeGreaterThan(0);
+      expect(card.querySelector(".orbit-title")?.textContent?.length).toBeLessThanOrEqual(16);
     }
     expect(homepage).not.toContain("/examples/stories/");
   });

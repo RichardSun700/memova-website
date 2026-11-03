@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Pause, Play } from "@phosphor-icons/react";
+import { clearOrbitCopy } from "./storyOrbitLayout";
 
 // Original opening: orbit first, gather and fade to both sides on scroll, then rest.
 export function StoryOrbit({
@@ -38,6 +39,7 @@ export function StoryOrbit({
   useEffect(() => {
     const node = field.current,
       items = [...node.children];
+    const copy = node.parentElement.querySelector(".hero-copy");
     let width = node.clientWidth,
       height = node.clientHeight,
       frame = null,
@@ -53,8 +55,15 @@ export function StoryOrbit({
     const paint = () => {
       const narrow = compact(),
         gather = narrow ? 0 : transitionRef?.current?.gather || 0;
-      const rx = Math.max(0, width / 2 - (width < 1150 ? 82 : 104)),
-        ry = height / 2 - (height < 760 ? 107 : 117);
+      const card = { width: items[0]?.clientWidth || 132, height: items[0]?.clientHeight || 108 };
+      const rx = Math.max(0, width / 2 - card.width / 2 - 28),
+        ry = Math.max(0, height / 2 - card.height / 2 - 38);
+      const copyBounds = copy && {
+        x: copy.offsetLeft + copy.offsetWidth / 2,
+        y: copy.offsetTop + copy.offsetHeight / 2,
+        width: copy.offsetWidth,
+        height: copy.offsetHeight,
+      };
       const angles = items.map(
         (_, i) =>
           -Math.PI / 2 +
@@ -72,8 +81,12 @@ export function StoryOrbit({
           side = Math.cos(angle) >= 0 ? 1 : -1,
           lane = lanes[side === -1 ? 0 : 1],
           index = lane.findIndex((p) => p.i === i);
-        const orbitX = width / 2 + rx * Math.cos(angle),
-          orbitY = height / 2 - 20 + ry * Math.sin(angle);
+        const orbit = narrow ? { x: 0, y: 0 } : clearOrbitCopy({
+          x: width / 2 + rx * Math.cos(angle),
+          y: height / 2 + ry * Math.sin(angle),
+        }, copyBounds, card);
+        const orbitX = orbit.x,
+          orbitY = orbit.y;
         const edgeX = width / 2 + side * rx * 0.86,
           edgeY =
             height * (0.14 + (0.7 * index) / Math.max(1, lane.length - 1));
@@ -121,6 +134,7 @@ export function StoryOrbit({
       sync();
     });
     resize.observe(node);
+    if (copy) resize.observe(copy);
     window.addEventListener("memova:opening-progress", sync);
     sync();
     return () => {
@@ -138,6 +152,7 @@ export function StoryOrbit({
     reduced,
     visible,
     documentVisible,
+    lang,
   ]);
   return (
     <>
@@ -171,7 +186,6 @@ export function StoryOrbit({
                   <time className="orbit-time" dateTime={story.time}>{story.time}</time>
                   <span className="orbit-title">{L(story.titleZh, story.titleEn)}</span>
                 </span>
-                <span className="orbit-description">{L(story.descriptionZh, story.descriptionEn)}</span>
               </figcaption>
             </figure>
           </li>

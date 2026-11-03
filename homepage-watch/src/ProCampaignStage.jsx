@@ -7,27 +7,19 @@ const ART = "/assets/pro-campaign-v2/";
 const FEATURE_META = {
   recap: {
     art: "card-recap-calendar.webp", number: "01", label: ["每日回顾", "Daily recap"],
-    subtitle: ["回看原话，读今日观察和小建议。", "Revisit the words. Find one next step."],
-    noteTitle: "LOOK BACK ON TODAY",
-    note: ["回顾今天的对话，\n想好下次怎么做。", "Revisit today’s conversation.\nKnow what to try next."],
+    subtitle: ["回看今日，知道下次怎么做。", "Review today. Find your next step."],
   },
   mentor: {
     art: "card-mentor-chat.webp", number: "02", label: ["个人导师", "Personal mentor"],
-    subtitle: ["带着具体困惑，找到可以尝试的回应。", "A practical response to a real question."],
-    noteTitle: "A RESPONSE TO TRY",
-    note: ["结合原话和你选择提供的线索，\n获得具体的沟通建议。", "Start with the original words\nand the context you choose to share."],
+    subtitle: ["结合对话，获得具体建议。", "Advice for a real conversation."],
   },
   spark: {
     art: "card-spark-notebook.webp", number: "03", label: ["Spark", "Spark"],
-    subtitle: ["继续追问，把想法写成文稿或计划。", "Develop an idea into a draft or a plan."],
-    noteTitle: "FROM A THOUGHT TO A CLEARER IDEA",
-    note: ["忘记吃掉的蘑菇，\n变成一个值得继续探索的想法。", "A forgotten box of mushrooms.\nAn idea worth exploring."],
+    subtitle: ["把一个想法，写成文稿或计划。", "Turn ideas into drafts and plans."],
   },
   meeting: {
     art: "card-meeting-outcomes-v2.png", number: "04", label: ["会议成果", "Meeting outcomes"],
-    subtitle: ["查看决定、负责人和接下来的分工。", "Decisions, owners and what happens next."],
-    noteTitle: "FROM DISCUSSION TO A PAGE",
-    note: ["把讨论做成可浏览的网页，\n逐项查看原话和后续分工。", "Explore the discussion as a webpage.\nFollow the words and next steps."],
+    subtitle: ["整理决定、分工与下一步。", "Decisions, owners and next steps."],
   },
 };
 
@@ -88,7 +80,6 @@ function ProductReader({ feature, lang, onReturnToCards }) {
     <div className="pro-campaign-reader-bar">
       <span className="pro-campaign-reader-dots" aria-hidden="true"><i /><i /><i /></span>
       <span>{page.title}</span>
-      <span className="pro-campaign-reader-live">{en ? "EXPLORE" : "可交互"}</span>
     </div>
     <iframe key={src} className="pro-campaign-reader-frame" title={page.title} src={src}
       onLoad={(event) => {
@@ -165,12 +156,11 @@ export function ProCampaignStage({ features = [], active = 0, onSelect, lang = "
   return <div className={`pro-campaign${reading ? " is-reading" : ""}`} data-language={en ? "en" : "zh"}>
     <header className="pro-campaign-header">
       <div>
-        <p className="pro-campaign-eyebrow"><b>03</b> MEMOVA / YOUR SECOND MEMORY</p>
+        <p className="pro-campaign-eyebrow"><b>03</b> MEMOVA PRO</p>
         <h2 id="lower-pro-title"><span>Memova</span><span>Pro</span></h2>
       </div>
       <aside className="pro-campaign-annotation">
         <p><Lines text={L("从今天的对话，\n找到下一步。", "From today’s conversations\nto what comes next.")} /></p>
-        <small>{L("回顾今天、获得建议、探索想法、整理会议。", "Revisit your day, get advice, explore an idea and organize a meeting.")}</small>
         <div aria-hidden="true" />
       </aside>
     </header>
@@ -214,10 +204,6 @@ export function ProCampaignStage({ features = [], active = 0, onSelect, lang = "
         </div>
         {reading ? <ProductReader feature={feature} lang={lang} onReturnToCards={() => cards.current[index]?.focus({ preventScroll: true })} />
           : <ProductPreview feature={feature} en={en} />}
-        {!reading && <aside className="pro-campaign-side-note">
-          <span>{meta.noteTitle}</span>
-          <p><Lines text={meta.note[en ? 1 : 0]} /></p>
-        </aside>}
       </div>
 
 
