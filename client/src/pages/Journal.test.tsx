@@ -23,15 +23,16 @@ describe("Memova Journal", () => {
           /<nav[^>]*aria-label="Primary navigation"[\s\S]*?<\/nav>/
         )?.[0] ?? "";
       for (const href of [
-        "/#act",
-        "/product-demo/",
+        "/#experience",
+        "/#privacy",
+        "/#pro",
         "/journal/",
-        "/pricing/",
+        "/mcp/",
       ]) {
         expect(navigation).toContain(`href="${href}"`);
       }
       expect(navigation).not.toMatch(/<a\b[^>]*>Product<\/a>/);
-      expect(navigation).toContain('aria-current="page">Journal');
+      expect(navigation).toContain('aria-current="page">Blog');
       expect(navigation).toContain('class="memova-download-button"');
       expect(navigation).toContain("Join Community");
       expect(navigation).toContain("Sign in");
@@ -43,7 +44,7 @@ describe("Memova Journal", () => {
     const html = renderToStaticMarkup(<Journal />);
     const dreamEntry = journalEntries.find(entry => entry.href);
 
-    expect(html).toContain("Journal");
+    expect(html).toMatch(/<h1\b[^>]*id="memova-journal-heading"[^>]*>Blog<\/h1>/);
     expect(html).toContain("Product Notes");
     expect(html).toContain("Case Studies");
     expect(html).toContain(latestJournalEntry.title);
@@ -58,8 +59,11 @@ describe("Memova Journal", () => {
     );
     expect(html).toContain("More notes are being prepared.");
     expect(html).not.toContain("data-product-journal");
-    expect(html).toContain('href="/#act"');
-    expect(html).toContain('href="/product-demo/"');
+    expect(html).toContain('href="/#experience"');
+    expect(html).toContain('href="/#privacy"');
+    expect(html).toContain('href="/#pro"');
+    expect(html).not.toContain('href="/#act"');
+    expect(html).not.toContain('href="/product-demo/"');
     expect(html).not.toContain('href="/#product"');
     expect(html).not.toContain('href="/#use-cases"');
     expect(html).not.toContain('href="/#trust"');

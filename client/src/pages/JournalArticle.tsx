@@ -19,7 +19,7 @@ function JournalArticleNotFound() {
   return (
     <main className="mx-auto grid min-h-[70vh] max-w-3xl place-content-center px-5 py-24 text-center sm:px-8">
       <p className="text-[0.68rem] font-bold uppercase tracking-[0.2em] text-[var(--home-blue)]">
-        Memova Journal
+        Memova Blog
       </p>
       <h1 className="mt-5 font-serif text-5xl font-normal tracking-[-0.04em] text-[var(--home-ink)]">
         Note not found.
@@ -31,7 +31,7 @@ function JournalArticleNotFound() {
         href="/journal"
         className="mx-auto mt-8 inline-flex min-h-12 items-center gap-2 rounded-full bg-[var(--home-ink)] px-5 text-sm font-bold text-white"
       >
-        <ArrowLeft aria-hidden="true" className="h-4 w-4" /> Back to Journal
+        <ArrowLeft aria-hidden="true" className="h-4 w-4" /> Back to Blog
       </a>
     </main>
   );
@@ -42,7 +42,7 @@ export default function JournalArticle({ slug }: JournalArticleProps) {
 
   return (
     <div className="memova-home-theme min-h-screen overflow-x-clip bg-[var(--home-canvas)] text-[var(--home-ink)]">
-      <SiteHeader current="journal" />
+      <SiteHeader current="journal" navigationMode="watch" />
 
       {entry ? (
         <main>

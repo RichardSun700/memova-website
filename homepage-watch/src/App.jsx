@@ -44,7 +44,7 @@ export function App() {
         mobileMenuButton.current?.focus({ preventScroll: true });
       }
     };
-    const wide = matchMedia("(min-width:850px) and (min-height:501px), (min-width:1001px)");
+    const wide = matchMedia("(min-width:1100px)");
     const closeOnWide = () => { if (wide.matches) setMobileMenuOpen(false); };
     document.addEventListener("pointerdown", closeOutside);
     document.addEventListener("keydown", closeOnEscape);
@@ -197,6 +197,7 @@ export function App() {
           <a href="#experience" aria-current={activeNav === "experience" ? "location" : undefined}>{L("体验 Memova", "Experience Memova")}</a>
           <a href="#privacy" aria-current={activeNav === "privacy" ? "location" : undefined}>{L("隐私与离线", "Privacy & offline")}</a>
           <a href="#pro" aria-current={activeNav === "pro" ? "location" : undefined}>Memova Pro</a>
+          <a href="/journal/">{L("博客", "Blog")}</a>
           <a className="header-mcp" href={MCP_OVERVIEW_URL} target="_blank" rel="noreferrer" aria-label={L("插件与 MCP · 查看完整连接指南", "Plugins & MCP · Open the complete connection guide")}>
             MCP<ArrowUpRight size={13} aria-hidden="true" />
           </a>
@@ -221,6 +222,9 @@ export function App() {
             <UsersThree size={17} aria-hidden="true" />
             <span className="community-button-label">{L("加入社区", "Join the community")}</span>
           </button>
+          <a className="button ghost compact header-signin" href="/login">
+            {L("登录", "Sign in")}
+          </a>
           <a
             className="button dark compact"
             href={STORE}
@@ -246,6 +250,8 @@ export function App() {
           <a href="#experience" onClick={() => setMobileMenuOpen(false)} aria-current={activeNav === "experience" ? "location" : undefined}>{L("体验 Memova", "Experience Memova")}<ArrowDown size={16} /></a>
           <a href="#privacy" onClick={() => setMobileMenuOpen(false)} aria-current={activeNav === "privacy" ? "location" : undefined}>{L("隐私与离线", "Privacy & offline")}<ArrowDown size={16} /></a>
           <a href="#pro" onClick={() => setMobileMenuOpen(false)} aria-current={activeNav === "pro" ? "location" : undefined}>Memova Pro<ArrowDown size={16} /></a>
+          <a href="/journal/" onClick={() => setMobileMenuOpen(false)}>{L("博客", "Blog")}<ArrowRight size={16} /></a>
+          <a href="/login" onClick={() => setMobileMenuOpen(false)}>{L("登录", "Sign in")}<ArrowRight size={16} /></a>
           <a className="mobile-menu-mcp" href={MCP_OVERVIEW_URL} target="_blank" rel="noreferrer" onClick={() => setMobileMenuOpen(false)}>{L("插件与 MCP", "Plugins & MCP")}<ArrowUpRight size={16} aria-hidden="true" /></a>
           <button className="mobile-menu-community" aria-haspopup="dialog" onClick={() => {
             mobileMenuButton.current?.focus({ preventScroll: true });
