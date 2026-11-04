@@ -38,14 +38,14 @@ export default function Journal() {
 
   return (
     <div className="memova-home-theme memova-journal-page">
-      <SiteHeader current="journal" />
+      <SiteHeader current="journal" navigationMode="watch" />
 
       <main className="memova-journal-main">
         <section
           className="memova-journal-index"
           aria-labelledby="memova-journal-heading"
         >
-          <h1 id="memova-journal-heading">Journal</h1>
+          <h1 id="memova-journal-heading">Blog</h1>
 
           <div
             className="memova-journal-filters"

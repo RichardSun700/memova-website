@@ -462,6 +462,7 @@ function FooterSection({ copy, lang }) {
           <ArrowUpRight size={14} aria-hidden="true" />
         </a>
         <nav aria-label={copy.footerSupport}>
+          <a href="/journal/">{lang === "zh" ? "博客" : "Blog"}</a>
           <a href={MCP_OVERVIEW_URL} target="_blank" rel="noreferrer" aria-label={lang === "zh" ? "插件与 MCP · 查看完整连接指南" : "Plugins & MCP · Open the complete connection guide"}>MCP</a>
           <a href="https://memova.ai/privacy/" target="_blank" rel="noreferrer">
             {copy.footerPrivacy}

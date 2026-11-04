@@ -2,7 +2,7 @@ import { ChevronDown, LogOut, Menu, UserRound, X } from "lucide-react";
 import { createElement, useEffect, useRef, useState } from "react";
 import { useAuth } from "@/contexts/AuthContext";
 
-const navigation = [
+const legacyNavigation = [
   ["How it works", "/#act", "how-it-works"],
   ["Work Style", "/personal-manual/work-types/", "work-types"],
   ["Product demo", "/product-demo/", "demo"],
@@ -11,7 +11,23 @@ const navigation = [
   ["Support", "/support/", "support"],
 ] as const;
 
-export default function SiteHeader({ current }: { current: string }) {
+const watchNavigation = [
+  ["Experience Memova", "/#experience", "experience"],
+  ["Privacy & offline", "/#privacy", "privacy"],
+  ["Memova Pro", "/#pro", "pro"],
+  ["Blog", "/journal/", "journal"],
+  ["MCP", "/mcp/", "mcp"],
+] as const;
+
+export default function SiteHeader({
+  current,
+  navigationMode = "legacy",
+}: {
+  current: string;
+  navigationMode?: "legacy" | "watch";
+}) {
+  const navigation =
+    navigationMode === "watch" ? watchNavigation : legacyNavigation;
   const auth = useAuth();
   const [open, setOpen] = useState(false);
   const [accountOpen, setAccountOpen] = useState(false);

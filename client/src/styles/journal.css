@@ -194,24 +194,25 @@
 
 .memova-journal-author-avatar {
   display: inline-block;
-  width: 28px;
-  height: 28px;
+  width: 36px;
+  height: 36px;
   margin-right: 2px;
   border-radius: 50%;
   background-color: #e8eefb;
   background-image: url("/journal/author-avatars-v2.jpg");
   background-repeat: no-repeat;
-  background-size: 200% 100%;
+  /* Keep the high-resolution portraits, with faces filling the small circles. */
+  background-size: 320% 160%;
   box-shadow: 0 0 0 1px rgba(40, 100, 245, 0.16);
   flex: 0 0 auto;
 }
 
 .memova-journal-author-avatar.is-left {
-  background-position: left center;
+  background-position: 14% 27%;
 }
 
 .memova-journal-author-avatar.is-right {
-  background-position: right center;
+  background-position: 86% 27%;
 }
 
 .memova-journal-entry-arrow {

@@ -24,8 +24,8 @@ describe("SEO build verification", () => {
       const html = fs.readFileSync(file, "utf8");
       expect(html).toContain('class="five-header"');
       expect(html).toContain('class="memova-download-button"');
-      expect(html).toContain('href="/pricing/"');
-      expect(html).toContain('aria-current="page">Journal');
+      expect(html).toContain('href="/#pro"');
+      expect(html).toContain('aria-current="page">Blog');
       expect(html).not.toContain('class="memova-seo-shell__nav"');
       expect(html).not.toContain("Join Early Access");
       expect(html).not.toContain('href="/#use-cases"');
