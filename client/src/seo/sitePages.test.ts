@@ -117,7 +117,7 @@ describe("sitePages", () => {
       index: true,
       schemaType: "WebPage",
       hero: {
-        title: "Journal",
+        title: "Blog",
       },
     });
     expect(getSitePage("/product-journal").title).not.toBe(
@@ -127,11 +127,8 @@ describe("sitePages", () => {
       getSitePage("/journal/why-we-changed-our-onboarding-story")
     ).toMatchObject({
       path: "/journal/why-we-changed-our-onboarding-story",
-      index: true,
-      schemaType: "Article",
-      hero: {
-        title: "Why we changed our onboarding story.",
-      },
+      index: false,
+      title: "Page Not Found — Memova",
     });
   });
 

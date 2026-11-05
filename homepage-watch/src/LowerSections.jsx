@@ -8,7 +8,7 @@ import {
 import "./lower.css";
 import { CloudProcessingDemo } from "./CloudProcessingDemo";
 import { ProOverview } from "./ProOverview";
-import { APP_STORE_URL as APP_STORE, MCP_OVERVIEW_URL } from "./siteLinks";
+import { APP_STORE_URL as APP_STORE, MCP_OVERVIEW_URL, BLOG_PAGE_URL } from "./siteLinks";
 
 const ASSETS = {
   recap: "/assets/feature-recap.webp",
@@ -462,7 +462,7 @@ function FooterSection({ copy, lang }) {
           <ArrowUpRight size={14} aria-hidden="true" />
         </a>
         <nav aria-label={copy.footerSupport}>
-          <a href="/journal/">{lang === "zh" ? "博客" : "Blog"}</a>
+          <a href={BLOG_PAGE_URL} target="_blank" rel="noopener noreferrer" aria-label={lang === "zh" ? "博客 · 在新标签页打开" : "Blog · Opens in a new tab"}>{lang === "zh" ? "博客" : "Blog"}</a>
           <a href={MCP_OVERVIEW_URL} target="_blank" rel="noreferrer" aria-label={lang === "zh" ? "插件与 MCP · 查看完整连接指南" : "Plugins & MCP · Open the complete connection guide"}>MCP</a>
           <a href="https://memova.ai/privacy/" target="_blank" rel="noreferrer">
             {copy.footerPrivacy}

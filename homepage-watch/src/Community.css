@@ -1,5 +1,6 @@
 .header-community { white-space: nowrap; }
 .header-community > svg { flex-shrink: 0; }
+.site-header .desktop-navigation .header-blog { display: inline-flex; align-items: center; gap: 4px; }
 .header-signin { white-space: nowrap; }
 .site-header .brand, .site-header .header-actions { flex-shrink: 0; }
 .site-header .desktop-navigation { margin-left: 0; gap: 2px; }

@@ -47,26 +47,31 @@ export default function Journal() {
         >
           <h1 id="memova-journal-heading">Blog</h1>
 
-          <div
-            className="memova-journal-filters"
-            role="toolbar"
-            aria-label="Filter journal notes"
-          >
-            {journalFilters.map(({ label, icon: Icon }) => (
-              <button
-                key={label}
-                type="button"
-                aria-pressed={activeFilter === label}
-                className={activeFilter === label ? "is-active" : undefined}
-                onClick={() => setActiveFilter(label)}
-              >
-                <Icon aria-hidden="true" />
-                {label}
-              </button>
-            ))}
-          </div>
+          {journalEntries.length > 0 ? (
+            <div
+              className="memova-journal-filters"
+              role="toolbar"
+              aria-label="Filter journal notes"
+            >
+              {journalFilters.map(({ label, icon: Icon }) => (
+                <button
+                  key={label}
+                  type="button"
+                  aria-pressed={activeFilter === label}
+                  className={activeFilter === label ? "is-active" : undefined}
+                  onClick={() => setActiveFilter(label)}
+                >
+                  <Icon aria-hidden="true" />
+                  {label}
+                </button>
+              ))}
+            </div>
+          ) : null}
 
-          <div className="memova-journal-timeline" aria-live="polite">
+          <div
+            className={`memova-journal-timeline${journalEntries.length ? "" : " is-empty"}`}
+            aria-live="polite"
+          >
             {visibleEntries.length ? (
               visibleEntries.map(entry => {
                 const EntryMarker =
@@ -116,26 +121,14 @@ export default function Journal() {
                   aria-hidden="true"
                 />
                 <div>
-                  <strong>No published notes here yet.</strong>
-                  <span>This category will appear as the journal grows.</span>
+                  <strong>
+                    {journalEntries.length
+                      ? "No published notes in this category yet."
+                      : "New stories are on the way."}
+                  </strong>
                 </div>
               </div>
             )}
-
-            {activeFilter === "All" || activeFilter === "Product Notes" ? (
-              <div className="memova-journal-future">
-                <span
-                  className="memova-journal-future-marker"
-                  aria-hidden="true"
-                />
-                <div>
-                  <strong>More notes are being prepared.</strong>
-                  <span>
-                    Edited, de-identified, and reviewed before publication.
-                  </span>
-                </div>
-              </div>
-            ) : null}
           </div>
 
           <div className="memova-journal-back-row">

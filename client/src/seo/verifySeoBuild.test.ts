@@ -14,11 +14,10 @@ afterEach(() => {
 });
 
 describe("SEO build verification", () => {
-  it("serves the current Journal UI and article content before JavaScript loads", () => {
+  it("serves the empty Blog before JavaScript and removes retired articles", () => {
     const outputDir = path.resolve(process.cwd(), "dist/public");
     const pages = [
       path.join(outputDir, "journal/index.html"),
-      path.join(outputDir, "journal/why-we-changed-our-onboarding-story/index.html"),
     ];
     for (const file of pages) {
       const html = fs.readFileSync(file, "utf8");
@@ -34,10 +33,13 @@ describe("SEO build verification", () => {
       expect(fs.readFileSync(path.join(outputDir, stylesheet!), "utf8"))
         .toContain(".memova-journal-index");
     }
-    expect(fs.readFileSync(pages[0], "utf8"))
-      .toContain('aria-label="Filter journal notes"');
-    expect(fs.readFileSync(pages[1], "utf8"))
-      .toContain("The problem was not a missing tour.");
+    const html = fs.readFileSync(pages[0], "utf8");
+    expect(html).toContain("New stories are on the way.");
+    expect(html).not.toContain("Why we changed our onboarding story.");
+    expect(html).not.toContain("The Architecture of Sleep.");
+    expect(fs.existsSync(path.join(outputDir, "journal/why-we-changed-our-onboarding-story/index.html"))).toBe(false);
+    expect(fs.readFileSync(path.join(outputDir, "sitemap.xml"), "utf8"))
+      .not.toContain("/journal/why-we-changed-our-onboarding-story");
   });
   it("rejects an incomplete static output", () => {
     const directory = fs.mkdtempSync(

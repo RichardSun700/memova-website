@@ -18,7 +18,7 @@ import { useSiteNavigation } from "./useSiteNavigation";
 import { useCompactLayout } from "./useCompactLayout";
 import { ProFeatureVisual } from "./ProFeatureVisual";
 import dayScenes from "./dayScenes.json";
-import { APP_STORE_URL as STORE, COMMUNITY_URL, COMMUNITY_QR, MCP_OVERVIEW_URL } from "./siteLinks";
+import { APP_STORE_URL as STORE, COMMUNITY_URL, COMMUNITY_QR, MCP_OVERVIEW_URL, BLOG_PAGE_URL } from "./siteLinks";
 import "./lower.css";
 const A = "/assets/";
 const modalFocusables = (root) => [...(root?.querySelectorAll(
@@ -197,7 +197,7 @@ export function App() {
           <a href="#experience" aria-current={activeNav === "experience" ? "location" : undefined}>{L("体验 Memova", "Experience Memova")}</a>
           <a href="#privacy" aria-current={activeNav === "privacy" ? "location" : undefined}>{L("隐私与离线", "Privacy & offline")}</a>
           <a href="#pro" aria-current={activeNav === "pro" ? "location" : undefined}>Memova Pro</a>
-          <a href="/journal/">{L("博客", "Blog")}</a>
+          <a className="header-blog" href={BLOG_PAGE_URL} target="_blank" rel="noopener noreferrer" aria-label={L("博客 · 在新标签页打开", "Blog · Opens in a new tab")}>{L("博客", "Blog")}<ArrowUpRight size={13} aria-hidden="true" /></a>
           <a className="header-mcp" href={MCP_OVERVIEW_URL} target="_blank" rel="noreferrer" aria-label={L("插件与 MCP · 查看完整连接指南", "Plugins & MCP · Open the complete connection guide")}>
             MCP<ArrowUpRight size={13} aria-hidden="true" />
           </a>
@@ -250,7 +250,7 @@ export function App() {
           <a href="#experience" onClick={() => setMobileMenuOpen(false)} aria-current={activeNav === "experience" ? "location" : undefined}>{L("体验 Memova", "Experience Memova")}<ArrowDown size={16} /></a>
           <a href="#privacy" onClick={() => setMobileMenuOpen(false)} aria-current={activeNav === "privacy" ? "location" : undefined}>{L("隐私与离线", "Privacy & offline")}<ArrowDown size={16} /></a>
           <a href="#pro" onClick={() => setMobileMenuOpen(false)} aria-current={activeNav === "pro" ? "location" : undefined}>Memova Pro<ArrowDown size={16} /></a>
-          <a href="/journal/" onClick={() => setMobileMenuOpen(false)}>{L("博客", "Blog")}<ArrowRight size={16} /></a>
+          <a href={BLOG_PAGE_URL} target="_blank" rel="noopener noreferrer" onClick={() => setMobileMenuOpen(false)} aria-label={L("博客 · 在新标签页打开", "Blog · Opens in a new tab")}>{L("博客", "Blog")}<ArrowUpRight size={16} aria-hidden="true" /></a>
           <a href="/login" onClick={() => setMobileMenuOpen(false)}>{L("登录", "Sign in")}<ArrowRight size={16} /></a>
           <a className="mobile-menu-mcp" href={MCP_OVERVIEW_URL} target="_blank" rel="noreferrer" onClick={() => setMobileMenuOpen(false)}>{L("插件与 MCP", "Plugins & MCP")}<ArrowUpRight size={16} aria-hidden="true" /></a>
           <button className="mobile-menu-community" aria-haspopup="dialog" onClick={() => {
