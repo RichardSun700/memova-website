@@ -16,17 +16,20 @@ function RichText({ text }: { text: string }) {
     <>
       {parts.map((part, index) => {
         const link = part.match(/^\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)$/);
-        if (link)
+        if (link) {
+          const url = new URL(link[2]);
+          const internal = url.origin === "https://memova.ai" || url.origin === "https://www.memova.ai";
           return (
             <a
               key={index}
-              href={link[2]}
-              target="_blank"
-              rel="noopener noreferrer"
+              href={internal ? url.pathname + url.search + url.hash : link[2]}
+              target={internal ? undefined : "_blank"}
+              rel={internal ? undefined : "noopener noreferrer"}
             >
               {link[1]}
             </a>
           );
+        }
         if (part.startsWith("**") && part.endsWith("**"))
           return <strong key={index}>{part.slice(2, -2)}</strong>;
         if (part.startsWith("*") && part.endsWith("*"))

@@ -2,6 +2,7 @@ import React from "react";
 import fs from "node:fs";
 import path from "node:path";
 import { renderToStaticMarkup } from "react-dom/server";
+import { Router } from "wouter";
 import { describe, expect, it, vi } from "vitest";
 import AgentMemory from "./AgentMemory";
 import HowItWorks from "./HowItWorks";
@@ -24,7 +25,7 @@ import {
 } from "@/components/demo-story/ContinuousDemoStory";
 
 function render(component: React.ReactElement) {
-  return renderToStaticMarkup(component);
+  return renderToStaticMarkup(<Router ssrPath="/">{component}</Router>);
 }
 
 describe("US iOS acquisition pages", () => {

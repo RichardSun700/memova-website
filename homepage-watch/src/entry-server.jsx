@@ -1,6 +1,7 @@
 import React from "react";
 import { renderToString } from "react-dom/server";
 import { App } from "./App.jsx";
+import { AuthProvider } from "../../client/src/contexts/AuthContext";
 import "./styles.css";
 import "./StoryOrbit.css";
 import "./WatchReveal.css";
@@ -19,5 +20,5 @@ import "./FaqSection.css";
 import "./Community.css";
 
 export function renderHomepage() {
-  return renderToString(<App />);
+  return renderToString(<AuthProvider><App /></AuthProvider>);
 }

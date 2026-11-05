@@ -1,6 +1,73 @@
 import fs from "node:fs";
 import path from "node:path";
-import { describe, expect, it } from "vitest";
+import { act, createElement } from "react";
+import { createRoot, type Root } from "react-dom/client";
+import { parseHTML } from "linkedom";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import SiteHeader from "@/components/SiteHeader";
+
+const auth = vi.hoisted(() => ({
+  isAuthenticated: true,
+  user: {
+    display_name: "Alex",
+    email: "private@example.com",
+    avatar_url: "/test-avatar.png",
+    avatar_version: "v1",
+  },
+  logout: vi.fn(async () => {}),
+  refreshUser: vi.fn(async () => {}),
+}));
+vi.mock("@/contexts/AuthContext", () => ({ useAuth: () => auth }));
+
+const roots: Root[] = [];
+beforeEach(() => {
+  auth.isAuthenticated = true;
+  auth.logout.mockReset().mockResolvedValue(undefined);
+  auth.refreshUser.mockReset().mockResolvedValue(undefined);
+});
+afterEach(async () => {
+  for (const root of roots.splice(0)) await act(() => root.unmount());
+  vi.unstubAllGlobals();
+});
+
+async function headerFixture(pathname = "/journal/") {
+  const { document, window } = parseHTML('<html lang="en"><head></head><body><div id="root"></div></body></html>');
+  const location = Object.assign(new URL(pathname, "https://memova.ai"), { assign: vi.fn() });
+  const storage = new Map<string, string>();
+  Object.assign(window, {
+    location,
+    history: { state: null, replaceState: vi.fn() },
+    localStorage: {
+      getItem: (key: string) => storage.get(key) || null,
+      setItem: (key: string, value: string) => storage.set(key, value),
+      removeItem: (key: string) => storage.delete(key),
+    },
+    matchMedia: vi.fn(() => ({ matches: true, addEventListener: vi.fn(), removeEventListener: vi.fn() })),
+    requestAnimationFrame: vi.fn(() => 1),
+    cancelAnimationFrame: vi.fn(),
+    MemovaLanguage: undefined,
+  });
+  Object.defineProperty(document, "fonts", { value: { ready: Promise.resolve() }, configurable: true });
+  vi.stubGlobal("window", window);
+  vi.stubGlobal("document", document);
+  vi.stubGlobal("localStorage", window.localStorage);
+  vi.stubGlobal("CustomEvent", window.CustomEvent);
+  vi.stubGlobal("requestAnimationFrame", window.requestAnimationFrame);
+  vi.stubGlobal("cancelAnimationFrame", window.cancelAnimationFrame);
+  vi.stubGlobal("ResizeObserver", class { observe() {} disconnect() {} });
+  vi.stubGlobal("IS_REACT_ACT_ENVIRONMENT", true);
+  const root = createRoot(document.getElementById("root")!);
+  roots.push(root);
+  await act(() => root.render(createElement(SiteHeader, { current: "account" })));
+  return { document, window, location };
+}
+
+async function openAccountMenu(document: Document) {
+  const trigger = document.querySelector('button[aria-haspopup="menu"]') as HTMLButtonElement | null;
+  expect(trigger).not.toBeNull();
+  await act(() => trigger!.click());
+  return [...document.querySelectorAll("button")].find(button => button.textContent?.trim() === "Log out")!;
+}
 
 const source = (fileName: string) =>
   fs.readFileSync(path.resolve(process.cwd(), "client/src", fileName), "utf8");
@@ -78,25 +145,42 @@ describe("account profile completion", () => {
     expect(authContext).toContain("avatar_url: null");
   });
 
-  it("shows nickname identity and log out in authenticated navigation without email", () => {
-    const navbar = source("components/Navbar.tsx");
-    const accountShell = source("components/account/AccountShell.tsx");
-
-    for (const navigation of [navbar, accountShell]) {
-      expect(navigation).toContain(
-        'auth.user?.display_name?.trim() || "Memova account"'
-      );
-      expect(navigation).toContain("auth.user?.avatar_url");
-      expect(navigation).toContain("Log out");
-      expect(navigation).not.toContain("auth.user?.email");
-    }
+  it("shows nickname identity and avatar in the shared authenticated navigation without email", async () => {
+    const f = await headerFixture();
+    const header = f.document.querySelector("header")!;
+    expect(header.textContent).toContain("Alex");
+    expect(header.textContent).not.toContain(auth.user.email);
+    const avatar = header.querySelector('img[src="/test-avatar.png"]')!;
+    expect(avatar).not.toBeNull();
+    await act(() => avatar.dispatchEvent(new f.window.Event("error")));
+    expect(auth.refreshUser).toHaveBeenCalledOnce();
+    const logout = await openAccountMenu(f.document);
+    expect(logout).toBeDefined();
+    expect(header.querySelector('a[href^="/profile"]')).not.toBeNull();
+    await act(() => logout.click());
+    expect(auth.logout).toHaveBeenCalledOnce();
   });
 
-  it("returns account pages to the clean homepage URL after log out", () => {
-    const accountShell = source("components/account/AccountShell.tsx");
+  it("keeps sign in available in the shared navigation without an account", async () => {
+    auth.isAuthenticated = false;
+    const f = await headerFixture();
+    const header = f.document.querySelector("header")!;
+    expect(header.querySelector('a[href^="/login"]')).not.toBeNull();
+    expect(header.textContent).not.toContain(auth.user.email);
+    expect(header.querySelector('img[src="/test-avatar.png"]')).toBeNull();
+  });
 
-    expect(accountShell).toContain('window.location.assign("/")');
-    expect(accountShell).not.toContain('setLocation("/")');
+  it.each(["/profile", "/connected-clients", "/settings/connected-clients", "/mcp/oauth/consent"])("returns %s to the clean homepage URL after log out completes", async (path) => {
+    const f = await headerFixture(path);
+    let finishLogout!: () => void;
+    const logoutComplete = new Promise<void>(resolve => { finishLogout = resolve; });
+    auth.logout.mockReturnValueOnce(logoutComplete);
+    const logout = await openAccountMenu(f.document);
+    await act(() => logout.click());
+    expect(auth.logout).toHaveBeenCalledOnce();
+    expect(f.location.assign).not.toHaveBeenCalled();
+    await act(async () => { finishLogout(); await logoutComplete; });
+    expect(f.location.assign).toHaveBeenCalledWith("/");
   });
 
   it("makes MCP approval the clear primary action and returns automatically after success", () => {
@@ -119,8 +203,10 @@ describe("account profile completion", () => {
     expect(styles).toContain("@keyframes oauth-approve-pulse");
     expect(styles).toContain("@keyframes oauth-success-pop");
     expect(styles).toContain("prefers-reduced-motion: reduce");
-    expect(accountShell).toContain("<MemovaBrand />");
-    expect(login).toContain("<MemovaBrand />");
+    expect(accountShell).toContain("<SiteHeader ");
+    expect(login).toContain('<SiteHeader current="login" />');
+    expect(accountShell).not.toContain("<MemovaBrand");
+    expect(login).not.toContain("<MemovaBrand");
     expect(footer).toContain("<MemovaBrand compact />");
     expect(brand).toContain(
       'src="/brand/memova-app-icon-liquid-blue.svg"'
@@ -151,7 +237,7 @@ describe("account profile completion", () => {
     expect(accountSources).toContain("#455E93");
     expect(accountSources).toContain("#566CE5");
     expect(accountSources).toContain("#6B86E8");
-    expect(accountSources).toContain("#F7F4EE");
+    expect(accountSources).toContain("#F6F8FC");
     expect(accountSources).toContain("#FFFEFA");
     expect(accountSources).not.toMatch(
       /#(?:0F2B3C|1A3A5C|2E5B82|2864F5|8E9CC7|FBFCFF)/

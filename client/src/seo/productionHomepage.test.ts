@@ -162,16 +162,16 @@ describe("production homepage", () => {
     expect(document.querySelector('.hero-actions a')?.getAttribute("href")).toBe(appStore);
     expect(document.querySelector('.lower-footer-download')?.getAttribute("href")).toBe(appStore);
     expect(document.querySelectorAll(`a[href="${appStore}"]`).length).toBeGreaterThanOrEqual(4);
-    expect(document.querySelector('.header-community[aria-haspopup="dialog"]')).not.toBeNull();
-    expect(document.querySelector('.mobile-menu-community[aria-haspopup="dialog"]')).not.toBeNull();
+    expect(document.querySelector('.mw-community[aria-haspopup="dialog"]')).not.toBeNull();
+    expect(document.querySelector('.mw-mobile-community[aria-haspopup="dialog"]')).not.toBeNull();
     for (const pathname of ["mcp", "privacy", "support", "terms"]) {
-      expect(document.querySelector(`a[href="https://memova.ai/${pathname}/"]`), pathname).not.toBeNull();
+      expect(document.querySelector(`a[href="/${pathname}/"]`), pathname).not.toBeNull();
     }
     expect(document.querySelector('a.skip-link[href="#main"]')).not.toBeNull();
     expect(document.querySelector('#mobile-navigation[hidden]')).not.toBeNull();
     expect(document.querySelector('.mobile-menu-toggle')?.getAttribute("aria-controls"))
       .toBe("mobile-navigation");
-    expect(document.querySelector('.language-button')?.getAttribute("aria-label")).toBe("切换到中文");
+    expect(document.querySelector('.mw-language')?.getAttribute("aria-label")).toBe("切换为中文");
   });
 
   it("preserves the retained legacy account header and account labels", () => {

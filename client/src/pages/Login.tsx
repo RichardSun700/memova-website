@@ -1,6 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
 import {
-  ArrowLeft,
   CheckCircle2,
   Loader2,
   Mail,
@@ -8,7 +7,7 @@ import {
 } from "lucide-react";
 import { useLocation } from "wouter";
 import SiteFooter from "@/components/SiteFooter";
-import MemovaBrand from "@/components/MemovaBrand";
+import SiteHeader from "@/components/SiteHeader";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import {
@@ -226,23 +225,11 @@ export default function Login() {
   };
 
   return (
-    <div className="memova-account-shell flex min-h-screen flex-col bg-[#F7F4EE] text-[#111A30]">
+    <div className="memova-account-shell flex min-h-screen flex-col bg-[#F6F8FC] text-[#111A30]">
+      <SiteHeader current="login" />
       <main className="mx-auto flex w-full max-w-[1240px] flex-1 items-center justify-center px-5 py-10 sm:px-6 lg:px-8">
         <div className="w-full max-w-md">
-          <div className="mb-5 flex items-center justify-between gap-4">
-            <a href="/" aria-label="Memova home" className="group inline-flex">
-              <MemovaBrand />
-            </a>
-            <a
-              href="/"
-              className="inline-flex items-center gap-1.5 text-[11px] font-bold text-[#626A79] transition-colors hover:text-[#566CE5]"
-            >
-              <ArrowLeft className="h-3.5 w-3.5" />
-              Back to Memova
-            </a>
-          </div>
-
-          <Card className="gap-0 overflow-hidden rounded-[18px] border-[rgba(36,54,93,0.14)] bg-[#FFFEFA] py-0 shadow-[0_24px_70px_rgba(17,26,48,0.09)]">
+          <Card className="gap-0 overflow-hidden rounded-[18px] border-[rgba(36,54,93,0.14)] bg-[#FFFFFF] py-0 shadow-[0_24px_70px_rgba(17,26,48,0.09)]">
             <div
               className="h-1 bg-[var(--memova-brand-gradient)]"
               aria-hidden="true"

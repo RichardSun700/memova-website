@@ -7,9 +7,6 @@ import {
   X,
   Check,
   BookOpen,
-  Globe,
-  List,
-  UsersThree,
 } from "@phosphor-icons/react";
 import { LowerSections, PrivacyBlock } from "./LowerSections";
 import { OpeningExperience } from "./OpeningExperience";
@@ -18,8 +15,10 @@ import { useSiteNavigation } from "./useSiteNavigation";
 import { useCompactLayout } from "./useCompactLayout";
 import { ProFeatureVisual } from "./ProFeatureVisual";
 import dayScenes from "./dayScenes.json";
-import { APP_STORE_URL as STORE, COMMUNITY_URL, COMMUNITY_QR, MCP_OVERVIEW_URL, BLOG_PAGE_URL } from "./siteLinks";
+import { APP_STORE_URL as STORE, COMMUNITY_URL, COMMUNITY_QR } from "./siteLinks";
 import "./lower.css";
+import SiteHeader from "../../client/src/components/SiteHeader";
+import { setLegalLanguage } from "../../client/src/seo/legalLanguage";
 const A = "/assets/";
 const modalFocusables = (root) => [...(root?.querySelectorAll(
   'a[href],button,input,select,textarea,iframe,video[controls],audio[controls],summary,[tabindex]',
@@ -27,34 +26,18 @@ const modalFocusables = (root) => [...(root?.querySelectorAll(
   !node.closest('[hidden],[inert]') && node.getClientRects().length > 0);
 
 export function App() {
-  const [lang, setLang] = useState("en"),
-    [modal, setModal] = useState(null),
-    [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const mobileMenuButton = useRef(null);
+  const [lang, setLang] = useState("en"), [modal, setModal] = useState(null);
   const compact = useCompactLayout();
   const { headerRef, activeNav } = useSiteNavigation();
+  const changeLanguage = (language) => { setLang(language); setLegalLanguage(language); };
   useEffect(() => {
-    if (!mobileMenuOpen) return;
-    const closeOutside = (event) => {
-      if (!headerRef.current?.contains(event.target)) setMobileMenuOpen(false);
-    };
-    const closeOnEscape = (event) => {
-      if (event.key === "Escape") {
-        setMobileMenuOpen(false);
-        mobileMenuButton.current?.focus({ preventScroll: true });
-      }
-    };
-    const wide = matchMedia("(min-width:1100px)");
-    const closeOnWide = () => { if (wide.matches) setMobileMenuOpen(false); };
-    document.addEventListener("pointerdown", closeOutside);
-    document.addEventListener("keydown", closeOnEscape);
-    wide.addEventListener("change", closeOnWide);
-    return () => {
-      document.removeEventListener("pointerdown", closeOutside);
-      document.removeEventListener("keydown", closeOnEscape);
-      wide.removeEventListener("change", closeOnWide);
-    };
-  }, [mobileMenuOpen, headerRef]);
+    const language = new URL(location.href).searchParams.get("lang");
+    const initial = language === "zh" ? "zh" : "en";
+    setLang(initial);
+    try { localStorage.setItem("memova.site-language.v1", initial); } catch {}
+    document.documentElement.dataset.siteLanguage = initial;
+    window.dispatchEvent(new window.CustomEvent("memova:languagechange", { detail: { language: initial } }));
+  }, []);
   const closeRef = useRef(),
     modalRef = useRef(),
     caseFrameCleanup = useRef(),
@@ -184,83 +167,7 @@ export function App() {
       <a className="skip-link" href="#main">
         {L("跳到正文", "Skip to content")}
       </a>
-      <header className="site-header" ref={headerRef}>
-        <a className="brand" href="#top" aria-label="Memova home">
-          <img src={A + "memova-app-icon-liquid-blue.svg"} alt="" />
-          <img
-            className="brand-wordmark"
-            src={A + "memova-wordmark-blue.svg"}
-            alt="Memova"
-          />
-        </a>
-        <nav className="desktop-navigation" aria-label="Main navigation">
-          <a href="#experience" aria-current={activeNav === "experience" ? "location" : undefined}>{L("体验 Memova", "Experience Memova")}</a>
-          <a href="#privacy" aria-current={activeNav === "privacy" ? "location" : undefined}>{L("隐私与离线", "Privacy & offline")}</a>
-          <a href="#pro" aria-current={activeNav === "pro" ? "location" : undefined}>Memova Pro</a>
-          <a className="header-blog" href={BLOG_PAGE_URL} target="_blank" rel="noopener noreferrer" aria-label={L("博客 · 在新标签页打开", "Blog · Opens in a new tab")}>{L("博客", "Blog")}<ArrowUpRight size={13} aria-hidden="true" /></a>
-          <a className="header-mcp" href={MCP_OVERVIEW_URL} target="_blank" rel="noreferrer" aria-label={L("插件与 MCP · 查看完整连接指南", "Plugins & MCP · Open the complete connection guide")}>
-            MCP<ArrowUpRight size={13} aria-hidden="true" />
-          </a>
-        </nav>
-        <div className="header-actions">
-          <button
-            className="language-button"
-            onClick={() => {
-              setLang(lang === "zh" ? "en" : "zh");
-            }}
-            aria-label={L("Switch to English", "切换到中文")}
-          >
-            <Globe size={16} />
-            {L("EN", "中文")}
-          </button>
-          <button
-            className="button ghost compact header-community"
-            aria-haspopup="dialog"
-            aria-label={L("加入社区", "Join the community")}
-            onClick={() => setModal("community")}
-          >
-            <UsersThree size={17} aria-hidden="true" />
-            <span className="community-button-label">{L("加入社区", "Join the community")}</span>
-          </button>
-          <a className="button ghost compact header-signin" href="/login">
-            {L("登录", "Sign in")}
-          </a>
-          <a
-            className="button dark compact"
-            href={STORE}
-            target="_blank"
-            rel="noreferrer"
-            aria-label={L("在 App Store 下载 Memova AI", "Download Memova AI on the App Store")}
-          >
-            {L("免费下载", "Download free")}
-            <ArrowUpRight size={15} />
-          </a>
-          <button
-            ref={mobileMenuButton}
-            className="mobile-menu-toggle"
-            aria-expanded={mobileMenuOpen}
-            aria-controls="mobile-navigation"
-            aria-label={L(mobileMenuOpen ? "关闭导航菜单" : "打开导航菜单", mobileMenuOpen ? "Close navigation menu" : "Open navigation menu")}
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          >
-            {mobileMenuOpen ? <X size={23} /> : <List size={23} />}
-          </button>
-        </div>
-        <nav id="mobile-navigation" className="mobile-navigation" aria-label={L("手机导航", "Mobile navigation")} hidden={!mobileMenuOpen}>
-          <a href="#experience" onClick={() => setMobileMenuOpen(false)} aria-current={activeNav === "experience" ? "location" : undefined}>{L("体验 Memova", "Experience Memova")}<ArrowDown size={16} /></a>
-          <a href="#privacy" onClick={() => setMobileMenuOpen(false)} aria-current={activeNav === "privacy" ? "location" : undefined}>{L("隐私与离线", "Privacy & offline")}<ArrowDown size={16} /></a>
-          <a href="#pro" onClick={() => setMobileMenuOpen(false)} aria-current={activeNav === "pro" ? "location" : undefined}>Memova Pro<ArrowDown size={16} /></a>
-          <a href={BLOG_PAGE_URL} target="_blank" rel="noopener noreferrer" onClick={() => setMobileMenuOpen(false)} aria-label={L("博客 · 在新标签页打开", "Blog · Opens in a new tab")}>{L("博客", "Blog")}<ArrowUpRight size={16} aria-hidden="true" /></a>
-          <a href="/login" onClick={() => setMobileMenuOpen(false)}>{L("登录", "Sign in")}<ArrowRight size={16} /></a>
-          <a className="mobile-menu-mcp" href={MCP_OVERVIEW_URL} target="_blank" rel="noreferrer" onClick={() => setMobileMenuOpen(false)}>{L("插件与 MCP", "Plugins & MCP")}<ArrowUpRight size={16} aria-hidden="true" /></a>
-          <button className="mobile-menu-community" aria-haspopup="dialog" onClick={() => {
-            mobileMenuButton.current?.focus({ preventScroll: true });
-            setMobileMenuOpen(false);
-            setModal("community");
-          }}>{L("加入社区", "Join the community")}<UsersThree size={18} aria-hidden="true" /></button>
-          <a className="mobile-menu-download" href={STORE} target="_blank" rel="noreferrer" aria-label={L("在 App Store 下载 Memova AI", "Download Memova AI on the App Store")} onClick={() => setMobileMenuOpen(false)}>{L("免费下载 Memova", "Download Memova free")}<ArrowUpRight size={16} /></a>
-        </nav>
-      </header>
+      <SiteHeader home language={lang} onLanguageChange={changeLanguage} current={activeNav} headerRef={headerRef} onOpenCommunity={() => setModal("community")} />
       <main id="main">
         <div className="opening-section">
           <OpeningExperience

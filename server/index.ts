@@ -9,6 +9,43 @@ const __dirname = path.dirname(__filename);
 async function startServer() {
   const app = express();
   const server = createServer(app);
+  // Match the Vite development proxy when serving the complete built site
+  // locally. Hosted pages continue to call api.memova.ai directly.
+  app.use(
+    "/__memova_api",
+    express.raw({ type: "*/*", limit: "2mb" }),
+    async (req, res, next) => {
+      if (!["localhost", "127.0.0.1", "::1", "[::1]"].includes(req.hostname)) {
+        next();
+        return;
+      }
+      try {
+        const requested = new URL(req.originalUrl, "http://localhost");
+        const upstreamUrl = new URL(process.env.VITE_API_PROXY_TARGET || "https://api.memova.ai");
+        upstreamUrl.pathname = requested.pathname.replace(/^\/__memova_api/, "");
+        upstreamUrl.search = requested.search;
+        const headers = new Headers();
+        for (const name of ["accept", "content-type", "authorization", "x-request-id"]) {
+          const value = req.get(name);
+          if (value) headers.set(name, value);
+        }
+        const upstream = await fetch(upstreamUrl, {
+          method: req.method,
+          headers,
+          body: req.method === "GET" || req.method === "HEAD" ? undefined : req.body,
+          signal: AbortSignal.timeout(15_000),
+        });
+        res.status(upstream.status)
+          .set("content-type", upstream.headers.get("content-type") || "application/json")
+          .set("cache-control", "no-store")
+          .send(Buffer.from(await upstream.arrayBuffer()));
+      } catch {
+        res.status(502).set("cache-control", "no-store").json({
+          error: { code: "api.unavailable", message: "Could not reach the Memova API. Please try again." },
+        });
+      }
+    }
+  );
   const waitlistApiUrl = new URL(
     "/api/waitlist",
     process.env.WAITLIST_API_ORIGIN || "https://memova.ai"

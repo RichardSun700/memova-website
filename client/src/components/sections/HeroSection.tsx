@@ -55,7 +55,7 @@ export default function HeroSection() {
   return (
     <section
       aria-labelledby="home-hero-heading"
-      className="memova-site-hero relative min-h-screen flex flex-col items-center justify-center overflow-hidden pt-28 pb-16"
+      className="memova-site-hero relative min-h-[calc(100svh-64px)] min-[850px]:min-h-[calc(100svh-77px)] flex flex-col items-center justify-center overflow-hidden pt-8 pb-16"
     >
       {/* Subtle colorful background glows - Rich but Clean */}
       <div className="memova-ambient memova-ambient--blue absolute top-1/4 left-10 w-96 h-96 bg-blue-100/30 rounded-full blur-3xl pointer-events-none" />
