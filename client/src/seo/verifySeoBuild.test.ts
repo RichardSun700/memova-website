@@ -53,9 +53,8 @@ describe("SEO build verification", () => {
     expect(article).toContain('src="/journal/avery.jpg"');
     expect(article).toContain("Why a Longer Rewind Window Matters");
     expect(article).toContain(
-      "The current product prototype demonstrates the index finger and thumb touching twice"
+      "Bring your index finger and thumb together twice to open Memova Rewind (coming soon) and revisit what was just said."
     );
-    expect(article).toContain("This is a simulated gesture preview");
     expect(article).toContain(
       "they do not confirm compatibility for the upcoming Rewind feature"
     );
@@ -71,6 +70,7 @@ describe("SEO build verification", () => {
     for (const image of [
       "01-settings",
       "02-window-options",
+      "03-double-tap-gesture",
       "04-conversation",
     ]) {
       const src = `/journal/rewind/${image}.webp`;

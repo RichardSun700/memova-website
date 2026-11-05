@@ -159,12 +159,13 @@ export const rewindArticle: JournalEntry = {
         },
         { type: "heading", text: "The Rewind Gesture Preview" },
         {
-          type: "paragraph",
-          text: "The current product prototype demonstrates the index finger and thumb touching twice before Rewind opens. The prototype does not use the Digital Crown or side button to activate Rewind.",
+          type: "image",
+          src: "/journal/rewind/03-double-tap-gesture.webp",
+          alt: "Memova recording on Apple Watch beside an illustration of the index finger and thumb touching twice in a gesture preview.",
         },
         {
           type: "paragraph",
-          text: "This is a simulated gesture preview, not a connection to hardware gesture recognition. Final controls and device support will be confirmed when the feature launches.",
+          text: "Bring your index finger and thumb together twice to open Memova Rewind (coming soon) and revisit what was just said.",
         },
         { type: "heading", text: "Read the Recalled Conversation" },
         {

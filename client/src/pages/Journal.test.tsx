@@ -89,11 +89,13 @@ describe("Memova Journal", () => {
     const images = [
       "/journal/rewind/01-settings.webp",
       "/journal/rewind/02-window-options.webp",
+      "/journal/rewind/03-double-tap-gesture.webp",
       "/journal/rewind/04-conversation.webp",
     ];
     for (const image of images) expect(html).toContain(`src="${image}"`);
     expect(html.indexOf(images[0])).toBeLessThan(html.indexOf(images[1]));
     expect(html.indexOf(images[1])).toBeLessThan(html.indexOf(images[2]));
+    expect(html.indexOf(images[2])).toBeLessThan(html.indexOf(images[3]));
     expect(html).not.toContain("03-apple-watch-digital-crown-rewind");
     expect(html).toContain("Enlarge image:");
     expect(html).toContain("Close enlarged image");
@@ -115,9 +117,7 @@ describe("Memova Journal", () => {
       <JournalArticle slug="rewind-on-an-older-apple-watch" />
     );
 
-    expect(html).toContain("This is a simulated gesture preview");
-    expect(html).toContain("not a connection to hardware gesture recognition");
-    expect(html).toContain("The prototype does not use the Digital Crown or side button to activate Rewind.");
+    expect(html).toContain("Bring your index finger and thumb together twice to open Memova Rewind (coming soon) and revisit what was just said.");
     expect(html).not.toMatch(/double[\s-]*(?:press|click)\s+(?:the\s+)?side button/i);
     expect(html).toContain("they do not confirm compatibility for the upcoming Rewind feature");
     expect(html).toContain("What Can You Use in Memova Today?");
