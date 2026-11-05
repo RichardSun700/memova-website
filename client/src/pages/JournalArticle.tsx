@@ -1,169 +1,402 @@
-import {
-  ArrowLeft,
-  ArrowRight,
-  Clock3,
-  FileText,
-  ShieldCheck,
-} from "lucide-react";
-
+import { ArrowLeft, ArrowUpRight, ChevronDown, X } from "lucide-react";
+import { Fragment, useEffect, useRef, useState, type ReactNode } from "react";
 import SiteFooter from "@/components/SiteFooter";
 import SiteHeader from "@/components/SiteHeader";
-import { getJournalEntry } from "@/content/journalEntries";
+import { getJournalEntry, type JournalBlock } from "@/content/journalEntries";
 import "@/styles/journal.css";
 
-type JournalArticleProps = {
-  slug: string;
-};
+type JournalArticleProps = { slug: string };
 
-function JournalArticleNotFound() {
-  return (
-    <main className="mx-auto grid min-h-[70vh] max-w-3xl place-content-center px-5 py-24 text-center sm:px-8">
-      <p className="text-[0.68rem] font-bold uppercase tracking-[0.2em] text-[var(--home-blue)]">
-        Memova Blog
-      </p>
-      <h1 className="mt-5 font-serif text-5xl font-normal tracking-[-0.04em] text-[var(--home-ink)]">
-        Article not found.
-      </h1>
-      <p className="mx-auto mt-5 max-w-lg text-base leading-8 text-[var(--home-muted)]">
-        This article is no longer available.
-      </p>
-      <a
-        href="/journal"
-        className="mx-auto mt-8 inline-flex min-h-12 items-center gap-2 rounded-full bg-[var(--home-ink)] px-5 text-sm font-bold text-white"
-      >
-        <ArrowLeft aria-hidden="true" className="h-4 w-4" /> Back to Blog
-      </a>
-    </main>
+// A deliberately small inline format for authored copy. No raw HTML is accepted.
+function RichText({ text }: { text: string }) {
+  const parts = text.split(
+    /(\[[^\]]+\]\(https?:\/\/[^\s)]+\)|\*\*[^*]+\*\*|\*[^*]+\*)/g
   );
+  return (
+    <>
+      {parts.map((part, index) => {
+        const link = part.match(/^\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)$/);
+        if (link)
+          return (
+            <a
+              key={index}
+              href={link[2]}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {link[1]}
+            </a>
+          );
+        if (part.startsWith("**") && part.endsWith("**"))
+          return <strong key={index}>{part.slice(2, -2)}</strong>;
+        if (part.startsWith("*") && part.endsWith("*"))
+          return <em key={index}>{part.slice(1, -1)}</em>;
+        return <Fragment key={index}>{part}</Fragment>;
+      })}
+    </>
+  );
+}
+
+function ArticleImage({ src, alt }: { src: string; alt: string }) {
+  const dialog = useRef<HTMLDialogElement>(null);
+  return (
+    <figure className="memova-article-figure">
+      <button
+        className="memova-article-image-button"
+        type="button"
+        aria-label={`Enlarge image: ${alt}`}
+        onClick={() => dialog.current?.showModal()}
+      >
+        <img
+          src={src}
+          alt={alt}
+          width="1672"
+          height="941"
+          loading="lazy"
+          decoding="async"
+        />
+        <span aria-hidden="true" className="memova-article-image-expand">
+          <ArrowUpRight size={18} />
+        </span>
+      </button>
+      <dialog
+        className="memova-article-lightbox"
+        ref={dialog}
+        aria-label="Enlarged product image"
+        onClick={event => {
+          if (event.target === event.currentTarget) dialog.current?.close();
+        }}
+      >
+        <button
+          className="memova-article-lightbox-close"
+          type="button"
+          aria-label="Close enlarged image"
+          onClick={() => dialog.current?.close()}
+        >
+          <X size={22} />
+        </button>
+        <img src={src} alt={alt} width="1672" height="941" />
+      </dialog>
+    </figure>
+  );
+}
+
+function ArticleBlock({ block }: { block: JournalBlock }): ReactNode {
+  switch (block.type) {
+    case "paragraph":
+      return (
+        <p>
+          <RichText text={block.text} />
+        </p>
+      );
+    case "heading":
+      return <h3>{block.text}</h3>;
+    case "image":
+      return <ArticleImage src={block.src} alt={block.alt} />;
+    case "list":
+      return (
+        <ul>
+          {block.items.map(item => (
+            <li key={item}>
+              <RichText text={item} />
+            </li>
+          ))}
+        </ul>
+      );
+    case "note":
+      return (
+        <aside className="memova-article-note">
+          <RichText text={block.text} />
+        </aside>
+      );
+    case "table":
+      return (
+        <div
+          className="memova-article-table-wrap"
+          role="region"
+          aria-label={block.caption}
+          tabIndex={0}
+        >
+          <table className="memova-article-table">
+            <caption className="sr-only">{block.caption}</caption>
+            <colgroup>
+              {block.headers.map((header, index) => (
+                <col
+                  key={header}
+                  className={`memova-article-table-col-${index}`}
+                />
+              ))}
+            </colgroup>
+            <thead>
+              <tr>
+                {block.headers.map(header => (
+                  <th scope="col" key={header}>
+                    {header}
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {block.rows.map(row => (
+                <tr key={row[0]}>
+                  {row.map((cell, index) =>
+                    index === 0 ? (
+                      <th scope="row" key={index}>
+                        <RichText text={cell} />
+                      </th>
+                    ) : (
+                      <td key={index}>
+                        <RichText text={cell} />
+                      </td>
+                    )
+                  )}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      );
+    case "faq":
+      return (
+        <div className="memova-article-faq">
+          {block.items.map(item => (
+            <details key={item.question}>
+              <summary>
+                {item.question}
+                <ChevronDown size={18} aria-hidden="true" />
+              </summary>
+              <p>
+                <RichText text={item.answer} />
+              </p>
+            </details>
+          ))}
+        </div>
+      );
+  }
 }
 
 export default function JournalArticle({ slug }: JournalArticleProps) {
   const entry = getJournalEntry(slug);
+  const bodyRef = useRef<HTMLDivElement>(null);
+  const [activeSectionId, setActiveSectionId] = useState<string | null>(null);
+
+  useEffect(() => {
+    const body = bodyRef.current;
+    if (!body || !entry) return;
+    const sections = Array.from(
+      body.querySelectorAll<HTMLElement>(".memova-article-section[id]")
+    );
+    if (!sections.length) return;
+    let frame: number | undefined;
+
+    const updateActiveSection = () => {
+      frame = undefined;
+      // Match the anchor landing position below the fixed site header.
+      const readingLine =
+        (parseFloat(getComputedStyle(sections[0]).scrollMarginTop) || 112) + 2;
+      let current = sections[0].id;
+      for (const section of sections) {
+        if (section.getBoundingClientRect().top > readingLine) break;
+        current = section.id;
+      }
+      if (
+        window.scrollY + window.innerHeight >=
+        document.documentElement.scrollHeight - 2
+      ) {
+        current = sections[sections.length - 1].id;
+      }
+      setActiveSectionId(current);
+    };
+    const scheduleUpdate = () => {
+      if (frame === undefined)
+        frame = requestAnimationFrame(updateActiveSection);
+    };
+    const resizeObserver = new ResizeObserver(scheduleUpdate);
+    resizeObserver.observe(body);
+    window.addEventListener("scroll", scheduleUpdate, { passive: true });
+    window.addEventListener("resize", scheduleUpdate);
+    window.addEventListener("hashchange", scheduleUpdate);
+    scheduleUpdate();
+    return () => {
+      if (frame !== undefined) cancelAnimationFrame(frame);
+      resizeObserver.disconnect();
+      window.removeEventListener("scroll", scheduleUpdate);
+      window.removeEventListener("resize", scheduleUpdate);
+      window.removeEventListener("hashchange", scheduleUpdate);
+    };
+  }, [entry]);
 
   return (
-    <div className="memova-home-theme min-h-screen overflow-x-clip bg-[var(--home-canvas)] text-[var(--home-ink)]">
+    <div className="memova-home-theme memova-journal-page memova-article-page">
       <SiteHeader current="journal" navigationMode="watch" />
-
       {entry ? (
         <main>
           <article>
-            <header className="relative isolate overflow-hidden border-b border-[var(--home-border)]/75 px-5 py-16 sm:px-8 sm:py-24">
-              <div
-                aria-hidden="true"
-                className="absolute -right-24 -top-32 -z-10 h-96 w-96 rounded-full bg-[rgba(179,41,243,0.07)] blur-3xl"
-              />
-              <div
-                aria-hidden="true"
-                className="absolute -bottom-44 -left-24 -z-10 h-[28rem] w-[28rem] rounded-full bg-[rgba(40,100,245,0.09)] blur-3xl"
-              />
-
-              <div className="mx-auto max-w-4xl">
-                <a
-                  href="/journal"
-                  className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.15em] text-[var(--home-blue)]"
+            <header className="memova-article-header">
+              <a href="/journal/" className="memova-article-back">
+                <ArrowLeft size={15} aria-hidden="true" />
+                Back to Blog
+              </a>
+              <div className="memova-article-eyebrow">
+                <span>{entry.category}</span>
+                {entry.status && (
+                  <span className="memova-article-status">{entry.status}</span>
+                )}
+              </div>
+              <h1>{entry.title}</h1>
+              <p className="memova-article-deck">{entry.summary}</p>
+              <div className="memova-article-byline">
+                <span
+                  className={`memova-journal-author-avatar${entry.authorAvatar ? " has-photo" : ` is-${entry.authorAvatarPosition}`}`}
+                  aria-hidden="true"
                 >
-                  <ArrowLeft aria-hidden="true" className="h-4 w-4" />
-                  Building Memova in Public
-                </a>
-                <div className="mt-8 flex flex-wrap items-center gap-x-3 gap-y-2 text-[0.68rem] font-bold uppercase tracking-[0.16em] text-[var(--home-muted)]">
-                  <span className="text-[var(--home-blue)]">{entry.week}</span>
-                  <span aria-hidden="true">·</span>
-                  <time dateTime={entry.isoDate}>{entry.date}</time>
-                  <span aria-hidden="true">·</span>
-                  <span
-                    className={`memova-journal-author-avatar is-${entry.authorAvatarPosition}`}
-                    aria-hidden="true"
-                  />
-                  <span>{entry.author}</span>
+                  {entry.authorAvatar && (
+                    <img
+                      src={entry.authorAvatar}
+                      alt=""
+                      width="1122"
+                      height="1402"
+                    />
+                  )}
+                </span>
+                <div>
+                  <strong>{entry.author}</strong>
+                  {entry.authorRole && <span>{entry.authorRole}</span>}
                 </div>
-                <h1 className="mt-6 max-w-4xl font-serif text-[clamp(3rem,8vw,6.75rem)] font-normal leading-[0.96] tracking-[-0.05em] text-[var(--home-ink)]">
-                  {entry.title}
-                </h1>
-                <p className="mt-8 max-w-3xl text-lg leading-9 text-[var(--home-body)] sm:text-xl sm:leading-10">
-                  {entry.summary}
-                </p>
-                <div className="mt-8 flex flex-wrap items-center gap-4 text-xs font-semibold uppercase tracking-[0.12em] text-[var(--home-muted)]">
-                  <span className="inline-flex items-center gap-2">
-                    <Clock3 aria-hidden="true" className="h-4 w-4" />
-                    {entry.readingTime}
-                  </span>
-                  <span className="inline-flex items-center gap-2 rounded-full border border-[var(--home-border)] bg-white/80 px-3 py-1.5 text-[var(--home-blue)]">
-                    <FileText aria-hidden="true" className="h-4 w-4" />
-                    Published note
-                  </span>
+                <div className="memova-article-byline-meta">
+                  {entry.date && (
+                    <time dateTime={entry.isoDate}>{entry.date}</time>
+                  )}
+                  <span>{entry.readingTime}</span>
                 </div>
               </div>
             </header>
-
-            <div className="mx-auto grid max-w-6xl gap-12 px-5 py-14 sm:px-8 sm:py-20 lg:grid-cols-[minmax(0,44rem)_17rem] lg:items-start lg:justify-between">
-              <div className="min-w-0">
-                <aside className="rounded-[1.5rem] border border-[rgba(40,100,245,0.18)] bg-[rgba(40,100,245,0.055)] p-5 text-sm leading-7 text-[var(--home-body)] sm:p-6">
-                  <div className="flex items-start gap-3">
-                    <ShieldCheck
-                      aria-hidden="true"
-                      className="mt-1 h-5 w-5 shrink-0 text-[var(--home-blue)]"
-                    />
-                    <p>{entry.editorialNote}</p>
-                  </div>
-                </aside>
-
-                <div className="mt-12 space-y-14">
-                  {entry.sections.map(section => (
-                    <section key={section.heading}>
-                      <h2 className="font-serif text-[clamp(2rem,5vw,3.5rem)] font-normal leading-[1.02] tracking-[-0.04em] text-[var(--home-ink)]">
+            <div className="memova-article-layout">
+              <aside
+                className="memova-article-toc"
+                aria-label="Article contents"
+              >
+                <div className="memova-article-toc-desktop">
+                  <span className="memova-article-toc-label">
+                    In this article
+                  </span>
+                  <nav aria-label="On this page">
+                    {entry.sections.map((section, index) => (
+                      <a
+                        key={section.heading}
+                        href={`#${section.id ?? `section-${index + 1}`}`}
+                        aria-current={
+                          activeSectionId ===
+                          (section.id ?? `section-${index + 1}`)
+                            ? "location"
+                            : undefined
+                        }
+                      >
                         {section.heading}
-                      </h2>
-                      <div className="mt-6 space-y-5 text-base leading-8 text-[var(--home-body)] sm:text-lg sm:leading-9">
-                        {section.paragraphs.map(paragraph => (
-                          <p key={paragraph}>{paragraph}</p>
-                        ))}
-                      </div>
-                      {section.bullets ? (
-                        <ul className="mt-7 space-y-3 border-l-2 border-[rgba(40,100,245,0.28)] pl-5 text-sm font-semibold leading-7 text-[var(--home-ink)] sm:text-base">
-                          {section.bullets.map(bullet => (
-                            <li key={bullet}>{bullet}</li>
-                          ))}
-                        </ul>
-                      ) : null}
-                    </section>
-                  ))}
+                      </a>
+                    ))}
+                  </nav>
                 </div>
-              </div>
-
-              <aside className="rounded-[1.5rem] border border-[var(--home-border)] bg-white p-5 shadow-[0_18px_50px_rgba(45,58,92,0.07)] sm:p-6 lg:sticky lg:top-8">
-                <p className="text-[0.66rem] font-bold uppercase tracking-[0.2em] text-[var(--home-blue)]">
-                  Related updates
-                </p>
-                <div className="mt-5 divide-y divide-[var(--home-border)]">
-                  {entry.relatedUpdates.map(update => (
-                    <a
-                      key={update.href}
-                      href={update.href}
-                      className="group flex items-start justify-between gap-4 py-5 first:pt-0 last:pb-0"
-                    >
-                      <span>
-                        <span className="block text-[0.65rem] font-bold uppercase tracking-[0.13em] text-[var(--home-muted)]">
-                          {update.label}
-                        </span>
-                        <strong className="mt-1 block text-sm leading-6 text-[var(--home-ink)] group-hover:text-[var(--home-blue)]">
-                          {update.title}
-                        </strong>
-                      </span>
-                      <ArrowRight
-                        aria-hidden="true"
-                        className="mt-1 h-4 w-4 shrink-0 text-[var(--home-blue)] transition group-hover:translate-x-1"
-                      />
-                    </a>
-                  ))}
-                </div>
+                <details className="memova-article-toc-mobile">
+                  <summary>
+                    In this article <ChevronDown size={14} aria-hidden="true" />
+                  </summary>
+                  <nav aria-label="Article chapters">
+                    {entry.sections.map((section, index) => (
+                      <a
+                        key={section.heading}
+                        href={`#${section.id ?? `section-${index + 1}`}`}
+                        aria-current={
+                          activeSectionId ===
+                          (section.id ?? `section-${index + 1}`)
+                            ? "location"
+                            : undefined
+                        }
+                      >
+                        {section.heading}
+                      </a>
+                    ))}
+                  </nav>
+                </details>
               </aside>
+              <div className="memova-article-body" ref={bodyRef}>
+                {entry.editorialNote && (
+                  <p className="memova-article-intro-note">
+                    {entry.editorialNote}
+                  </p>
+                )}
+                {entry.sections.map((section, index) => (
+                  <section
+                    id={section.id ?? `section-${index + 1}`}
+                    key={section.heading}
+                    className="memova-article-section"
+                  >
+                    <h2>{section.heading}</h2>
+                    {section.paragraphs?.map(paragraph => (
+                      <p key={paragraph}>
+                        <RichText text={paragraph} />
+                      </p>
+                    ))}
+                    {section.blocks?.map((block, blockIndex) => (
+                      <ArticleBlock key={blockIndex} block={block} />
+                    ))}
+                    {section.bullets && (
+                      <ul>
+                        {section.bullets.map(bullet => (
+                          <li key={bullet}>
+                            <RichText text={bullet} />
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+                  </section>
+                ))}
+                <div className="memova-article-cta">
+                  <div>
+                    <span>Memova for Apple Watch</span>
+                    <h2>
+                      Keep the words.
+                      <br />
+                      Come back to them.
+                    </h2>
+                    <p>
+                      Explore recording, on-device transcription, and search
+                      today.
+                    </p>
+                  </div>
+                  <a
+                    href="https://apps.apple.com/us/app/memova-ai/id6796284954"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Download Memova AI{" "}
+                    <ArrowUpRight size={18} aria-hidden="true" />
+                  </a>
+                </div>
+                <footer className="memova-article-end">
+                  <a href="/journal/">
+                    <ArrowLeft size={15} aria-hidden="true" />
+                    All articles
+                  </a>
+                  <span>
+                    Written by {entry.author} · {entry.authorRole}
+                  </span>
+                </footer>
+              </div>
             </div>
           </article>
         </main>
       ) : (
-        <JournalArticleNotFound />
+        <main className="memova-article-not-found">
+          <span>Memova Blog</span>
+          <h1>Article not found.</h1>
+          <p>This article is no longer available.</p>
+          <a href="/journal/">
+            <ArrowLeft size={16} aria-hidden="true" />
+            Back to Blog
+          </a>
+        </main>
       )}
-
       <SiteFooter />
     </div>
   );

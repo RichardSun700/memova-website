@@ -6,7 +6,10 @@
 
 .memova-journal-filters button:focus-visible,
 .memova-journal-entry a:focus-visible,
-.memova-journal-back-row a:focus-visible { outline:2px solid var(--home-blue);outline-offset:4px; }
+.memova-journal-back-row a:focus-visible {
+  outline: 2px solid var(--home-blue);
+  outline-offset: 4px;
+}
 
 .memova-journal-main {
   min-height: 770px;
@@ -386,5 +389,635 @@
   .memova-journal-page *::after {
     scroll-behavior: auto !important;
     transition-duration: 0.01ms !important;
+  }
+}
+
+/* Article typography follows the existing Memova Blog: serif headlines,
+   blue ink, quiet rules, and a white reading surface. */
+.memova-journal-author-avatar.has-photo {
+  position: relative;
+  overflow: hidden;
+  background-image: none;
+}
+.memova-journal-author-avatar.has-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 48% 36%;
+  transform: scale(2.2);
+  transform-origin: 48% 34%;
+}
+.memova-journal-entry-cover {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1672 / 941;
+  margin-top: 24px;
+  border-radius: 14px;
+  background: #edf2fb;
+}
+.memova-article-header {
+  width: min(100% - 64px, 960px);
+  margin: 0 auto;
+  padding: 64px 0 52px;
+}
+.memova-article-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  min-height: 40px;
+  color: #5b7098;
+  text-decoration: none;
+  font-size: 13px;
+}
+.memova-article-eyebrow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 16px;
+  margin-top: 42px;
+  color: #455e93;
+  font-size: 11px;
+  font-weight: 650;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.memova-article-status {
+  padding: 7px 11px;
+  border: 1px solid #d6e0f0;
+  border-radius: 99px;
+  background: #eef2fa;
+  letter-spacing: 0.04em;
+  text-transform: none;
+}
+.memova-article-header h1 {
+  max-width: 930px;
+  margin: 24px 0 0;
+  color: #14284b;
+  font:
+    400 clamp(3.25rem, 5.9vw, 5.55rem) / 1.04 "DM Serif Display",
+    Georgia,
+    serif;
+  letter-spacing: -0.045em;
+  text-wrap: balance;
+}
+.memova-article-deck {
+  max-width: 720px;
+  margin: 26px 0 0;
+  color: #5b6c88;
+  font-size: 19px;
+  line-height: 1.7;
+}
+.memova-article-byline {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  margin-top: 32px;
+  padding-top: 28px;
+  border-top: 1px solid #e0e7f4;
+}
+.memova-article-byline .memova-journal-author-avatar {
+  width: 48px;
+  height: 48px;
+}
+.memova-article-byline > div {
+  display: grid;
+  gap: 3px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #667590;
+}
+.memova-article-byline strong {
+  color: #24365d;
+  font-size: 14px;
+  font-weight: 650;
+}
+.memova-article-byline .memova-article-byline-meta {
+  margin-left: auto;
+  text-align: right;
+}
+.memova-article-layout {
+  display: grid;
+  grid-template-columns: 184px minmax(0, 720px);
+  gap: 48px;
+  width: min(100% - 64px, 1184px);
+  margin: 0 auto;
+  padding: 16px 0 96px;
+  align-items: start;
+}
+.memova-article-toc {
+  position: sticky;
+  top: 112px;
+  max-height: calc(100dvh - 144px);
+  overflow-y: auto;
+  padding-top: 4px;
+}
+.memova-article-toc summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  list-style: none;
+  color: #455e93;
+  font-size: 11px;
+  font-weight: 650;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  cursor: pointer;
+}
+.memova-article-toc summary::-webkit-details-marker {
+  display: none;
+}
+.memova-article-toc nav {
+  display: grid;
+  gap: 6px;
+  margin-top: 24px;
+  padding-left: 16px;
+  border-left: 1px solid #d6e0f0;
+}
+.memova-article-toc a {
+  position: relative;
+  margin-left: -17px;
+  padding: 7px 10px 7px 17px;
+  border-radius: 0 8px 8px 0;
+  transition:
+    color 160ms ease,
+    background 160ms ease;
+  color: #667590;
+  text-decoration: none;
+  font-size: 12px;
+  line-height: 1.6;
+}
+.memova-article-toc a:hover {
+  color: #455e93;
+  background: #f4f7fc;
+}
+.memova-article-toc a[aria-current="location"] {
+  color: #455e93;
+  background: #eef2fa;
+}
+.memova-article-toc a[aria-current="location"]::before {
+  position: absolute;
+  top: 7px;
+  bottom: 7px;
+  left: 0;
+  width: 2px;
+  border-radius: 2px;
+  background: #6b86e8;
+  content: "";
+}
+.memova-article-body {
+  min-width: 0;
+  color: #40516e;
+  font-size: 17px;
+  line-height: 1.9;
+}
+.memova-article-intro-note {
+  margin: 0 0 42px;
+  padding: 14px 18px;
+  border-left: 2px solid #6b86e8;
+  background: #f4f7fc;
+  color: #596e91;
+  font-size: 13px;
+  line-height: 1.75;
+}
+.memova-article-section {
+  margin: 0 0 54px;
+  scroll-margin-top: 112px;
+}
+.memova-article-section h2,
+.memova-article-cta h2 {
+  margin: 0 0 22px;
+  color: #14284b;
+  font:
+    400 clamp(1.9rem, 3vw, 2.5rem) / 1.18 "DM Serif Display",
+    Georgia,
+    serif;
+  letter-spacing: -0.025em;
+  text-wrap: balance;
+}
+.memova-article-section h3 {
+  margin: 36px 0 17px;
+  color: #24365d;
+  font-size: 20px;
+  font-weight: 650;
+  line-height: 1.4;
+  letter-spacing: -0.015em;
+}
+.memova-article-section p {
+  margin: 0 0 20px;
+}
+.memova-article-section a {
+  color: #455e93;
+  text-decoration: underline;
+  text-decoration-color: #bac8e6;
+  text-underline-offset: 4px;
+  text-decoration-thickness: 1px;
+}
+.memova-article-section a:hover {
+  text-decoration-color: #455e93;
+}
+.memova-article-section strong {
+  color: #24365d;
+  font-weight: 650;
+}
+.memova-article-section ul {
+  margin: 24px 0;
+  padding-left: 23px;
+  list-style: disc;
+}
+.memova-article-section li {
+  margin: 9px 0;
+  padding-left: 3px;
+}
+.memova-article-figure {
+  margin: 30px -40px;
+}
+.memova-article-image-button {
+  position: relative;
+  display: block;
+  width: 100%;
+  padding: 0;
+  overflow: hidden;
+  border: 1px solid #e0e7f4;
+  border-radius: 16px;
+  background: #eef2fa;
+  cursor: zoom-in;
+}
+.memova-article-image-button > img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.memova-article-image-expand {
+  position: absolute;
+  display: grid;
+  place-items: center;
+  right: 14px;
+  bottom: 14px;
+  width: 32px;
+  height: 32px;
+  color: #455e93;
+  border: 1px solid #d6e0f0;
+  border-radius: 50%;
+  background: #ffffffd9;
+  opacity: 0;
+  transition: opacity 160ms ease;
+}
+.memova-article-image-button:hover .memova-article-image-expand,
+.memova-article-image-button:focus-visible .memova-article-image-expand {
+  opacity: 1;
+}
+.memova-article-lightbox {
+  width: min(1300px, 94vw);
+  max-width: 94vw;
+  max-height: 92vh;
+  margin: auto;
+  padding: 0;
+  overflow: visible;
+  border: 0;
+  border-radius: 16px;
+  background: #eef2fa;
+}
+.memova-article-lightbox::backdrop {
+  background: #17233ed9;
+  backdrop-filter: blur(8px);
+}
+.memova-article-lightbox > img {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 88vh;
+  object-fit: contain;
+  border-radius: 16px;
+}
+.memova-article-lightbox-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  display: grid;
+  width: 44px;
+  height: 44px;
+  place-items: center;
+  border: 1px solid #d6e0f0;
+  border-radius: 50%;
+  background: white;
+  color: #24365d;
+  cursor: pointer;
+}
+.memova-article-note {
+  margin: 24px 0;
+  padding: 18px 22px;
+  border-left: 2px solid #6b86e8;
+  background: #f4f7fc;
+  font-size: 14px;
+  line-height: 1.8;
+}
+.memova-article-faq {
+  border-top: 1px solid #e0e7f4;
+}
+.memova-article-faq details {
+  padding: 0;
+  border-bottom: 1px solid #e0e7f4;
+}
+.memova-article-faq summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  min-height: 72px;
+  padding: 18px 0;
+  color: #24365d;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.5;
+  list-style: none;
+  cursor: pointer;
+}
+.memova-article-faq summary::-webkit-details-marker {
+  display: none;
+}
+.memova-article-faq summary svg {
+  flex-shrink: 0;
+  transition: transform 180ms ease;
+}
+.memova-article-faq details[open] summary svg {
+  transform: rotate(180deg);
+}
+.memova-article-faq details p {
+  padding: 0 28px 12px 0;
+  font-size: 15px;
+}
+.memova-article-cta {
+  margin-top: 64px;
+  padding: 34px;
+  border: 1px solid #d6e0f0;
+  border-radius: 20px;
+  background: #eef2fa;
+}
+.memova-article-cta > div > span {
+  display: block;
+  margin-bottom: 20px;
+  color: #455e93;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.memova-article-cta h2 {
+  margin-bottom: 14px;
+}
+.memova-article-cta p {
+  max-width: 400px;
+  margin: 0;
+  font-size: 14px;
+}
+.memova-article-cta > a {
+  display: inline-flex;
+  align-items: center;
+  gap: 24px;
+  margin-top: 24px;
+  padding: 11px 18px;
+  border-radius: 9px;
+  background: #455e93;
+  color: white;
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: none;
+}
+.memova-article-end {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 24px;
+  margin-top: 42px;
+  color: #667590;
+  font-size: 12px;
+}
+.memova-article-end a {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  color: #455e93;
+  text-decoration: none;
+}
+.memova-article-page :is(button, a, summary):focus-visible {
+  outline: 2px solid #6b86e8;
+  outline-offset: 4px;
+}
+.memova-article-not-found {
+  display: grid;
+  min-height: 70vh;
+  place-content: center;
+  text-align: center;
+  gap: 20px;
+}
+.memova-article-not-found h1 {
+  font:
+    400 48px/1.1 "DM Serif Display",
+    Georgia,
+    serif;
+  color: #14284b;
+}
+.memova-article-not-found a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+@media (max-width: 1100px) {
+  .memova-article-layout {
+    grid-template-columns: 160px minmax(0, 720px);
+    gap: 32px;
+  }
+  .memova-article-figure {
+    margin-inline: 0;
+  }
+}
+@media (max-width: 800px) {
+  .memova-article-header {
+    width: calc(100% - 40px);
+    padding: 32px 0 32px;
+  }
+  .memova-article-eyebrow {
+    margin-top: 24px;
+    gap: 12px;
+  }
+  .memova-article-header h1 {
+    margin-top: 20px;
+    font-size: clamp(2.65rem, 9.4vw, 4rem);
+    line-height: 1.06;
+  }
+  .memova-article-deck {
+    margin-top: 23px;
+    font-size: 17px;
+    line-height: 1.75;
+  }
+  .memova-article-byline {
+    margin-top: 24px;
+    padding-top: 23px;
+  }
+  .memova-article-layout {
+    display: block;
+    width: min(100% - 40px, 720px);
+    padding-top: 0;
+    padding-bottom: 64px;
+  }
+  .memova-article-toc {
+    position: static;
+    max-height: none;
+    overflow: visible;
+    padding: 20px 0;
+    margin-bottom: 24px;
+    border-block: 1px solid #e0e7f4;
+  }
+  .memova-article-body {
+    font-size: 16px;
+    line-height: 1.85;
+  }
+  .memova-article-intro-note {
+    margin-bottom: 32px;
+  }
+  .memova-article-section {
+    margin-bottom: 42px;
+  }
+  .memova-article-section h2 {
+    font-size: 29px;
+  }
+  .memova-article-section h3 {
+    font-size: 19px;
+  }
+  .memova-article-figure {
+    margin: 26px 0;
+  }
+  .memova-article-image-button {
+    border-radius: 12px;
+  }
+  .memova-article-image-expand {
+    width: 28px;
+    height: 28px;
+    right: 8px;
+    bottom: 8px;
+    opacity: 1;
+  }
+  .memova-article-cta {
+    margin-top: 42px;
+    padding: 25px;
+  }
+  .memova-article-end {
+    align-items: start;
+    flex-direction: column;
+    gap: 10px;
+  }
+}
+.memova-article-toc-label {
+  color: #455e93;
+  font-size: 11px;
+  font-weight: 650;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+.memova-article-toc-mobile {
+  display: none;
+}
+@media (max-width: 800px) {
+  .memova-article-toc-desktop {
+    display: none;
+  }
+  .memova-article-toc-mobile {
+    display: block;
+  }
+}
+
+.memova-article-table-wrap {
+  margin: 30px -40px;
+  overflow-x: auto;
+  border: 1px solid #d6e0f0;
+  border-radius: 14px;
+  scrollbar-color: #bac8e6 #f4f7fc;
+  scrollbar-width: thin;
+}
+.memova-article-table-wrap:focus-visible {
+  outline: 2px solid #6b86e8;
+  outline-offset: 4px;
+}
+.memova-article-table {
+  width: 100%;
+  min-width: 660px;
+  border-collapse: separate;
+  border-spacing: 0;
+  table-layout: fixed;
+  color: #40516e;
+  font-size: 13px;
+  line-height: 1.7;
+}
+.memova-article-table-col-0 {
+  width: 22%;
+}
+.memova-article-table-col-1 {
+  width: 36%;
+}
+.memova-article-table-col-2 {
+  width: 42%;
+}
+.memova-article-table :is(th, td) {
+  padding: 17px 18px;
+  vertical-align: top;
+  text-align: left;
+  border-bottom: 1px solid #e0e7f4;
+  overflow-wrap: break-word;
+}
+.memova-article-table thead th {
+  background: #f4f7fc;
+  color: #455e93;
+  font-size: 12px;
+  font-weight: 650;
+}
+.memova-article-table tbody th {
+  color: #24365d;
+  font-weight: 600;
+}
+.memova-article-table :is(th, td):last-child {
+  background: #eef2fa;
+}
+.memova-article-table thead th:last-child {
+  background: #e5ecfa;
+}
+.memova-article-table tbody tr:last-child :is(th, td) {
+  border-bottom: 0;
+}
+@media (max-width: 1100px) {
+  .memova-article-table-wrap {
+    margin-inline: 0;
+  }
+}
+@media (max-width: 800px) {
+  .memova-article-table-wrap {
+    margin-block: 26px;
+    border-radius: 12px;
+  }
+  .memova-article-table :is(th, td) {
+    padding: 14px;
+  }
+  .memova-article-table tr > :first-child {
+    position: sticky;
+    left: 0;
+    background: #fff;
+    box-shadow: 1px 0 #e0e7f4;
+  }
+  .memova-article-table thead tr > :first-child {
+    background: #f4f7fc;
+  }
+}
+@media print {
+  .memova-article-table-wrap {
+    overflow: visible;
+    margin-inline: 0;
+  }
+  .memova-article-table {
+    min-width: 0;
+    font-size: 9pt;
+  }
+  .memova-article-table tr {
+    break-inside: avoid;
   }
 }

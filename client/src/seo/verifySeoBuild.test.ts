@@ -2,8 +2,9 @@ import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
 import { afterEach, describe, expect, it } from "vitest";
+import { parseHTML } from "linkedom";
 import { collectProductionHomepageErrors, collectSeoBuildErrors } from "../../../scripts/verify-seo-build.mjs";
-import { sitePages } from "./sitePages";
+import { getCanonicalUrl, getSitePage, sitePages } from "./sitePages";
 
 const temporaryDirectories: string[] = [];
 
@@ -14,10 +15,11 @@ afterEach(() => {
 });
 
 describe("SEO build verification", () => {
-  it("serves the empty Blog before JavaScript and removes retired articles", () => {
+  it("serves the Blog and Avery’s complete article before JavaScript while excluding retired articles", () => {
     const outputDir = path.resolve(process.cwd(), "dist/public");
     const pages = [
       path.join(outputDir, "journal/index.html"),
+      path.join(outputDir, "journal/rewind-on-an-older-apple-watch/index.html"),
     ];
     for (const file of pages) {
       const html = fs.readFileSync(file, "utf8");
@@ -30,17 +32,149 @@ describe("SEO build verification", () => {
       expect(html).not.toContain('href="/#use-cases"');
       const stylesheet = html.match(/href="(\/assets\/main-[^"]+\.css)"/)?.[1];
       expect(stylesheet).toBeDefined();
-      expect(fs.readFileSync(path.join(outputDir, stylesheet!), "utf8"))
-        .toContain(".memova-journal-index");
+      expect(
+        fs.readFileSync(path.join(outputDir, stylesheet!), "utf8")
+      ).toContain(".memova-journal-index");
     }
-    const html = fs.readFileSync(pages[0], "utf8");
-    expect(html).toContain("New stories are on the way.");
-    expect(html).not.toContain("Why we changed our onboarding story.");
-    expect(html).not.toContain("The Architecture of Sleep.");
-    expect(fs.existsSync(path.join(outputDir, "journal/why-we-changed-our-onboarding-story/index.html"))).toBe(false);
-    expect(fs.readFileSync(path.join(outputDir, "sitemap.xml"), "utf8"))
-      .not.toContain("/journal/why-we-changed-our-onboarding-story");
+    const index = fs.readFileSync(pages[0], "utf8");
+    expect(index).not.toContain("New stories are on the way.");
+    expect(index).toContain("Avery · GTM at Memova");
+    expect(index).toMatch(
+      /href="\/journal\/rewind-on-an-older-apple-watch\/?"/
+    );
+    expect(index).toContain('src="/journal/avery.jpg"');
+    const article = fs.readFileSync(pages[1], "utf8");
+    expect(article).toContain(
+      "<h1>How to Get Rewind Features on an Older Apple Watch</h1>"
+    );
+    expect(article).toContain("Coming soon · Memova Pro");
+    expect(article).toContain("<strong>Avery</strong>");
+    expect(article).toContain("GTM at Memova");
+    expect(article).toContain('src="/journal/avery.jpg"');
+    expect(article).toContain("Why a Longer Rewind Window Matters");
+    expect(article).toContain(
+      "The current product prototype demonstrates the index finger and thumb touching twice"
+    );
+    expect(article).toContain("This is a simulated gesture preview");
+    expect(article).toContain(
+      "they do not confirm compatibility for the upcoming Rewind feature"
+    );
+    expect(article).toContain(
+      "Local transcription and text search can work offline"
+    );
+    expect(article).toContain("<summary>Is Memova Rewind available now?");
+    expect(article).toContain("Not yet. Rewind is coming soon");
+    expect(article).toContain(
+      "Does installing Memova enable Apple Live Rewind?"
+    );
+    expect(article).toContain("Choose How Far Back You Want to Look");
+    for (const image of [
+      "01-settings",
+      "02-window-options",
+      "04-conversation",
+    ]) {
+      const src = `/journal/rewind/${image}.webp`;
+      expect(article).toContain(`src="${src}"`);
+      expect(fs.existsSync(path.join(outputDir, src))).toBe(true);
+    }
+    expect(article).not.toContain("03-apple-watch-digital-crown-rewind");
+    expect(article).not.toMatch(
+      /double[\s-]*(?:press|click)\s+(?:the\s+)?side button/i
+    );
+    expect(article).toContain(
+      "<title>Rewind on an Older Apple Watch: Memova’s Upcoming Feature</title>"
+    );
+    expect(article).toContain(
+      'rel="canonical" href="https://memova.ai/journal/rewind-on-an-older-apple-watch"'
+    );
+    expect(article).toContain('"@type":"Article"');
+    expect(article).not.toContain('"datePublished"');
+    const sitemap = fs.readFileSync(
+      path.join(outputDir, "sitemap.xml"),
+      "utf8"
+    );
+    expect(sitemap).toContain(
+      "https://memova.ai/journal/rewind-on-an-older-apple-watch"
+    );
+    for (const slug of [
+      "why-we-changed-our-onboarding-story",
+      "the-architecture-of-sleep",
+    ]) {
+      expect(
+        fs.existsSync(path.join(outputDir, `journal/${slug}/index.html`))
+      ).toBe(false);
+      expect(sitemap).not.toContain(`/journal/${slug}`);
+    }
+    for (const html of [index, article]) {
+      expect(html).not.toContain("Why we changed our onboarding story.");
+      expect(html).not.toContain("The Architecture of Sleep.");
+    }
   });
+  it("publishes indexable article HTML with one authoritative set of SEO metadata", () => {
+    const route = "/journal/rewind-on-an-older-apple-watch";
+    const page = getSitePage(route);
+    const outputDir = path.resolve(process.cwd(), "dist/public");
+    const html = fs.readFileSync(
+      path.join(outputDir, route, "index.html"),
+      "utf8"
+    );
+    const { document } = parseHTML(html);
+
+    expect(page.index).toBe(true);
+    expect(document.querySelectorAll("title")).toHaveLength(1);
+    expect(document.title).toBe(page.title);
+    expect(document.querySelectorAll('meta[name="description"]')).toHaveLength(
+      1
+    );
+    expect(
+      document
+        .querySelector('meta[name="description"]')
+        ?.getAttribute("content")
+    ).toBe(page.description);
+    expect(document.querySelectorAll('link[rel="canonical"]')).toHaveLength(1);
+    expect(
+      document.querySelector('link[rel="canonical"]')?.getAttribute("href")
+    ).toBe(getCanonicalUrl(page));
+    expect(document.querySelectorAll('meta[name="robots"]')).toHaveLength(1);
+    expect(
+      document.querySelector('meta[name="robots"]')?.getAttribute("content")
+    ).toMatch(/^index, follow(?:,|$)/);
+    for (const meta of document.querySelectorAll(
+      'meta[name="robots"], meta[name="googlebot"], meta[http-equiv="X-Robots-Tag"]'
+    )) {
+      expect(meta.getAttribute("content")).not.toMatch(
+        /noindex|nofollow|\bnone\b/i
+      );
+    }
+
+    // The offline handoff is deliberately not a deployment input. This route
+    // must not inherit any of the private/demo route header restrictions.
+    const headerRules = fs
+      .readFileSync(path.join(outputDir, "_headers"), "utf8")
+      .trim()
+      .split(/\n\s*\n/);
+    for (const rule of headerRules) {
+      const [pattern, ...headers] = rule.split("\n");
+      const regex = new RegExp(
+        "^" +
+          pattern.replace(/[.+?^${}()|[\]\\]/g, "\\$&").replaceAll("*", ".*") +
+          "$"
+      );
+      if (regex.test(route) || regex.test(route + "/")) {
+        expect(headers.join("\n")).not.toMatch(
+          /X-Robots-Tag:.*(?:noindex|nofollow|\bnone\b)/i
+        );
+      }
+    }
+    const sitemap = fs.readFileSync(
+      path.join(outputDir, "sitemap.xml"),
+      "utf8"
+    );
+    expect(sitemap.split(`<loc>${getCanonicalUrl(page)}</loc>`)).toHaveLength(
+      2
+    );
+  });
+
   it("rejects an incomplete static output", () => {
     const directory = fs.mkdtempSync(
       path.join(os.tmpdir(), "memova-seo-empty-")

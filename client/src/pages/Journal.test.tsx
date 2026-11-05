@@ -15,7 +15,7 @@ describe("Memova Journal", () => {
   it("keeps the full homepage navigation on both the index and article pages", () => {
     for (const page of [
       <Journal />,
-      <JournalArticle slug="why-we-changed-our-onboarding-story" />,
+      <JournalArticle slug="rewind-on-an-older-apple-watch" />,
     ]) {
       const html = renderToStaticMarkup(page);
       const navigation =
@@ -40,15 +40,20 @@ describe("Memova Journal", () => {
       expect(html).toContain('aria-controls="site-navigation"');
     }
   });
-  it("waits for new articles without showing old entries or empty category controls", () => {
+  it("lists Avery’s Rewind preview without restoring retired entries", () => {
     const html = renderToStaticMarkup(<Journal />);
 
-    expect(journalEntries).toHaveLength(0);
+    expect(journalEntries).toHaveLength(1);
     expect(html).toMatch(/<h1\b[^>]*id="memova-journal-heading"[^>]*>Blog<\/h1>/);
-    expect(html.match(/New stories are on the way\./g)).toHaveLength(1);
-    expect(html).not.toContain('aria-label="Filter journal notes"');
-    expect(html).not.toContain("memova-journal-entry-copy");
-    expect(html).not.toContain("memova-journal-author-row");
+    expect(html).not.toContain("New stories are on the way.");
+    expect(html).toContain('aria-label="Filter journal notes"');
+    expect(html).toMatch(/href="\/journal\/rewind-on-an-older-apple-watch\/?"/);
+    expect(html).toContain("How to Get Rewind Features on an Older Apple Watch");
+    expect(html).toContain("Avery · GTM at Memova");
+    expect(html).toContain('src="/journal/avery.jpg"');
+    expect(html).toContain('src="/journal/rewind/04-conversation.webp"');
+    expect(html).toContain("6 min read");
+    expect(html).not.toContain("<time");
     expect(html).not.toContain("Why we changed our onboarding story.");
     expect(html).not.toContain("The Architecture of Sleep.");
     expect(html).not.toContain("Silva · Product");
@@ -65,6 +70,60 @@ describe("Memova Journal", () => {
     expect(html).not.toContain('href="/#use-cases"');
     expect(html).not.toContain('href="/#trust"');
     expect(html).toContain('href="/#top"');
+  });
+
+  it("renders the reviewed tutorial, author, images, and FAQ at its independent route", () => {
+    const html = renderToStaticMarkup(
+      <JournalArticle slug="rewind-on-an-older-apple-watch" />
+    );
+
+    expect(html).toContain("How to Get Rewind Features on an Older Apple Watch");
+    expect(html).toContain("Coming soon · Memova Pro");
+    expect(html).toMatch(/<strong\b[^>]*>Avery<\/strong>/);
+    expect(html).toContain("GTM at Memova");
+    expect(html).toContain('src="/journal/avery.jpg"');
+    expect(html).not.toContain("<time");
+    expect(html).toContain('aria-label="On this page"');
+    expect(html).toContain('href="#planned-workflow"');
+    expect(html).toContain("How Memova Rewind Is Being Designed");
+    const images = [
+      "/journal/rewind/01-settings.webp",
+      "/journal/rewind/02-window-options.webp",
+      "/journal/rewind/04-conversation.webp",
+    ];
+    for (const image of images) expect(html).toContain(`src="${image}"`);
+    expect(html.indexOf(images[0])).toBeLessThan(html.indexOf(images[1]));
+    expect(html.indexOf(images[1])).toBeLessThan(html.indexOf(images[2]));
+    expect(html).not.toContain("03-apple-watch-digital-crown-rewind");
+    expect(html).toContain("Enlarge image:");
+    expect(html).toContain("Close enlarged image");
+    expect(html).toContain('id="faq"');
+    expect(html).toContain("Is Memova Rewind available now?");
+    expect(html).toContain("Not yet. Rewind is coming soon");
+    expect(html).toContain("How will I activate Memova Rewind?");
+    expect(html).toContain("Does installing Memova enable Apple Live Rewind?");
+    expect(html).toContain('href="https://support.apple.com/en-us/148354"');
+    expect(html).toContain('href="https://apps.apple.com/us/app/memova-ai/id6796284954"');
+    expect(html).toContain('href="https://discord.com/invite/E9u5FFvhdu"');
+    expect(html).not.toContain("**Memova Rewind");
+    expect(html).not.toContain("IMAGE 01");
+    expect(html).not.toContain("SEO Title");
+  });
+
+  it("keeps upcoming controls and compatibility separate from currently available features", () => {
+    const html = renderToStaticMarkup(
+      <JournalArticle slug="rewind-on-an-older-apple-watch" />
+    );
+
+    expect(html).toContain("This is a simulated gesture preview");
+    expect(html).toContain("not a connection to hardware gesture recognition");
+    expect(html).toContain("The prototype does not use the Digital Crown or side button to activate Rewind.");
+    expect(html).not.toMatch(/double[\s-]*(?:press|click)\s+(?:the\s+)?side button/i);
+    expect(html).toContain("they do not confirm compatibility for the upcoming Rewind feature");
+    expect(html).toContain("What Can You Use in Memova Today?");
+    expect(html).toContain("Local transcription and text search can work offline");
+    expect(html).not.toContain("The Memova column");
+    expect(html).not.toContain("App Performance");
   });
 
   it("does not expose retired article bodies at their former slugs", () => {

@@ -80,7 +80,7 @@ export default function Journal() {
 
                 return (
                   <article className="memova-journal-entry" key={entry.slug}>
-                    <a href={entry.href ?? `/journal/${entry.slug}`}>
+                    <a href={entry.href ?? `/journal/${entry.slug}/`}>
                       <span className="memova-journal-entry-marker">
                         <EntryMarker aria-hidden="true" />
                       </span>
@@ -92,17 +92,41 @@ export default function Journal() {
                         <span className="memova-journal-entry-summary">
                           {entry.summary}
                         </span>
+                        {entry.cover && (
+                          <img
+                            className="memova-journal-entry-cover"
+                            src={entry.cover.src}
+                            alt={entry.cover.alt}
+                            width="1672"
+                            height="941"
+                            decoding="async"
+                          />
+                        )}
                         <span className="memova-journal-author-row">
                           <span
-                            className={`memova-journal-author-avatar is-${entry.authorAvatarPosition}`}
+                            className={`memova-journal-author-avatar${entry.authorAvatar ? " has-photo" : ` is-${entry.authorAvatarPosition}`}`}
                             aria-hidden="true"
-                          />
-                          <span>{entry.author}</span>
+                          >
+                            {entry.authorAvatar && (
+                              <img
+                                src={entry.authorAvatar}
+                                alt=""
+                                width="1122"
+                                height="1402"
+                              />
+                            )}
+                          </span>
+                          <span>
+                            {entry.author}
+                            {entry.authorRole ? ` · ${entry.authorRole}` : ""}
+                          </span>
                           <span aria-hidden="true">·</span>
-                          <span>{entry.week}</span>
-                          <span aria-hidden="true">·</span>
-                          <time dateTime={entry.isoDate}>{entry.date}</time>
-                          <span aria-hidden="true">·</span>
+                          {entry.date && (
+                            <>
+                              <time dateTime={entry.isoDate}>{entry.date}</time>
+                              <span aria-hidden="true">·</span>
+                            </>
+                          )}
                           <span>{entry.readingTime}</span>
                         </span>
                       </span>
