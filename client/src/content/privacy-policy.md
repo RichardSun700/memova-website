@@ -1,16 +1,16 @@
 # Privacy Policy
 
-*Last updated: November 2, 2026*
+*Last updated: November 5, 2026*
 
 Memova is provided by MEMOVA LLC. Memova helps users capture, transcribe, organize, and understand information from conversations, notes, recordings, images, PDFs, documents, and other materials they choose to provide.
 
 We design Memova with privacy in mind. Our goal is to process your information only to provide the features you choose to use, give you meaningful control over your content, and be transparent about how information is handled.
 
-## 1. Information We Collect
+## 1. Categories of Information Collected
 
 We collect information that you choose to provide or that is necessary to provide Memova.
 
-### Content You Provide
+### User-Provided Content
 
 Depending on how you use the app, this may include:
 
@@ -40,6 +40,8 @@ If you create an account or purchase a subscription, we may collect:
 
 - Name, email address, login information, and account settings
 
+- Account identifiers, authentication information, and authorized basic profile information returned by the third-party sign-in provider you choose
+
 - Subscription status and billing-related information
 
 - Payment information processed by our payment providers
@@ -56,13 +58,13 @@ We may collect limited technical information necessary to provide, secure, and o
 
 - Diagnostics, crash reports, and performance data
 
-- IP address, approximate location derived from IP address, and log data
+- Network connection information, approximate location derived from it, and log data
 
 - Cookies or similar technologies if you use our website or web-based services
 
 ### Website Analytics and Cookies
 
-We use Google Analytics 4, with measurement ID G-9YJQ994J98, to understand how people find and use our public website and whether iOS early-access journeys are useful. Google Analytics may process page URLs and titles, referral information, interaction events, browser and device information, IP-derived approximate location, and cookie or consent status. We do not send the private notes, recordings, transcripts, documents, or agent memory you provide to Memova as analytics event content.
+We use Google Analytics 4, with measurement ID G-9YJQ994J98, to understand how people find and use our public website and whether iOS early-access journeys are useful. Google Analytics may process page URLs and titles, referral information, interaction events, browser and device information, approximate location derived from connection information, and cookie or consent status. We do not send the private notes, recordings, transcripts, documents, or agent memory you provide to Memova as analytics event content.
 
 Advertising storage, advertising user data, and ad personalization are disabled in our Google tag configuration. Where consent is required, analytics storage defaults to denied until you allow it. Our website provides an Analytics privacy choices panel where you can allow or reject analytics. After making a choice, use the persistent Privacy choices button to change or withdraw that choice at any time.
 
@@ -70,11 +72,11 @@ We use analytics information to measure website performance, diagnose navigation
 
 ## 2. Audio and Recording Data
 
-Memova may process audio when you choose to record, transcribe, or analyze a conversation.
+You may record on iPhone or Apple Watch. Recording and transcription take place on your device and support offline use. Original audio may be retained for playback under your cleanup setting and the app-managed original-audio limit in Section 12.
 
-Audio handling depends on the feature you choose. In Memova Watch, original recordings and voiceprint models remain on your device, and speech transcription is performed locally. These recordings and models are not sent for cloud speech-to-text processing as part of the Watch cloud AI features described in this policy.
+Original recordings and voiceprint models remain on your device and are not uploaded to Memova or its cloud providers. The recording content submitted for cloud analysis is limited to transcript text and textual context you authorize; the original audio is not submitted. Health measurements require the separate permission described in Section 11.
 
-Other recording or transcription features process audio to generate text-based outputs, such as transcripts, summaries, and structured notes. Unless a feature clearly allows you to save or upload audio, raw audio is not retained after transcription is complete. Local recordings that a feature lets you keep are managed on your device.
+Local transcript text enters cloud processing only when you choose and authorize the processing described in Section 6. Recording, saving locally, or granting microphone permission does not by itself provide that authorization. Recordings a feature allows you to retain locally are managed on your device.
 
 ## 3. Files and Documents
 
@@ -84,37 +86,23 @@ You should only upload files that you have the right to use, process, and store.
 
 ## 4. AI Features
 
-Memova uses AI-powered features to help you:
+Memova uses AI to support transcription, meeting identification and summaries, hour notes, My Day daily recaps, Spark exploration and creation, Ask Memova, and related pages and illustrations. Other features may extract information, organize documents, draft content, or connect saved context using the material you provide.
 
-- Transcribe conversations
+Cloud features involve Memova and providers of the capabilities needed to complete the task. Microsoft Azure AI services provide relevant cloud AI capabilities. Depending on the feature and your authorization, processing may include transcript text, notes, questions, images, attachments, relevant conversation history, cited material, recording markers, timestamps, speaker information, and generated outputs. Health measurements are handled separately under Section 11. Before personal information is submitted to a third-party AI service, we explain the data scope, recipient, and purpose and obtain the relevant permission.
 
-- Summarize meetings, consultations, notes, and documents
+Speech transcription is performed on your device. Cloud model inference and content generation process the material authorized for the task. We do not use your private recordings, transcripts, notes, conversations, or generated content for advertising or to train general-purpose AI models. Providers acting for us may process content only as necessary for the relevant feature, not for their own advertising, general-purpose model training, or unrelated purposes. These use restrictions do not mean content never passes through the cloud or that all temporary material, response records, security logs, or other copies are erased immediately after processing. Section 12 describes the relevant retention rules.
 
-- Extract key points, tasks, names, dates, decisions, and other relevant details
+AI may generate a Personal Manual, page, or proposed action from the context you choose. These outputs remain subject to your review. Generation alone does not authorize publishing content, sending email, or creating or changing calendar events.
 
-- Answer questions based on your saved context
+AI outputs may be incomplete, inaccurate, or unsuitable for your circumstances. Verify them before relying on them, particularly for medical, legal, financial, employment, education, or other high-impact matters. Consider the recording context and actual content when deciding whether cloud processing is appropriate.
 
-- Draft, rewrite, organize, or generate content at your request
-
-- Search and connect information across your notes, transcripts, and uploaded files
-
-We use your content for AI features only to provide the outputs you request.
-
-Memova Watch uses Microsoft's Azure OpenAI Service for cloud AI processing. After you give permission, relevant transcripts, notes, questions, conversation context, timestamps, and speaker information are sent through Memova's servers to this service within the scope you authorize. Processing supports meeting identification and summaries, My Day recaps, Spark, Ask Memova, and related page and illustration generation. Health information is handled as described in Section 11. We explain the data, recipient, and purpose and obtain your permission before sending personal information to the third-party AI service.
-
-Where an AI or infrastructure provider processes content on our behalf, it may process only the information needed to provide the feature you requested and is not permitted to use your private content for advertising or to train generalized AI models.
-
-Memova may help identify relationships between sources, draft a Personal Manual or HTML Page, and prepare a proposed action. These outputs are generated from the context you choose and remain subject to your review. Memova does not treat an AI output as your authorization to publish content, send an email, or create or change a calendar event.
-
-AI-generated outputs may be incomplete, inaccurate, or inappropriate for your situation. You are responsible for reviewing outputs before relying on them, especially for medical, legal, financial, employment, education, or other high-impact matters.
-
-## 5. How We Use Information
+## 5. Use of Information
 
 We use your information only to provide Memova and the features you choose to use.
 
 This includes using your information to:
 
-- Record, process, and transcribe audio when you choose to use recording or transcription features
+- Record and transcribe audio on your device when you choose to use recording or transcription features
 
 - Generate transcripts, summaries, answers, drafts, structured notes, and other outputs you request
 
@@ -134,85 +122,123 @@ This includes using your information to:
 
 - Comply with applicable laws and enforce our terms
 
-We do not use your private content to train AI models, build advertising profiles, or improve Memova for other users.
+We do not use your private content for advertising or to train general-purpose AI models.
 
 ## 6. Local-First Design and Cloud Processing
 
-Memova is designed with a local-first approach. Where possible, your content is processed and stored on your device.
+Memova uses a local-first design. Where possible, content is processed and stored on your device. On-device storage, cloud task processing, and local display of generated results are separate stages.
 
-Some features may require cloud processing, including syncing, backup, account services, customer support, payment processing, AI processing, or cross-device access. When cloud processing is used, we process your information only as needed to provide the features you choose to use, maintain security and basic functionality, and comply with applicable law.
+### Initial Privacy Notice and Consent
 
-In Memova Watch's cloud automatic mode, the authorized scope includes completed local transcript text already available on the day you enable the mode and transcript text completed later that day. The setting continues on subsequent days for each day's transcript text; it does not automatically backfill transcripts from earlier dates. In cloud manual mode, we process only the content you confirm for submission. Choosing cloud generation for an individual Meeting Note can authorize its completed local transcript and original notes to be processed together to generate a title, highlights, a summary, and a private HTML page as one task. This meeting-specific choice is available in either mode.
+Upon initial use of the application, the complete local and cloud privacy notice is presented as the first step, with the complete Privacy Policy available for review. The notice describes content storage, the conditions for transmission outside the device, the parties responsible for processing, and your available choices. Agreement to the notice and Privacy Policy is required before entering the Apple Watch connection process. If you do not agree at that time, you do not enter that process.
 
-Cloud processing requires your permission. Creating an account, recording, saving content, purchasing a subscription, or granting a device permission does not by itself authorize third-party AI sharing. You may decline or turn off cloud processing and continue to record, transcribe locally, and view existing content. Turning off cloud automatic mode stops subsequent automatic processing; it does not itself delete content already saved in the cloud.
+Consent at this stage applies to the basic privacy notice and this policy. It does not enable cloud AI or authorize sharing your records or Apple Health measurements with a third party. Reading or acknowledging the notice, continuing setup, registering, or creating an account does not grant cloud processing permission. Recording, saving locally, purchasing a subscription, or granting microphone, file, health-data, or other device permissions also does not authorize third-party AI sharing. Use of cloud AI requires the relevant permission for the feature's data scope, recipient, purpose, and mode. Cloud sharing of health measurements requires the separate permission described in Section 11.
 
-## 7. How We Share Information
+### Local Features and Account Requirements
 
-We do not sell your personal information.
+After agreement to the basic privacy notice and completion of Watch connection and setup, local recording, local transcription, and offline search are available free of charge without an account or subscription. Account registration is optional and serves account-based features. Local use does not require cloud AI. Separate account, payment, or support services may still process information needed for those services.
 
-We may share information in the following limited circumstances:
+Stopping cloud use or switching to local mode does not automatically withdraw material previously submitted to the cloud or a provider, or delete existing cloud information. Existing tasks are governed by the applicable feature cancellation rules. Stopping future automatic processing, canceling a task, and deleting content have different effects.
+
+### Cloud Processing Scope
+
+Cloud processing may support synchronization, backup, accounts, customer support, payments, AI processing, or cross-device access. Depending on the feature, Memova and its providers may supply cloud infrastructure, object storage, or model inference and process the necessary authorized text, images, documents, context, or generated results. Original recordings and voiceprint models remain on your device as described in Section 2. Microsoft Azure AI services provide the relevant AI capabilities. Section 4 describes the data categories, and Section 12 covers retention.
+
+Cloud features require an account and network connection. Feature availability, version support, and subscription requirements follow the in-app description. The actual scope of a request depends on the feature, the material submitted or cited, and your authorization.
+
+### Microsoft Cloud Services: Purposes and Information
+
+Microsoft provides the following cloud capabilities used according to the feature, actual support, and your authorized task. This does not mean every request uses all services or sends every data category; some features may also use other providers.
+
+- **Azure Container Apps** — Purpose: Backend interfaces, background processing, and scheduled tasks. Data involved: Content required by the feature, business requests, and task status.
+- **Azure Database for PostgreSQL Flexible Server** — Purpose: Structured business records, processing status, and retrieval metadata. Data involved: Account permissions, meeting notes, transcripts, tasks, and retrieval vectors.
+- **Azure Blob Storage** — Purpose: Storage of uploaded material and certain saved outputs. Data involved: Authorized text, images, attachments, project material, some generated files, and knowledge-base content.
+- **Azure Cache for Redis** — Purpose: Task queues, caching, short-lived status, and temporary computation. Data involved: Queue information, cached material, temporary state, and computation data.
+- **Azure AI model services** — Purpose: Summaries, questions and answers, generation, and text-vector retrieval. Data involved: Necessary text, images, context, generated results, and retrieval vectors.
+- **Azure AI Document Intelligence** — Purpose: Text and layout extraction from images, scans, and supported documents. Data involved: Submitted material and extracted text or layout.
+- **Azure AI Content Understanding** — Purpose: Analysis and extraction for actually supported and submitted project material. Data involved: The relevant project material and extracted results.
+- **Azure Translator** — Purpose: Language conversion in the relevant translation paths. Data involved: Text to translate and translated results.
+- **Azure Key Vault** — Purpose: Management of backend access credentials and sensitive configuration. Data involved: Service credentials for databases, storage, AI services, and related integrations.
+- **Azure Monitor and Log Analytics** — Purpose: Operational monitoring, log queries, and anomaly alerts. Data involved: Request status, operational metrics, and necessary diagnostic logs.
+- **Azure Communication Services Email** — Purpose: Delivery of login verification-code email. Data involved: Recipient email address, verification email content, and sending status.
+- **Azure Container Registry** — Purpose: Storage of application images for backend operation and release. Data involved: Application software and build artifacts.
+
+Microsoft Azure provides infrastructure and cloud processing capabilities. Memova is responsible for in-app account permissions, content ownership, processing flows, and business-data management. Azure Key Vault manages backend credentials and sensitive configuration; it does not establish user-exclusive at-rest encryption keys. Microsoft manages the at-rest keys for the main file storage and database described above.
+
+Business storage, temporary computation, provider response records, and security logs may have different retention periods. Use of a particular service does not expand your authorized task or imply immediate deletion of every provider copy.
+
+### Manual Cloud Processing
+
+In manual mode, you select the relevant feature's submission scope and use the Upload action or other applicable confirmation to submit it. Entering a selection interface, reading the notice, or canceling selection does not submit content. For hour-based organization, the selection unit is a particular date and recording period, rather than all records by default.
+
+Question-and-answer or continuous conversation features may also process relevant history from the current conversation and material you have cited to understand the request and generate an answer. Manual submission therefore does not mean a request contains only the latest sentence. Such context remains limited to the feature and processing scope you authorize.
+
+### Automatic Cloud Processing
+
+In Memova Watch automatic cloud mode, the authorized scope includes completed local transcript text already available on the day the mode is enabled and transcript text completed later that day. The setting continues for each subsequent day's transcript text and does not automatically backfill earlier dates. Once enabled and authorized, processing continues within that scope without a manual upload for each transcript.
+
+My Day recaps and To explore content update after the end of your configured Working time, based on authorized and available material. The corresponding daily recap is not generated, and these ideas are not automatically displayed, before that time. Working time is adjustable and separate from the Watch recording schedule. Before it ends, you may still enter a Custom record and initiate Spark.
+
+You may disable automatic mode or switch to local mode to stop the relevant features from initiating subsequent automatic processing. Previously submitted material is not automatically withdrawn, and existing tasks remain subject to the applicable cancellation rules. Section 12 describes deletion of saved cloud content.
+
+### Cloud Outputs for Individual Meeting Records
+
+Choosing cloud generation for an individual Meeting Note may authorize its completed local transcript and original notes to be processed together as one task to generate a title, highlights, summary, and meeting page. This choice is available in either mode. Viewing a generated result on your device does not establish that generation occurred entirely on-device. In-app viewing and web-link access may use different mechanisms. Access scope depends on the feature and link type, including valid-link access for some older pages described in Section 18.
+
+Local and cloud choices do not replace the recording and content-use responsibilities in Section 10 or the health permission described in Section 11.
+
+## 7. Information Sharing
+
+We do not sell personal information. We may share information in the following limited circumstances.
 
 ### Service Providers
 
-We may work with trusted providers for hosting, cloud infrastructure, transcription, AI processing, payments, customer support, security, and similar services. These providers may process information only as needed to provide services to us and are not permitted to use your content for their own advertising, model training, or unrelated purposes. We require any third party with access to personal information we share to provide the same or an equal level of protection as stated in this Privacy Policy and required by applicable requirements. Microsoft provides the Azure OpenAI Service used for Memova Watch cloud AI processing, with the data and purposes described in Sections 4, 6, and 11.
+We may use providers of hosting, cloud infrastructure, object storage, AI inference, payments, customer support, security, and similar capabilities. Microsoft Azure AI services provide relevant AI capabilities. Depending on the feature and authorization, providers may receive text, images, documents, related context, or generated results. Original recordings and voiceprint models are not uploaded.
 
-### Sharing You Direct
+Providers may process content only as necessary for the relevant service, not for their own advertising, general-purpose model training, or unrelated purposes. We require third parties with access to personal information we share to provide the same or an equal level of protection as stated in this policy and required by applicable requirements. Memova business records and temporary content, response records, or security logs created during provider processing may follow different retention rules, as described in Section 12.
 
-Memova is private by default. If you choose to publish a Page, share a Personal Manual or Living Book, export content, or send content through a connected service, we process and disclose the selected content as necessary to carry out your instruction. Public links and social posts may be viewed, copied, or reshared by others, so you should review the content and permissions before sharing.
+### User-Directed Sharing
 
-### Legal and Safety Reasons
+If you publish a page, share a Personal Manual or Living Book, export content, or send content through a connected service, we process and disclose selected content as necessary to carry out your instruction. Page access mechanisms differ across versions and features. Some older meeting pages are accessible without sign-in to anyone holding a valid link. Review the content and access mechanism before sharing or forwarding a link; Section 18 provides further information.
 
-We may disclose information if we believe it is reasonably necessary to:
+### Legal and Safety Grounds
 
-- Comply with applicable law, regulation, legal process, or government request
+We may disclose information where we reasonably consider it necessary to:
 
-- Protect the rights, safety, and security of users, MEMOVA LLC, or others
-
+- Comply with applicable law, regulation, legal process, or government requirements
+- Protect the rights and safety of users, MEMOVA LLC, or others
 - Detect, prevent, or address fraud, abuse, security, or technical issues
-
 - Enforce our terms and policies
 
-## 8. What We Do Not Do
+## 8. Restrictions on Information Use
 
-We do not sell your personal information.
+We do not sell personal information or use private recordings, conversations, transcripts, notes, uploaded files, or generated results for advertising or to train general-purpose AI models.
 
-We do not use your private content for advertising.
+These use restrictions are distinct from cloud processing needed to provide a feature. They do not mean that content never passes through the cloud or that all copies are erased immediately after processing. Cloud processing, temporary storage, saved business outputs, and provider retention follow their respective rules.
 
-We do not use your private content to improve Memova for other users.
+Recordings are transcribed locally. Original recordings and voiceprint models remain on your device and are not uploaded to cloud services, as described in Section 2.
 
-We do not use your private conversations, transcripts, notes, uploaded files, or generated outputs to train AI models.
+## 9. User Choices and Controls
 
-Memova Watch keeps original recordings on your device and does not upload them for cloud speech transcription as part of its cloud AI features. Other features do not retain raw audio after transcription unless they clearly allow you to save or upload it.
+In Memova Watch, you may decline cloud AI permission and continue using local recording, local transcription, and offline search free of charge. Agreement to the initial privacy notice and policy does not remove that choice. Cloud processing requires the relevant authorization. Stopping cloud use does not automatically withdraw previously submitted content or delete existing information. Existing tasks follow the applicable cancellation rules.
 
-## 9. Your Choices and Controls
+Depending on the app version and settings, available controls may include:
 
-Depending on your app version and settings, you may be able to:
+- Deleting transcripts, notes, files, summaries, and generated content
+- Editing or removing extracted information
+- Managing microphone, photo, file, notification, and other device permissions
+- Disabling synchronization, backup, or cloud features where available
+- Switching between local, manual cloud, and automatic cloud modes and managing health-data reading permission and local association
+- Reviewing proposed email, calendar, page, or other actions before execution or sharing
+- Disconnecting integrations, revoking tool authorization, or managing connected services
+- Changing or withdrawing website analytics choices through Privacy choices where available
+- Exporting content where supported
+- Requesting account deletion, which may require renewed identity verification and account confirmation
+- Requesting access, correction, deletion, or a portable copy of personal information
 
-- Delete transcripts, notes, files, summaries, and generated content
+Stopping new tasks, canceling a task, deleting content, revoking a share, and deleting an account have different scopes and do not substitute for one another. Send privacy requests to hello@memova.ai.
 
-- Edit or remove extracted information
-
-- Manage microphone, photo, file, notification, and other device permissions
-
-- Disable sync, backup, or cloud features where available
-
-- Choose cloud automatic or manual processing in Memova Watch, stop subsequent automatic processing, and manage Apple Health permissions and local health associations
-
-- Review and approve a proposed email, calendar event, Page, or other action before it is executed or shared
-
-- Disconnect an integration and revoke its authorization through Memova or the connected provider
-
-- Change or withdraw website analytics choices through the Privacy choices control, where available
-
-- Export your content where supported
-
-- Delete your account
-
-- Contact us to request access, correction, deletion, or portability of your personal information
-
-To make a privacy request, contact us at hello@memova.ai.
-
-## 10. Consent and Recording Responsibilities
+## 10. Recording Consent and Use Responsibilities
 
 You are responsible for using Memova in compliance with applicable laws and professional obligations.
 
@@ -224,29 +250,67 @@ This is especially important for conversations involving healthcare, legal, fina
 
 Your content may include sensitive information, such as health information, legal matters, financial details, employment information, educational records, personal relationships, or information about other people.
 
-Please be careful when recording conversations or uploading files that include sensitive information. You should not provide sensitive information unless it is necessary for your use of the app and you have the right to do so.
+When recording conversations or uploading files containing sensitive information, you should assess the relevant content carefully. Sensitive information should be submitted only where necessary for your use of the application and where you have the right to provide it.
 
 Memova Watch can read heart rate and HRV (SDNN) from Apple Health through HealthKit after you grant permission for each data type. It associates actual measurements with the relevant recording times and speech identified as yours through on-device voiceprint matching. The measurements describe the wearer, not other speakers. Daily averages shown to check reading access do not replace the actual measurements used for an associated passage; missing measurements are not filled with invented readings or baselines.
 
-When health association is enabled and you have given permission for the applicable cloud AI processing, matching measurements may be sent with relevant text through Memova's servers to Microsoft's Azure OpenAI Service. This supports your own physical and mental wellbeing review by showing health context, surfacing passages related to changes in your own condition, and assisting with interpretations that are presented as inferences. Health measurements do not determine the importance of ordinary meeting topics, work content, or Spark ideas. Heart rate or HRV does not by itself establish a particular emotion or a medical diagnosis. We do not use health information for advertising, marketing, sale, or model training.
+When health association is enabled and you have given permission for the applicable cloud AI processing, matching measurements may be sent with relevant text through Memova's servers to Microsoft Azure AI services. This supports your own physical and mental wellbeing review by showing health context, surfacing passages related to changes in your own condition, and assisting with interpretations that are presented as inferences. Health measurements do not determine the importance of ordinary meeting topics, work content, or Spark ideas. Heart rate or HRV does not by itself establish a particular emotion or a medical diagnosis. We do not use health information for advertising, marketing, sale, or general-purpose model training.
 
 HealthKit reading permission or a local association setting does not by itself authorize third-party cloud sharing. You can manage reading permissions in Apple Health and turn off local associations in Memova. Turning off local associations stops associations, hides measurements, and clears their local cache without changing the original Apple Health records. The association cache is excluded from the app's iCloud backup. Previously saved cloud content is handled under Section 12. Health information contained in text you choose to provide is not automatically removed when you turn off local association.
 
-## 12. Data Retention
+Reading or agreeing to the basic privacy explanation at first use, creating an account, or enabling ordinary cloud AI without health data does not authorize cloud sharing of Apple Health measurements. Sending matched heart rate or HRV to cloud AI requires your relevant permission for that health information use, assessed separately from system read permission and the local association setting. Without that health information permission, Apple Health measurements are not added merely because an ordinary cloud mode is enabled. Health information in text you enter or choose to provide is still handled within your authorization for that text; the health measurement setting does not automatically identify or remove health information in text.
 
-Cloud-stored transcripts, notes, and generated results are retained for your continuing review and use until you manually delete them, subject to applicable legal requirements and account deletion. When you manually delete this content, the deletion takes effect in Memova immediately and the content is not moved to a recycle bin.
+## 12. Retention, Deletion, and Account Closure
 
-We retain other personal information only for as long as reasonably necessary to provide Memova, maintain your account, comply with legal obligations, resolve disputes, enforce agreements, and protect the security of our services.
+### App-Managed Original Audio
 
-After content or account deletion, related residual information is deleted or de-identified within a reasonable period. Limited records or copies may remain where required or permitted for legal compliance, security, backup, fraud prevention, or dispute resolution, only for as long as necessary for those purposes. Deleting content in Memova does not mean that every service-provider log or backup copy is erased at that same moment.
+You can set when the app clears original audio. Original recordings managed by the app are retained for no more than 30 days. This maximum applies only to app-managed original audio, not to voiceprint models, transcripts, notes, summaries, other saved outputs, or logs, which have their own retention rules. It does not delete copies you have exported outside the app. The ordinary backup and background-cleanup provisions in this policy do not extend this in-app original-audio maximum.
 
-Early-access contact information is retained while you remain subscribed or while reasonably necessary to administer the early-access program. You may unsubscribe from marketing updates at any time, and we may retain limited suppression information to honor that choice.
+### Saved Content and Temporary Material
 
-## 13. Security
+Cloud transcripts, notes, and generated results formally saved for continuing review and use are retained until you manually delete them, subject to applicable legal requirements, account deletion rules, and service availability limitations. Material needed temporarily to execute a task may expire and be cleaned up. Expiry of temporary computation material does not delete the corresponding saved business output.
 
-We use reasonable technical, administrative, and organizational measures to protect information. These may include encryption, access controls, secure infrastructure, monitoring, and internal policies.
+Task completion, mode changes, disabling local association, signing out, or clearing local cache do not constitute deletion of existing cloud content. Original recordings and voiceprint models remain managed locally within the product scope described in Section 2.
 
-No method of transmission or storage is completely secure. We cannot guarantee absolute security.
+### Content Deletion and Background Cleanup
+
+You may delete saved content through the relevant controls. Such content is not moved to a recycle bin. Interface removal, access invalidation, completion of background cleanup, and expiry of backups or other retained copies are separate stages. Some cleanup runs in background tasks and may require retries after storage or network failures. A deletion action does not mean that all online data, caches, logs, backups, and provider copies undergo irreversible physical erasure at the same time.
+
+Deleting a transcript does not automatically delete existing notes, summaries, Personal Manuals, webpages, or other saved content that previously used or cited it. You manage or delete those items separately. If the original transcript or audio has been deleted, reviewing the source text or playing the original recording may no longer be available. Further use of retained content remains subject to the scope you authorize. Copies already downloaded, shared, or delivered to an external service are managed separately. Task cancellation, link revocation, and business-content deletion may also take effect through different mechanisms.
+
+### Account Deletion
+
+Memova provides an account deletion request process. To prevent unauthorized deletion, it may require renewed identity verification and confirmation of account information. Once the request is accepted, relevant account access is disabled, related login sessions and tool authorizations are revoked, and associated integration connections stored in Memova are cleared. Cloud data is then handled through background processes.
+
+Acceptance of the request and completion of all cleanup are different states. Background handling may involve several steps. Content and certain billing or security records may be handled differently. Account closure cannot automatically delete copies delivered to other services, downloaded to other devices, or retained by others.
+
+### Other Retention and Provider Records
+
+Other personal information is retained only as reasonably necessary to provide services, maintain accounts, meet legal obligations, resolve disputes, enforce agreements, and protect security. Residual information is deleted or de-identified within a reasonable period after deletion. Limited records or copies may remain where required or permitted for legal compliance, security, backup, fraud prevention, or dispute resolution, for no longer than necessary for those purposes.
+
+Memova business records and temporary content, response records, or security logs maintained by cloud providers may have different retention rules. Deletion in Memova does not mean every provider copy is physically erased at the same time. Restrictions on general-purpose model training do not imply an absence of temporary storage or immediate cleanup. Operational logs, business content, and security credentials may have different lifecycles.
+
+Early-access contact information is retained while you remain subscribed or as reasonably necessary to administer the program. You may unsubscribe from marketing updates at any time; limited suppression records may remain to respect your choice.
+
+## 13. Information Security
+
+### Transmission and Cloud Storage Encryption
+
+Client connections to Memova production interfaces use HTTPS/TLS. The main Azure Blob Storage file storage and Azure Database for PostgreSQL business database use Azure-provided AES-256 encryption at rest, with the relevant at-rest encryption keys managed by Microsoft. That file storage requires HTTPS with a minimum TLS version of 1.2; the database requires TLS connections. This specified scope should not be interpreted as identical encryption configuration for every cache, log, or backup. These safeguards work together with authentication and access controls. Memova and relevant providers still process the content required for an authorized task. Transmission and storage encryption do not promise device-exclusive decryption, end-to-end encryption, or an inability of the service providers to access content.
+
+### Identity, Content Ownership, and Logical Isolation
+
+We use authentication, content-ownership checks, and access controls to restrict access to protected private meetings, notes, files, and tasks. Signing in does not grant access to another account's content. Relevant resource flows also check workspace membership, authorized scope, credential validity, and whether content is deleted or expired, according to the feature.
+
+Private content belonging to different accounts is logically isolated through these application-layer rules. File downloads have relevant permission checks; some download authorizations expire. Account-based content access, shared links, and temporary download authorization are different access mechanisms. Section 18 describes valid-link access for some older meeting pages.
+
+### Operational Logs and Credential Filtering
+
+We record necessary operational information to maintain services, diagnose faults, and investigate anomalies. This may include request identifiers, operation types, processing status, duration, and necessary error diagnostics. We filter recognized access-token, password, and key fields, and authorization credentials in certain links, from logs to reduce accidental recording or exposure of credentials.
+
+Filtering covers the relevant sensitive fields and recognized credential forms. It does not mean that all logs are anonymized or that arbitrary private content is automatically identified and removed. Log retention and cleanup follow Section 12.
+
+We also use reasonable technical, administrative, and organizational safeguards, including access management, secure infrastructure, monitoring, and internal policies. No transmission or storage method can guarantee absolute security.
 
 ## 14. Children’s Privacy
 
@@ -258,35 +322,52 @@ If you use Memova from outside the country where we or our service providers ope
 
 Where required, we use appropriate safeguards for international transfers of personal information.
 
-## 16. Changes to This Privacy Policy
+## 16. Policy Changes
 
 We may update this Privacy Policy from time to time. If we make material changes, we will update the “Last updated” date above and provide additional notice where required.
 
-## 17. Google Sign-In and Google Workspace Permissions
+## 17. Third-Party Sign-In and Connected Services
 
-- **Google sign-in.** Memova may use Google sign-in to help you securely access your account and identify the workspace associated with your account. When you sign in with Google, we may receive basic Google profile information, such as your name, email address, and profile image.
+Memova offers Google, Apple, or Microsoft account sign-in through supported clients and sign-in entry points. Third-party sign-in is used to verify your identity, create or link your Memova account, and maintain your signed-in session. We process only the account identifiers and related basic profile information authorized and actually returned by the sign-in provider. Available sign-in methods depend on the client you use.
+
+- **Google sign-in.** If you choose Google sign-in, we may receive an account identifier and basic profile information, such as your name, email address, and profile image, for sign-in and account linking.
+- **Sign in with Apple.** If you choose Sign in with Apple, we may receive an account identifier returned by Apple and the name and email address you choose to share. If you choose Hide My Email, we may receive an Apple-provided private relay address rather than your personal email address.
+- **Microsoft sign-in.** If you choose Microsoft sign-in, we may receive an account identifier returned by Microsoft and basic profile information, such as your name, username, or email address, depending on the permissions actually granted. The information returned depends on the account and authorization scope; not every sign-in returns every field.
+
+Account sign-in and access to email, calendars, contacts, cloud-drive files, or other account content serve different purposes. Using one of these sign-in methods does not itself authorize access to that content or uploading local recordings, transcripts, or health measurements. Such content is processed only within the explained scope after you choose the relevant feature and grant the applicable permissions.
 
 - **Gmail permissions.** Memova uses Gmail permissions only if you choose to connect Google Workspace features and confirm a related email action. Depending on the action, Gmail permissions may allow Memova to process email draft content, recipients, subject lines, message bodies, attachments you choose to provide, and related metadata only as needed to help you draft, review, and send emails from within Memova. Memova will not send emails without your authorization and explicit confirmation.
-
 - **Google Calendar permissions.** Memova uses Google Calendar permissions only if you choose to connect Google Workspace features and confirm a related calendar action. Depending on the action, Google Calendar permissions may allow Memova to read existing calendar availability and event information to help detect scheduling conflicts, avoid duplicate events, show relevant calendar context, and help you create or update calendar events from within Memova. Memova will not create, update, delete, or share calendar events without your authorization and explicit confirmation.
-
-- **Use limits for Google user data.** We do not use Google user data for advertising, unrelated purposes, or to train generalized AI models. Google user data is used only to provide the Google Workspace features you request and confirm. Memova will not automatically send emails or create calendar events without your authorization and explicit confirmation. Sending an email or creating or changing a calendar event requires your permission and a clear user-confirmed action.
-
+- **Use limits for Google user data.** We do not use Google user data for advertising, unrelated purposes, or to train generalized AI models. Google user data is used only for the account sign-in you choose and the Google Workspace features you request and confirm. Memova will not automatically send emails or create calendar events without your authorization and explicit confirmation. Sending an email or creating or changing a calendar event requires your permission and a clear user-confirmed action.
 - **Limited use.** Memova’s use and transfer of information received from Google APIs will adhere to the Google API Services User Data Policy, including the Limited Use requirements.
+- **Service providers.** Google user data may be processed by our service providers only as necessary to provide user-requested Memova features, such as authentication, secure infrastructure, AI-assisted drafting, email actions, calendar actions, support, security, and similar services. These providers are not permitted to use Google user data for advertising, general-purpose model training, or unrelated purposes.
+- **User controls and deletion.** You can manage third-party sign-in permissions granted to Memova through the relevant sign-in provider’s account settings, and disconnect Google Workspace authorization through your Google account permissions or Memova settings, where available. Revoking third-party authorization and deleting a Memova account or saved content are different actions; revocation does not automatically delete saved account information or outputs. Contact hello@memova.ai to request deletion or removal of related information, or deletion of your account data.
 
-- **Service providers.** Google user data may be processed by our service providers only as necessary to provide user-requested Memova features, such as authentication, secure infrastructure, AI-assisted drafting, email actions, calendar actions, support, security, and similar services. These providers are not permitted to use Google user data for advertising, model training, or unrelated purposes.
+The sign-in provider’s own privacy rules apply to its handling of information during authentication. Microsoft account sign-in and the Microsoft Azure cloud services described in Section 6 are separate features. Using Azure infrastructure does not automatically authorize Memova to access the content of your Microsoft account.
 
-- **User controls and deletion.** You can disconnect Google authorization from Memova at any time through your Google account permissions or Memova account settings, where available. You may also contact us at hello@memova.ai to request deletion or removal of Google-related data associated with your account, or to request deletion of your account data.
+## 18. Early Access, Page Access, and Connected Services
 
-## 18. Early Access, Public Pages, and Connected Services
+### Early Access
 
-- **Early access.** If you submit an email address to join early access or receive product updates, we use it to administer the program and send the communications you requested. You may unsubscribe using the link in a message or by contacting hello@memova.ai.
+If you provide an email address for early access or product updates, we use it to administer the program and send requested communications. Unsubscribe through a message link or contact hello@memova.ai.
 
-- **Public Pages and sharing.** Content remains private unless you choose to share or publish it. Meeting HTML pages generated by Memova Watch are accessible only to you or authorized accounts by default; generating a page does not itself publish it, and public sharing requires a separate confirmation. Before publishing, review the Page, Personal Manual, Living Book, recipients, link permissions, and any information about other people. If you make content public or share it with a third party, that party may retain or redistribute it outside Memova.
+### Meeting Pages and Link Access
 
-- **Connected services and agents.** Memova accesses a connected account, workspace, or agent only after you initiate a connection and grant the requested permission. The information available to Memova depends on the service and scope you approve. You can revoke access through the connected provider or Memova settings, where available.
+In-app viewing and access through a web link may use different mechanisms. Displaying a result on your device does not establish that preceding generation occurred entirely on-device. Review access scope according to the feature, version, and link type.
 
-- **Proposed actions.** When Memova prepares an HTML Page, email, calendar event, or other action, the proposal is not executed merely because it was generated. A user review and confirmation step is required before an external action is completed, unless you separately enable and are clearly informed of an automation setting.
+Some older cloud meeting pages use valid-link access: anyone holding a valid link can view them without signing in. They cannot all be described as accessible only to the account owner or authorized accounts. Check the actual mechanism before forwarding a valid link to sensitive content.
+
+When publishing or sharing a page, Personal Manual, or Living Book, or exporting or sending content, review recipients, link permissions, content, and information about other people. Links can be forwarded. Link revocation, content deletion, and expiry of temporary download authorization may take effect through different mechanisms. Copies already downloaded, copied, or saved elsewhere are not automatically erased from a recipient's device when the original link expires.
+
+### Connected Tools, Services, and Revocation
+
+Connectors, plugins, or supported AI tools accessing Memova require valid authorization credentials and are limited by granted scopes. Connecting a tool does not automatically grant all permissions for the account. Reading content, retrieving files, and other controlled operations require the relevant authorization conditions and checks of account ownership, credential status, and content status.
+
+Revoked or expired authorization affects later access using that authorization. It cannot automatically retrieve content already delivered, downloaded, or copied. Retention and use of external copies also depend on the receiving service's rules. Revoke access through the relevant provider or, where supported, Memova settings.
+
+### Proposed Actions
+
+Generating a page, email, calendar event, or other proposal does not execute it. External actions require your review and confirmation unless you separately enable and are clearly informed of the applicable automation setting.
 
 ## 19. Regional Privacy Rights
 
@@ -308,7 +389,7 @@ If the laws where you live provide additional mandatory rights, those rights rem
 
 To exercise a regional privacy right, contact hello@memova.ai and identify your country and state or province. We will respond within the period required by applicable law.
 
-## 20. Contact Us
+## 20. Contact Information
 
 If you have questions, requests, or concerns about this Privacy Policy or our privacy practices, please contact us at:
 

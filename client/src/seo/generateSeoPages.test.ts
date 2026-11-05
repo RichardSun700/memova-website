@@ -231,13 +231,13 @@ describe("SEO build generator", () => {
       );
 
       expect(aliasHtml).toBe(privacyHtml);
-      expect(privacyHtml).toContain("1. Information We Collect");
+      expect(privacyHtml).toContain("1. Categories of Information Collected");
       expect(privacyHtml).toContain(
-        "17. Google Sign-In and Google Workspace Permissions"
+        "17. Third-Party Sign-In and Connected Services"
       );
       expect(privacyHtml).toContain("Gmail permissions.");
       expect(privacyHtml).toContain("Google Calendar permissions.");
-      expect(privacyHtml).toContain("20. Contact Us");
+      expect(privacyHtml).toContain("20. Contact Information");
       expect(privacyHtml).toContain('data-seo-snapshot="true"');
       expect(privacyHtml).toContain('data-seo-shell-version="2"');
       expect(privacyHtml).toContain('id="memova-seo-shell-styles"');
@@ -263,7 +263,7 @@ describe("SEO build generator", () => {
   });
 
   it.each([
-    ["/privacy", "隐私协议", "20. 联系我们", "20. Contact Us"],
+    ["/privacy", "隐私协议", "20. 联系方式", "20. Contact Information"],
     ["/terms", "服务条款", "21. 联系我们", "21. Contact Us"],
   ])("publishes complete authored bilingual content at %s", (route, title, lastZh, lastEn) => {
     const page = sitePages.find(candidate => candidate.path === route)!;
@@ -271,15 +271,43 @@ describe("SEO build generator", () => {
     const { document } = parseHTML(html);
     const english = document.querySelector('article[lang="en"]')!;
     const chinese = document.querySelector('article[lang="zh-CN"]')!;
-    expect(english.textContent).toContain("November 2, 2026");
-    expect(chinese.textContent).toContain("2026年11月2日");
+    expect(english.querySelector("h1")!.nextElementSibling?.textContent).toBe("Last updated: November 5, 2026");
+    expect(chinese.querySelector("h1")!.nextElementSibling?.textContent).toBe(
+      `${route === "/privacy" ? "更新日期" : "最后更新"}：2026年11月5日`
+    );
     expect(chinese.querySelector("h1")?.textContent).toBe(title);
     expect(english.textContent).toContain(lastEn);
     expect(chinese.textContent).toContain(lastZh);
-    expect(english.textContent).toContain("Azure OpenAI");
-    expect(chinese.textContent).toContain("Azure OpenAI");
+    expect(english.textContent).toContain("Microsoft Azure");
+    expect(chinese.textContent).toContain("微软 Azure 云平台");
     expect(english.textContent).not.toMatch(/\*\*|\]\(https?:/);
     expect(chinese.textContent).not.toMatch(/待确认|待补充|草案版/);
+    for (const article of [english, chinese]) {
+      expect(article.textContent).not.toMatch(/预览修订稿|尚未上线|尚未生效|(?:review|preview) revision|not (?:yet )?(?:published|effective)/i);
+      if (route === "/privacy") {
+        const text = article.textContent!;
+        const zh = article === chinese;
+        const signInCopy = zh ? [
+          "17. 第三方登录与已连接服务", "Apple 登录。", "Microsoft 登录。", "隐藏邮件地址",
+          "使用上述登录方式本身不构成对这些内容的访问授权",
+          "谷歌邮箱权限。", "谷歌日历权限。", "有限使用要求",
+        ] : [
+          "17. Third-Party Sign-In and Connected Services", "Sign in with Apple.", "Microsoft sign-in.", "Hide My Email",
+          "Using one of these sign-in methods does not itself authorize access to that content",
+          "Gmail permissions.", "Google Calendar permissions.", "Limited Use requirements",
+        ];
+        for (const copy of signInCopy) expect(text).toContain(copy);
+        expect(text).toContain(zh ? "原始录音在设备本地转写成文字" : "Recording and transcription take place on your device");
+        expect(text).toContain(zh ? "云端仅处理您选择并授权的转写文字" : "limited to transcript text and textual context you authorize");
+        expect(text).toContain(zh ? "保存期限最长不超过30天" : "retained for no more than 30 days");
+        expect(text).toContain(zh ? "删除一条转写，不会自动删除现有笔记、摘要" : "Deleting a transcript does not automatically delete existing notes, summaries");
+        const services = Array.from(article.querySelectorAll("ul")).find(list => list.textContent?.includes("Azure Blob"));
+        expect(services).toBeTruthy();
+        expect(services!.querySelectorAll("li")).toHaveLength(12);
+        expect(services!.textContent).not.toMatch(/Azure AI Speech|云端语音服务/);
+        expect(text).not.toContain("|");
+      }
+    }
   });
 
   it("selects Chinese before React, keeps legal links in that language and switches back", () => {
