@@ -50,8 +50,7 @@ const publicPages: SitePage[] = [
   {
     path: "/journal",
     title: "Blog — Memova",
-    description:
-      "Stories, product updates, and ideas from the Memova team.",
+    description: "Stories, product updates, and ideas from the Memova team.",
     index: true,
     changeFrequency: "weekly",
     priority: 0.8,
@@ -61,8 +60,7 @@ const publicPages: SitePage[] = [
     hero: {
       eyebrow: "Memova Blog",
       title: "Blog",
-      intro:
-        "New stories are on the way.",
+      intro: "Stories, product updates, and ideas from the Memova team.",
     },
   },
   {
@@ -80,24 +78,29 @@ const publicPages: SitePage[] = [
     hero: {
       eyebrow: "Pricing",
       title: "A little more room to think.",
-      intro: "Start free. Upgrade for unlimited webpages and recording minutes in Meeting and Spark.",
+      intro:
+        "Start free. Upgrade for unlimited webpages and recording minutes in Meeting and Spark.",
     },
   },
-  ...journalEntries.filter(entry => !entry.href).map((entry): SitePage => ({
-    path: `/journal/${entry.slug}`,
-    title: `${entry.title} — Memova Blog`,
-    description: entry.summary,
-    index: true,
-    changeFrequency: "monthly",
-    priority: 0.78,
-    summary: entry.summary,
-    schemaType: "Article",
-    hero: {
-      eyebrow: `Memova Blog · ${entry.week}`,
-      title: entry.title,
-      intro: entry.summary,
-    },
-  })),
+  ...journalEntries
+    .filter(entry => !entry.href)
+    .map(
+      (entry): SitePage => ({
+        path: `/journal/${entry.slug}`,
+        title: entry.seoTitle ?? `${entry.title} — Memova Blog`,
+        description: entry.metaDescription ?? entry.summary,
+        index: true,
+        changeFrequency: "monthly",
+        priority: 0.78,
+        summary: entry.summary,
+        schemaType: "Article",
+        hero: {
+          eyebrow: `Memova Blog · ${entry.week}`,
+          title: entry.title,
+          intro: entry.summary,
+        },
+      })
+    ),
   {
     path: "/product-journal",
     title: "Memova Product Journal — From Context to Compounding Knowledge",
