@@ -166,7 +166,7 @@ export function collectSeoBuildErrors(outputDir, pages) {
       errors.push(`Missing static legal route shell: ${legalRoute}`);
     } else if (
       !legalShell.includes(
-        "17. Google Sign-In and Google Workspace Permissions"
+        "17. Third-Party Sign-In and Connected Services"
       )
     ) {
       errors.push(

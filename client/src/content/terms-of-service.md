@@ -1,6 +1,6 @@
 # Terms of Service
 
-*Last updated: November 2, 2026*
+*Last updated: November 5, 2026*
 
 These Terms of Service (“Terms”) govern your access to and use of Memova, including our website, applications, products, and services (collectively, the “Service”). The Service is provided by MEMOVA LLC (“Memova,” “we,” “us,” or “our”).
 
@@ -8,25 +8,19 @@ By accessing or using the Service, you agree to these Terms. If you do not agree
 
 ## 1. The Service
 
-Memova helps users capture, transcribe, organize, summarize, search, and understand information from conversations, notes, recordings, images, PDFs, documents, and other materials they choose to provide.
+Memova helps you capture, transcribe, organize, summarize, search, and understand conversations, notes, recordings, images, PDFs, documents, and other material you choose to provide. Features may include recording, transcription, uploads, organization, questions and answers, generated outputs, editing, export, deletion, and synchronization or backup where enabled.
 
-The Service may include features that allow you to:
+On first use, agreement to the basic privacy notice and Privacy Policy is required before entering Apple Watch connection. If you do not agree at that time, you do not enter that process. This agreement does not enable cloud AI or authorize sharing records or health measurements with third parties. After the relevant setup, local recording, local transcription, and offline search are available free of charge without an account or subscription. Registration is optional for account-based features.
 
-- Record or transcribe conversations
+Recordings are transcribed on your device. Original recordings and voiceprint models remain on your device and are not uploaded to Memova or its cloud providers. The recording content submitted for cloud analysis is limited to transcript text and textual context you authorize.
 
-- Upload photos, PDFs, documents, or other files
+Cloud features require an account and network connection; availability, version support, and subscription requirements follow the in-app description. Microsoft Azure AI services provide relevant AI capabilities. Depending on the feature and permission, processing may involve text, images, documents, attachments, conversation context, or generated results. Ordinary cloud permission does not replace separate permission for health measurements. Creating an account, purchasing a subscription, or granting device access does not itself authorize cloud sharing.
 
-- Generate transcripts, summaries, structured notes, action items, drafts, and other content
+In supported manual mode, you select the submission scope; hour-based organization uses a particular date and recording period. Questions and answers may also include relevant conversation history and cited material, rather than only the latest input. Automatic mode includes local transcript text already completed on the day the mode is enabled and text completed later that day. It continues for each subsequent day's text without automatically backfilling earlier dates. My Day recaps and To explore content update after configured Working time using authorized and available material; Custom entries and Spark may still be initiated before then.
 
-- Ask questions based on your saved context
+Stopping cloud use or switching to local mode does not automatically withdraw previously submitted content or delete saved cloud information. Existing tasks follow the applicable feature cancellation rules. Content storage, task processing, and display of results are separate stages. Viewing an output on your device does not establish on-device generation.
 
-- Search, organize, edit, export, or delete your content
-
-- Sync or back up content if those features are available and enabled
-
-For Memova Watch, original recordings and voiceprint models remain on your device, and basic speech transcription is performed locally. Cloud AI features process text, including transcripts, notes, questions, and the context included in the feature you authorize, through Microsoft’s Azure OpenAI Service after you give permission. In cloud automatic mode, the completed transcript text already available from the day you enable the mode, and transcript text completed later that day, is uploaded automatically within the scope you authorize. While the mode remains enabled, this applies to each day’s transcript text; it does not backfill transcripts from earlier dates. In cloud manual mode, only the content you confirm for submission is processed. Creating an account, purchasing a subscription, or allowing microphone access does not by itself authorize this sharing.
-
-For Meeting Note, cloud processing starts after you end the meeting recording and separately confirm processing. The confirmed text and notes are used to generate a meeting title, highlights, a summary, and a private HTML page. This process does not upload the original recording for cloud speech transcription. AI-generated meeting results remain subject to your review.
+After the relevant confirmation, an individual Meeting Note may use its completed local transcript and original notes as one task to generate a title, highlights, summary, and page. In-app viewing and link access may use different mechanisms. Some older meeting pages can be viewed without signing in by anyone holding a valid link. Review the actual access mechanism before sharing, and review AI-generated results before use.
 
 We may update, modify, suspend, or discontinue parts of the Service from time to time.
 
@@ -38,33 +32,29 @@ By using the Service, you represent that you have the legal capacity to enter in
 
 ## 3. Your Account
 
-You may need to create an account to use some features of the Service.
+Basic local features do not require an account. Some cloud or other account-based features require registration.
 
-You are responsible for:
+You are responsible for accurate account information, safeguarding credentials, activity under your account, and promptly notifying us of suspected compromise. Signing in does not grant access to another account's content. Protected resources are subject to relevant checks of identity, content ownership, workspace, authorization scope, credentials, and content status.
 
-- Providing accurate account information
+Connectors, plugins, and supported tools accessing Memova require valid authorization credentials and are limited by granted scopes. Connecting a tool does not grant all account permissions. Revocation or expiry affects later access using that authorization but cannot retrieve copies already delivered, downloaded, or retained.
 
-- Keeping your login credentials secure
-
-- All activity that occurs under your account
-
-- Promptly notifying us if you believe your account has been compromised
+Memova provides an account deletion request process that may require renewed identity verification and account confirmation. Once accepted, relevant account access is disabled, login sessions and tool authorizations are revoked, and related integration connections stored in Memova are cleared. Cloud information is then handled in background processes. Acceptance of a request does not mean all cleanup is complete. Billing or security records may follow different retention rules, and external copies cannot automatically be deleted.
 
 We may suspend or terminate your account if we believe you have violated these Terms or used the Service in a way that may harm us, other users, or third parties.
 
 ## 4. Your Content
 
-“Your Content” means any audio, speech, recordings, transcripts, notes, prompts, questions, photos, PDFs, documents, files, text, metadata, or other materials that you record, upload, submit, store, or otherwise provide to the Service, as well as outputs generated for you based on that content.
+“Your Content” includes audio, speech, recordings, transcripts, notes, prompts, questions, photos, PDFs, documents, files, text, metadata, and other material you record, upload, submit, store, or otherwise provide, together with outputs generated from it.
 
-You retain ownership of Your Content. These Terms do not transfer ownership of Your Content to Memova.
+You retain ownership of Your Content. You grant Memova a limited license to process it only as necessary for the Service and features you choose, including requested transcripts, summaries, answers, drafts, notes, and other outputs. These Terms do not transfer ownership or replace the permission required for sharing with a third-party AI service. Processing remains limited to the content, purposes, and modes you authorize.
 
-You grant Memova a limited license to process Your Content only as necessary to provide the Service and the features you choose to use. This includes generating transcripts, summaries, answers, drafts, structured notes, extracted information, and other requested outputs.
+We do not use your private recordings, transcripts, notes, conversations, or generated content for advertising or to train general-purpose AI models. Local transcription and authorized cloud inference and generation needed to provide your feature are different purposes from general-purpose model training. The training restriction does not mean content avoids the cloud or that all temporary material or provider copies are immediately cleaned up.
 
-We do not use Your Content to train AI models, build advertising profiles, or improve Memova for other users.
+You can set when the app clears original audio. Original recordings managed by the app are retained for no more than 30 days. This maximum applies only to app-managed original audio, not voiceprint models, transcripts, notes, summaries, other saved outputs, or logs. It does not delete copies you have exported outside the app, and ordinary backup or background-cleanup provisions do not extend this in-app maximum.
 
-This limited license does not replace the permission required before sharing Your Content with a third-party AI provider. Cloud processing remains limited to the content, purposes, and mode you authorize.
+Formally saved cloud transcripts, notes, and outputs are retained until manual deletion, subject to Privacy Policy retention and deletion rules and the service availability limitations in Sections 13 and 14. Task completion, mode changes, and local-cache clearing do not delete cloud content.
 
-Cloud-stored transcripts, notes, and generated results are retained for your continuing use until you manually delete them, subject to the retention and deletion provisions in our Privacy Policy and the service availability limitations in Sections 13 and 14. When you delete this content, the deletion takes effect in Memova immediately and the content is not moved to a recycle bin. This does not mean that every backup or log copy is erased immediately; the handling of such copies is subject to our Privacy Policy and applicable requirements.
+Content deletion, task cancellation, share revocation, and account closure have different scopes. Interface removal, access invalidation, background cleanup, and expiry of retained copies may be separate stages; cleanup may require retries after storage or network failures. Content is not moved to a recycle bin, but deletion does not mean all caches, logs, backups, and provider copies are physically erased at once. Deleting a transcript does not automatically delete existing notes, summaries, Personal Manuals, webpages, or other saved content that previously used or cited it; you manage or delete those items separately. If the original transcript or audio has been deleted, source-text review or playback may no longer be available. Further use of retained content remains subject to the scope you authorize. External copies are managed separately. The Privacy Policy provides further details.
 
 ## 5. Your Responsibilities
 
@@ -128,11 +118,15 @@ You agree not to use the Service to:
 
 We may investigate and take appropriate action if we believe the Service is being misused.
 
-## 9. Privacy
+## 9. Privacy and Information Security
 
-Our [Privacy Policy](https://memova.ai/privacy) explains how we collect, use, process, and protect information in connection with the Service. By using the Service, you acknowledge our Privacy Policy. Accepting these Terms or acknowledging the Privacy Policy does not by itself constitute permission to share personal information with a third-party AI service. We explain the data, recipient, and purpose and obtain your permission before that sharing.
+Our [Privacy Policy](https://memova.ai/privacy) describes information collection, use, processing, retention, and protection. Agreement to the initial privacy notice is required before Watch connection. That agreement, acceptance of these Terms, account creation, or acknowledgment of the policy does not authorize third-party AI sharing. Relevant cloud and health-measurement permissions must be obtained separately.
 
-You can contact us about privacy matters at hello@memova.ai.
+Client connections to Memova production interfaces use HTTPS/TLS. The main Azure Blob Storage file storage and Azure Database for PostgreSQL business database use Azure-provided AES-256 encryption at rest, with the relevant keys managed by Microsoft. That file storage requires HTTPS with a minimum TLS version of 1.2; the database requires TLS connections. This scope does not establish the same configuration for every log, backup, or other system, or promise end-to-end encryption or that providers cannot access content.
+
+Authentication, content-ownership checks, and application-layer access rules restrict protected content. Different accounts are logically isolated through these rules. Downloads have relevant permission checks, with some authorizations time-limited. Recognized access-token, password, and key fields, and credentials in certain links, are filtered in necessary operational logs. This does not establish anonymization of all logs or automatic removal of arbitrary private content.
+
+Contact hello@memova.ai about privacy matters.
 
 ## 10. Subscriptions, Payments, and Billing
 
@@ -154,13 +148,15 @@ We may change prices or plan features from time to time. If required, we will pr
 
 ## 11. Third-Party Services
 
-The Service may include or rely on third-party services, such as cloud infrastructure, payment processors, authentication providers, transcription providers, AI processing providers, analytics, or customer support tools.
+The Service may use Microsoft Azure infrastructure, storage, AI, and communications capabilities or relevant capabilities from other providers to complete features you choose. These may include application hosting, business databases, file storage, caches and task queues, model inference, document analysis, content understanding, translation, backend credential management, operational monitoring, and verification email. Application-image storage concerns application software and build artifacts, rather than requiring users' private content to pass through it.
 
-Microsoft provides the Azure OpenAI Service used for Memova Watch’s cloud AI text processing. Your authorized transcripts, notes, questions, and relevant context may be processed by that service to provide the features you request. Details of data sharing and protection are described in our Privacy Policy.
+The actual services used depend on the feature, submitted material, and processing configuration; not every item passes through all services. Providers may process necessary authorized text, images, documents, context, generated results, account information, or delivery status within the relevant scope. Original recordings and voiceprint models are not uploaded. Backend credential management does not establish user-exclusive at-rest encryption keys. Microsoft manages at-rest keys for the main file storage and database described above.
 
-Your use of third-party services may be subject to their own terms and policies. We are not responsible for third-party services that we do not control.
+Memova remains responsible for in-app account permissions, content ownership, processing flows, and business-data management. Cloud infrastructure does not replace these protections or grant other users access to private content. In-app results and linked pages may use different access mechanisms. Some older pages can be viewed without sign-in by anyone holding a valid link.
 
-Using a service provider does not expand the content or purposes you have authorized or remove Memova’s responsibilities under its Privacy Policy and applicable law.
+Memova business records, provider temporary processing material, response records, and security logs may have different retention rules. Deletion does not mean synchronized physical erasure of all provider copies, and restrictions on general-purpose model training do not imply comprehensive zero retention. See the Privacy Policy for details.
+
+Third-party use may be governed by the provider's terms and policies. We are not responsible for third-party services we do not control. Using a provider does not expand your authorized content or purposes or remove Memova's responsibilities under its Privacy Policy and applicable law.
 
 ## 12. Intellectual Property
 
@@ -220,11 +216,11 @@ You agree to indemnify, defend, and hold harmless MEMOVA LLC and its officers, d
 
 ## 17. Termination
 
-You may stop using the Service at any time.
+You may stop using the Service at any time. Stopping cloud use does not automatically withdraw previously submitted content or delete saved cloud information. Existing tasks follow their cancellation rules. Account closure uses the deletion request process; request acceptance and completion of background cleanup are different stages, as described in the Privacy Policy.
 
-We may suspend or terminate your access to the Service if we believe you have violated these Terms, created risk or legal exposure for us, or used the Service in a way that may harm us, other users, or third parties.
+We may suspend or terminate access if we believe you have violated these Terms, created risk or legal exposure, or used the Service in a way that may harm us, other users, or third parties.
 
-Upon termination, your right to use the Service will end. Sections that by their nature should survive termination will survive, including ownership, disclaimers, limitation of liability, indemnification, and dispute provisions.
+Upon termination, your right to use the Service ends. Provisions that by their nature should survive remain effective, including ownership, disclaimers, limitations of liability, indemnification, and dispute provisions.
 
 ## 18. Changes to These Terms
 
