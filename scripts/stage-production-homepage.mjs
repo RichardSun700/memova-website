@@ -44,6 +44,7 @@ await build({ configFile: path.join(source, "vite.config.mjs"), logLevel: "warn"
 await build({
   configFile: false,
   root: source,
+  resolve: { alias: { "@": path.join(root, "client/src") } },
   plugins: [react()],
   logLevel: "warn",
   build: {

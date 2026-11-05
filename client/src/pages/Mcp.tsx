@@ -19,7 +19,7 @@ import {
   Terminal,
   Workflow,
 } from "lucide-react";
-import Navbar from "@/components/Navbar";
+import SiteHeader from "@/components/SiteHeader";
 import SiteFooter from "@/components/SiteFooter";
 
 const MCP_ENDPOINT = "https://api.memova.ai/mcp";
@@ -116,9 +116,9 @@ export default function Mcp() {
 
   return (
     <div className="min-h-screen overflow-x-hidden bg-[#F8FAFF] text-[var(--memova-navy)]">
-      <Navbar />
+      <SiteHeader current="mcp" />
 
-      <main className="pt-20">
+      <main>
         <section className="relative overflow-hidden border-b border-[#DDE6FF]/80 bg-white py-16 md:py-24 lg:py-28">
           <div className="pointer-events-none absolute -left-32 top-8 h-[32rem] w-[32rem] rounded-full bg-blue-100/45 blur-3xl" />
           <div className="pointer-events-none absolute -right-40 bottom-[-12rem] h-[36rem] w-[36rem] rounded-full bg-violet-100/35 blur-3xl" />

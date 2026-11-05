@@ -40,7 +40,8 @@ export const REQUIRED_TRACKED_PATHS = [
 export const PRODUCTION_SOURCE_SCOPES = [
   "client/homepage",
   "client/public",
-  "client/src/seo",
+  "client/src",
+  "shared",
   "homepage-watch",
   "scripts",
   "package.json",

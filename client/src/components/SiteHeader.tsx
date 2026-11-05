@@ -1,269 +1,60 @@
-import { ChevronDown, LogOut, Menu, UserRound, X } from "lucide-react";
-import { createElement, useEffect, useRef, useState } from "react";
+import { ChevronDown, LogOut, UserRound } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
 import { useAuth } from "@/contexts/AuthContext";
+import { setLegalLanguage, useLegalLanguage } from "@/seo/legalLanguage";
+import WatchSiteHeader, { type WatchSiteHeaderProps } from "../../../shared/site/WatchSiteHeader";
 
-const legacyNavigation = [
-  ["How it works", "/#act", "how-it-works"],
-  ["Work Style", "/personal-manual/work-types/", "work-types"],
-  ["Product demo", "/product-demo/", "demo"],
-  ["Journal", "/journal/", "journal"],
-  ["Pricing", "/pricing/", "pricing"],
-  ["Support", "/support/", "support"],
-] as const;
-
-const watchNavigation = [
-  ["Experience Memova", "/#experience", "experience"],
-  ["Privacy & offline", "/#privacy", "privacy"],
-  ["Memova Pro", "/#pro", "pro"],
-  ["Blog", "/journal/", "journal"],
-  ["MCP", "/mcp/", "mcp"],
-] as const;
-
-export default function SiteHeader({
-  current,
-  navigationMode = "legacy",
-}: {
-  current: string;
+type Props = Omit<WatchSiteHeaderProps, "account" | "mobileAccount"> & {
   navigationMode?: "legacy" | "watch";
-}) {
-  const navigation =
-    navigationMode === "watch" ? watchNavigation : legacyNavigation;
+};
+
+export default function SiteHeader(props: Props) {
   const auth = useAuth();
-  const [open, setOpen] = useState(false);
+  const storedLanguage = useLegalLanguage();
+  const language = props.language || storedLanguage;
+  const L = (zh: string, en: string) => language === "zh" ? zh : en;
   const [accountOpen, setAccountOpen] = useState(false);
   const accountRef = useRef<HTMLDivElement>(null);
-  const menuRef = useRef<HTMLButtonElement>(null);
-  const communityRef = useRef<HTMLDialogElement>(null);
+  const accountButton = useRef<HTMLButtonElement>(null);
   const accountName = auth.user?.display_name?.trim() || "Memova account";
 
   useEffect(() => {
+    const closeOutside = (event: PointerEvent) => {
+      if (!accountRef.current?.contains(event.target as Node)) setAccountOpen(false);
+    };
     const closeOnEscape = (event: KeyboardEvent) => {
-      if (event.key !== "Escape") return;
-      if (open) menuRef.current?.focus();
-      setOpen(false);
-      setAccountOpen(false);
-    };
-    const closeAccountOutside = (event: PointerEvent) => {
-      if (!accountRef.current?.contains(event.target as Node))
+      if (event.key === "Escape" && accountOpen) {
         setAccountOpen(false);
+        accountButton.current?.focus();
+      }
     };
-    const desktop = window.matchMedia("(min-width: 1024px)");
-    const closeMobile = () => setOpen(false);
+    window.addEventListener("pointerdown", closeOutside);
     window.addEventListener("keydown", closeOnEscape);
-    window.addEventListener("pointerdown", closeAccountOutside);
-    desktop.addEventListener("change", closeMobile);
     return () => {
+      window.removeEventListener("pointerdown", closeOutside);
       window.removeEventListener("keydown", closeOnEscape);
-      window.removeEventListener("pointerdown", closeAccountOutside);
-      desktop.removeEventListener("change", closeMobile);
     };
-  }, [open]);
+  }, [accountOpen]);
 
-  return (
-    <>
-      <header className="five-header">
-        <a className="five-brand" href="/" aria-label="Memova home">
-          <img
-            className="five-brand-icon"
-            src="/brand/memova-app-icon-liquid-blue.svg"
-            alt=""
-            width="32"
-            height="32"
-          />
-          <img
-            className="five-brand-wordmark"
-            src="/brand/memova-wordmark-blue.svg"
-            alt=""
-            width="110"
-            height="14"
-          />
-        </a>
-        <a
-          className="memova-download-button five-mobile-app-store"
-          href="https://apps.apple.com/us/app/memova-ai/id6796284954"
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label="Download Memova AI on the App Store"
-          onClick={() => setOpen(false)}
-        >
-          <img src="/brand/app-store-download-en.svg" alt="" width="120" height="40" />
-        </a>
-        <button
-          ref={menuRef}
-          className="five-menu"
-          type="button"
-          aria-expanded={open}
-          aria-controls="site-navigation"
-          aria-label={open ? "Close navigation" : "Open navigation"}
-          onClick={() => setOpen(value => !value)}
-        >
-          {open ? (
-            <X size={21} aria-hidden="true" />
-          ) : (
-            <Menu size={21} aria-hidden="true" />
-          )}
-        </button>
-        <nav
-          id="site-navigation"
-          className={open ? "five-nav is-open" : "five-nav"}
-          aria-label="Primary navigation"
-        >
-          <div>
-            {navigation.map(([label, href, key]) => (
-              <a
-                key={key}
-                href={href}
-                className={key === "demo" ? "five-demo-link" : undefined}
-                aria-current={current === key ? "page" : undefined}
-                onClick={() => setOpen(false)}
-              >
-                {label}
-              </a>
-            ))}
-          </div>
-          <div>
-            <button
-              className="five-community-button"
-              type="button"
-              aria-haspopup="dialog"
-              onClick={() => {
-                setOpen(false);
-                communityRef.current?.showModal();
-              }}
-            >
-              Join Community
-            </button>
-            <a
-              className="memova-download-button"
-              href="https://apps.apple.com/us/app/memova-ai/id6796284954"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="Download Memova AI on the App Store"
-              onClick={() => setOpen(false)}
-            >
-              Download the app
-            </a>
-            {auth.isAuthenticated ? (
-              <div className="five-account-menu" ref={accountRef}>
-                <button
-                  className="five-account-trigger"
-                  type="button"
-                  aria-label={`Open ${accountName}'s account menu`}
-                  aria-haspopup="menu"
-                  aria-expanded={accountOpen}
-                  onClick={() => setAccountOpen(value => !value)}
-                >
-                  <span className="five-account-avatar" aria-hidden="true">
-                    {auth.user?.avatar_url ? (
-                      <img
-                        src={auth.user.avatar_url}
-                        alt=""
-                        onError={() => void auth.refreshUser().catch(() => {})}
-                      />
-                    ) : (
-                      accountName.charAt(0).toUpperCase()
-                    )}
-                  </span>
-                  <span className="five-account-name">{accountName}</span>
-                  <ChevronDown
-                    size={14}
-                    className="five-account-chevron"
-                    aria-hidden="true"
-                  />
-                </button>
-                {accountOpen && (
-                  <div
-                    className="five-account-popover"
-                    role="menu"
-                    aria-label="Account"
-                  >
-                    <a
-                      href="/profile"
-                      role="menuitem"
-                      onClick={() => {
-                        setAccountOpen(false);
-                        setOpen(false);
-                      }}
-                    >
-                      <UserRound size={16} aria-hidden="true" />
-                      Profile
-                    </a>
-                    <button
-                      type="button"
-                      role="menuitem"
-                      onClick={() => {
-                        setAccountOpen(false);
-                        setOpen(false);
-                        void auth.logout();
-                      }}
-                    >
-                      <LogOut size={16} aria-hidden="true" />
-                      Log out
-                    </button>
-                  </div>
-                )}
-              </div>
-            ) : (
-              <a href="/login" onClick={() => setOpen(false)}>
-                Sign in
-              </a>
-            )}
-          </div>
-          <div className="five-mobile-language">
-            {createElement("memova-language-switch")}
-          </div>
-        </nav>
-        {createElement("memova-language-switch")}
-        <dialog
-          ref={communityRef}
-          className="five-community-overlay"
-          aria-labelledby="site-community-title"
-          onClick={event => {
-            if (event.target === event.currentTarget)
-              communityRef.current?.close();
-          }}
-        >
-          <div className="five-community-dialog">
-            <button
-              className="five-community-close"
-              type="button"
-              aria-label="Close community invitation"
-              onClick={() => communityRef.current?.close()}
-            >
-              <X size={18} aria-hidden="true" />
-            </button>
-            <p className="five-community-eyebrow">Memova Community</p>
-            <h2 id="site-community-title">Join the conversation.</h2>
-            <p className="five-community-copy">
-              Scan the code or open Discord to share ideas, meet early users,
-              and help shape what Memova becomes.
-            </p>
-            <a
-              className="five-community-qr-link"
-              href="https://discord.gg/E9u5FFvhdu"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="Open the Memova Discord community"
-            >
-              <img
-                src="/community/discord-community-qr-e9u5ffvhdu.png"
-                alt="QR code for the Memova Discord community"
-                width="300"
-                height="300"
-              />
-            </a>
-            <a
-              className="five-community-open"
-              href="https://discord.gg/E9u5FFvhdu"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Open Discord ↗
-            </a>
-          </div>
-        </dialog>
-      </header>
-      <div className="memova-site-header-space" aria-hidden="true" />
-    </>
-  );
+  const logout = async () => {
+    setAccountOpen(false);
+    await auth.logout();
+    if (/^\/(?:profile|(?:settings\/)?connected-clients|mcp\/oauth\/consent)\/?$/.test(window.location.pathname)) window.location.assign("/");
+  };
+  const account = auth.isAuthenticated ? <div className="mw-account" ref={accountRef}>
+    <button ref={accountButton} type="button" className="mw-account-trigger" aria-label={`Open ${accountName}'s account menu`} aria-haspopup="menu" aria-expanded={accountOpen} onClick={() => setAccountOpen(!accountOpen)}>
+      <span className="mw-avatar" aria-hidden="true">{auth.user?.avatar_url ? <img src={auth.user.avatar_url} alt="" onError={() => void auth.refreshUser().catch(() => {})} /> : accountName.charAt(0).toUpperCase()}</span>
+      <span className="mw-account-name">{accountName}</span><ChevronDown size={14} aria-hidden="true" />
+    </button>
+    {accountOpen && <div className="mw-account-popover" role="menu" aria-label="Account">
+      <a href="/profile" role="menuitem" onClick={() => setAccountOpen(false)}><UserRound size={16} aria-hidden="true" />{L("个人资料", "Profile")}</a>
+      <button type="button" role="menuitem" onClick={() => void logout()}><LogOut size={16} aria-hidden="true" />{L("退出登录", "Log out")}</button>
+    </div>}
+  </div> : undefined;
+  const mobileAccount = auth.isAuthenticated ? <>
+    <a href="/profile"><span>{accountName}</span><UserRound size={18} aria-hidden="true" /></a>
+    <button type="button" onClick={() => void logout()}>{L("退出登录", "Log out")}<LogOut size={18} aria-hidden="true" /></button>
+  </> : undefined;
+
+  return <WatchSiteHeader {...props} language={language} onLanguageChange={props.onLanguageChange || setLegalLanguage} account={account} mobileAccount={mobileAccount} />;
 }

@@ -1,6 +1,6 @@
 import SiteFooter from "@/components/SiteFooter";
-import MemovaBrand from "@/components/MemovaBrand";
-import { ArrowLeft, ExternalLink, Mail, ShieldCheck, Wrench } from "lucide-react";
+import SiteHeader from "@/components/SiteHeader";
+import { ExternalLink, Mail, ShieldCheck, Wrench } from "lucide-react";
 import { useEffect } from "react";
 
 const SUPPORT_EMAIL = "hello@memova.ai";
@@ -27,20 +27,7 @@ export default function Support() {
 
   return (
     <div className="min-h-screen bg-[#FAFCFF] text-[#0F2B3C]">
-      <header className="border-b border-[#E8F0F8]/70 bg-white/85 backdrop-blur-xl">
-        <div className="container flex min-h-[64px] items-center justify-between gap-4">
-          <a href="/" aria-label="Memova home">
-            <MemovaBrand />
-          </a>
-          <a
-            href="/"
-            className="inline-flex items-center gap-2 text-[13px] font-semibold text-[#2E5B82]/65 transition-colors hover:text-[#0F2B3C]"
-          >
-            <ArrowLeft className="h-4 w-4" />
-            Home
-          </a>
-        </div>
-      </header>
+      <SiteHeader current="support" />
 
       <main className="container py-12 md:py-16">
         <div className="mx-auto max-w-3xl">

@@ -5,6 +5,7 @@ import { parseHTML } from "linkedom";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { PrivacyPolicyPage, TermsOfServicePage, renderLegalInline } from "./LegalPage";
 import SiteMetadata from "@/seo/SiteMetadata";
+import { AuthProvider } from "@/contexts/AuthContext";
 
 const route = vi.hoisted(() => ({ path: "/privacy" }));
 vi.mock("wouter", () => ({ useLocation: () => [route.path] }));
@@ -35,18 +36,29 @@ async function fixture({
     localStorage: {
       getItem: (key: string) => { if (blocked) throw new Error("blocked"); return data.get(key) || null; },
       setItem: (key: string, value: string) => { if (blocked) throw new Error("blocked"); data.set(key, value); },
+      removeItem: (key: string) => data.delete(key),
     },
+    matchMedia: vi.fn(() => ({ matches: false, addEventListener: vi.fn(), removeEventListener: vi.fn() })),
+    requestAnimationFrame: vi.fn(() => 1),
+    cancelAnimationFrame: vi.fn(),
     MemovaLanguage: undefined,
   });
   route.path = location.pathname;
   vi.stubGlobal("window", window);
   vi.stubGlobal("document", document);
+  vi.stubGlobal("localStorage", window.localStorage);
+  vi.stubGlobal("requestAnimationFrame", window.requestAnimationFrame);
+  vi.stubGlobal("cancelAnimationFrame", window.cancelAnimationFrame);
+  vi.stubGlobal("ResizeObserver", class { observe() {} disconnect() {} });
+  Object.defineProperty(document, "fonts", { value: { ready: Promise.resolve() }, configurable: true });
   vi.stubGlobal("CustomEvent", window.CustomEvent);
   vi.stubGlobal("IS_REACT_ACT_ENVIRONMENT", true);
   const root = createRoot(document.getElementById("root")!);
   roots.push(root);
   const page = route.path.startsWith("/terms") ? TermsOfServicePage : PrivacyPolicyPage;
-  await act(() => root.render(createElement(Fragment, null, createElement(SiteMetadata), metadataOnly ? null : createElement(page))));
+  await act(() => root.render(createElement(AuthProvider, null,
+    createElement(Fragment, null, createElement(SiteMetadata), metadataOnly ? null : createElement(page))
+  )));
   return { document, window, location, data, root };
 }
 
@@ -70,8 +82,8 @@ describe("complete bilingual legal documents", () => {
     expect(f.document.title).toBe(`${title} — Memova`);
     expect(JSON.parse(f.document.querySelector("#memova-structured-data")!.textContent!).inLanguage).toBe(language === "zh" ? "zh-CN" : "en-US");
     for (const chrome of [f.document.querySelector("header")!, f.document.querySelector("footer")!]) {
-      expect(chrome.querySelector(".memova-brand-icon")?.getAttribute("src")).toBe("/brand/memova-app-icon-liquid-blue.svg");
-      expect(chrome.querySelector(".memova-brand-wordmark")?.getAttribute("src")).toBe("/brand/memova-wordmark-blue.svg");
+      expect(chrome.querySelector('img[src="/brand/memova-app-icon-liquid-blue.svg"]')).not.toBeNull();
+      expect(chrome.querySelector('img[src="/brand/memova-wordmark-blue.svg"]')).not.toBeNull();
       expect(chrome.querySelector("[src*=memova_logo_0eb30acc]")).toBeNull();
     }
   });
@@ -79,7 +91,7 @@ describe("complete bilingual legal documents", () => {
   it("honors an explicit URL language ahead of a stored choice and switches the body, metadata and navigation together", async () => {
     const f = await fixture({ url: "https://memova.ai/privacy-policy?lang=en&source=review#health", stored: "zh" });
     expect(f.document.querySelector("h1")!.textContent).toBe("Privacy Policy");
-    await act(() => (f.document.querySelector('button[lang="zh-CN"]') as HTMLButtonElement).click());
+    await act(() => (f.document.querySelector('main button[lang="zh-CN"]') as HTMLButtonElement).click());
     expect(f.document.querySelector("h1")!.textContent).toBe("隐私协议");
     expect(f.document.querySelector("article")!.textContent).toContain("健康测量不用于决定普通会议议题");
     expect(f.document.title).toBe("隐私协议 — Memova");
@@ -89,9 +101,10 @@ describe("complete bilingual legal documents", () => {
     expect(f.location.hash).toBe("#health");
     expect(f.data.get("memova.site-language.v1")).toBe("zh");
     for (const link of Array.from(f.document.querySelectorAll("header a, footer a, main nav a"))) {
-      if (!link.getAttribute("href")?.startsWith("mailto:")) expect(link.getAttribute("href")).toContain("lang=zh");
+      const href = link.getAttribute("href") || "";
+      if (href.startsWith("/")) expect(href).toContain("lang=zh");
     }
-    await act(() => (f.document.querySelector('button[lang="en"]') as HTMLButtonElement).click());
+    await act(() => (f.document.querySelector('main button[lang="en"]') as HTMLButtonElement).click());
     expect(f.document.querySelector("article")!.textContent).not.toContain("健康测量不用于决定普通会议议题");
     expect(f.document.title).toBe("Privacy Policy — Memova");
   });
@@ -100,7 +113,7 @@ describe("complete bilingual legal documents", () => {
     const stored = await fixture({ stored: "zh" });
     expect(stored.document.querySelector("h1")!.textContent).toBe("隐私协议");
     const blocked = await fixture({ blocked: true });
-    await act(() => (blocked.document.querySelector('button[lang="zh-CN"]') as HTMLButtonElement).click());
+    await act(() => (blocked.document.querySelector('main button[lang="zh-CN"]') as HTMLButtonElement).click());
     expect(blocked.document.querySelector("h1")!.textContent).toBe("隐私协议");
   });
 
@@ -115,7 +128,7 @@ describe("complete bilingual legal documents", () => {
       }),
     };
     Object.assign(f.window, { MemovaLanguage: shared });
-    await act(() => (f.document.querySelector('button[lang="zh-CN"]') as HTMLButtonElement).click());
+    await act(() => (f.document.querySelector('main button[lang="zh-CN"]') as HTMLButtonElement).click());
     expect(shared.setLanguage).toHaveBeenCalledWith("zh");
     expect(f.document.querySelector("h1")!.textContent).toBe("隐私协议");
     f.location.searchParams.set("lang", "en");
@@ -134,9 +147,11 @@ describe("complete bilingual legal documents", () => {
     expect(html).not.toContain("<img");
   });
 
-  it("keeps the actual terms-to-privacy link localized", async () => {
-    const f = await fixture({ url: "https://memova.ai/terms?lang=zh" });
-    expect(f.document.querySelector('article a[href="https://memova.ai/privacy?lang=zh"]')?.textContent).toBe("隐私协议");
+  it("keeps the actual terms-to-privacy link in the current site and language", async () => {
+    const f = await fixture({ url: "http://localhost:4173/terms?lang=zh" });
+    const link = f.document.querySelector('article a[href="/privacy?lang=zh"]');
+    expect(link?.textContent).toBe("隐私协议");
+    expect(new URL(link!.getAttribute("href")!, f.location).origin).toBe(f.location.origin);
   });
 
   it("does not reset another page's translated metadata on a shared language change", async () => {

@@ -77,9 +77,7 @@ export function withLegalLanguage(href: string, language: LegalLanguage): string
   const url = new URL(href, SITE_ORIGIN);
   if (url.origin !== SITE_ORIGIN || href.startsWith("#")) return href;
   url.searchParams.set("lang", language);
-  return href.startsWith("/")
-    ? url.pathname + url.search + url.hash
-    : url.toString();
+  return url.pathname + url.search + url.hash;
 }
 
 export function getLegalPageMetadata(pathname: string, language: LegalLanguage) {

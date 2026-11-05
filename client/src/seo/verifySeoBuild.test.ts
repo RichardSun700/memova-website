@@ -15,6 +15,23 @@ afterEach(() => {
 });
 
 describe("SEO build verification", () => {
+  it("keeps all migrated route first paints on the same site and shared navigation", () => {
+    const outputDir = path.resolve(process.cwd(), "dist/public");
+    for (const file of ["index.html", "journal/index.html", "journal/rewind-on-an-older-apple-watch/index.html", "mcp/index.html", "privacy/index.html", "privacy.html", "terms/index.html", "support/index.html", "login.html", "profile.html", "connected-clients.html", "mcp/oauth/consent.html"]) {
+      const { document } = parseHTML(fs.readFileSync(path.join(outputDir, file), "utf8"));
+      const header = document.querySelector("header.memova-watch-header");
+      expect(header, file).toBeTruthy();
+      expect(header!.querySelectorAll(".mw-desktop-nav a"), file).toHaveLength(5);
+      for (const href of ["/journal/", "/mcp/", "/login"]) {
+        const link = header!.querySelector(`a[href="${href}"]`)!;
+        expect(link, `${file} ${href}`).toBeTruthy();
+        expect(link.getAttribute("target"), `${file} ${href}`).toBeNull();
+      }
+      expect(header!.querySelector('a[href^="https://memova.ai"]'), file).toBeNull();
+      expect(document.querySelector(".five-header, .memova-seo-legal__header"), file).toBeNull();
+    }
+  });
+
   it("serves the Blog and Avery’s complete article before JavaScript while excluding retired articles", () => {
     const outputDir = path.resolve(process.cwd(), "dist/public");
     const pages = [
@@ -23,8 +40,9 @@ describe("SEO build verification", () => {
     ];
     for (const file of pages) {
       const html = fs.readFileSync(file, "utf8");
-      expect(html).toContain('class="five-header"');
-      expect(html).toContain('class="memova-download-button"');
+      const { document } = parseHTML(html);
+      expect(document.querySelector("header.memova-watch-header")).toBeTruthy();
+      expect(document.querySelector(".mw-download")?.getAttribute("href")).toBe("https://apps.apple.com/us/app/memova-ai/id6796284954");
       expect(html).toContain('href="/#pro"');
       expect(html).toContain('aria-current="page">Blog');
       expect(html).not.toContain('class="memova-seo-shell__nav"');

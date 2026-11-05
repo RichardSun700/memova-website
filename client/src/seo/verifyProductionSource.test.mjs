@@ -23,7 +23,7 @@ describe("findProductionSourceViolations", () => {
       "pnpm-lock.yaml",
     ]));
     expect(PRODUCTION_SOURCE_SCOPES).toEqual(expect.arrayContaining([
-      "homepage-watch", "pnpm-lock.yaml", "vite.config.ts", "wrangler.toml", "functions",
+      "homepage-watch", "client/src", "shared", "pnpm-lock.yaml", "vite.config.ts", "wrangler.toml", "functions",
     ]));
   });
 

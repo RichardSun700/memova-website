@@ -2,6 +2,7 @@ import { renderToStaticMarkup as renderMarkup } from "react-dom/server";
 import type { ReactNode } from "react";
 import { AuthProvider } from "@/contexts/AuthContext";
 import { describe, expect, it } from "vitest";
+import { parseHTML } from "linkedom";
 
 import { journalEntries } from "@/content/journalEntries";
 import Journal from "./Journal";
@@ -12,6 +13,18 @@ function renderToStaticMarkup(page: ReactNode) {
 }
 
 describe("Memova Journal", () => {
+  it("keeps authored website links inside this deployment while leaving source links external", () => {
+    const { document } = parseHTML(renderToStaticMarkup(<JournalArticle slug="rewind-on-an-older-apple-watch" />));
+    const article = document.querySelector("article")!;
+    expect(article.querySelector('a[href^="https://memova.ai"]')).toBeNull();
+    for (const href of ["/", "/support/", "/privacy/"]) {
+      const link = article.querySelector(`a[href="${href}"]`)!;
+      expect(link).not.toBeNull();
+      expect(link.hasAttribute("target")).toBe(false);
+      expect(new URL(href, "http://localhost:4177/journal/rewind-on-an-older-apple-watch/").origin).toBe("http://localhost:4177");
+    }
+    expect(article.querySelector('a[href^="https://support.apple.com/"]')?.getAttribute("target")).toBe("_blank");
+  });
   it("keeps the full homepage navigation on both the index and article pages", () => {
     for (const page of [
       <Journal />,
@@ -20,7 +33,7 @@ describe("Memova Journal", () => {
       const html = renderToStaticMarkup(page);
       const navigation =
         html.match(
-          /<nav[^>]*aria-label="Primary navigation"[\s\S]*?<\/nav>/
+          /<header[^>]*class="site-header memova-watch-header"[\s\S]*?<\/header>/
         )?.[0] ?? "";
       for (const href of [
         "/#experience",
@@ -33,11 +46,11 @@ describe("Memova Journal", () => {
       }
       expect(navigation).not.toMatch(/<a\b[^>]*>Product<\/a>/);
       expect(navigation).toContain('aria-current="page">Blog');
-      expect(navigation).toContain('class="memova-download-button"');
-      expect(navigation).toContain("Join Community");
+      expect(navigation).toContain('class="mw-control mw-download"');
+      expect(navigation).toContain("Join the community");
       expect(navigation).toContain("Sign in");
       expect(html).not.toContain("Join Early Access");
-      expect(html).toContain('aria-controls="site-navigation"');
+      expect(html).toContain('aria-controls="mobile-navigation"');
     }
   });
   it("lists Avery’s Rewind preview without restoring retired entries", () => {

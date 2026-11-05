@@ -540,12 +540,12 @@ function renderLegalBlocks(markdown) {
     .join("");
 }
 
-function renderLegalPolicySnapshot(page, markdownPath, chinesePath, currentPath) {
+function renderLegalPolicySnapshot(page, markdownPath, chinesePath, currentPath, headerMarkup) {
   const privacyCurrent = currentPath === "/privacy" ? ' aria-current="page"' : "";
   const termsCurrent = currentPath === "/terms" ? ' aria-current="page"' : "";
   const policy = renderLegalBlocks(fs.readFileSync(markdownPath, "utf8"));
   const chinesePolicy = renderLegalBlocks(fs.readFileSync(chinesePath, "utf8"));
-  return `<div id="root"><div class="memova-seo-shell memova-seo-shell--legal" data-no-translate data-seo-snapshot="true" data-seo-shell-version="${SEO_SHELL_VERSION}" data-page-summary="${escapeAttribute(page.summary)}"><header class="memova-seo-legal__header"><div class="memova-seo-legal__header-inner"><a class="memova-seo-legal__brand" href="/" aria-label="Memova home">${renderBrandImages()}</a><div class="memova-seo-legal__actions"><a class="memova-seo-legal__home" href="/"><span data-legal-language="en">&larr; Home</span><span data-legal-language="zh">&larr; 首页</span></a><memova-language-switch></memova-language-switch></div></div></header><main class="memova-seo-legal__main"><nav class="memova-seo-legal__tabs" data-legal-language="en" aria-label="Legal documents"><a class="memova-seo-legal__tab" href="/privacy"${privacyCurrent}>Privacy Policy</a><a class="memova-seo-legal__tab" href="/terms"${termsCurrent}>Terms of Service</a></nav><nav class="memova-seo-legal__tabs" data-legal-language="zh" aria-label="法律文件"><a class="memova-seo-legal__tab" href="/privacy?lang=zh"${privacyCurrent}>隐私协议</a><a class="memova-seo-legal__tab" href="/terms?lang=zh"${termsCurrent}>服务条款</a></nav><article class="memova-seo-legal__article" lang="en" data-legal-language="en">${policy}</article><article class="memova-seo-legal__article" lang="zh-CN" data-legal-language="zh">${chinesePolicy}</article></main></div></div>`;
+  return `<div id="root"><div class="memova-seo-shell memova-seo-shell--legal" data-no-translate data-seo-snapshot="true" data-seo-shell-version="${SEO_SHELL_VERSION}" data-page-summary="${escapeAttribute(page.summary)}">${renderSeoShellNav(headerMarkup)}<main class="memova-seo-legal__main"><nav class="memova-seo-legal__tabs" data-legal-language="en" aria-label="Legal documents"><a class="memova-seo-legal__tab" href="/privacy"${privacyCurrent}>Privacy Policy</a><a class="memova-seo-legal__tab" href="/terms"${termsCurrent}>Terms of Service</a></nav><nav class="memova-seo-legal__tabs" data-legal-language="zh" aria-label="法律文件"><a class="memova-seo-legal__tab" href="/privacy?lang=zh"${privacyCurrent}>隐私协议</a><a class="memova-seo-legal__tab" href="/terms?lang=zh"${termsCurrent}>服务条款</a></nav><article class="memova-seo-legal__article" lang="en" data-legal-language="en">${policy}</article><article class="memova-seo-legal__article" lang="zh-CN" data-legal-language="zh">${chinesePolicy}</article></main></div></div>`;
 }
 
 function renderLegalLanguageBootstrap(currentPath) {
@@ -581,38 +581,39 @@ function renderLegalLanguageBootstrap(currentPath) {
   })();</script>`;
 }
 
-export function renderPrivacyPolicySnapshot(page) {
-  return renderLegalPolicySnapshot(page, privacyPolicyPath, privacyPolicyZhPath, "/privacy");
+export function renderPrivacyPolicySnapshot(page, headerMarkup) {
+  return renderLegalPolicySnapshot(page, privacyPolicyPath, privacyPolicyZhPath, "/privacy", headerMarkup);
 }
 
-export function renderTermsOfServiceSnapshot(page) {
-  return renderLegalPolicySnapshot(page, termsOfServicePath, termsOfServiceZhPath, "/terms");
+export function renderTermsOfServiceSnapshot(page, headerMarkup) {
+  return renderLegalPolicySnapshot(page, termsOfServicePath, termsOfServiceZhPath, "/terms", headerMarkup);
 }
 
-function renderSeoShellNav() {
-  return `<header class="memova-seo-shell__nav"><a class="memova-seo-shell__brand" href="/" aria-label="Memova home">${renderBrandImages()}</a><div class="memova-seo-shell__nav-group"><nav class="memova-seo-shell__nav-links" aria-label="Primary"><a href="/#product">Product</a><a href="/#book">Living Book</a><a href="/#use-cases">Use Cases</a><a href="/journal">Journal</a><a href="/mcp">MCP</a></nav><a class="memova-seo-shell__nav-cta memova-download-button" href="https://apps.apple.com/us/app/memova-ai/id6796284954" target="_blank" rel="noopener noreferrer">Download the app</a></div></header>`;
+function renderSeoShellNav(headerMarkup) {
+  if (headerMarkup) return headerMarkup;
+  return `<header class="memova-seo-shell__nav"><a class="memova-seo-shell__brand" href="/" aria-label="Memova home">${renderBrandImages()}</a><div class="memova-seo-shell__nav-group"><nav class="memova-seo-shell__nav-links" aria-label="Primary"><a href="/#experience">Experience Memova</a><a href="/#privacy">Privacy &amp; offline</a><a href="/#pro">Memova Pro</a><a href="/journal/">Blog</a><a href="/mcp/">MCP</a><a href="/login">Sign in</a></nav><a class="memova-seo-shell__nav-cta memova-download-button" href="https://apps.apple.com/us/app/memova-ai/id6796284954" target="_blank" rel="noopener noreferrer">Download the app</a></div></header>`;
 }
 
-function renderHomeSnapshot(page) {
-  return `<div id="root"><div class="memova-seo-shell" data-seo-snapshot="true" data-seo-shell-version="${SEO_SHELL_VERSION}" data-page-summary="${escapeAttribute(page.summary)}">${renderSeoShellNav()}<main><section class="memova-seo-shell__hero" aria-labelledby="memova-seo-hero-title"><div class="memova-seo-shell__copy"><span class="memova-seo-shell__eyebrow">${escapeText(page.hero.eyebrow)}</span><h1 class="memova-seo-shell__title" id="memova-seo-hero-title">${escapeText(page.hero.title)}</h1><p class="memova-seo-shell__lead">${escapeText(page.hero.intro)}</p><div class="memova-seo-shell__actions"><a class="memova-seo-shell__primary memova-download-button" href="https://apps.apple.com/us/app/memova-ai/id6796284954" target="_blank" rel="noopener noreferrer">Download the app</a><a class="memova-seo-shell__secondary" href="/product-journal">Open Product Journal</a></div><ul class="memova-seo-shell__trust" aria-label="Memova privacy principles"><li>Private by default</li><li>Review before sharing</li><li>Context that grows with you</li></ul></div><div class="memova-seo-shell__panel" aria-hidden="true"><p class="memova-seo-shell__panel-label">Living Book</p><div class="memova-seo-shell__card"><strong>Context you choose</strong><p>Conversations, notes, files, and experiences stay connected.</p></div><span class="memova-seo-shell__connector">↓</span><div class="memova-seo-shell__card memova-seo-shell__card--ready"><strong>Ready when you are</strong><p>Create Pages, prepare next actions, and share only what you approve.</p></div></div></section><section class="memova-seo-shell__story-copy" aria-labelledby="memova-seo-story-title"><h2 id="memova-seo-story-title">${escapeText(page.title)}</h2><p>${escapeText(page.summary)}</p><p>${escapeText(page.description)}</p></section></main></div></div>`;
+function renderHomeSnapshot(page, headerMarkup) {
+  return `<div id="root"><div class="memova-seo-shell" data-seo-snapshot="true" data-seo-shell-version="${SEO_SHELL_VERSION}" data-page-summary="${escapeAttribute(page.summary)}">${renderSeoShellNav(headerMarkup)}<main><section class="memova-seo-shell__hero" aria-labelledby="memova-seo-hero-title"><div class="memova-seo-shell__copy"><span class="memova-seo-shell__eyebrow">${escapeText(page.hero.eyebrow)}</span><h1 class="memova-seo-shell__title" id="memova-seo-hero-title">${escapeText(page.hero.title)}</h1><p class="memova-seo-shell__lead">${escapeText(page.hero.intro)}</p><div class="memova-seo-shell__actions"><a class="memova-seo-shell__primary memova-download-button" href="https://apps.apple.com/us/app/memova-ai/id6796284954" target="_blank" rel="noopener noreferrer">Download the app</a><a class="memova-seo-shell__secondary" href="/product-journal">Open Product Journal</a></div><ul class="memova-seo-shell__trust" aria-label="Memova privacy principles"><li>Private by default</li><li>Review before sharing</li><li>Context that grows with you</li></ul></div><div class="memova-seo-shell__panel" aria-hidden="true"><p class="memova-seo-shell__panel-label">Living Book</p><div class="memova-seo-shell__card"><strong>Context you choose</strong><p>Conversations, notes, files, and experiences stay connected.</p></div><span class="memova-seo-shell__connector">↓</span><div class="memova-seo-shell__card memova-seo-shell__card--ready"><strong>Ready when you are</strong><p>Create Pages, prepare next actions, and share only what you approve.</p></div></div></section><section class="memova-seo-shell__story-copy" aria-labelledby="memova-seo-story-title"><h2 id="memova-seo-story-title">${escapeText(page.title)}</h2><p>${escapeText(page.summary)}</p><p>${escapeText(page.description)}</p></section></main></div></div>`;
 }
 
-function renderGenericSnapshot(page) {
+function renderGenericSnapshot(page, headerMarkup) {
   const hero = page.hero || {
     eyebrow: "Memova",
     title: page.title,
     intro: page.description,
   };
 
-  return `<div id="root"><div class="memova-seo-shell memova-seo-shell--page" data-seo-snapshot="true" data-seo-shell-version="${SEO_SHELL_VERSION}" data-page-summary="${escapeAttribute(page.summary)}">${renderSeoShellNav()}<main><section class="memova-seo-shell__hero"><div class="memova-seo-shell__copy"><span class="memova-seo-shell__eyebrow">${escapeText(hero.eyebrow)}</span><h1 class="memova-seo-shell__title">${escapeText(hero.title)}</h1><p class="memova-seo-shell__lead">${escapeText(hero.intro)}</p></div></section><section class="memova-seo-shell__story-copy" aria-label="About this page"><h2>${escapeText(page.title)}</h2><p>${escapeText(page.summary)}</p><p>${escapeText(page.description)}</p></section></main></div></div>`;
+  return `<div id="root"><div class="memova-seo-shell memova-seo-shell--page" data-seo-snapshot="true" data-seo-shell-version="${SEO_SHELL_VERSION}" data-page-summary="${escapeAttribute(page.summary)}">${renderSeoShellNav(headerMarkup)}<main><section class="memova-seo-shell__hero"><div class="memova-seo-shell__copy"><span class="memova-seo-shell__eyebrow">${escapeText(hero.eyebrow)}</span><h1 class="memova-seo-shell__title">${escapeText(hero.title)}</h1><p class="memova-seo-shell__lead">${escapeText(hero.intro)}</p></div></section><section class="memova-seo-shell__story-copy" aria-label="About this page"><h2>${escapeText(page.title)}</h2><p>${escapeText(page.summary)}</p><p>${escapeText(page.description)}</p></section></main></div></div>`;
 }
 
-function renderPrivateAppSnapshot(page) {
-  return `<div id="root"><div class="memova-seo-shell memova-seo-shell--app" data-seo-snapshot="true" data-seo-shell-version="${SEO_SHELL_VERSION}" data-page-summary="${escapeAttribute(page.summary)}">${renderSeoShellNav()}<main class="memova-seo-app"><section class="memova-seo-app__card"><span class="memova-seo-app__status">Secure Memova</span><h1>${escapeText(page.hero?.title || page.title)}</h1><p>${escapeText(page.hero?.intro || "Opening the requested Memova page…")}</p></section></main></div></div>`;
+function renderPrivateAppSnapshot(page, headerMarkup) {
+  return `<div id="root"><div class="memova-seo-shell memova-seo-shell--app" data-seo-snapshot="true" data-seo-shell-version="${SEO_SHELL_VERSION}" data-page-summary="${escapeAttribute(page.summary)}">${renderSeoShellNav(headerMarkup)}<main class="memova-seo-app"><section class="memova-seo-app__card"><span class="memova-seo-app__status">Secure Memova</span><h1>${escapeText(page.hero?.title || page.title)}</h1><p>${escapeText(page.hero?.intro || "Opening the requested Memova page…")}</p></section></main></div></div>`;
 }
 
-function renderNotFoundSnapshot(page) {
-  return `<div id="root"><div class="memova-seo-shell memova-seo-shell--app" data-seo-snapshot="true" data-seo-shell-version="${SEO_SHELL_VERSION}" data-page-summary="${escapeAttribute(page.summary)}">${renderSeoShellNav()}<main class="memova-seo-app"><section class="memova-seo-app__card"><span class="memova-seo-app__status">404</span><h1>Page Not Found</h1><p>Sorry, the page you are looking for does not exist. It may have been moved or deleted.</p><div class="memova-seo-shell__actions" style="justify-content:center"><a class="memova-seo-shell__primary" href="/">Go Home</a></div></section></main></div></div>`;
+function renderNotFoundSnapshot(page, headerMarkup) {
+  return `<div id="root"><div class="memova-seo-shell memova-seo-shell--app" data-seo-snapshot="true" data-seo-shell-version="${SEO_SHELL_VERSION}" data-page-summary="${escapeAttribute(page.summary)}">${renderSeoShellNav(headerMarkup)}<main class="memova-seo-app"><section class="memova-seo-app__card"><span class="memova-seo-app__status">404</span><h1>Page Not Found</h1><p>Sorry, the page you are looking for does not exist. It may have been moved or deleted.</p><div class="memova-seo-shell__actions" style="justify-content:center"><a class="memova-seo-shell__primary" href="/">Go Home</a></div></section></main></div></div>`;
 }
 
 function stripManagedHead(html) {
@@ -663,16 +664,16 @@ export function renderPageHtml(template, page, options = {}) {
   const snapshot = options.journalMarkup
     ? `<div id="root"><div class="memova-seo-shell memova-seo-journal-shell" data-seo-snapshot="true" data-seo-shell-version="${SEO_SHELL_VERSION}" data-page-summary="${escapeAttribute(page.summary)}">${options.journalMarkup}</div></div>`
     : page.path === "/privacy"
-      ? renderPrivacyPolicySnapshot(page)
+      ? renderPrivacyPolicySnapshot(page, options.headerMarkup)
       : page.path === "/terms"
-        ? renderTermsOfServiceSnapshot(page)
+        ? renderTermsOfServiceSnapshot(page, options.headerMarkup)
         : page.path === "/"
-          ? renderHomeSnapshot(page)
+          ? renderHomeSnapshot(page, options.headerMarkup)
           : page.path === "/404"
-            ? renderNotFoundSnapshot(page)
+            ? renderNotFoundSnapshot(page, options.headerMarkup)
             : page.index
-              ? renderGenericSnapshot(page)
-              : renderPrivateAppSnapshot(page);
+              ? renderGenericSnapshot(page, options.headerMarkup)
+              : renderPrivateAppSnapshot(page, options.headerMarkup);
 
   return stripManagedHead(template)
     .replace(/<html(?:\s+[^>]*)?>/i, '<html lang="en-US">')
@@ -775,10 +776,12 @@ export const PRIVATE_SPA_PAGES = [
   ),
 ];
 
-export function writeLegalSpaShells(template, destinationDir) {
+export function writeLegalSpaShells(template, destinationDir, options = {}) {
   const privacyPage = sitePages.find(page => page.path === "/privacy");
   if (!privacyPage) throw new Error("Missing /privacy page metadata");
-  const privacyHtml = renderPageHtml(template, privacyPage);
+  const privacyHtml = renderPageHtml(template, privacyPage, {
+    headerMarkup: options.renderHeader?.(privacyPage.path),
+  });
 
   for (const route of LEGAL_SPA_ROUTES) {
     const destination = path.join(
@@ -789,14 +792,16 @@ export function writeLegalSpaShells(template, destinationDir) {
   }
 }
 
-export function writePrivateSpaShells(template, destinationDir) {
+export function writePrivateSpaShells(template, destinationDir, options = {}) {
   for (const page of PRIVATE_SPA_PAGES) {
     const destination = path.join(
       destinationDir,
       `${page.path.replace(/^\//, "")}.html`
     );
     fs.mkdirSync(path.dirname(destination), { recursive: true });
-    fs.writeFileSync(destination, renderPageHtml(template, page));
+    fs.writeFileSync(destination, renderPageHtml(template, page, {
+      headerMarkup: options.renderHeader?.(page.path),
+    }));
   }
 }
 
@@ -818,7 +823,7 @@ export async function generateSeoPages() {
     define: { "import.meta.env": "{}" },
     tsconfig: path.join(projectRoot, "tsconfig.json"),
   });
-  const { renderJournalSnapshot } = await import(pathToFileURL(journalRendererPath).href);
+  const { renderJournalSnapshot, renderSiteHeaderSnapshot } = await import(pathToFileURL(journalRendererPath).href);
 
   for (const page of sitePages.filter(candidate => candidate.index)) {
     const destination =
@@ -835,21 +840,27 @@ export async function generateSeoPages() {
     const journalMarkup = page.path === "/journal" || page.path.startsWith("/journal/")
       ? renderJournalSnapshot(page.path)
       : undefined;
-    fs.writeFileSync(destination, renderPageHtml(pageTemplate, page, { journalMarkup }));
+    fs.writeFileSync(destination, renderPageHtml(pageTemplate, page, {
+      journalMarkup,
+      headerMarkup: renderSiteHeaderSnapshot(page.path),
+    }));
   }
 
   // Cloudflare Pages serves top-level HTML files at extensionless URLs.
   // Dedicated legal shells preserve /privacy-policy and /privacy while the
   // React router renders the corresponding LegalPage content client-side.
-  writeLegalSpaShells(template, outputDir);
-  writePrivateSpaShells(template, outputDir);
+  const shellOptions = { renderHeader: renderSiteHeaderSnapshot };
+  writeLegalSpaShells(template, outputDir, shellOptions);
+  writePrivateSpaShells(template, outputDir, shellOptions);
 
   // Cloudflare Pages serves the root index as a SPA fallback when no top-level
   // 404.html exists. A real 404 document prevents unknown URLs from becoming
   // soft-404 homepage responses while keeping the explicit private rewrites.
   fs.writeFileSync(
     path.join(outputDir, "404.html"),
-    renderPageHtml(template, getSitePage("/404"))
+    renderPageHtml(template, getSitePage("/404"), {
+      headerMarkup: renderSiteHeaderSnapshot("/404"),
+    })
   );
 
   fs.writeFileSync(path.join(outputDir, "robots.txt"), renderRobots());

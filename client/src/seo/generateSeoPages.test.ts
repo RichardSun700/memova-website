@@ -12,6 +12,7 @@ import {
   writePrivateSpaShells,
 } from "../../../scripts/generate-seo-pages.mjs";
 import { sitePages } from "./sitePages";
+import { renderSiteHeaderSnapshot } from "../../../scripts/render-journal-snapshot";
 
 const template = `<!doctype html>
 <html lang="en"><head><title>Old title</title></head><body><div id="root"></div><script type="module" src="/assets/app.js"></script></body></html>`;
@@ -28,6 +29,46 @@ function listHtmlFiles(directory: string): string[] {
 }
 
 describe("SEO build generator", () => {
+  it.each(["/mcp", "/privacy", "/terms"])("uses the shared site navigation in the %s first paint", route => {
+    const page = sitePages.find(candidate => candidate.path === route)!;
+    const { document } = parseHTML(renderPageHtml(template, page, {
+      headerMarkup: renderSiteHeaderSnapshot(route),
+    }));
+    const header = document.querySelector("header.memova-watch-header")!;
+    expect(document.querySelectorAll("header")).toHaveLength(1);
+    expect(document.querySelectorAll(".mw-header-spacer")).toHaveLength(1);
+    expect(header.querySelector('a[href="/#experience"]')?.textContent).toBe("Experience Memova");
+    expect(header.querySelector('a[href="/#privacy"]')?.textContent).toBe("Privacy & offline");
+    expect(header.querySelector('a[href="/#pro"]')?.textContent).toBe("Memova Pro");
+    for (const href of ["/journal/", "/mcp/", "/login"]) {
+      const link = header.querySelector(`a[href="${href}"]`)!;
+      expect(link).toBeTruthy();
+      expect(link.getAttribute("target")).toBeNull();
+    }
+    const internalLinks = [...header.querySelectorAll("a[href]")].filter(link => !link.getAttribute("href")!.startsWith("https://apps.apple.com/"));
+    expect(internalLinks.every(link => link.getAttribute("href")!.startsWith("/"))).toBe(true);
+    expect(header.querySelector('a[aria-label="Memova home"] img')?.getAttribute("src")).toBe("/brand/memova-app-icon-liquid-blue.svg");
+    expect(header.textContent).not.toContain("Living Book");
+  });
+
+  it("preserves the shared first paint in clean URL login and policy shells", () => {
+    const directory = fs.mkdtempSync(path.join(process.cwd(), ".tmp-site-shells-"));
+    try {
+      const options = { renderHeader: renderSiteHeaderSnapshot };
+      writeLegalSpaShells(template, directory, options);
+      writePrivateSpaShells(template, directory, options);
+      for (const route of ["privacy", "privacy-policy", "login", "profile", "mcp/oauth/consent"]) {
+        const html = fs.readFileSync(path.join(directory, `${route}.html`), "utf8");
+        const { document } = parseHTML(html);
+        expect(document.querySelectorAll("header.memova-watch-header"), route).toHaveLength(1);
+        expect(document.querySelector('header a[href="/journal/"]'), route).toBeTruthy();
+        expect(document.querySelector(".memova-seo-shell__nav"), route).toBeNull();
+      }
+    } finally {
+      fs.rmSync(directory, { recursive: true, force: true });
+    }
+  });
+
   it.each(["/", "/mcp", "/privacy", "/terms"])("uses the official icon and wordmark in the %s prerendered header", route => {
     const page = sitePages.find(candidate => candidate.path === route)!;
     const { document } = parseHTML(renderPageHtml(template, page));

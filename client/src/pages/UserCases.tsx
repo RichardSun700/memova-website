@@ -487,7 +487,7 @@ export default function UserCases() {
   return (
     <div className="min-h-screen bg-[var(--memova-light)] text-[var(--memova-navy)]">
       <Navbar />
-      <main className="pt-28">
+      <main className="pt-8">
         <section className="relative overflow-hidden px-4 py-16 md:py-24">
           <div className="relative z-10 mx-auto w-full max-w-7xl">
             <div className="mx-auto max-w-3xl text-center">

@@ -3,5 +3,5 @@
 export const APP_STORE_URL = "https://apps.apple.com/us/app/memova-ai/id6796284954";
 export const COMMUNITY_URL = "https://discord.gg/E9u5FFvhdu";
 export const COMMUNITY_QR = "/assets/community/memova-discord-qr.webp";
-export const MCP_OVERVIEW_URL = "https://memova.ai/mcp/";
-export const BLOG_PAGE_URL = "https://memova.ai/journal/";
+export const MCP_OVERVIEW_URL = "/mcp/";
+export const BLOG_PAGE_URL = "/journal/";

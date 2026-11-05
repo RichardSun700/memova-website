@@ -3,6 +3,7 @@ import { createRoot, type Root } from "react-dom/client";
 import { parseHTML } from "linkedom";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { App } from "../../../homepage-watch/src/App";
+import { AuthProvider } from "@/contexts/AuthContext";
 
 vi.mock("../../../homepage-watch/src/OpeningExperience", () => ({
   OpeningExperience: ({ onOpen }: { onOpen: (name: string) => void }) => createElement("div", null,
@@ -41,15 +42,28 @@ async function fixture() {
     this.dispatchEvent(new window.Event("focusin", { bubbles: true }));
   };
   Object.assign(document, { fonts: { ready: Promise.resolve() } });
-  Object.assign(window, { location: { hash: "" } });
+  const location = new URL("https://memova.ai/");
+  const storage = new Map<string, string>();
+  Object.assign(window, {
+    location,
+    localStorage: {
+      getItem: (key: string) => storage.get(key) || null,
+      setItem: (key: string, value: string) => storage.set(key, value),
+      removeItem: (key: string) => storage.delete(key),
+    },
+    matchMedia: vi.fn(() => ({ matches: true, addEventListener: vi.fn(), removeEventListener: vi.fn() })),
+    MemovaLanguage: undefined,
+  });
   vi.stubGlobal("window", window);
   vi.stubGlobal("document", document);
+  vi.stubGlobal("location", location);
+  vi.stubGlobal("localStorage", window.localStorage);
   vi.stubGlobal("IS_REACT_ACT_ENVIRONMENT", true);
   vi.stubGlobal("requestAnimationFrame", vi.fn(() => 1));
   vi.stubGlobal("cancelAnimationFrame", vi.fn());
   const root = createRoot(document.getElementById("root")!);
   roots.push(root);
-  await act(() => root.render(createElement(App)));
+  await act(() => root.render(createElement(AuthProvider, null, createElement(App))));
   const click = async (selector: string) => {
     const node = document.querySelector(selector) as HTMLElement;
     await act(() => { node.focus(); node.click(); });
@@ -125,7 +139,7 @@ describe("homepage modal keyboard containment", () => {
 
   it("retains the generic community dialog's keyboard loop", async () => {
     const f = await fixture();
-    await f.click(".header-community");
+    await f.click(".mw-community");
     const close = f.document.querySelector(".modal-close")!;
     close.focus();
     expect((await f.key(close, "Tab", true)).defaultPrevented).toBe(true);
