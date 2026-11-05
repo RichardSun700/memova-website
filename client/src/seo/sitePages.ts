@@ -1,4 +1,4 @@
-import { latestJournalEntry } from "../content/journalEntries";
+import { journalEntries } from "../content/journalEntries";
 
 export const SITE_URL = "https://memova.ai";
 export const SOCIAL_IMAGE = `${SITE_URL}/brand/memova-app-icon-512.png`;
@@ -49,20 +49,20 @@ const publicPages: SitePage[] = [
   },
   {
     path: "/journal",
-    title: "Building Memova in Public — Memova Journal",
+    title: "Blog — Memova",
     description:
-      "Read edited, de-identified, and team-reviewed notes about the product decisions, questions, and lessons shaping Memova.",
+      "Stories, product updates, and ideas from the Memova team.",
     index: true,
     changeFrequency: "weekly",
     priority: 0.8,
     summary:
-      "Building Memova in Public is the team journal for carefully prepared notes about product decisions, open questions, and lessons from building Memova; every public entry is edited, de-identified, and reviewed before publication.",
+      "Product updates, stories, and ideas from the Memova team. New articles will appear here when they are published.",
     schemaType: "WebPage",
     hero: {
-      eyebrow: "Memova Journal",
-      title: "Journal",
+      eyebrow: "Memova Blog",
+      title: "Blog",
       intro:
-        "Notes from what we are learning as we build, published only after editorial, privacy, and team review.",
+        "New stories are on the way.",
     },
   },
   {
@@ -83,21 +83,21 @@ const publicPages: SitePage[] = [
       intro: "Start free. Upgrade for unlimited webpages and recording minutes in Meeting and Spark.",
     },
   },
-  {
-    path: `/journal/${latestJournalEntry.slug}`,
-    title: `${latestJournalEntry.title} — Memova Journal`,
-    description: latestJournalEntry.summary,
+  ...journalEntries.filter(entry => !entry.href).map((entry): SitePage => ({
+    path: `/journal/${entry.slug}`,
+    title: `${entry.title} — Memova Blog`,
+    description: entry.summary,
     index: true,
     changeFrequency: "monthly",
     priority: 0.78,
-    summary: latestJournalEntry.summary,
+    summary: entry.summary,
     schemaType: "Article",
     hero: {
-      eyebrow: `Building Memova in Public · ${latestJournalEntry.week}`,
-      title: latestJournalEntry.title,
-      intro: latestJournalEntry.summary,
+      eyebrow: `Memova Blog · ${entry.week}`,
+      title: entry.title,
+      intro: entry.summary,
     },
-  },
+  })),
   {
     path: "/product-journal",
     title: "Memova Product Journal — From Context to Compounding Knowledge",

@@ -22,10 +22,10 @@ function JournalArticleNotFound() {
         Memova Blog
       </p>
       <h1 className="mt-5 font-serif text-5xl font-normal tracking-[-0.04em] text-[var(--home-ink)]">
-        Note not found.
+        Article not found.
       </h1>
       <p className="mx-auto mt-5 max-w-lg text-base leading-8 text-[var(--home-muted)]">
-        This note may still be in editorial review or may have moved.
+        This article is no longer available.
       </p>
       <a
         href="/journal"

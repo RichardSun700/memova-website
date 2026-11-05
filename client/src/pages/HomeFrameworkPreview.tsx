@@ -1358,7 +1358,7 @@ function HeroSection() {
     >
       <div className="home-v3-hero-sticky">
         <div className="home-v2-container home-v3-hero-container">
-          <a
+          {latestJournalEntry && <a
             className="home-v2-announcement home-v3-announcement"
             href="/journal"
             aria-label={`Open the Memova Journal: ${latestJournalEntry.title}`}
@@ -1373,7 +1373,7 @@ function HeroSection() {
             </span>
             <span>{latestJournalEntry.title}</span>
             <ArrowRight aria-hidden="true" />
-          </a>
+          </a>}
 
           <div className="home-v3-hero-stage">
             <div className="home-v3-hero-copy" data-hero-copy>

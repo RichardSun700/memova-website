@@ -336,9 +336,9 @@ describe("US iOS acquisition pages", () => {
     expect(html).toContain("Your work stays yours.");
     expect(html).toContain("Your approval");
     expect(html).toContain("Choose what to show");
-    expect(html).toContain("Building Memova in Public");
-    expect(html).toContain("Week 12");
-    expect(html).toContain("Why we changed our onboarding story.");
+    expect(html).not.toContain("Building Memova in Public");
+    expect(html).not.toContain("Week 12");
+    expect(html).not.toContain("Why we changed our onboarding story.");
     expect(html).toContain(
       "The same Memova loop can help you build something—or understand who"
     );
@@ -347,7 +347,7 @@ describe("US iOS acquisition pages", () => {
     expect(html).not.toContain(
       'href="/journal/why-we-changed-our-onboarding-story"'
     );
-    expect(html).toContain("Open the Memova Journal:");
+    expect(html).not.toContain("Open the Memova Journal:");
     expect(html).not.toContain('id="journal"');
 
     const sectionOrder = [

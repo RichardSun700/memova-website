@@ -3,7 +3,7 @@ import type { ReactNode } from "react";
 import { AuthProvider } from "@/contexts/AuthContext";
 import { describe, expect, it } from "vitest";
 
-import { journalEntries, latestJournalEntry } from "@/content/journalEntries";
+import { journalEntries } from "@/content/journalEntries";
 import Journal from "./Journal";
 import JournalArticle from "./JournalArticle";
 
@@ -15,7 +15,7 @@ describe("Memova Journal", () => {
   it("keeps the full homepage navigation on both the index and article pages", () => {
     for (const page of [
       <Journal />,
-      <JournalArticle slug={latestJournalEntry.slug} />,
+      <JournalArticle slug="why-we-changed-our-onboarding-story" />,
     ]) {
       const html = renderToStaticMarkup(page);
       const navigation =
@@ -40,24 +40,21 @@ describe("Memova Journal", () => {
       expect(html).toContain('aria-controls="site-navigation"');
     }
   });
-  it("lists the product note and the linked dream case with their authors", () => {
+  it("waits for new articles without showing old entries or empty category controls", () => {
     const html = renderToStaticMarkup(<Journal />);
-    const dreamEntry = journalEntries.find(entry => entry.href);
 
+    expect(journalEntries).toHaveLength(0);
     expect(html).toMatch(/<h1\b[^>]*id="memova-journal-heading"[^>]*>Blog<\/h1>/);
-    expect(html).toContain("Product Notes");
-    expect(html).toContain("Case Studies");
-    expect(html).toContain(latestJournalEntry.title);
-    expect(html).toContain(latestJournalEntry.week);
-    expect(html).toContain(`/journal/${latestJournalEntry.slug}`);
-    expect(html).toContain("Silva · Product");
-    expect(dreamEntry).toBeDefined();
-    expect(html).toContain("The Architecture of Sleep.");
-    expect(html).toContain("Ada · Operations");
-    expect(html).toContain(
-      "/demo/The_Architecture_of_Sleep/index.html?returnTo=%2Fjournal"
-    );
-    expect(html).toContain("More notes are being prepared.");
+    expect(html.match(/New stories are on the way\./g)).toHaveLength(1);
+    expect(html).not.toContain('aria-label="Filter journal notes"');
+    expect(html).not.toContain("memova-journal-entry-copy");
+    expect(html).not.toContain("memova-journal-author-row");
+    expect(html).not.toContain("Why we changed our onboarding story.");
+    expect(html).not.toContain("The Architecture of Sleep.");
+    expect(html).not.toContain("Silva · Product");
+    expect(html).not.toContain("Ada · Operations");
+    expect(html).not.toContain("/demo/The_Architecture_of_Sleep/");
+    expect(html).not.toContain("More notes are being prepared.");
     expect(html).not.toContain("data-product-journal");
     expect(html).toContain('href="/#experience"');
     expect(html).toContain('href="/#privacy"');
@@ -70,18 +67,21 @@ describe("Memova Journal", () => {
     expect(html).toContain('href="/#top"');
   });
 
-  it("renders a dated, authored article with body and related updates", () => {
-    const html = renderToStaticMarkup(
-      <JournalArticle slug={latestJournalEntry.slug} />
-    );
+  it("does not expose retired article bodies at their former slugs", () => {
+    for (const slug of [
+      "why-we-changed-our-onboarding-story",
+      "the-architecture-of-sleep",
+    ]) {
+      const html = renderToStaticMarkup(<JournalArticle slug={slug} />);
 
-    expect(html).toContain(latestJournalEntry.title);
-    expect(html).toContain(latestJournalEntry.date);
-    expect(html).toContain(latestJournalEntry.author);
-    expect(html).toContain(latestJournalEntry.summary);
-    expect(html).toContain("The problem was not a missing tour.");
-    expect(html).toContain("What we are testing next.");
-    expect(html).toContain('href="/product-journal"');
-    expect(html).toContain("Published note");
+      expect(html).toContain("Article not found.");
+      expect(html).toContain("Back to Blog");
+      expect(html).not.toContain("The problem was not a missing tour.");
+      expect(html).not.toContain("What we are testing next.");
+      expect(html).not.toContain("The Architecture of Sleep.");
+      expect(html).not.toContain("Published note");
+      expect(html).not.toContain("Silva · Product");
+      expect(html).not.toContain("Ada · Operations");
+    }
   });
 });

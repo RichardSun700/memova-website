@@ -103,6 +103,10 @@
   content: "";
 }
 
+.memova-journal-timeline.is-empty::before {
+  display: none;
+}
+
 .memova-journal-entry a {
   position: relative;
   display: grid;
