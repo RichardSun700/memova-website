@@ -97,8 +97,8 @@ export default function Journal() {
                             className="memova-journal-entry-cover"
                             src={entry.cover.src}
                             alt={entry.cover.alt}
-                            width="1672"
-                            height="941"
+                            width={entry.cover.width ?? 1672}
+                            height={entry.cover.height ?? 941}
                             decoding="async"
                           />
                         )}

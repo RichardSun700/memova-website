@@ -40,7 +40,13 @@ function RichText({ text }: { text: string }) {
   );
 }
 
-function ArticleImage({ src, alt }: { src: string; alt: string }) {
+function ArticleImage({
+  src,
+  alt,
+  width = 1672,
+  height = 941,
+  caption,
+}: Extract<JournalBlock, { type: "image" }>) {
   const dialog = useRef<HTMLDialogElement>(null);
   return (
     <figure className="memova-article-figure">
@@ -53,8 +59,8 @@ function ArticleImage({ src, alt }: { src: string; alt: string }) {
         <img
           src={src}
           alt={alt}
-          width="1672"
-          height="941"
+          width={width}
+          height={height}
           loading="lazy"
           decoding="async"
         />
@@ -78,8 +84,9 @@ function ArticleImage({ src, alt }: { src: string; alt: string }) {
         >
           <X size={22} />
         </button>
-        <img src={src} alt={alt} width="1672" height="941" />
+        <img src={src} alt={alt} width={width} height={height} />
       </dialog>
+      {caption && <figcaption>{caption}</figcaption>}
     </figure>
   );
 }
@@ -95,17 +102,19 @@ function ArticleBlock({ block }: { block: JournalBlock }): ReactNode {
     case "heading":
       return <h3>{block.text}</h3>;
     case "image":
-      return <ArticleImage src={block.src} alt={block.alt} />;
-    case "list":
+      return <ArticleImage {...block} />;
+    case "list": {
+      const List = block.ordered ? "ol" : "ul";
       return (
-        <ul>
+        <List>
           {block.items.map(item => (
             <li key={item}>
               <RichText text={item} />
             </li>
           ))}
-        </ul>
+        </List>
       );
+    }
     case "note":
       return (
         <aside className="memova-article-note">
@@ -328,6 +337,13 @@ export default function JournalArticle({ slug }: JournalArticleProps) {
                     {entry.editorialNote}
                   </p>
                 )}
+                {entry.intro?.length ? (
+                  <div className="memova-article-section">
+                    {entry.intro.map((block, blockIndex) => (
+                      <ArticleBlock key={blockIndex} block={block} />
+                    ))}
+                  </div>
+                ) : null}
                 {entry.sections.map((section, index) => (
                   <section
                     id={section.id ?? `section-${index + 1}`}

@@ -12,6 +12,7 @@ export type SchemaType =
 
 export type SitePage = {
   path: string;
+  canonicalPath?: string;
   title: string;
   description: string;
   index: boolean;
@@ -87,6 +88,7 @@ const publicPages: SitePage[] = [
     .map(
       (entry): SitePage => ({
         path: `/journal/${entry.slug}`,
+        canonicalPath: entry.canonicalPath,
         title: entry.seoTitle ?? `${entry.title} — Memova Blog`,
         description: entry.metaDescription ?? entry.summary,
         index: true,
@@ -244,7 +246,7 @@ export function getSitePage(pathname: string): SitePage {
 }
 
 export function getCanonicalUrl(page: SitePage): string {
-  return new URL(page.path, SITE_URL).toString();
+  return new URL(page.canonicalPath ?? page.path, SITE_URL).toString();
 }
 
 export function getStructuredData(page: SitePage) {

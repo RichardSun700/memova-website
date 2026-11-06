@@ -4,7 +4,7 @@ import path from "node:path";
 import { afterEach, describe, expect, it } from "vitest";
 import { parseHTML } from "linkedom";
 import { collectProductionHomepageErrors, collectSeoBuildErrors } from "../../../scripts/verify-seo-build.mjs";
-import { getCanonicalUrl, getSitePage, sitePages } from "./sitePages";
+import { getSitePage, sitePages } from "./sitePages";
 
 const temporaryDirectories: string[] = [];
 
@@ -128,8 +128,10 @@ describe("SEO build verification", () => {
       expect(html).not.toContain("The Architecture of Sleep.");
     }
   });
-  it("publishes indexable article HTML with one authoritative set of SEO metadata", () => {
-    const route = "/journal/rewind-on-an-older-apple-watch";
+  it.each([
+    ["/journal/rewind-on-an-older-apple-watch", "https://memova.ai/journal/rewind-on-an-older-apple-watch"],
+    ["/journal/apple-watch-live-rewind-siri-recap", "https://memova.ai/journal/apple-watch-live-rewind-siri-recap/"],
+  ])("publishes indexable article HTML with one set of SEO metadata at %s", (route, canonical) => {
     const page = getSitePage(route);
     const outputDir = path.resolve(process.cwd(), "dist/public");
     const html = fs.readFileSync(
@@ -152,7 +154,7 @@ describe("SEO build verification", () => {
     expect(document.querySelectorAll('link[rel="canonical"]')).toHaveLength(1);
     expect(
       document.querySelector('link[rel="canonical"]')?.getAttribute("href")
-    ).toBe(getCanonicalUrl(page));
+    ).toBe(canonical);
     expect(document.querySelectorAll('meta[name="robots"]')).toHaveLength(1);
     expect(
       document.querySelector('meta[name="robots"]')?.getAttribute("content")
@@ -188,9 +190,7 @@ describe("SEO build verification", () => {
       path.join(outputDir, "sitemap.xml"),
       "utf8"
     );
-    expect(sitemap.split(`<loc>${getCanonicalUrl(page)}</loc>`)).toHaveLength(
-      2
-    );
+    expect(sitemap.split(`<loc>${canonical}</loc>`)).toHaveLength(2);
   });
 
   it("rejects an incomplete static output", () => {
