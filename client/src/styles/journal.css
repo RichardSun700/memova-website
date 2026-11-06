@@ -407,10 +407,13 @@
   transform: scale(2.2);
   transform-origin: 48% 34%;
 }
+.memova-journal-author-avatar.has-photo img[src="/journal/ada.jpg"] {
+  transform: scale(2.8);
+  transform-origin: 52% 5%;
+}
 .memova-journal-entry-cover {
   width: 100%;
   height: auto;
-  aspect-ratio: 1672 / 941;
   margin-top: 24px;
   border-radius: 14px;
   background: #edf2fb;
@@ -619,10 +622,15 @@
   color: #24365d;
   font-weight: 650;
 }
-.memova-article-section ul {
+.memova-article-section :is(ul, ol) {
   margin: 24px 0;
   padding-left: 23px;
+}
+.memova-article-section ul {
   list-style: disc;
+}
+.memova-article-section ol {
+  list-style: decimal;
 }
 .memova-article-section li {
   margin: 9px 0;
@@ -630,6 +638,12 @@
 }
 .memova-article-figure {
   margin: 30px -40px;
+}
+.memova-article-figure figcaption {
+  margin-top: 12px;
+  color: #596e91;
+  font-size: 14px;
+  line-height: 1.6;
 }
 .memova-article-image-button {
   position: relative;

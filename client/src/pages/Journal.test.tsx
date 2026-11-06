@@ -56,7 +56,7 @@ describe("Memova Journal", () => {
   it("lists Avery’s Rewind preview without restoring retired entries", () => {
     const html = renderToStaticMarkup(<Journal />);
 
-    expect(journalEntries).toHaveLength(1);
+    expect(journalEntries).toHaveLength(2);
     expect(html).toMatch(/<h1\b[^>]*id="memova-journal-heading"[^>]*>Blog<\/h1>/);
     expect(html).not.toContain("New stories are on the way.");
     expect(html).toContain('aria-label="Filter journal notes"');
@@ -66,7 +66,6 @@ describe("Memova Journal", () => {
     expect(html).toContain('src="/journal/avery.jpg"');
     expect(html).toContain('src="/journal/rewind/04-conversation.webp"');
     expect(html).toContain("6 min read");
-    expect(html).not.toContain("<time");
     expect(html).not.toContain("Why we changed our onboarding story.");
     expect(html).not.toContain("The Architecture of Sleep.");
     expect(html).not.toContain("Silva · Product");
@@ -83,6 +82,25 @@ describe("Memova Journal", () => {
     expect(html).not.toContain('href="/#use-cases"');
     expect(html).not.toContain('href="/#trust"');
     expect(html).toContain('href="/#top"');
+  });
+
+  it("lists Ada’s Recap article and preserves its authored structure", () => {
+    const slug = "apple-watch-live-rewind-siri-recap";
+    const { document: index } = parseHTML(renderToStaticMarkup(<Journal />));
+    const card = index.querySelector(`.memova-journal-entry > a[href="/journal/${slug}/"]`);
+    expect(card?.textContent).toContain("Ada · GTM");
+    expect(card?.querySelector('img[src="/journal/ada.jpg"]')).not.toBeNull();
+
+    const { document } = parseHTML(renderToStaticMarkup(<JournalArticle slug={slug} />));
+    const article = document.querySelector("article")!;
+    expect(article.querySelector("h1")?.textContent).toContain("A Summary Is Only the Beginning");
+    expect(article.querySelector("time")?.outerHTML).toMatch(/datetime="2026-11-05"/i);
+    expect(article.querySelectorAll("nav[aria-label='On this page'] a")).toHaveLength(7);
+    expect(article.querySelectorAll("section ol li")).toHaveLength(5);
+    expect(article.querySelectorAll("figure figcaption")).toHaveLength(4);
+    expect(article.querySelector('figure img[width="2000"][height="1250"]')).not.toBeNull();
+    expect(article.querySelector('a[href="/journal/rewind-on-an-older-apple-watch/"]')).not.toBeNull();
+    expect(article.textContent).not.toContain("SEO / GEO Metadata");
   });
 
   it("renders the reviewed tutorial, author, images, and FAQ at its independent route", () => {

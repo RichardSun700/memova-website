@@ -1,10 +1,18 @@
+import { recapArticle } from "./recapArticle";
 import { rewindArticle } from "./rewindArticle";
 
 export type JournalBlock =
   | { type: "paragraph"; text: string }
   | { type: "heading"; text: string }
-  | { type: "list"; items: readonly string[] }
-  | { type: "image"; src: string; alt: string }
+  | { type: "list"; items: readonly string[]; ordered?: boolean }
+  | {
+      type: "image";
+      src: string;
+      alt: string;
+      width?: number;
+      height?: number;
+      caption?: string;
+    }
   | { type: "note"; text: string }
   | {
       type: "table";
@@ -46,16 +54,18 @@ export type JournalEntry = {
   summary: string;
   seoTitle?: string;
   metaDescription?: string;
-  cover?: { src: string; alt: string };
+  canonicalPath?: string;
+  cover?: { src: string; alt: string; width?: number; height?: number };
   status?: string;
   href?: string;
   featureOnHome?: boolean;
   editorialNote: string;
+  intro?: readonly JournalBlock[];
   sections: readonly JournalSection[];
   relatedUpdates: readonly JournalRelatedUpdate[];
 };
 
-export const journalEntries: readonly JournalEntry[] = [rewindArticle];
+export const journalEntries: readonly JournalEntry[] = [recapArticle, rewindArticle];
 // Publishing a Blog post does not opt it into a separate homepage announcement.
 export const latestJournalEntry: JournalEntry | null =
   journalEntries.find(entry => entry.featureOnHome) ?? null;
