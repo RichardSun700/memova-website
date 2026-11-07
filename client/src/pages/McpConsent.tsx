@@ -10,6 +10,12 @@ import {
 } from "lucide-react";
 import { useLocation } from "wouter";
 import AccountShell from "@/components/account/AccountShell";
+import McpSetupGuide, {
+  initialMcpLanguage,
+  McpLanguageToggle,
+  suggestedMcpClient,
+  type McpLanguage,
+} from "@/components/account/McpSetupGuide";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -28,7 +34,8 @@ import {
   type McpAuthorizationRequest,
 } from "@/lib/api";
 
-const AUTO_REDIRECT_DELAY_MS = 1400;
+const AUTO_REDIRECT_DELAY_MS = 3000;
+const CALLBACK_RETRY_DELAY_MS = 6000;
 
 const DESIGN_PREVIEW_REQUEST: McpAuthorizationRequest = {
   id: "design-preview",
@@ -56,6 +63,8 @@ const DESIGN_PREVIEW_REQUEST: McpAuthorizationRequest = {
 export default function McpConsent() {
   const [, setLocation] = useLocation();
   const auth = useAuth();
+  const [language, setLanguage] = useState(initialMcpLanguage);
+  const zh = language === "zh";
   const requestId = useMemo(
     () => new URLSearchParams(window.location.search).get("request_id") || "",
     []
@@ -86,25 +95,42 @@ export default function McpConsent() {
   const [redirecting, setRedirecting] = useState(false);
   const [error, setError] = useState(
     isDesignPreview && previewState === "error"
-      ? "This authorization request is no longer available. Start the connection again from Codex."
+      ? "This authorization request is no longer available. Start the connection again from your agent."
       : ""
   );
   const redirectTimerRef = useRef<number | null>(null);
+  const recoveryTimerRef = useRef<number | null>(null);
   const clientLabel = request?.client_name?.trim() || "this app";
   const pageTitle = approvalRedirectUri
-    ? "Connection approved"
+    ? zh
+      ? "授权已批准"
+      : "Authorization approved"
     : loading
-      ? "Checking connection"
+      ? zh
+        ? "正在检查授权请求"
+        : "Checking authorization request"
       : request
-        ? `Connect ${clientLabel}`
-        : "Authorization unavailable";
+        ? zh
+          ? `授权 ${clientLabel}`
+          : `Authorize ${clientLabel}`
+        : zh
+          ? "授权请求不可用"
+          : "Authorization unavailable";
   const pageSubtitle = approvalRedirectUri
-    ? "Memova is securely returning you to Codex."
+    ? zh
+      ? "正在把授权结果交给发起连接的 Agent；请回到原聊天验证读取。"
+      : "Sending approval to the agent that started this request. Verify access in the original chat."
     : loading
-      ? "Memova is verifying the request you started in Codex."
+      ? zh
+        ? "正在验证你从 Agent 发起的请求。"
+        : "Checking the request you started in your agent."
       : request
-        ? "Approve only if you just started this connection from Codex."
-        : "Return to Codex and start the connection again.";
+        ? zh
+          ? "仅在你刚刚从自己的 Agent 发起连接时批准。"
+          : "Approve only if you just started this connection in your agent."
+        : zh
+          ? "请回到原 Agent，重新发起授权。"
+          : "Return to your agent and start a new authorization request.";
 
   useEffect(() => {
     if (isDesignPreview) return;
@@ -150,28 +176,48 @@ export default function McpConsent() {
     setLocation,
   ]);
 
+  const sendToClient = () => {
+    if (!approvalRedirectUri) return;
+    if (redirectTimerRef.current !== null)
+      window.clearTimeout(redirectTimerRef.current);
+    if (recoveryTimerRef.current !== null)
+      window.clearTimeout(recoveryTimerRef.current);
+    setRedirecting(true);
+    // One automatic attempt only. If navigation is blocked, keep recovery available.
+    recoveryTimerRef.current = window.setTimeout(
+      () => setRedirecting(false),
+      CALLBACK_RETRY_DELAY_MS
+    );
+    try {
+      window.location.assign(approvalRedirectUri);
+    } catch {
+      setRedirecting(false);
+      setError(
+        zh
+          ? "浏览器未能发送授权结果。请先返回 Agent 检查状态；若回调失败或已过期，从 Agent 重新发起授权。"
+          : "The browser could not send the authorization result. Check your agent first; if the callback failed or expired, start a fresh authorization from the agent."
+      );
+    }
+  };
+
   useEffect(() => {
     if (!approvalRedirectUri) return;
-
-    redirectTimerRef.current = window.setTimeout(() => {
-      setRedirecting(true);
-      window.location.assign(approvalRedirectUri);
-    }, AUTO_REDIRECT_DELAY_MS);
-
+    redirectTimerRef.current = window.setTimeout(
+      sendToClient,
+      AUTO_REDIRECT_DELAY_MS
+    );
     return () => {
-      if (redirectTimerRef.current !== null) {
+      if (redirectTimerRef.current !== null)
         window.clearTimeout(redirectTimerRef.current);
-      }
+      if (recoveryTimerRef.current !== null)
+        window.clearTimeout(recoveryTimerRef.current);
     };
+    // Callback URL is immutable after approval. A language change must not resend the code.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [approvalRedirectUri]);
 
   const returnToClient = () => {
-    if (!approvalRedirectUri || redirecting) return;
-    if (redirectTimerRef.current !== null) {
-      window.clearTimeout(redirectTimerRef.current);
-    }
-    setRedirecting(true);
-    window.location.assign(approvalRedirectUri);
+    if (!redirecting) sendToClient();
   };
 
   const handleApprove = async () => {
@@ -222,12 +268,20 @@ export default function McpConsent() {
   };
 
   return (
-    <AccountShell compact title={pageTitle} subtitle={pageSubtitle}>
+    <AccountShell
+      compact
+      title={pageTitle}
+      subtitle={pageSubtitle}
+      actions={<McpLanguageToggle language={language} onChange={setLanguage} />}
+    >
       {loading ? (
         <LoadingState />
       ) : approvalRedirectUri && request ? (
         <ApprovalSuccess
           clientLabel={clientLabel}
+          error={error}
+          language={language}
+          next={request.scopes.includes("next.read")}
           redirecting={redirecting}
           onContinue={returnToClient}
         />
@@ -258,10 +312,23 @@ export default function McpConsent() {
             <CardContent className="space-y-5 px-5 pb-6 pt-5 sm:px-7 sm:pb-7">
               <section>
                 <h2 className="text-[11px] font-extrabold uppercase tracking-[0.16em] text-[#6B86E8]">
-                  Access requested
+                  {zh ? "申请的权限" : "Access requested"}
                 </h2>
                 <PermissionList scopes={request.scopes} />
+                {request.scopes.includes("next.read") && (
+                  <p className="mt-3 text-[12px] leading-6 text-[#626A79]">
+                    {zh
+                      ? "Next 云端资料只读：笔记、灵感、My Day、记忆，以及已有账号、用量和登录记录。不会修改或生成资料，读取无需 Pro。"
+                      : "Read-only Next cloud access: notes, inspirations, My Day, memories, and stored account, usage and sign-in records. No content is generated or changed. No Pro subscription is required."}
+                  </p>
+                )}
               </section>
+
+              <McpSetupGuide
+                language={language}
+                client={suggestedMcpClient(request.client_name || "")}
+                next={request.scopes.includes("next.read")}
+              />
 
               {request.status !== "pending" && (
                 <Alert className="border-[#E9D8B5] bg-[#FFF9EC] text-[#7A5622]">
@@ -270,7 +337,9 @@ export default function McpConsent() {
                     Request is {request.status}
                   </AlertTitle>
                   <AlertDescription className="text-[#7A5622]/80">
-                    Return to Codex and start a new connection request.
+                    {zh
+                      ? "回到原 Agent，重新发起授权。"
+                      : "Return to your agent and start a new authorization request."}
                   </AlertDescription>
                 </Alert>
               )}
@@ -287,15 +356,21 @@ export default function McpConsent() {
                     <ShieldCheck className="h-4 w-4" />
                   )}
                   {submitting === "approve"
-                    ? "Approving access…"
-                    : "Approve access"}
+                    ? zh
+                      ? "正在批准授权…"
+                      : "Approving access…"
+                    : zh
+                      ? "批准授权"
+                      : "Approve access"}
                   {submitting !== "approve" && (
                     <ArrowRight className="ml-1 h-4 w-4 transition-transform duration-200 group-hover:translate-x-1" />
                   )}
                 </Button>
                 <div className="flex flex-col items-center justify-between gap-2 sm:flex-row">
                   <p className="text-[12px] leading-5 text-[#626A79]">
-                    One click finishes the secure connection.
+                    {zh
+                      ? "批准后，请回到 Agent 验证工具可用。"
+                      : "After approval, verify the tools in your agent."}
                   </p>
                   <button
                     type="button"
@@ -308,14 +383,15 @@ export default function McpConsent() {
                     {submitting === "deny" && (
                       <Loader2 className="h-3.5 w-3.5 animate-spin" />
                     )}
-                    Cancel this connection
+                    {zh ? "取消授权" : "Cancel this connection"}
                   </button>
                 </div>
               </div>
 
               <p className="text-[12px] leading-5 text-[#626A79]">
-                This gives {clientLabel} access to the items listed above until
-                you revoke it in Connected clients.
+                {zh
+                  ? `这将允许 ${clientLabel} 访问上述资料；你可以在 Connected clients 撤销授权。`
+                  : `This allows ${clientLabel} to access the items above until you revoke authorization in Connected clients.`}
               </p>
 
               <TechnicalDetails request={request} />
@@ -326,7 +402,7 @@ export default function McpConsent() {
         <EmptyState error={error || "Authorization request was not found."} />
       )}
 
-      {error && request && (
+      {error && request && !approvalRedirectUri && (
         <p className="mt-5 rounded-[10px] border border-[#F1C9C9] bg-[#FFF5F5] px-4 py-3 text-[12px] font-bold text-[#A63B3B]">
           {error}
         </p>
@@ -337,13 +413,20 @@ export default function McpConsent() {
 
 function ApprovalSuccess({
   clientLabel,
+  error,
+  language,
+  next,
   redirecting,
   onContinue,
 }: {
   clientLabel: string;
+  error: string;
+  language: McpLanguage;
+  next: boolean;
   redirecting: boolean;
   onContinue: () => void;
 }) {
+  const zh = language === "zh";
   return (
     <div className="w-full">
       <Card className="gap-0 overflow-hidden rounded-[18px] border-[#D6E8DE] bg-[#FFFEFA] py-0 shadow-[0_24px_70px_rgba(17,26,48,0.07)]">
@@ -356,23 +439,37 @@ function ApprovalSuccess({
             <CheckCircle2 className="h-8 w-8" strokeWidth={2.25} />
           </div>
           <p className="mt-6 text-[10px] font-extrabold uppercase tracking-[0.2em] text-[#397D5C]">
-            Access approved
+            {zh ? "授权已批准" : "Access approved"}
           </p>
           <h2 className="mt-2 text-2xl font-extrabold tracking-[-0.03em] text-[#111A30]">
-            {clientLabel} is connected to Memova
+            {zh
+              ? `已批准 ${clientLabel} 的授权请求`
+              : `Access approved for ${clientLabel}`}
           </h2>
           <p className="mx-auto mt-3 max-w-md text-[13px] leading-6 text-[#626A79]">
-            Your secure connection is ready. We’re returning you to Codex so you
-            can continue where you left off.
+            {zh
+              ? "即将把授权结果交给 Agent。这不代表当前聊天已经加载工具；请返回原聊天完成读取验证。"
+              : "The authorization result will be sent to your agent. This does not mean the current chat has loaded its tools. Return to the original chat to verify a read."}
           </p>
 
           <div
             className="mx-auto mt-7 max-w-md overflow-hidden rounded-full bg-[#ECF5F0]"
             aria-hidden="true"
           >
-            <div className="oauth-success-progress h-1.5 rounded-full bg-[#397D5C]" />
+            <div
+              className="oauth-success-progress h-1.5 rounded-full bg-[#397D5C]"
+              style={{ animationDuration: `${AUTO_REDIRECT_DELAY_MS}ms` }}
+            />
           </div>
 
+          {error && (
+            <p
+              role="alert"
+              className="mt-5 rounded-[10px] border border-[#F1C9C9] bg-[#FFF5F5] px-4 py-3 text-[12px] font-bold text-[#A63B3B]"
+            >
+              {error}
+            </p>
+          )}
           <Button
             type="button"
             onClick={onContinue}
@@ -384,11 +481,26 @@ function ApprovalSuccess({
             ) : (
               <ArrowRight className="h-4 w-4" />
             )}
-            {redirecting ? "Returning to Codex…" : "Return to Codex now"}
+            {redirecting
+              ? zh
+                ? "正在发送授权结果…"
+                : "Sending authorization result…"
+              : zh
+                ? "发送授权结果给 Agent"
+                : "Send authorization result to agent"}
           </Button>
           <p className="mt-3 text-[11px] text-[#6B86E8]">
-            This page will continue automatically.
+            {zh
+              ? "页面会自动发送一次。如果 Agent 已显示登录成功，请直接返回原聊天；回调失败或过期时，从 Agent 重新发起授权。"
+              : "This page sends the result automatically once. If your agent already reports a successful sign-in, return to the chat. For a failed or expired callback, start a fresh authorization from the agent."}
           </p>
+          <div className="mt-5">
+            <McpSetupGuide
+              language={language}
+              client={suggestedMcpClient(clientLabel)}
+              next={next}
+            />
+          </div>
         </CardContent>
       </Card>
     </div>

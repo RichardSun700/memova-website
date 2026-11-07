@@ -28,6 +28,7 @@ import {
   type EmailLoginStartResponse,
 } from "@/lib/api";
 import { useAuth } from "@/contexts/AuthContext";
+import { initialMcpLanguage } from "@/components/account/McpSetupGuide";
 
 type LoginMode = "email-code" | "review";
 
@@ -229,6 +230,21 @@ export default function Login() {
       <SiteHeader current="login" />
       <main className="mx-auto flex w-full max-w-[1240px] flex-1 items-center justify-center px-5 py-10 sm:px-6 lg:px-8">
         <div className="w-full max-w-md">
+          {next.startsWith("/mcp/oauth/consent?") && (
+            <p className="mb-4 rounded-[11px] border border-[#C5CEE1] bg-[#EEF1FB] p-4 text-[12px] leading-6 text-[#455E93]">
+              {initialMcpLanguage() === "zh"
+                ? "登录后会返回授权页面。批准后请回到原 Agent；若工具未加载，需在客户端重新加载连接。"
+                : "Sign-in returns you to the approval page. After approving, return to your original agent; reload its connection if the tools have not loaded."}{" "}
+              <a
+                href={`/mcp/setup?lang=${initialMcpLanguage()}&surface=legacy`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-bold underline"
+              >
+                {initialMcpLanguage() === "zh" ? "查看安装指南" : "Setup guide"}
+              </a>
+            </p>
+          )}
           <Card className="gap-0 overflow-hidden rounded-[18px] border-[rgba(36,54,93,0.14)] bg-[#FFFFFF] py-0 shadow-[0_24px_70px_rgba(17,26,48,0.09)]">
             <div
               className="h-1 bg-[var(--memova-brand-gradient)]"
