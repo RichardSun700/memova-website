@@ -12,11 +12,12 @@ export type WatchSiteHeaderProps = {
   onOpenCommunity?: () => void;
   account?: ReactNode;
   mobileAccount?: ReactNode;
+  resolveUrl?: (path: string) => string;
 };
 
-// Both site entry points share this UI. Internal routes stay on the current
-// origin so local previews never send visitors to a different deployment.
-export default function WatchSiteHeader({ language = "en", onLanguageChange, home = false, current, headerRef, onOpenCommunity, account, mobileAccount }: WatchSiteHeaderProps) {
+// Full-site entry points keep local URLs. A partial host may supply its routing
+// policy without changing the navigation or patching rendered DOM links.
+export default function WatchSiteHeader({ language = "en", onLanguageChange, home = false, current, headerRef, onOpenCommunity, account, mobileAccount, resolveUrl = path => path }: WatchSiteHeaderProps) {
   const ownHeader = useRef<HTMLElement>(null);
   const header = headerRef || ownHeader;
   const menuButton = useRef<HTMLButtonElement>(null);
@@ -24,10 +25,10 @@ export default function WatchSiteHeader({ language = "en", onLanguageChange, hom
   const [menuOpen, setMenuOpen] = useState(false);
   const L = (zh: string, en: string) => language === "zh" ? zh : en;
   const local = (path: string) => {
-    if (language === "en") return path;
+    if (language === "en") return resolveUrl(path);
     const url = new URL(path, "https://memova.ai");
     url.searchParams.set("lang", language);
-    return url.pathname + url.search + url.hash;
+    return resolveUrl(url.pathname + url.search + url.hash);
   };
   const section = (id: string) => home ? `#${id}` : local(`/#${id}`);
   const links = [
@@ -110,7 +111,7 @@ export default function WatchSiteHeader({ language = "en", onLanguageChange, hom
       <p className="mw-eyebrow">MEMOVA COMMUNITY</p>
       <h2 id="mw-community-title">{L("一起聊聊。", "Join the conversation.")}</h2>
       <p>{L("分享想法，认识其他用户，一起参与 Memova 的成长。", "Share ideas, meet early users, and help shape what Memova becomes.")}</p>
-      <a href="https://discord.gg/E9u5FFvhdu" target="_blank" rel="noopener noreferrer"><img src="/community/discord-community-qr-e9u5ffvhdu.png" alt="Memova Discord QR code" width="184" height="184" /></a>
+      <a href="https://discord.gg/E9u5FFvhdu" target="_blank" rel="noopener noreferrer"><img src={resolveUrl("/community/discord-community-qr-e9u5ffvhdu.png")} alt="Memova Discord QR code" width="184" height="184" /></a>
       <a className="mw-dialog-link" href="https://discord.gg/E9u5FFvhdu" target="_blank" rel="noopener noreferrer">{L("打开 Discord", "Open Discord")}<ArrowUpRight size={16} /></a>
     </dialog>}
   </>;

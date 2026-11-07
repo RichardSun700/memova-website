@@ -1,10 +1,11 @@
 import MemovaBrand from "@/components/MemovaBrand";
 import { useLegalLanguage, withLegalLanguage } from "@/seo/legalLanguage";
+import { resolveSiteUrl } from "@/navigation/siteLinks";
 
 export default function SiteFooter() {
   const language = useLegalLanguage();
   const L = (zh: string, en: string) => language === "zh" ? zh : en;
-  const local = (path: string) => language === "zh" ? withLegalLanguage(path, language) : path;
+  const local = (path: string) => resolveSiteUrl(language === "zh" ? withLegalLanguage(path, language) : path);
   return (
     <footer data-no-translate className="memova-site-footer border-t border-[rgba(36,54,93,0.14)] bg-[#FFFFFF]/75 py-7 backdrop-blur-xl">
       <div className="container">

@@ -40,11 +40,15 @@ The production setup, Next consent, and consent-login pages identify real accoun
 
 The static host must serve the app shell with HTTP 200 on direct requests to `/login`, `/mcp/oauth/consent`, `/mcp/setup`, `/profile`, and `/connected-clients`. Preserve query strings. The `/mcp/setup` route is new and must be added to the isolated asset packager. Its prompt is selectable even if clipboard permission is unavailable.
 
+Dedicated MCP builds publish only those account routes. The shared `resolveSiteUrl` navigation policy keeps them on the consent host and sends public marketing, help, legal and community-image paths to the same path on `https://memova.ai`, preserving language/query/fragment. Header and footer use this policy before rendering; no DOM link rewriting is required. General website builds without an MCP environment retain their existing same-origin navigation.
+
 ## Focused verification
 
 `corepack pnpm exec vitest run --root . client/src/pages/McpConsent.test.tsx`
 
 Ten focused cases cover explicit production configuration and bilingual account/OTP guidance, preserved test defaults, rejected incomplete configuration, preapproval guidance, login return state, exact callback/no premature-ready claim, blocked-navigation recovery/no automatic loop, cancellation, expired requests, and Next versus legacy guidance. `corepack pnpm exec tsc --noEmit` checks types. A real hosted browser → native client login/read acceptance is separate and must be reported independently.
+
+Navigation-only changes use the bounded nine-case selection `corepack pnpm exec vitest run --root . client/src/navigation/siteLinks.test.tsx client/src/seo/standaloneSiteNavigation.test.tsx`; it checks dedicated-host destinations and preserved normal desktop/mobile navigation.
 
 Do not run the repository-wide test command as part of this bounded consent change: it collects more than 100 cases and requires separate approval. Do not infer production readiness, email delivery, other-client compatibility, or the new official website's API from these tests.
 

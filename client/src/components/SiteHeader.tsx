@@ -2,6 +2,7 @@ import { ChevronDown, LogOut, UserRound } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { useAuth } from "@/contexts/AuthContext";
 import { setLegalLanguage, useLegalLanguage } from "@/seo/legalLanguage";
+import { resolveSiteUrl } from "@/navigation/siteLinks";
 import WatchSiteHeader, { type WatchSiteHeaderProps } from "../../../shared/site/WatchSiteHeader";
 
 type Props = Omit<WatchSiteHeaderProps, "account" | "mobileAccount"> & {
@@ -56,5 +57,5 @@ export default function SiteHeader(props: Props) {
     <button type="button" onClick={() => void logout()}>{L("退出登录", "Log out")}<LogOut size={18} aria-hidden="true" /></button>
   </> : undefined;
 
-  return <WatchSiteHeader {...props} language={language} onLanguageChange={props.onLanguageChange || setLegalLanguage} account={account} mobileAccount={mobileAccount} />;
+  return <WatchSiteHeader {...props} resolveUrl={resolveSiteUrl} language={language} onLanguageChange={props.onLanguageChange || setLegalLanguage} account={account} mobileAccount={mobileAccount} />;
 }
