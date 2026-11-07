@@ -45,6 +45,7 @@ describe("sitePages", () => {
       "/connected-clients",
       "/settings/connected-clients",
       "/mcp/oauth/consent",
+      "/mcp/setup",
       "/framework-preview",
       "/user-cases/demos/example.html",
     ];
@@ -55,6 +56,14 @@ describe("sitePages", () => {
 
     expect(getSitePage("/framework-preview").title).toBe(
       "Memova Homepage Framework Preview"
+    );
+    expect(getSitePage("/mcp/setup/")).toMatchObject({
+      path: "/mcp/setup",
+      title: "Memova MCP Setup — Authorization and Tool Verification",
+      index: false,
+    });
+    expect(getStructuredData(getSitePage("/mcp/setup")).name).toBe(
+      "Memova MCP Setup — Authorization and Tool Verification"
     );
   });
 

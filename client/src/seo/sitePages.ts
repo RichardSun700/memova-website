@@ -205,6 +205,16 @@ const frameworkPreviewPage: SitePage = {
     "A private local preview used to review the Memova homepage narrative, product examples, responsive layout, and scroll-driven Book interaction before publication.",
 };
 
+const mcpSetupPage: SitePage = {
+  ...privatePage,
+  path: "/mcp/setup",
+  title: "Memova MCP Setup — Authorization and Tool Verification",
+  description:
+    "Finish Memova MCP authorization, return to your agent, load the tools, and verify access in the original chat.",
+  summary:
+    "MCP setup and troubleshooting guidance for returning from authorization, loading client tools, and verifying account access with a read in the original chat.",
+};
+
 const notFoundPage: SitePage = {
   ...privatePage,
   path: "/404",
@@ -227,6 +237,7 @@ export const sitePages = publicPages;
 
 export function getSitePage(pathname: string): SitePage {
   const normalized = pathname !== "/" ? pathname.replace(/\/+$/, "") : pathname;
+  if (normalized === mcpSetupPage.path) return mcpSetupPage;
   if (normalized === "/framework-preview") {
     return frameworkPreviewPage;
   }
