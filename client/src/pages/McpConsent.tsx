@@ -318,8 +318,8 @@ export default function McpConsent() {
                 {request.scopes.includes("next.read") && (
                   <p className="mt-3 text-[12px] leading-6 text-[#626A79]">
                     {zh
-                      ? "Next 云端资料只读：笔记、灵感、My Day、记忆，以及已有账号、用量和登录记录。不会修改或生成资料，读取无需 Pro。"
-                      : "Read-only Next cloud access: notes, inspirations, My Day, memories, and stored account, usage and sign-in records. No content is generated or changed. No Pro subscription is required."}
+                      ? "Next 云端资料只读：小时笔记、灵感、Timeline/My Day、记忆、健康样本和录音标记，以及已有账号、用量和登录记录。不会修改或生成资料，读取无需 Pro。"
+                      : "Read-only Next cloud access: hour notes, inspirations, Timeline/My Day, memories, health samples and recording markers, plus stored account, usage and sign-in records. No content is generated or changed. No Pro subscription is required."}
                   </p>
                 )}
               </section>
