@@ -10,6 +10,7 @@ import {
   type ViteDevServer,
 } from "vite";
 import { vitePluginManusRuntime } from "vite-plugin-manus-runtime";
+import { resolveMcpDeployment } from "./shared/mcpDeployment";
 
 // =============================================================================
 // Manus Debug Collector - Vite Plugin
@@ -255,6 +256,12 @@ const waitlistApiProxy: ProxyOptions = {
 
 export default defineConfig(({ command, isPreview }) => ({
   plugins: [
+    {
+      name: "validate-mcp-deployment",
+      configResolved(config) {
+        resolveMcpDeployment(config.env);
+      },
+    },
     react(),
     tailwindcss(),
     ...(command === "serve" && !isPreview

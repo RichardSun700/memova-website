@@ -4,7 +4,9 @@ import { renderToStaticMarkup } from "react-dom/server";
 import { parseHTML } from "linkedom";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import McpConsent from "./McpConsent";
+import McpSetup from "./McpSetup";
 import McpSetupGuide from "@/components/account/McpSetupGuide";
+import { resolveMcpDeployment } from "@shared/mcpDeployment";
 
 const state = vi.hoisted(() => ({
   authenticated: true,
@@ -67,6 +69,7 @@ afterEach(async () => {
   root = undefined;
   vi.useRealTimers();
   vi.unstubAllGlobals();
+  vi.unstubAllEnvs();
 });
 
 async function mount() {
@@ -96,6 +99,61 @@ async function mount() {
 }
 
 describe("MCP approval and current-agent verification", () => {
+  it("preserves isolated-test endpoint derivation without inventing an unconfigured URL", () => {
+    expect(
+      resolveMcpDeployment({
+        VITE_MCP_ENVIRONMENT: "isolated-test",
+        VITE_API_BASE_URL: "https://isolated.example/",
+      })
+    ).toEqual({
+      environment: "isolated-test",
+      serverUrl: "https://isolated.example/mcp/next",
+    });
+    expect(resolveMcpDeployment({})).toEqual({
+      environment: "unspecified",
+      serverUrl: "",
+    });
+  });
+
+  it("uses the explicit production endpoint and identifies real-account OTP reads in both languages", () => {
+    vi.stubEnv("VITE_MCP_ENVIRONMENT", "production");
+    vi.stubEnv("VITE_API_BASE_URL", "https://api.memova.ai");
+    vi.stubEnv("VITE_MCP_SERVER_URL", "https://api.memova.ai/v2/mcp");
+    vi.stubGlobal("window", { location: { search: "?lang=zh" } });
+    const setup = renderToStaticMarkup(createElement(McpSetup));
+    expect(setup).toContain("https://api.memova.ai/v2/mcp");
+    expect(setup).not.toContain("https://api.memova.ai/mcp/next");
+    expect(setup).toContain("正式环境");
+    expect(setup).toContain("邮件验证码登录");
+    expect(setup).toContain("无需 Pro");
+    expect(setup).not.toContain("合成数据");
+    const guide = renderToStaticMarkup(
+      createElement(McpSetupGuide, { language: "en" })
+    );
+    expect(guide).toContain("Production:");
+    expect(guide).toContain("email verification code");
+    expect(guide).toContain("own real cloud data");
+    expect(guide).toContain("no Pro subscription required");
+  });
+
+  it("rejects incomplete production settings instead of deriving a legacy or test endpoint", () => {
+    expect(() =>
+      resolveMcpDeployment({
+        VITE_MCP_ENVIRONMENT: "production",
+        VITE_API_BASE_URL: "https://api.memova.ai",
+      })
+    ).toThrow("VITE_MCP_SERVER_URL");
+    expect(() =>
+      resolveMcpDeployment({
+        VITE_MCP_ENVIRONMENT: "production",
+        VITE_MCP_SERVER_URL: "https://api.memova.ai/v2/mcp",
+      })
+    ).toThrow("VITE_API_BASE_URL");
+    expect(() =>
+      resolveMcpDeployment({ VITE_MCP_ENVIRONMENT: "prodution" })
+    ).toThrow("VITE_MCP_ENVIRONMENT");
+  });
+
   it("shows return/reload/read verification before consent, with a persistent safe help link", async () => {
     const f = await mount();
     expect(f.document.body.textContent).toContain("original chat");

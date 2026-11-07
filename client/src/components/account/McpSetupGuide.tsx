@@ -1,7 +1,25 @@
 import { useState } from "react";
+import { resolveMcpDeployment } from "@shared/mcpDeployment";
 
 export type McpLanguage = "en" | "zh";
 export type McpClient = "codex" | "claude" | "cursor" | "chatgpt" | "other";
+
+export function McpEnvironmentNotice({ language }: { language: McpLanguage }) {
+  const { environment } = resolveMcpDeployment(import.meta.env);
+  if (environment === "unspecified") return null;
+  const zh = language === "zh";
+  return (
+    <p className="mb-4 rounded-[11px] border border-[#C5CEE1] bg-white p-4 text-sm text-[#455E93]">
+      {environment === "production"
+        ? zh
+          ? "正式环境：请使用与 Memova Next App 相同的邮箱，通过邮件验证码登录。授权后，Agent 可按需读取你本人真实的云端资料；仅限读取，无需 Pro。"
+          : "Production: sign in with the same email as your Memova Next app using an email verification code. After approval, your agent can read your own real cloud data on demand. Read-only; no Pro subscription required."
+        : zh
+          ? "隔离测试环境：仅用于验证登录和读取，测试账号资料为合成数据，不代表你手机上的正式资料。"
+          : "Isolated test environment: verifies sign-in and reading with synthetic account data, not your phone's production records."}
+    </p>
+  );
+}
 
 export function initialMcpLanguage(): McpLanguage {
   if (typeof window === "undefined") return "en";
@@ -76,6 +94,7 @@ export default function McpSetupGuide({
 
   return (
     <section className="rounded-[11px] border border-[#C5CEE1] bg-[#F4F6FD] p-4 text-left text-[12px] leading-6 text-[#455E93]">
+      {next && <McpEnvironmentNotice language={language} />}
       <h2 className="font-extrabold text-[#111A30]">
         {zh
           ? "授权之后，还需要这几步"

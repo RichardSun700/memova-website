@@ -1,6 +1,6 @@
 # Temporary Next MCP consent site
 
-This checkout supplies the temporary test consent site. It is not the new official website. Do not run this repository's production deployment script to publish this change.
+This checkout supplies independent temporary consent sites, built separately for isolated testing and production accounts. It is not the new official website. Do not run this repository's marketing-site production deployment script to publish this change; deploy only the consent-site artifact to its designated static host.
 
 ## User flow
 
@@ -25,13 +25,26 @@ Compile the temporary build with explicit public values:
 
 These are public build settings, not secrets. Use `corepack pnpm exec vite build`; the production marketing/SEO/deploy pipeline is outside this temporary deployment.
 
+For the independently hosted temporary production consent site, set all three values explicitly:
+
+```sh
+VITE_API_BASE_URL=https://api.memova.ai \
+VITE_MCP_SERVER_URL=https://api.memova.ai/v2/mcp \
+VITE_MCP_ENVIRONMENT=production \
+corepack pnpm exec vite build
+```
+
+Production builds require an explicit HTTPS API origin and HTTPS MCP URL. Missing or malformed values abort Vite before it builds; production never infers `/mcp/next`. An unknown environment name also fails instead of displaying an ambiguous label. Do not place these values in a shared default `.env` file: keep the isolated test build's settings and host unchanged. With no MCP environment configured, the existing general website behavior is preserved and no production label is claimed.
+
+The production setup, Next consent, and consent-login pages identify real accounts and explain signing in with the same email as the Memova Next app using a received email verification code. Reading is on demand, read-only, and does not require Pro. These labels describe the configured environment; verify the actual account with `get_next_account`. They do not prove email delivery or successful client authorization. The site's login help links to Next setup when a dedicated MCP environment is configured; an unconfigured general-site build keeps its existing generic/legacy help link.
+
 The static host must serve the app shell with HTTP 200 on direct requests to `/login`, `/mcp/oauth/consent`, `/mcp/setup`, `/profile`, and `/connected-clients`. Preserve query strings. The `/mcp/setup` route is new and must be added to the isolated asset packager. Its prompt is selectable even if clipboard permission is unavailable.
 
 ## Focused verification
 
 `corepack pnpm exec vitest run --root . client/src/pages/McpConsent.test.tsx`
 
-Seven behavioral cases cover preapproval guidance, login return state, exact callback/no premature-ready claim, blocked-navigation recovery/no automatic loop, cancellation, expired requests, and Next versus legacy guidance. `corepack pnpm exec tsc --noEmit` checks types. A real hosted browser → native Codex login/read acceptance is separate and must be reported independently.
+Ten focused cases cover explicit production configuration and bilingual account/OTP guidance, preserved test defaults, rejected incomplete configuration, preapproval guidance, login return state, exact callback/no premature-ready claim, blocked-navigation recovery/no automatic loop, cancellation, expired requests, and Next versus legacy guidance. `corepack pnpm exec tsc --noEmit` checks types. A real hosted browser → native client login/read acceptance is separate and must be reported independently.
 
 Do not run the repository-wide test command as part of this bounded consent change: it collects more than 100 cases and requires separate approval. Do not infer production readiness, email delivery, other-client compatibility, or the new official website's API from these tests.
 

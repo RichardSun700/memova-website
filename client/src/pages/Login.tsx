@@ -1,10 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import {
-  CheckCircle2,
-  Loader2,
-  Mail,
-  UserRound,
-} from "lucide-react";
+import { CheckCircle2, Loader2, Mail, UserRound } from "lucide-react";
 import { useLocation } from "wouter";
 import SiteFooter from "@/components/SiteFooter";
 import SiteHeader from "@/components/SiteHeader";
@@ -28,13 +23,18 @@ import {
   type EmailLoginStartResponse,
 } from "@/lib/api";
 import { useAuth } from "@/contexts/AuthContext";
-import { initialMcpLanguage } from "@/components/account/McpSetupGuide";
+import {
+  initialMcpLanguage,
+  McpEnvironmentNotice,
+} from "@/components/account/McpSetupGuide";
+import { resolveMcpDeployment } from "@shared/mcpDeployment";
 
 type LoginMode = "email-code" | "review";
 
 export default function Login() {
   const [, setLocation] = useLocation();
   const auth = useAuth();
+  const mcpDeployment = resolveMcpDeployment(import.meta.env);
   const previewState = useMemo(
     () =>
       import.meta.env.DEV
@@ -231,12 +231,15 @@ export default function Login() {
       <main className="mx-auto flex w-full max-w-[1240px] flex-1 items-center justify-center px-5 py-10 sm:px-6 lg:px-8">
         <div className="w-full max-w-md">
           {next.startsWith("/mcp/oauth/consent?") && (
+            <McpEnvironmentNotice language={initialMcpLanguage()} />
+          )}
+          {next.startsWith("/mcp/oauth/consent?") && (
             <p className="mb-4 rounded-[11px] border border-[#C5CEE1] bg-[#EEF1FB] p-4 text-[12px] leading-6 text-[#455E93]">
               {initialMcpLanguage() === "zh"
                 ? "登录后会返回授权页面。批准后请回到原 Agent；若工具未加载，需在客户端重新加载连接。"
                 : "Sign-in returns you to the approval page. After approving, return to your original agent; reload its connection if the tools have not loaded."}{" "}
               <a
-                href={`/mcp/setup?lang=${initialMcpLanguage()}&surface=legacy`}
+                href={`/mcp/setup?lang=${initialMcpLanguage()}${mcpDeployment.environment === "unspecified" ? "&surface=legacy" : ""}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="font-bold underline"
