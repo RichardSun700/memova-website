@@ -1,18 +1,27 @@
 /login
   X-Robots-Tag: noindex, nofollow
   Cache-Control: no-store, max-age=0
+  Referrer-Policy: no-referrer
 
 /profile
   X-Robots-Tag: noindex, nofollow
+  Cache-Control: no-store, max-age=0
+  Referrer-Policy: no-referrer
 
 /connected-clients
   X-Robots-Tag: noindex, nofollow
+  Cache-Control: no-store, max-age=0
+  Referrer-Policy: no-referrer
 
 /settings/*
   X-Robots-Tag: noindex, nofollow
+  Cache-Control: no-store, max-age=0
+  Referrer-Policy: no-referrer
 
 /mcp/oauth/*
   X-Robots-Tag: noindex, nofollow
+  Cache-Control: no-store, max-age=0
+  Referrer-Policy: no-referrer
 
 /bay-area-agent-demo-2
   X-Robots-Tag: noindex, nofollow
@@ -40,3 +49,8 @@
 
 /assets/*
   Cache-Control: public, max-age=31536000, immutable
+
+/mcp/login
+  X-Robots-Tag: noindex, nofollow
+  Cache-Control: no-store, max-age=0
+  Referrer-Policy: no-referrer

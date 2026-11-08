@@ -123,20 +123,35 @@ const publicPages: SitePage[] = [
   },
   {
     path: "/mcp",
-    title: "Connect Memova Agent Memory With MCP",
+    title: "Connect Memova Next to your AI assistant",
     description:
-      "Connect Memova’s user-controlled context to compatible agents through MCP while keeping memory editable and actions reviewable.",
+      "Connect your saved Memova Next cloud data to an AI assistant with read-only access. Sign in, review permissions, and manage connected clients.",
     index: true,
     changeFrequency: "monthly",
     priority: 0.65,
     summary:
-      "Memova’s MCP connection lets compatible agents use user-controlled context from a private knowledge base while preserving review and approval boundaries.",
+      "Memova Next MCP gives an AI assistant read-only access to saved cloud notes, inspirations, Timeline and My Day, memories, health samples, and recording markers. Pro is not required for reading.",
     schemaType: "WebPage",
     hero: {
       eyebrow: "Plugins & MCP",
-      title: "Connect Memova to Codex and MCP clients.",
+      title: "Bring your Memova records into your AI chat.",
       intro:
-        "Give compatible agents permissioned access to the context you choose—while your knowledge stays user-owned, editable, and reviewable.",
+        "Connect Memova Next, review read-only access, and return to your assistant to use your saved cloud data.",
+    },
+  },
+  {
+    path: "/mcp/setup",
+    title: "Set up Memova Next MCP",
+    description: "Install Memova Next MCP in your AI assistant, approve read-only access, and verify the connection in your current chat.",
+    index: true,
+    changeFrequency: "monthly",
+    priority: 0.6,
+    summary: "Add the Memova Next MCP endpoint, sign in with your App email, approve next.read, then return to the same assistant chat to verify account and search access. Manage or revoke a connection at any time.",
+    schemaType: "WebPage",
+    hero: {
+      eyebrow: "Memova Next MCP",
+      title: "Connect Memova Next",
+      intro: "Read your saved cloud data in the assistant you use. No Pro subscription is required for read access.",
     },
   },
   {
@@ -220,6 +235,7 @@ const privatePrefixes = [
   "/connected-clients",
   "/settings/",
   "/mcp/oauth/",
+  "/mcp/login",
   "/user-cases/demos/",
 ];
 

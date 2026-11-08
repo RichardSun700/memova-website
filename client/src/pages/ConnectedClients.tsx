@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import {
   ExternalLink,
   Loader2,
@@ -24,55 +24,97 @@ import {
   type McpConnection,
 } from "@/lib/api";
 import { cn } from "@/lib/utils";
+import { safeClientWebsite } from "@/lib/loginFlow";
+import { useLegalLanguage } from "@/seo/legalLanguage";
 
 export default function ConnectedClients() {
   const [, setLocation] = useLocation();
   const auth = useAuth();
+  const language = useLegalLanguage();
+  const L = (zh: string, en: string) => (language === "zh" ? zh : en);
   const [connections, setConnections] = useState<McpConnection[]>([]);
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
   const [revokingId, setRevokingId] = useState<string | null>(null);
   const [error, setError] = useState("");
+  const requestSequence = useRef(0);
+  const revokePending = useRef(false);
+  const tokenRef = useRef(auth.token);
+  tokenRef.current = auth.token;
 
-  const loadConnections = async (mode: "initial" | "refresh" = "initial") => {
-    if (!auth.token) return;
-    setError("");
-    if (mode === "initial") setLoading(true);
-    if (mode === "refresh") setRefreshing(true);
-    try {
-      setConnections(await listMcpConnections(auth.token));
-    } catch (err) {
-      setError(
-        err instanceof Error ? err.message : "Could not load connected clients."
-      );
-    } finally {
-      setLoading(false);
-      setRefreshing(false);
-    }
-  };
+  const loadConnections = useCallback(
+    async (mode: "initial" | "refresh" = "initial") => {
+      if (!auth.token) return;
+      const sequence = ++requestSequence.current;
+      setError("");
+      if (mode === "initial") setLoading(true);
+      if (mode === "refresh") setRefreshing(true);
+      try {
+        const next = await listMcpConnections(auth.token);
+        if (sequence === requestSequence.current) setConnections(next);
+      } catch (err) {
+        if (sequence === requestSequence.current)
+          setError(
+            err instanceof Error
+              ? err.message
+              : "Could not load connected clients."
+          );
+      } finally {
+        if (sequence === requestSequence.current) {
+          setLoading(false);
+          setRefreshing(false);
+        }
+      }
+    },
+    [auth.token]
+  );
 
   useEffect(() => {
     if (!auth.isAuthenticated) {
-      setLocation(`/login?next=${encodeURIComponent("/connected-clients")}`);
+      setConnections([]);
+      setLocation(
+        `/mcp/login?next=${encodeURIComponent("/connected-clients" + (language === "zh" ? "?lang=zh" : ""))}`
+      );
       return;
     }
     void loadConnections();
-  }, [auth.isAuthenticated, auth.token, setLocation]);
+    return () => {
+      requestSequence.current += 1;
+    };
+  }, [auth.isAuthenticated, loadConnections, language, setLocation]);
 
   const handleRevoke = async (connection: McpConnection) => {
-    if (!auth.token || connection.status !== "active") return;
+    if (!auth.token || connection.status !== "active" || revokePending.current)
+      return;
     const confirmed = window.confirm(
-      `Revoke access for ${formatClientName(connection)}?`
+      L(
+        `撤销 ${formatClientName(connection)} 的访问权限？`,
+        `Revoke access for ${formatClientName(connection)}?`
+      )
     );
     if (!confirmed) return;
 
+    revokePending.current = true;
+    const token = auth.token;
     setError("");
     setRevokingId(connection.connection_id);
     try {
       const revoked = await revokeMcpConnection(
-        auth.token,
+        token,
         connection.connection_id
       );
+      if (tokenRef.current !== token) return;
+      if (
+        revoked.connection_id !== connection.connection_id ||
+        revoked.status !== "revoked"
+      ) {
+        throw new Error(
+          L(
+            "尚未确认撤销，请刷新后重试。",
+            "Revocation has not been confirmed. Refresh and try again."
+          )
+        );
+      }
       setConnections(items =>
         items.map(item =>
           item.connection_id === revoked.connection_id ? revoked : item
@@ -83,6 +125,7 @@ export default function ConnectedClients() {
         err instanceof Error ? err.message : "Could not revoke this client."
       );
     } finally {
+      revokePending.current = false;
       setRevokingId(null);
     }
   };
@@ -91,8 +134,11 @@ export default function ConnectedClients() {
 
   return (
     <AccountShell
-      title="Connected clients"
-      subtitle="MCP clients that have been authorized to access your Memova workspace."
+      title={L("已授权的 Agent", "Connected clients")}
+      subtitle={L(
+        "查看各客户端的授权范围，或撤销指定连接。退出网页登录与撤销 Agent 授权分别管理。",
+        "Review each client’s permissions and revoke a selected connection. Website sign-out and Agent access are managed separately."
+      )}
       actions={
         <Button
           variant="outline"
@@ -105,7 +151,7 @@ export default function ConnectedClients() {
           ) : (
             <RefreshCw className="h-4 w-4" />
           )}
-          Refresh
+          {L("刷新", "Refresh")}
         </Button>
       }
     >
@@ -113,11 +159,13 @@ export default function ConnectedClients() {
         <div className="flex min-h-[260px] items-center justify-center rounded-xl border border-[#D7DEEB] bg-[#FFFEFA]">
           <div className="flex items-center gap-3 text-[13px] font-semibold text-[#455E93]/65">
             <Loader2 className="h-4 w-4 animate-spin" />
-            Loading connected clients
+            {L("正在加载已授权客户端", "Loading connected clients")}
           </div>
         </div>
       ) : connections.length === 0 ? (
-        <EmptyConnections />
+        error ? null : (
+          <EmptyConnections language={language} />
+        )
       ) : (
         <div className="grid gap-4">
           {connections.map(connection => (
@@ -125,6 +173,8 @@ export default function ConnectedClients() {
               key={connection.connection_id}
               connection={connection}
               revoking={revokingId === connection.connection_id}
+              busy={revokingId !== null}
+              language={language}
               onRevoke={() => void handleRevoke(connection)}
             />
           ))}
@@ -132,7 +182,10 @@ export default function ConnectedClients() {
       )}
 
       {error && (
-        <p className="mt-5 rounded-lg border border-[#FECACA] bg-[#FEF2F2] px-3 py-2 text-[12px] font-semibold text-[#B91C1C]">
+        <p
+          role="alert"
+          className="mt-5 rounded-lg border border-[#FECACA] bg-[#FEF2F2] px-3 py-2 text-[12px] font-semibold text-[#B91C1C]"
+        >
           {error}
         </p>
       )}
@@ -143,12 +196,17 @@ export default function ConnectedClients() {
 function ConnectionCard({
   connection,
   revoking,
+  busy,
+  language,
   onRevoke,
 }: {
   connection: McpConnection;
   revoking: boolean;
+  busy: boolean;
+  language: "en" | "zh";
   onRevoke: () => void;
 }) {
+  const L = (zh: string, en: string) => (language === "zh" ? zh : en);
   return (
     <Card className="rounded-xl border-[#D7DEEB] bg-[#FFFEFA] shadow-lg shadow-[#455E93]/[0.04]">
       <CardHeader className="gap-4 md:grid-cols-[1fr_auto]">
@@ -168,7 +226,7 @@ function ConnectionCard({
         </div>
         <Button
           variant="outline"
-          disabled={revoking || connection.status !== "active"}
+          disabled={busy || connection.status !== "active"}
           onClick={onRevoke}
           className="h-10 rounded-lg border-[#FECACA] text-[#B91C1C] hover:bg-[#FEF2F2]"
         >
@@ -177,17 +235,17 @@ function ConnectionCard({
           ) : (
             <ShieldX className="h-4 w-4" />
           )}
-          Revoke
+          {L("撤销授权", "Revoke")}
         </Button>
       </CardHeader>
       <CardContent>
         <div className="grid gap-3 md:grid-cols-2">
           <InfoBlock
-            label="Connected"
+            label={L("授权时间", "Connected")}
             value={formatDate(connection.connected_at)}
           />
           <InfoBlock
-            label="Last used"
+            label={L("最近使用", "Last used")}
             value={formatDate(connection.last_used_at)}
           />
         </div>
@@ -205,15 +263,17 @@ function ConnectionCard({
         </div>
 
         <div className="mt-4 flex flex-wrap items-center gap-4 text-[12px] font-semibold text-[#455E93]/55">
-          <span className="break-all">Resource: {connection.resource}</span>
-          {connection.client_uri && (
+          <span className="break-all">
+            {L("目标服务", "Resource")}: {connection.resource}
+          </span>
+          {safeClientWebsite(connection.client_uri) && (
             <a
-              href={connection.client_uri}
+              href={safeClientWebsite(connection.client_uri)}
               target="_blank"
-              rel="noreferrer"
+              rel="noopener noreferrer"
               className="inline-flex items-center gap-1 text-[#455E93] hover:text-[#111A30]"
             >
-              Client site
+              {L("客户端网站", "Client site")}
               <ExternalLink className="h-3.5 w-3.5" />
             </a>
           )}
@@ -246,11 +306,13 @@ function StatusBadge({ status }: { status: string }) {
 }
 
 function ClientMark({ connection }: { connection: McpConnection }) {
-  if (connection.logo_uri) {
+  const logo = safeClientWebsite(connection.logo_uri);
+  if (logo?.startsWith("https:")) {
     return (
       <img
         alt=""
-        src={connection.logo_uri}
+        src={logo}
+        referrerPolicy="no-referrer"
         className="h-14 w-14 rounded-xl border border-[#D7DEEB] object-cover"
       />
     );
@@ -278,15 +340,17 @@ function InfoBlock({ label, value }: { label: string; value: string }) {
   );
 }
 
-function EmptyConnections() {
+function EmptyConnections({ language }: { language: "en" | "zh" }) {
   return (
     <div className="rounded-xl border border-[#D7DEEB] bg-[#FFFEFA] px-6 py-12 text-center shadow-lg shadow-[#455E93]/[0.04]">
       <ShieldCheck className="mx-auto h-10 w-10 text-[#455E93]" />
       <h2 className="mt-4 text-lg font-bold text-[#111A30]">
-        No connected clients
+        {language === "zh" ? "还没有已授权的 Agent" : "No connected clients"}
       </h2>
       <p className="mx-auto mt-2 max-w-md text-[13px] leading-6 text-[#455E93]/60">
-        MCP clients will appear here after you approve an authorization request.
+        {language === "zh"
+          ? "在客户端发起连接并批准授权后，即可在这里管理。"
+          : "Clients appear here after you approve an authorization request."}
       </p>
     </div>
   );
@@ -294,10 +358,12 @@ function EmptyConnections() {
 
 function formatDate(value?: string | null): string {
   if (!value) return "Not recorded";
+  const date = new Date(value);
+  if (!Number.isFinite(date.getTime())) return "Not recorded";
   return new Intl.DateTimeFormat(undefined, {
     dateStyle: "medium",
     timeStyle: "short",
-  }).format(new Date(value));
+  }).format(date);
 }
 
 function formatClientSubtitle(connection: McpConnection): string {

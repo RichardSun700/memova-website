@@ -12,6 +12,7 @@ const memovaApiProxy = {
 };
 export default defineConfig({
   root,
+  envDir: path.resolve(root, ".."),
   plugins: [react()],
   resolve: { alias: { "@": path.resolve(root, "../client/src") } },
   build: {

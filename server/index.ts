@@ -2,6 +2,8 @@ import express from "express";
 import { createServer } from "http";
 import path from "path";
 import { fileURLToPath } from "url";
+import { readFileSync } from "node:fs";
+import { resolveMcpDeployment } from "../shared/mcpDeployment";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -9,6 +11,12 @@ const __dirname = path.dirname(__filename);
 async function startServer() {
   const app = express();
   const server = createServer(app);
+  const deployment = resolveMcpDeployment(
+    JSON.parse(readFileSync(path.join(__dirname, "mcp-deployment.json"), "utf8"))
+  );
+  if (deployment.environment === "unspecified") {
+    throw new Error("Build the configured website before starting the preview server.");
+  }
   // Match the Vite development proxy when serving the complete built site
   // locally. Hosted pages continue to call api.memova.ai directly.
   app.use(
@@ -21,7 +29,7 @@ async function startServer() {
       }
       try {
         const requested = new URL(req.originalUrl, "http://localhost");
-        const upstreamUrl = new URL(process.env.VITE_API_PROXY_TARGET || "https://api.memova.ai");
+        const upstreamUrl = new URL(deployment.apiBaseUrl);
         upstreamUrl.pathname = requested.pathname.replace(/^\/__memova_api/, "");
         upstreamUrl.search = requested.search;
         const headers = new Headers();

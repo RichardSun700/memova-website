@@ -79,6 +79,15 @@ export default function SpaNavigation() {
       }
 
       const url = new URL(anchor.href, window.location.href);
+      // Account pages load a fresh document without the marketing analytics runtime.
+      const accountPath =
+        /^\/(?:login|profile|connected-clients|settings(?:\/|$)|mcp\/(?:login|oauth)(?:\/|$))/;
+      if (
+        accountPath.test(url.pathname) ||
+        accountPath.test(window.location.pathname)
+      ) {
+        return;
+      }
       if (url.origin !== window.location.origin || !isSpaPath(url.pathname)) {
         return;
       }

@@ -4,6 +4,7 @@ import { useLocation } from "wouter";
 import SiteFooter from "@/components/SiteFooter";
 import SiteHeader from "@/components/SiteHeader";
 import { cn } from "@/lib/utils";
+import { useLegalLanguage } from "@/seo/legalLanguage";
 
 type AccountShellProps = {
   title: string;
@@ -26,6 +27,8 @@ export default function AccountShell({
   compact = false,
 }: AccountShellProps) {
   const [location] = useLocation();
+  const language = useLegalLanguage();
+  const zh = language === "zh";
 
   return (
     <div className="memova-account-shell flex min-h-screen flex-col bg-[#F6F8FC] text-[#111A30]">
@@ -38,8 +41,11 @@ export default function AccountShell({
         )}
       >
         <nav
-          aria-label="Account navigation"
-          className={cn("flex flex-wrap items-center gap-2", compact ? "mb-5" : "mb-8")}
+          aria-label={zh ? "账号导航" : "Account navigation"}
+          className={cn(
+            "flex flex-wrap items-center gap-2",
+            compact ? "mb-5" : "mb-8"
+          )}
         >
           {navItems.map(item => {
             const Icon = item.icon;
@@ -47,7 +53,7 @@ export default function AccountShell({
             return (
               <a
                 key={item.href}
-                href={item.href}
+                href={item.href + (zh ? "?lang=zh" : "")}
                 aria-current={active ? "page" : undefined}
                 className={cn(
                   "inline-flex min-h-10 items-center gap-2 rounded-[10px] border px-3.5 text-[12px] font-bold transition-all duration-200",
@@ -57,7 +63,11 @@ export default function AccountShell({
                 )}
               >
                 <Icon className="h-4 w-4" />
-                {item.label}
+                {zh
+                  ? item.href === "/profile"
+                    ? "个人资料"
+                    : "已授权的 Agent"
+                  : item.label}
               </a>
             );
           })}

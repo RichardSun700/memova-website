@@ -1,4 +1,5 @@
-const PRODUCTION_API_BASE_URL = "https://api.memova.ai";
+import { MCP_DEPLOYMENT } from "./mcpDeployment";
+
 const LOCAL_API_PROXY_BASE_URL = "/__memova_api";
 
 export const API_BASE_URL = resolveApiBaseUrl().replace(/\/+$/, "");
@@ -25,6 +26,8 @@ export type EmailLoginStartResponse = {
   expires_at: string;
   delivery_channel: string;
   dev_code: string | null;
+  delivery_status?: string;
+  retry_after_seconds?: number;
 };
 
 export type AuthTokenResponse = {
@@ -111,24 +114,41 @@ export class ApiError extends Error {
   status: number;
   code: string;
   details: unknown;
+  requestId?: string;
+  retryAfterSeconds?: number;
 
   constructor({
     status,
     code,
     message,
     details,
+    requestId,
+    retryAfterSeconds,
   }: {
     status: number;
     code: string;
     message: string;
     details?: unknown;
+    requestId?: string;
+    retryAfterSeconds?: number;
   }) {
     super(message);
     this.name = "ApiError";
     this.status = status;
     this.code = code;
     this.details = details;
+    this.requestId = requestId;
+    this.retryAfterSeconds = retryAfterSeconds;
   }
+}
+
+const unauthorizedListeners = new Set<(token: string) => void>();
+
+export function subscribeToUnauthorized(listener: (token: string) => void) {
+  unauthorizedListeners.add(listener);
+  return () => {
+    unauthorizedListeners.delete(listener);
+  };
 }
 
 export async function startEmailLogin(
@@ -142,11 +162,17 @@ export async function startEmailLogin(
 
 export async function verifyEmailLogin(
   challengeId: string,
-  code: string
+  code: string,
+  inviteCode?: string
 ): Promise<AuthTokenResponse> {
   return apiRequest<AuthTokenResponse>("/v1/auth/email/verify", {
     method: "POST",
-    body: { challenge_id: challengeId, code },
+    body: {
+      challenge_id: challengeId,
+      code,
+      client_context: { surface: "web", platform: webPlatform() },
+      ...(inviteCode ? { invite_code: inviteCode } : {}),
+    },
   });
 }
 
@@ -182,18 +208,15 @@ export async function reserveCurrentUserAvatarUpload(
   file: Blob,
   checksumSha256: string
 ): Promise<AvatarUploadReservation> {
-  return apiRequest<AvatarUploadReservation>(
-    "/v1/auth/me/avatar-upload",
-    {
-      method: "POST",
-      token,
-      body: {
-        content_type: file.type,
-        byte_size: file.size,
-        checksum_sha256: checksumSha256,
-      },
-    }
-  );
+  return apiRequest<AvatarUploadReservation>("/v1/auth/me/avatar-upload", {
+    method: "POST",
+    token,
+    body: {
+      content_type: file.type,
+      byte_size: file.size,
+      checksum_sha256: checksumSha256,
+    },
+  });
 }
 
 export async function uploadCurrentUserAvatarBlob(
@@ -324,7 +347,10 @@ async function apiRequest<T>(
 
   let response: Response;
   try {
-    response = await fetch(`${API_BASE_URL}${path}`, {
+    const baseUrl = path.startsWith("/v1/mcp/")
+      ? resolveApiBaseUrl(MCP_DEPLOYMENT.oauthApiBaseUrl)
+      : API_BASE_URL;
+    response = await fetch(`${baseUrl}${path}`, {
       method: options.method || "GET",
       headers,
       body:
@@ -341,22 +367,25 @@ async function apiRequest<T>(
 
   const data = await parseResponseBody(response);
   if (!response.ok) {
-    throw toApiError(response.status, data);
+    if (response.status === 401 && options.token) {
+      unauthorizedListeners.forEach(listener => listener(options.token!));
+    }
+    throw toApiError(response, data);
   }
   return data as T;
 }
 
 export async function calculateBlobSha256(blob: Blob): Promise<string> {
-  const digest = await crypto.subtle.digest("SHA-256", await blob.arrayBuffer());
+  const digest = await crypto.subtle.digest(
+    "SHA-256",
+    await blob.arrayBuffer()
+  );
   return Array.from(new Uint8Array(digest), byte =>
     byte.toString(16).padStart(2, "0")
   ).join("");
 }
 
-function resolveApiBaseUrl(): string {
-  const configuredBaseUrl = import.meta.env.VITE_API_BASE_URL?.trim();
-  if (configuredBaseUrl) return configuredBaseUrl;
-
+function resolveApiBaseUrl(upstream = MCP_DEPLOYMENT.apiBaseUrl): string {
   if (
     typeof window !== "undefined" &&
     isLocalHostname(window.location.hostname)
@@ -364,7 +393,7 @@ function resolveApiBaseUrl(): string {
     return LOCAL_API_PROXY_BASE_URL;
   }
 
-  return PRODUCTION_API_BASE_URL;
+  return upstream;
 }
 
 function isLocalHostname(hostname: string): boolean {
@@ -383,7 +412,15 @@ async function parseResponseBody(response: Response): Promise<unknown> {
   }
 }
 
-function toApiError(status: number, data: unknown): ApiError {
+function toApiError(response: Response, data: unknown): ApiError {
+  const status = response.status;
+  const requestId =
+    response.headers.get("x-request-id") ||
+    (isRecord(data) ? stringValue(data.request_id) : null) ||
+    undefined;
+  const retryAfter = response.headers.get("retry-after");
+  const retryAfterSeconds =
+    retryAfter && /^\d+$/.test(retryAfter) ? Number(retryAfter) : undefined;
   if (isRecord(data)) {
     const nestedError = data.error;
     if (isRecord(nestedError)) {
@@ -392,6 +429,8 @@ function toApiError(status: number, data: unknown): ApiError {
         code: stringValue(nestedError.code) || "api.error",
         message: stringValue(nestedError.message) || "Something went wrong.",
         details: nestedError.details,
+        requestId,
+        retryAfterSeconds,
       });
     }
     const oauthError = stringValue(data.error);
@@ -401,6 +440,8 @@ function toApiError(status: number, data: unknown): ApiError {
         code: oauthError,
         message: stringValue(data.error_description) || oauthError,
         details: data.details,
+        requestId,
+        retryAfterSeconds,
       });
     }
   }
@@ -409,7 +450,18 @@ function toApiError(status: number, data: unknown): ApiError {
     status,
     code: "api.error",
     message: typeof data === "string" ? data : "Something went wrong.",
+    requestId,
+    retryAfterSeconds,
   });
+}
+
+function webPlatform(): string {
+  if (typeof navigator === "undefined") return "web";
+  if (/iPhone|iPad/i.test(navigator.userAgent)) return "ios";
+  if (/Mac/i.test(navigator.userAgent)) return "macos";
+  if (/Windows/i.test(navigator.userAgent)) return "windows";
+  if (/Android/i.test(navigator.userAgent)) return "android";
+  return "web";
 }
 
 function makeRequestId(): string {

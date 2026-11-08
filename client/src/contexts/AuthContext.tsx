@@ -11,19 +11,25 @@ import {
 import {
   getCurrentUser,
   logoutSession,
+  subscribeToUnauthorized,
   type AuthTokenResponse,
   type AuthUser,
   type AuthWorkspace,
   type CurrentUserResponse,
 } from "@/lib/api";
+import { MCP_DEPLOYMENT } from "@/lib/mcpDeployment";
+import { clearEmailLoginFlows } from "@/lib/loginFlow";
 
-const STORAGE_KEY = "memova.auth.v1";
+const LEGACY_STORAGE_KEY = "memova.auth.v1";
+export const AUTH_BACKEND = `${MCP_DEPLOYMENT.environment}:${MCP_DEPLOYMENT.apiBaseUrl}`;
+const STORAGE_KEY = `memova.auth.v2:${AUTH_BACKEND}`;
 
 export type AuthSession = {
   access_token: string;
   expires_at: string;
   user: AuthUser;
   default_workspace: AuthWorkspace;
+  backend?: string;
 };
 
 type AuthContextValue = {
@@ -46,16 +52,24 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     readStoredSession()
   );
   const hydratedTokenRef = useRef<string | null>(null);
+  const sessionRef = useRef(session);
+  sessionRef.current = session;
 
   const persistSession = useCallback((nextSession: AuthSession | null) => {
+    sessionRef.current = nextSession;
     setSessionState(nextSession);
-    if (nextSession) {
-      localStorage.setItem(
-        STORAGE_KEY,
-        JSON.stringify(sessionWithoutTemporaryAvatarUrl(nextSession))
-      );
-    } else {
-      localStorage.removeItem(STORAGE_KEY);
+    try {
+      if (nextSession) {
+        window.sessionStorage.setItem(
+          STORAGE_KEY,
+          JSON.stringify(sessionWithoutTemporaryAvatarUrl(nextSession))
+        );
+      } else {
+        window.sessionStorage.removeItem(STORAGE_KEY);
+      }
+      window.localStorage.removeItem(LEGACY_STORAGE_KEY);
+    } catch {
+      // The current tab can still use its in-memory session when storage is unavailable.
     }
   }, []);
 
@@ -66,18 +80,22 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         expires_at: response.expires_at,
         user: response.user,
         default_workspace: response.default_workspace,
+        backend: AUTH_BACKEND,
       });
     },
     [persistSession]
   );
 
   const clearSession = useCallback(() => {
+    hydratedTokenRef.current = null;
+    clearEmailLoginFlows(AUTH_BACKEND);
     persistSession(null);
   }, [persistSession]);
 
   const setSessionFromCurrentUserResponse = useCallback(
     (response: CurrentUserResponse) => {
-      if (!session) return;
+      if (!session || sessionRef.current?.access_token !== session.access_token)
+        return;
       persistSession({
         ...session,
         user: response.user,
@@ -90,12 +108,37 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const refreshUser = useCallback(async () => {
     if (!session?.access_token) return;
     const current = await getCurrentUser(session.access_token);
+    if (sessionRef.current?.access_token !== session.access_token) return;
     persistSession({
       ...session,
       user: current.user,
       default_workspace: current.default_workspace,
     });
   }, [persistSession, session]);
+
+  useEffect(
+    () =>
+      subscribeToUnauthorized(token => {
+        if (sessionRef.current?.access_token === token) clearSession();
+      }),
+    [clearSession]
+  );
+
+  useEffect(() => {
+    if (!session) return;
+    let timer: number;
+    const checkExpiry = () => {
+      const expiresIn = Date.parse(session.expires_at) - Date.now();
+      if (expiresIn <= 0) clearSession();
+      else
+        timer = window.setTimeout(
+          checkExpiry,
+          Math.min(expiresIn, 2_147_483_647)
+        );
+    };
+    checkExpiry();
+    return () => window.clearTimeout(timer);
+  }, [clearSession, session?.expires_at]);
 
   useEffect(() => {
     const token = session?.access_token;
@@ -109,10 +152,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     const expiresMs = Date.parse(session?.user.avatar_url_expires_at || "");
     if (!Number.isFinite(expiresMs)) return;
-    const refreshDelay = Math.max(
-      60_000,
-      expiresMs - Date.now() - 60_000
-    );
+    const refreshDelay = Math.max(60_000, expiresMs - Date.now() - 60_000);
     const timer = window.setTimeout(() => {
       void refreshUser().catch(() => {
         // Image error handling can retry if the scheduled refresh fails.
@@ -185,16 +225,21 @@ function readStoredSession(): AuthSession | null {
   if (typeof window === "undefined") return null;
 
   try {
-    const raw = localStorage.getItem(STORAGE_KEY);
+    // Legacy sessions did not record their backend and cannot be reused safely.
+    try {
+      window.localStorage.removeItem(LEGACY_STORAGE_KEY);
+    } catch {
+      // A blocked persistent store does not prevent reading this tab's session.
+    }
+    const raw = window.sessionStorage.getItem(STORAGE_KEY);
     if (!raw) return null;
     const parsed: unknown = JSON.parse(raw);
-    if (!isUsableAuthSession(parsed)) {
-      localStorage.removeItem(STORAGE_KEY);
+    if (!isUsableAuthSession(parsed) || parsed.backend !== AUTH_BACKEND) {
+      window.sessionStorage.removeItem(STORAGE_KEY);
       return null;
     }
     return parsed;
   } catch {
-    localStorage.removeItem(STORAGE_KEY);
     return null;
   }
 }
