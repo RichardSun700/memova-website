@@ -1,0 +1,18 @@
+{
+  "version": 1,
+  "include": [
+    "/mcp",
+    "/mcp/*",
+    "/login",
+    "/login/",
+    "/profile",
+    "/profile/",
+    "/connected-clients",
+    "/connected-clients/",
+    "/settings/connected-clients",
+    "/settings/connected-clients/",
+    "/api/personal-manual",
+    "/api/personal-manual/*"
+  ],
+  "exclude": []
+}

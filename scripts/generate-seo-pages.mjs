@@ -2,6 +2,8 @@ import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 import { build } from "esbuild";
+import { loadEnv } from "vite";
+import { resolveMcpDeployment } from "../shared/mcpDeployment.ts";
 import {
   SITE_URL,
   SOCIAL_IMAGE,
@@ -638,6 +640,11 @@ function stripManagedHead(html) {
 }
 
 export function renderPageHtml(template, page, options = {}) {
+  if (!page.index) {
+    template = template
+      .replace(/<script\b[^>]*src=["']\/analytics\/ga4-consent\.js[^"']*["'][^>]*>\s*<\/script>\s*/gi, "")
+      .replace(/<link\b[^>]*(?:fonts\.googleapis\.com|fonts\.gstatic\.com)[^>]*>\s*/gi, "");
+  }
   const canonical = getCanonicalUrl(page);
   const robots = page.index
     ? "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
@@ -650,6 +657,9 @@ export function renderPageHtml(template, page, options = {}) {
     <title>${escapeText(page.title)}</title>
     <meta name="description" content="${escapeAttribute(page.description)}" />
     <meta name="robots" content="${robots}" />
+    ${page.index ? "" : `<meta name="referrer" content="no-referrer" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self'; connect-src 'self' https://api.memova.ai https://memova-next-mcp-test-api.salmonbeach-7b03b3f7.japaneast.azurecontainerapps.io https://*.blob.core.windows.net; base-uri 'self'; form-action 'self'" />
+    <style>@font-face{font-family:"DM Serif Display";src:url("/fonts/dm-serif-display-regular.ttf") format("truetype");font-weight:400;font-style:normal;font-display:swap}@font-face{font-family:"Plus Jakarta Sans";src:url("/fonts/plus-jakarta-sans-400.ttf") format("truetype");font-weight:400;font-style:normal;font-display:swap}@font-face{font-family:"Plus Jakarta Sans";src:url("/fonts/plus-jakarta-sans-600.ttf") format("truetype");font-weight:600;font-style:normal;font-display:swap}</style>`}
     <link rel="canonical" href="${escapeAttribute(canonical)}" />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="Memova" />
@@ -706,6 +716,7 @@ const protectedRules = [
   "Disallow: /connected-clients",
   "Disallow: /settings/",
   "Disallow: /mcp/oauth/",
+  "Disallow: /mcp/login",
   "Disallow: /bay-area-agent-demo-2",
   "Disallow: /user-cases/demos/",
 ];
@@ -753,6 +764,11 @@ export const PRIVATE_SPA_PAGES = [
     "/login",
     "Sign in to Memova",
     "Use your email to access profile settings and MCP client authorization."
+  ),
+  createPrivateSpaPage(
+    "/mcp/login",
+    "Sign in to Memova Next",
+    "Use the email from your Memova App to continue the authorization you started in your AI assistant."
   ),
   createPrivateSpaPage(
     "/profile",
@@ -875,4 +891,17 @@ const invokedPath = process.argv[1]
   : "";
 if (import.meta.url === invokedPath) {
   await generateSeoPages();
+  const deployment = resolveMcpDeployment({
+    ...loadEnv("production", projectRoot, "VITE_"),
+    ...process.env,
+  });
+  fs.writeFileSync(
+    path.join(projectRoot, "dist", "mcp-deployment.json"),
+    JSON.stringify({
+      VITE_MCP_ENVIRONMENT: deployment.environment,
+      VITE_API_BASE_URL: deployment.apiBaseUrl,
+      VITE_MCP_API_BASE_URL: deployment.oauthApiBaseUrl,
+      VITE_MCP_SERVER_URL: deployment.serverUrl,
+    }, null, 2)
+  );
 }

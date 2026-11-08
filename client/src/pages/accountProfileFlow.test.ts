@@ -73,7 +73,7 @@ const source = (fileName: string) =>
   fs.readFileSync(path.resolve(process.cwd(), "client/src", fileName), "utf8");
 
 describe("account profile completion", () => {
-  it("requires a nickname after verification when the account has none", () => {
+  it("keeps optional profile completion out of the MCP authorization return", () => {
     const login = source("pages/Login.tsx");
 
     expect(login).toContain("!response.user.display_name?.trim()");
@@ -93,7 +93,7 @@ describe("account profile completion", () => {
     expect(login).toContain("!auth.user?.display_name?.trim()");
     expect(login).toContain('token_type: "bearer"');
     expect(login).toContain('previewState === "code"');
-    expect(login).toContain('previewState === "nickname"');
+    expect(login).toContain('if (!mcpLogin && !response.user.display_name?.trim())');
     expect(login).toContain('previewState === "review"');
     expect(login).toContain('previewState === "error"');
   });
@@ -196,15 +196,15 @@ describe("account profile completion", () => {
     expect(consent).toContain("Approving access…");
     expect(consent).toContain("Cancel this connection");
     expect(consent).not.toContain("\n                  Deny\n");
-    expect(consent).toContain("Access approved");
-    expect(consent).toContain("Return to Codex now");
+    expect(consent).toContain("Authorization approved");
+    expect(consent).toContain("Return to agent");
     expect(consent).toContain("AUTO_REDIRECT_DELAY_MS");
     expect(consent).toContain("window.location.assign(approvalRedirectUri)");
     expect(styles).toContain("@keyframes oauth-approve-pulse");
     expect(styles).toContain("@keyframes oauth-success-pop");
     expect(styles).toContain("prefers-reduced-motion: reduce");
     expect(accountShell).toContain("<SiteHeader ");
-    expect(login).toContain('<SiteHeader current="login" />');
+    expect(login).toContain('<SiteHeader current={mcpLogin ? "mcp" : "login"} />');
     expect(accountShell).not.toContain("<MemovaBrand");
     expect(login).not.toContain("<MemovaBrand");
     expect(footer).toContain("<MemovaBrand compact />");

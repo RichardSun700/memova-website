@@ -7,6 +7,7 @@ import { PrivacyPolicyPage, TermsOfServicePage } from "@/pages/LegalPage";
 import Login from "@/pages/Login";
 import Mcp from "@/pages/Mcp";
 import McpConsent from "@/pages/McpConsent";
+import McpSetup from "@/pages/McpSetup";
 import NotFound from "@/pages/NotFound";
 import Profile from "@/pages/Profile";
 import Journal from "@/pages/Journal";
@@ -81,6 +82,7 @@ function Router() {
         <Redirect to="/" replace />
       </Route>
       <Route path={"/login"} component={Login} />
+      <Route path={"/mcp/login"} component={Login} />
       <Route path={"/profile"} component={Profile} />
       <Route path={"/connected-clients"} component={ConnectedClients} />
       {privacyPolicyPaths.map(path => (
@@ -93,6 +95,7 @@ function Router() {
         component={ConnectedClients}
       />
       <Route path={"/mcp/oauth/consent"} component={McpConsent} />
+      <Route path={"/mcp/setup"} component={McpSetup} />
       <Route path={"/mcp"} component={Mcp} />
       <Route path={"/404"} component={NotFound} />
       {/* Final fallback route */}

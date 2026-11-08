@@ -11,6 +11,12 @@ const PROTECTED_REGIONS = [
 const root = typeof window === "undefined" ? undefined : window;
 let lastPageView = "";
 
+function isPrivatePage() {
+  if (!root) return true;
+  return /^\/(?:login|profile|connected-clients|settings(?:\/|$)|mcp\/(?:login|oauth)(?:\/|$))/.test(root.location.pathname)
+    || /(?:^|[?&])(?:access_token|refresh_token|code|exchange_code|request_id)=/.test(root.location.search);
+}
+
 function gtag() {
   if (!root) return;
   root.dataLayer = root.dataLayer || [];
@@ -46,12 +52,13 @@ function updateConsent(choice) {
 }
 
 function trackEvent(name, parameters = {}) {
+  if (isPrivatePage()) return;
   if (!name || typeof name !== "string") return;
   gtag("event", name, parameters);
 }
 
 function trackPageView() {
-  if (!root) return;
+  if (!root || isPrivatePage()) return;
   const key = `${root.location.pathname}${root.location.search}${root.location.hash}`;
   if (key === lastPageView) return;
   lastPageView = key;
@@ -63,7 +70,7 @@ function trackPageView() {
 }
 
 function addGoogleTag() {
-  if (!root || document.querySelector(`script[data-memova-ga4="${MEASUREMENT_ID}"]`)) return;
+  if (!root || isPrivatePage() || document.querySelector(`script[data-memova-ga4="${MEASUREMENT_ID}"]`)) return;
   const script = document.createElement("script");
   script.async = true;
   script.src = `https://www.googletagmanager.com/gtag/js?id=${MEASUREMENT_ID}`;
@@ -159,7 +166,7 @@ function installClickTracking() {
 }
 
 function install() {
-  if (!root) return;
+  if (!root || isPrivatePage()) return;
   const isEmbeddedPreview = root.self !== root.top
     && new URLSearchParams(root.location.search).get("embed") === "1";
   if (isEmbeddedPreview) return;

@@ -36,13 +36,14 @@ describe("US iOS acquisition pages", () => {
       </AuthProvider>
     );
 
-    expect(html).toContain("Connect Memova to Codex and MCP clients.");
-    expect(html).toContain("Connection model");
-    expect(html).toContain("Machine endpoint · Streamable HTTP");
-    expect(html).toContain("not a browser page");
-    expect(html).toContain("Plain transport text at this URL is expected");
-    expect(html).toContain("https://api.memova.ai/mcp");
-    expect(html).not.toContain('href="https://api.memova.ai/mcp"');
+    expect(html).toContain("Bring your Memova records into your AI chat.");
+    expect(html).toContain('href="/mcp/setup?lang=en"');
+    expect(html).toContain("Read-only access · No Pro required · Revoke anytime");
+    expect(html).toContain("Server URL · Streamable HTTP");
+    expect(html).toContain("Health samples");
+    expect(html).toContain("Recording markers");
+    expect(html).not.toContain("Create a new Vault");
+    expect(html).not.toContain("actions.write");
   });
 
   it("keeps both public privacy policy URLs mapped to the legal page", () => {
