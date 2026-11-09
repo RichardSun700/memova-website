@@ -335,6 +335,9 @@ describe("MCP consent boundaries", () => {
     expect(f.document.querySelector("h1")?.textContent).toBe(
       "Authorization approved"
     );
+    expect(f.document.body.textContent).toContain(
+      "If the tools are missing or you still see the previous account, refresh the MCP connection and try again."
+    );
     expect(f.document.body.textContent).not.toContain("tools are loaded");
     await f.click("Return to agent");
     await act(async () => vi.advanceTimersByTime(4000));
@@ -348,6 +351,9 @@ describe("MCP consent boundaries", () => {
     f.location.search = "?request_id=fixture-request&lang=zh";
     await act(async () => f.root.render(createElement(McpConsent)));
     expect(f.document.querySelector("h1")?.textContent).toBe("授权已批准");
+    expect(f.document.body.textContent).toContain(
+      "若工具尚未出现或账号未更新，请刷新 MCP 连接后重试。"
+    );
     expect(fakes.get).toHaveBeenCalledOnce();
     await act(async () => vi.advanceTimersByTime(4000));
     expect(fakes.approve).toHaveBeenCalledOnce();
