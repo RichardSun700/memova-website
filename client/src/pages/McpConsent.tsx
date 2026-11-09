@@ -446,9 +446,13 @@ export default function McpConsent() {
                 ? zh
                   ? "Agent 将收到 access_denied。请回到原聊天继续，需要时从 Agent 发起新的授权。"
                   : "Your agent will receive access_denied. Return to the original chat to continue, or start a new authorization there if needed."
-                : zh
-                  ? "正在将结果交给发起连接的 Agent。请回到原聊天，确认工具已加载并验证一次读取。"
-                  : "Sending the result to the agent that started this request. Return to the original chat, check loaded tools, and verify a read."}
+                : surface === "next"
+                  ? zh
+                    ? "授权已完成，请返回发起连接的客户端。若工具尚未出现或账号未更新，请刷新 MCP 连接后重试。"
+                    : "Authorization is complete. Return to the client that started the connection. If the tools are missing or you still see the previous account, refresh the MCP connection and try again."
+                  : zh
+                    ? "正在将结果交给发起连接的 Agent。请回到原聊天，确认工具已加载并验证一次读取。"
+                    : "Sending the result to the agent that started this request. Return to the original chat, check loaded tools, and verify a read."}
             </p>
             {approvalRedirectUri && (
               <Button

@@ -13,8 +13,8 @@ export type McpClient =
   | "other";
 
 export const nextDataTypes = [
-  { type: "hour_note", en: "Hour notes", zh: "小时笔记" },
-  { type: "inspiration", en: "Saved inspirations", zh: "已保存灵感" },
+  { type: "hour_note", en: "Hour notes", zh: "小时记录" },
+  { type: "inspiration", en: "Inspiration candidates", zh: "灵感候选" },
   { type: "timeline_day", en: "Timeline & My Day", zh: "Timeline 与 My Day" },
   { type: "memory", en: "Memories", zh: "记忆" },
   { type: "health_sample", en: "Health samples", zh: "健康样本" },
@@ -124,10 +124,18 @@ const clientDocs: Partial<Record<McpClient, string>> = {
   chatgpt: "https://developers.openai.com/api/docs/guides/custom-mcp-server",
 };
 
-function installationInstruction(client: McpClient, language: McpLanguage) {
+function installationInstruction(
+  client: McpClient,
+  language: McpLanguage,
+  next: boolean
+) {
   const zh = language === "zh";
   switch (client) {
     case "codex":
+      if (next)
+        return zh
+          ? "打开 Settings → MCP servers，选择 Add server。名称填 memova-next，类型选 Streamable HTTP，再填入上方地址。保存后按提示选择 Restart，需要登录时选择 Authenticate。"
+          : "Open Settings → MCP servers and select Add server. Enter memova-next as the name, select Streamable HTTP, and paste the URL above. Save, then choose Restart when prompted. Select Authenticate when asked to sign in.";
       return zh
         ? "Settings → MCP servers → Add server → Streamable HTTP，填入上方地址并保存，再按提示 Restart。需要认证时点 Authenticate。"
         : "Go to Settings → MCP servers → Add server → Streamable HTTP. Enter the URL above, save, and use Restart when prompted. Select Authenticate when sign-in is required.";
@@ -200,7 +208,23 @@ export default function McpSetupGuide({
           <h3 className="font-bold text-[#111A30]">
             {zh ? "先添加并认证" : "First add and authenticate"}
           </h3>
-          <p>{installationInstruction(activeClient, language)}</p>
+          {next &&
+            activeClient === "codex" &&
+            MCP_DEPLOYMENT.environment === "production" && (
+              <p className="text-xs font-semibold text-[#397D5C]">
+                {zh
+                  ? "已在正式环境验证 Codex 接入"
+                  : "Codex setup verified in production"}
+              </p>
+            )}
+          {next && activeClient !== "codex" && (
+            <p className="text-xs">
+              {zh
+                ? "此客户端暂无本次验证结果。"
+                : "No verification result is available for this client in this release."}
+            </p>
+          )}
+          <p>{installationInstruction(activeClient, language, next)}</p>
           {activeClient === "codex" && next && MCP_DEPLOYMENT.serverUrl && (
             <code className="block overflow-x-auto rounded-md bg-[#F6F8FC] p-3 text-xs">
               codex mcp add memova-next --url {MCP_DEPLOYMENT.serverUrl}
@@ -218,33 +242,47 @@ export default function McpSetupGuide({
                 : "Official setup instructions for this client"}
             </a>
           )}
-          <p className="text-xs">
-            {zh
-              ? "其他客户端按官方说明接入，实际加载与读取请在当前聊天验证。"
-              : "For other clients, follow their official instructions and verify loaded tools and reads in the current chat."}
-          </p>
+          {!next && (
+            <p className="text-xs">
+              {zh
+                ? "其他客户端按官方说明接入，实际加载与读取请在当前聊天验证。"
+                : "For other clients, follow their official instructions and verify loaded tools and reads in the current chat."}
+            </p>
+          )}
         </div>
       )}
       <ol className="mt-3 list-decimal space-y-3 pl-5">
         <li>
-          {zh
-            ? "浏览器将授权结果交给发起连接的 Agent。它可能不会自动切换到应用，请手动回到原 Agent 和原聊天。"
-            : "The browser sends the authorization result to the agent that started the request. Return to that agent and the original chat if its window does not open automatically."}
+          {next && detailed
+            ? zh
+              ? "在浏览器登录 Memova 并核对授权。批准后，回到发起连接的客户端和原聊天。"
+              : "Sign in to Memova in your browser and review the requested access. After approval, return to the client that started the connection and open the original chat."
+            : zh
+              ? "浏览器将授权结果交给发起连接的 Agent。它可能不会自动切换到应用，请手动回到原 Agent 和原聊天。"
+              : "The browser sends the authorization result to the agent that started the request. Return to that agent and the original chat if its window does not open automatically."}
         </li>
         <li>
-          {activeClient === "codex"
-            ? zh
-              ? "在 Codex 的 Settings → MCP servers 检查连接。工具未出现时按客户端提示 Restart，再回到原聊天。"
-              : "In Codex, check Settings → MCP servers. If tools are missing, use the client's Restart action and return to the original chat."
-            : zh
-              ? "在当前客户端的 MCP／连接设置中检查状态，按该客户端支持的方式重新加载；需要重启时先保存工作。"
-              : "Check the current client's MCP or connector settings and use its supported reload action. Save your work before restarting."}
+          {next
+            ? activeClient === "codex"
+              ? zh
+                ? "如果当前聊天没有工具或仍显示旧账号，先在 Codex 的 Settings → MCP servers 中刷新连接，或按提示选择 Restart，再回到原聊天验证。"
+                : "If the tools are missing or you still see the previous account, refresh the connection in Codex Settings → MCP servers, or choose Restart when prompted. Return to the original chat to verify access."
+              : zh
+                ? "如果工具未出现或账号未更新，先在当前客户端的 MCP 或连接设置中刷新连接，再回到原聊天验证。"
+                : "If the tools are missing or you still see the previous account, reload the connection in your client’s MCP or connector settings. Return to the original chat to verify access."
+            : activeClient === "codex"
+              ? zh
+                ? "在 Codex 的 Settings → MCP servers 检查连接。工具未出现时按客户端提示 Restart，再回到原聊天。"
+                : "In Codex, check Settings → MCP servers. If tools are missing, use the client's Restart action and return to the original chat."
+              : zh
+                ? "在当前客户端的 MCP／连接设置中检查状态，按该客户端支持的方式重新加载；需要重启时先保存工作。"
+                : "Check the current client's MCP or connector settings and use its supported reload action. Save your work before restarting."}
         </li>
         <li>
           {next
             ? zh
-              ? "在同一聊天调用 get_next_account，再调用 search_next_data(limit=3)，不加关键词、日期或时区过滤。两次实际读取成功后再确认接入完成。"
-              : "In the same chat, call get_next_account, then search_next_data(limit=3) without keyword, date or time-zone filters. Verify setup after both reads succeed."
+              ? "在原聊天核对 Memova 账号，再查询少量云端记录，确认读取是否成功。"
+              : "In the original chat, check your Memova account and query a few cloud records to verify read access."
             : zh
               ? "在同一聊天读取本次权限允许的一条资料，核对账号与实际结果。"
               : "In the same chat, read one item allowed by these permissions and check the account and result."}

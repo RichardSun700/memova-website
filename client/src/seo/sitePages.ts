@@ -130,10 +130,10 @@ const publicPages: SitePage[] = [
     changeFrequency: "monthly",
     priority: 0.65,
     summary:
-      "Memova Next MCP gives an AI assistant read-only access to saved cloud notes, inspirations, Timeline and My Day, memories, health samples, and recording markers. Pro is not required for reading.",
+      "Memova Next MCP gives an AI assistant read-only access to saved cloud hour notes, inspiration candidates, Timeline and My Day, memories, health samples, and recording markers. Pro is not required for reading.",
     schemaType: "WebPage",
     hero: {
-      eyebrow: "Plugins & MCP",
+      eyebrow: "Memova Next MCP",
       title: "Bring your Memova records into your AI chat.",
       intro:
         "Connect Memova Next, review read-only access, and return to your assistant to use your saved cloud data.",
