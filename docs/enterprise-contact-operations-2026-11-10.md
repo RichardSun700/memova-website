@@ -1,6 +1,6 @@
 # Enterprise contact form
 
-Status: implementation and production validation in progress. Do not infer deployment from this file until a release SHA and live test are recorded below.
+Status: published and production-tested on 2026-11-10. Source release `e16a9a35f0d15edcf42a7c24d19a6a2f1e2f4702` was pushed to the enterprise GitHub branch before publishing.
 
 ## Scope and isolation
 
@@ -55,4 +55,12 @@ Cloudflare references: [Pages direct upload and advanced worker support](https:/
 
 - TypeScript and standalone build passed during implementation.
 - 13 focused React/enterprise checks and 7 Node/SQLite backend tests passed. Backend checks include persistence before mail, notification failure, idempotency, conflicts, input/origin/size checks, rate limits, database failure and scheduled retry.
-- Existing repository dependency audit remains failing; no dependency or lockfile change is included. Production release and live delivery checks are still pending.
+- Existing repository dependency audit remains failing: 83 pre-existing advisories (1 critical, 20 high, 51 moderate, 11 low); no dependency or lockfile change is included.
+- Live page: `https://enterprise.memova.ai/contact`; deployment preview: `https://41e003e7.memova-enterprise.pages.dev`. The live release manifest matches source `e16a9a35f0d15edcf42a7c24d19a6a2f1e2f4702`.
+- Worker deployment ID: `44ea3e6bd6c344e5b963279cff02bffd`. Verified native D1 and restricted email bindings; workers.dev and preview endpoints disabled; cron saved as `*/10 * * * *`.
+- Live browser form submission showed a real success state. Synthetic test reference: `8754c277-9799-404e-b899-21eb0d1ec7c7`; its name explicitly says not a customer lead. Its D1 row exists, `notification_state=sent`, `notification_attempts=1`, and `notification_error=NULL`. Retrying the same request returned the original reference, kept `matching_records=1` and did not add a notification attempt.
+- The mail service accepted the notification to `richard@memova.ai`. Inbox receipt was not independently read: the available Outlook search tool could not be invoked. Do not describe this as observed inbox delivery.
+- A disallowed-origin POST returned HTTP 403. The endpoint exposes no unauthenticated lead list.
+- Browser checked local 390px and 320px layouts, 16px input text, preserved input after a real failed request, copy-email success and no overflow. The live 390px success state also fits. These are desktop-Chrome viewport checks, not physical Safari/Android/WeChat-device certification. All four live home-page CTAs point to `/contact?lang=zh`, and the hero CTA opens the actual contact page.
+- The 2C homepage SHA-256 was identical before and after: `a6b5c44e759da868222572b55b6794c01e387ec0a3a2d10784812be753685f4b`.
+- The limited deployment token has exactly the three approved permissions and expires 2026-11-10 23:59 (UTC+8), within 24 hours of creation. The initial date-only picker produced a longer end-of-day expiry; it was shortened immediately and the API expiry was verified before deployment. The local credential process has been terminated and its in-memory token cleared. No credential was put in code, GitHub or this record. The token will expire automatically; it was not described as revoked.
