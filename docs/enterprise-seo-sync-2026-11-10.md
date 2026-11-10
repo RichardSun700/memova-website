@@ -46,3 +46,13 @@ Canonical team entry: [Memova knowledge base / Development / Website source and 
 Detailed contact backend operations and verification: `docs/enterprise-contact-operations-2026-11-10.md`. This includes the dedicated Worker/D1, the notification outbox and the synthetic test result. Service acceptance of an email is not independently observed inbox receipt.
 
 The paired iCloud vault check on November 10 returned zero errors and ten warnings, including a primary-host profile that is 66 days old. Preserve the read-only boundary; queue a concise V3 summary locally until host ownership is safely revalidated. Never publish credentials or customer inquiry records in documentation.
+
+## Published verification
+
+- Source commit `e7da57c49f24ac23764881fcc722382a7cbcb435` was pushed and verified against the GitHub enterprise branch before the final clean rebuild and upload.
+- Pages deployment `d93a7d5c-4ef4-4209-95bd-25aac00ed98e`, snapshot `https://d93a7d5c.memova-enterprise.pages.dev/`, is Production on project `memova-enterprise`.
+- `https://enterprise.memova.ai/enterprise-release.json` returns that source commit. The live contact DOM has its own canonical, description, Open Graph URL and ContactPage JSON-LD. The live robots file contains the intended discovery groups and GPTBot opt-out.
+- `GET /api/contact` returns the expected HTTP 405 JSON from the dedicated contact backend, not a missing-service-binding error. This metadata-only release did not create another lead or send a notification.
+- The 2C homepage SHA-256 is unchanged: `a6b5c44e759da868222572b55b6794c01e387ec0a3a2d10784812be753685f4b` before the contact work and after this SEO release.
+- The existing company Space page linked above was updated and read back: consumer release history retained, enterprise source/project/commit/deployment recorded, and crawler/privacy/release boundaries included. No new duplicate knowledge-base page was created. Saved text and structure were checked through the connector; the Space visual layout was not browser-reviewed.
+- This verification section is a documentation-only follow-up. Its GitHub commit may be newer than the live source manifest; do not redeploy consumer main or roll back enterprise production merely to make a documentation-only branch head match the manifest.
