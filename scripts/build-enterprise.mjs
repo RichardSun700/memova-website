@@ -4,6 +4,7 @@ import { execFileSync } from "node:child_process";
 import { pathToFileURL } from "node:url";
 import { build } from "vite";
 import { build as bundle } from "esbuild";
+import { parseHTML } from "linkedom";
 
 const root = path.resolve(import.meta.dirname, "..");
 const out = path.join(root, "dist/enterprise");
@@ -29,32 +30,47 @@ await bundle({
 });
 const { render } = await import(pathToFileURL(renderer).href);
 const template = fs.readFileSync(path.join(out, "index.html"), "utf8");
-const html = template.replace(
-  '<div id="root"></div>',
-  `<div id="root">${render()}</div>`
+function renderPage(pathname, title, description) {
+  const { document } = parseHTML(template);
+  const canonical = new URL(pathname, "https://enterprise.memova.ai").href;
+  document.querySelector("#root").innerHTML = render(pathname);
+  document.title = title;
+  document.querySelector('meta[name="description"]').content = description;
+  document.querySelector('link[rel="canonical"]').href = canonical;
+  for (const [name, content] of Object.entries({
+    "og:title": title,
+    "og:description": description,
+    "og:url": canonical,
+  })) {
+    document.querySelector(`meta[property="${name}"]`).content = content;
+  }
+  const schema = document.createElement("script");
+  schema.type = "application/ld+json";
+  schema.textContent = JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": pathname === "/contact" ? "ContactPage" : "WebPage",
+    "@id": canonical + "#webpage",
+    url: canonical,
+    name: title,
+    description,
+  }).replace(/</g, "\\u003c");
+  document.head.appendChild(schema);
+  return document.toString();
+}
+const html = renderPage(
+  "/",
+  "Memova for Business | Enterprise Knowledge & Local AI",
+  "Enterprise knowledge bases, authorized data engineering, model training and private deployment for business and industrial teams."
 );
 fs.writeFileSync(path.join(out, "index.html"), html);
-const contactPage = template
-  .replace(
-    '<div id="root"></div>',
-    `<div id="root">${render("/contact")}</div>`
-  )
-  .replace(
-    "<title>Memova for Business | Enterprise Knowledge &amp; Local AI</title>",
-    "<title>Contact our team | Memova for Business</title>"
-  )
-  .replace(
-    "<title>Memova for Business | Enterprise Knowledge & Local AI</title>",
-    "<title>Contact our team | Memova for Business</title>"
-  )
-  .replace(
-    'rel="canonical" href="https://enterprise.memova.ai/"',
-    'rel="canonical" href="https://enterprise.memova.ai/contact"'
-  )
-  .replace(
-    /(<span class="ent-contact-address"[^>]*>.*?<\/span>)/g,
-    "<!--email_off-->$1<!--/email_off-->"
-  );
+const contactPage = renderPage(
+  "/contact",
+  "Contact our team | Memova for Business",
+  "Contact Memova about enterprise knowledge bases, authorized data, model training and private AI deployment. Our team will follow up by email."
+).replace(
+  /(<span class="ent-contact-address"[^>]*>.*?<\/span>)/g,
+  "<!--email_off-->$1<!--/email_off-->"
+);
 fs.writeFileSync(path.join(out, "contact.html"), contactPage);
 fs.copyFileSync(
   path.join(root, "enterprise-site/_worker.js"),
@@ -66,7 +82,10 @@ fs.writeFileSync(
 );
 fs.writeFileSync(
   path.join(out, "robots.txt"),
-  "User-agent: *\nAllow: /\nSitemap: https://enterprise.memova.ai/sitemap.xml\n"
+  ["*", "OAI-SearchBot", "PerplexityBot"]
+    .map(agent => `User-agent: ${agent}\nAllow: /\nDisallow: /api/\n`)
+    .join("\n") +
+    "\nUser-agent: GPTBot\nDisallow: /\n\nSitemap: https://enterprise.memova.ai/sitemap.xml\n"
 );
 fs.writeFileSync(
   path.join(out, "sitemap.xml"),
