@@ -5,13 +5,17 @@ import { setLegalLanguage } from "@/seo/legalLanguage";
 export function EnterpriseHeader({
   zh,
   contact,
+  home = true,
 }: {
   zh: boolean;
   contact: string;
+  home?: boolean;
 }) {
   const [open, setOpen] = useState(false);
   const root = useRef<HTMLElement>(null);
   const trigger = useRef<HTMLButtonElement>(null);
+  const section = (href: string) =>
+    home ? href : `/${zh ? "?lang=zh" : ""}${href}`;
   const links = [
     ["#services", zh ? "企业服务" : "Services"],
     ["#data", zh ? "数据治理" : "Data governance"],
@@ -40,7 +44,7 @@ export function EnterpriseHeader({
     <header className="ent-site-header" ref={root}>
       <div className="ent-shell ent-site-header-row">
         <a
-          href="#top"
+          href={section("#top")}
           className="ent-site-brand"
           aria-label={zh ? "Memova 企业站首页" : "Memova enterprise home"}
         >
@@ -65,7 +69,7 @@ export function EnterpriseHeader({
           aria-label={zh ? "企业站导航" : "Enterprise navigation"}
         >
           {links.map(([href, label]) => (
-            <a href={href} key={href}>
+            <a href={section(href)} key={href}>
               {label}
             </a>
           ))}
@@ -115,7 +119,7 @@ export function EnterpriseHeader({
           aria-label={zh ? "移动端企业导航" : "Mobile enterprise navigation"}
         >
           {links.map(([href, label]) => (
-            <a key={href} href={href} onClick={() => setOpen(false)}>
+            <a key={href} href={section(href)} onClick={() => setOpen(false)}>
               {label}
             </a>
           ))}
@@ -132,15 +136,19 @@ export function EnterpriseHeader({
 export function EnterpriseFooter({
   zh,
   contact,
+  home = true,
 }: {
   zh: boolean;
   contact: string;
+  home?: boolean;
 }) {
+  const section = (href: string) =>
+    home ? href : `/${zh ? "?lang=zh" : ""}${href}`;
   return (
     <footer className="ent-site-footer">
       <div className="ent-shell">
         <div>
-          <a href="#top" className="ent-site-footer-brand">
+          <a href={section("#top")} className="ent-site-footer-brand">
             Memova <span>FOR BUSINESS</span>
           </a>
           <p>
@@ -150,10 +158,10 @@ export function EnterpriseFooter({
           </p>
         </div>
         <nav aria-label={zh ? "企业站页脚" : "Enterprise footer"}>
-          <a href="#services">{zh ? "企业服务" : "Services"}</a>
-          <a href="#data">{zh ? "数据与隐私" : "Data & privacy"}</a>
-          <a href="#deployment">{zh ? "部署方案" : "Deployment"}</a>
-          <a href={contact}>hello@memova.ai</a>
+          <a href={section("#services")}>{zh ? "企业服务" : "Services"}</a>
+          <a href={section("#data")}>{zh ? "数据与隐私" : "Data & privacy"}</a>
+          <a href={section("#deployment")}>{zh ? "部署方案" : "Deployment"}</a>
+          <a href={contact}>{zh ? "联系团队" : "Contact us"}</a>
         </nav>
         <small>© {new Date().getFullYear()} Memova</small>
       </div>

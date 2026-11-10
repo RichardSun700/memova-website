@@ -28,17 +28,49 @@ await bundle({
   alias: { "@": path.join(root, "client/src") },
 });
 const { render } = await import(pathToFileURL(renderer).href);
-const html = fs
-  .readFileSync(path.join(out, "index.html"), "utf8")
-  .replace('<div id="root"></div>', `<div id="root">${render()}</div>`);
+const template = fs.readFileSync(path.join(out, "index.html"), "utf8");
+const html = template.replace(
+  '<div id="root"></div>',
+  `<div id="root">${render()}</div>`
+);
 fs.writeFileSync(path.join(out, "index.html"), html);
+const contactPage = template
+  .replace(
+    '<div id="root"></div>',
+    `<div id="root">${render("/contact")}</div>`
+  )
+  .replace(
+    "<title>Memova for Business | Enterprise Knowledge &amp; Local AI</title>",
+    "<title>Contact our team | Memova for Business</title>"
+  )
+  .replace(
+    "<title>Memova for Business | Enterprise Knowledge & Local AI</title>",
+    "<title>Contact our team | Memova for Business</title>"
+  )
+  .replace(
+    'rel="canonical" href="https://enterprise.memova.ai/"',
+    'rel="canonical" href="https://enterprise.memova.ai/contact"'
+  )
+  .replace(
+    /(<span class="ent-contact-address"[^>]*>.*?<\/span>)/g,
+    "<!--email_off-->$1<!--/email_off-->"
+  );
+fs.writeFileSync(path.join(out, "contact.html"), contactPage);
+fs.copyFileSync(
+  path.join(root, "enterprise-site/_worker.js"),
+  path.join(out, "_worker.js")
+);
+fs.writeFileSync(
+  path.join(out, "_routes.json"),
+  JSON.stringify({ version: 1, include: ["/api/contact"], exclude: [] })
+);
 fs.writeFileSync(
   path.join(out, "robots.txt"),
   "User-agent: *\nAllow: /\nSitemap: https://enterprise.memova.ai/sitemap.xml\n"
 );
 fs.writeFileSync(
   path.join(out, "sitemap.xml"),
-  '<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"><url><loc>https://enterprise.memova.ai/</loc></url></urlset>'
+  '<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"><url><loc>https://enterprise.memova.ai/</loc></url><url><loc>https://enterprise.memova.ai/contact</loc></url></urlset>'
 );
 fs.writeFileSync(
   path.join(out, "404.html"),
@@ -64,3 +96,11 @@ fs.writeFileSync(
   )
 );
 console.log("Enterprise-only build ready:", out);
+await bundle({
+  entryPoints: [path.join(root, "worker/enterprise/index.mjs")],
+  outfile: path.join(root, "dist/enterprise-contact-worker.mjs"),
+  bundle: true,
+  format: "esm",
+  platform: "browser",
+  external: ["cloudflare:email"],
+});

@@ -1,5 +1,5 @@
 import { renderToString } from "react-dom/server";
-import Enterprise from "../client/src/pages/Enterprise";
-export function render() {
-  return renderToString(<Enterprise />);
+import { EnterpriseRouter } from "./router";
+export function render(pathname = "/") {
+  return renderToString(<EnterpriseRouter pathname={pathname} />);
 }

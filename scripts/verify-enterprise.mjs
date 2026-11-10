@@ -13,7 +13,7 @@ assert.ok(document.querySelector(".ent-site-header"));
 assert.ok(document.querySelector(".ent-site-footer"));
 assert.ok(document.querySelector("#industrial"));
 for (const link of document.querySelectorAll("header a,footer a"))
-  assert.match(link.getAttribute("href"), /^(#|mailto:)/);
+  assert.match(link.getAttribute("href"), /^(#|\/contact)/);
 assert.equal(
   document.querySelectorAll(".memova-watch-header,.mw-signin").length,
   0
@@ -40,4 +40,25 @@ assert.match(
 assert.match(fs.readFileSync(path.join(out, "404.html"), "utf8"), /noindex/);
 console.log(
   "Enterprise boundary verified: isolated navigation, SSR, assets, canonical, sitemap and no consumer routes."
+);
+const { document: contact } = parseHTML(
+  fs.readFileSync(path.join(out, "contact.html"), "utf8")
+);
+assert.equal(
+  contact.querySelector('link[rel="canonical"]').getAttribute("href"),
+  "https://enterprise.memova.ai/contact"
+);
+assert.equal(
+  contact.querySelector("form").getAttribute("action"),
+  "/api/contact"
+);
+assert.ok(contact.querySelector("#contact-email[required]"));
+assert.equal(contact.querySelector('a[href^="mailto:"]'), null);
+assert.ok(fs.existsSync(path.join(out, "_worker.js")));
+assert.deepEqual(
+  JSON.parse(fs.readFileSync(path.join(out, "_routes.json"), "utf8")).include,
+  ["/api/contact"]
+);
+console.log(
+  "Contact page verified: server-rendered form, independent canonical and API-only Worker routing."
 );

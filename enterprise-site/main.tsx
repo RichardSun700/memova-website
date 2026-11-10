@@ -1,5 +1,7 @@
 import { createRoot } from "react-dom/client";
-import Enterprise from "../client/src/pages/Enterprise";
+import { EnterpriseRouter } from "./router";
 import "./site.css";
 
-createRoot(document.getElementById("root")!).render(<Enterprise />);
+createRoot(document.getElementById("root")!).render(
+  <EnterpriseRouter pathname={window.location.pathname} />
+);

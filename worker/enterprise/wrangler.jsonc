@@ -1,0 +1,17 @@
+{
+  "name": "memova-enterprise-contact",
+  "main": "index.mjs",
+  "compatibility_date": "2026-11-10",
+  "workers_dev": false,
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "memova_enterprise_leads",
+      "database_id": "99c88127-5d04-4721-bbc1-f67673fc33e7",
+    },
+  ],
+  "send_email": [
+    { "name": "EMAIL", "destination_address": "richard@memova.ai" },
+  ],
+  "triggers": { "crons": ["*/10 * * * *"] },
+}

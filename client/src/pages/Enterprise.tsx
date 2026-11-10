@@ -38,11 +38,7 @@ export default function Enterprise() {
   const L = (cn: string, en: string) => (zh ? cn : en);
   const [deployment, setDeployment] = useState(0);
   const [scenario, setScenario] = useState(0);
-  const contact =
-    "mailto:hello@memova.ai?subject=" +
-    encodeURIComponent(
-      L("Memova 企业方案咨询", "Memova enterprise project inquiry")
-    );
+  const contact = zh ? "/contact?lang=zh" : "/contact";
   const services = [
     {
       icon: BookOpen,

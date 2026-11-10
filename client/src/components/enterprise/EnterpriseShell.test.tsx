@@ -11,13 +11,13 @@ describe("enterprise site boundary", () => {
       for (const Component of [EnterpriseHeader, EnterpriseFooter]) {
         const { document } = parseHTML(
           renderToStaticMarkup(
-            createElement(Component, { zh, contact: "mailto:hello@memova.ai" })
+            createElement(Component, { zh, contact: "/contact" })
           )
         );
         const links = Array.from(document.querySelectorAll("a"));
         expect(links.length).toBeGreaterThan(3);
         links.forEach(link =>
-          expect(link.getAttribute("href")).toMatch(/^(#|mailto:)/)
+          expect(link.getAttribute("href")).toMatch(/^(#|\/contact)/)
         );
         expect(document.querySelector('a[href="#top"]')).toBeTruthy();
         expect(

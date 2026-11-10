@@ -1,0 +1,8 @@
+{
+  "name": "memova-enterprise",
+  "pages_build_output_dir": "../dist/enterprise",
+  "compatibility_date": "2026-11-10",
+  "services": [
+    { "binding": "CONTACT_API", "service": "memova-enterprise-contact" },
+  ],
+}
