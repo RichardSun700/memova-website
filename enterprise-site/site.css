@@ -1,0 +1,239 @@
+@font-face {
+  font-family: "Memova Navigation";
+  src: url("/fonts/memova-navigation-400.ttf") format("truetype");
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Memova Navigation";
+  src: url("/fonts/memova-navigation-600.ttf") format("truetype");
+  font-weight: 600;
+  font-display: swap;
+}
+* {
+  box-sizing: border-box;
+}
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 95px;
+}
+body {
+  margin: 0;
+}
+button,
+input,
+select {
+  font: inherit;
+}
+button,
+a {
+  -webkit-tap-highlight-color: transparent;
+}
+button,
+a[href],
+select,
+summary {
+  cursor: pointer;
+}
+img {
+  max-width: 100%;
+}
+button {
+  line-height: inherit;
+}
+a {
+  color: inherit;
+}
+ul,
+ol {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+h1,
+h2,
+h3,
+h4,
+p {
+  margin: 0;
+}
+.ent-site-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: #ffffffed;
+  border-bottom: 1px solid #e4eaf4;
+  backdrop-filter: blur(16px);
+}
+.ent-site-header-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 22px;
+  height: 82px;
+}
+.ent-site-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+.ent-site-brand > span {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.ent-site-brand small {
+  font-size: 9px;
+  color: #8191ad;
+  font-weight: 600;
+}
+.ent-site-desktop-nav {
+  display: flex;
+  align-items: center;
+  gap: 21px;
+}
+.ent-site-desktop-nav a {
+  font-size: 12px;
+  color: #61728d;
+  white-space: nowrap;
+}
+.ent-site-desktop-nav a:hover {
+  color: #586dcc;
+}
+.ent-site-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+.ent-site-language {
+  display: flex;
+  gap: 3px;
+}
+.ent-site-language button {
+  font-size: 11px;
+  border: 0;
+  background: transparent;
+  padding: 8px 5px;
+  color: #8b98ae;
+}
+.ent-site-language button[aria-pressed="true"] {
+  color: #425db6;
+  font-weight: 600;
+}
+.ent-site-contact {
+  display: flex;
+  gap: 9px;
+  align-items: center;
+  font-size: 12px;
+  color: #fff !important;
+  background: #586dcc;
+  padding: 11px 15px;
+  border-radius: 4px;
+  white-space: nowrap;
+}
+.ent-site-menu-button {
+  display: none;
+  background: transparent;
+  color: #334965;
+  border: 0;
+  padding: 8px;
+}
+.ent-site-mobile-nav {
+  display: flex;
+  flex-direction: column;
+  padding-block: 14px 22px;
+  gap: 0;
+}
+.ent-site-mobile-nav a {
+  padding: 14px 0;
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid #e3e9f3;
+  font-size: 14px;
+}
+.ent-site-footer {
+  padding-block: 40px;
+  background: #fafcff;
+  border-top: 1px solid #e0e7f1;
+}
+.ent-site-footer > .ent-shell {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 25px;
+}
+.ent-site-footer-brand {
+  font-size: 22px;
+  font-weight: 600;
+  color: #405a91;
+}
+.ent-site-footer-brand span {
+  font-size: 10px;
+  margin-left: 9px;
+  color: #8b9bb6;
+}
+.ent-site-footer p {
+  font-size: 12px;
+  color: #7d8da7;
+  margin-top: 8px !important;
+}
+.ent-site-footer nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  font-size: 12px;
+  color: #7485a0;
+}
+.ent-site-footer small {
+  font-size: 10px;
+  color: #8e9bb0;
+  white-space: nowrap;
+}
+@media (min-width: 1101px) {
+  .ent-site-mobile-nav {
+    display: none;
+  }
+}
+@media (max-width: 1100px) {
+  .ent-site-desktop-nav {
+    display: none;
+  }
+  .ent-site-menu-button {
+    display: flex;
+  }
+  .ent-site-footer > .ent-shell {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
+@media (max-width: 600px) {
+  .ent-site-header-row {
+    height: 72px;
+    gap: 8px;
+  }
+  .ent-site-header-actions {
+    gap: 8px;
+  }
+  .ent-site-contact {
+    display: none;
+  }
+  .ent-site-brand > img {
+    width: 33px;
+    height: 33px;
+  }
+  .ent-site-brand span > img {
+    width: 96px;
+  }
+  .ent-site-brand small {
+    font-size: 8px;
+  }
+  .ent-site-footer nav {
+    gap: 15px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
