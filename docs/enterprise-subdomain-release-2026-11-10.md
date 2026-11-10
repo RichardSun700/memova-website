@@ -36,7 +36,9 @@ Browser verified Chinese/English content, source-only navigation and no errors o
 
 Main-site HTML SHA-256 before and after this operation was identical: `a6b5c44e759da868222572b55b6794c01e387ec0a3a2d10784812be753685f4b`.
 
-Remaining access-verification gap: requests to the new custom hostname from this machine timed out while Cloudflare already showed Active/SSL enabled. Do not claim a successful custom-host HTTP response until it is read back. The working published fallback is `https://memova-enterprise.pages.dev/`; no certificate checks or security warnings were bypassed.
+Final custom-host verification: after initial resolver/connection delays, an HTTPS request to `enterprise.memova.ai/enterprise-release.json` using the public DNS address returned the expected source commit `6ae31299d102de9eb90814e3e60858f90c7a7d5f`, with certificate validation enabled. The browser also loaded `https://enterprise.memova.ai/?lang=zh` with the correct enterprise title and standalone source-rendered content. Cloudflare confirms Active and SSL enabled. Some ordinary requests during propagation timed out; no host-file, proxy, security setting or certificate check was changed. Published fallback: `https://memova-enterprise.pages.dev/`.
+
+Artifact SHA-256: `c7f8c1c2312cbc566fdbdd6a19b847905e12c2ad1b863918f294f1ba10652397`. Later commits to this deployment record do not change the published page artifact; its source remains the manifest SHA above.
 
 Pre-release checks: standalone build and source-rendered HTML boundary check passed; TypeScript passed; 12 enterprise tests passed. Desktop browser confirmed no missing images or horizontal overflow, internal-only header/footer links and working English/Chinese switching.
 
