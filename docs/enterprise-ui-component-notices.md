@@ -1,13 +1,13 @@
 # Enterprise UI component provenance
 
-Date: 2026-11-10. Local demonstration only; no paid templates purchased, no MCP installed, no deployment.
+Initial component review: 2026-11-10. No paid templates purchased and no MCP installed. Deployment history is recorded separately in the enterprise release documents; the November 11 refinements below are included in the authorized enterprise-only release.
 
 ## Magic UI Animated Beam
 
 - Official documentation: https://magicui.design/docs/components/animated-beam
 - Official registry source read: https://magicui.design/r/animated-beam.json
 - License: https://github.com/magicuidesign/magicui/blob/main/LICENSE.md
-- Adaptation: `client/src/components/enterprise/AnimatedBeam.tsx`. Retains the ref/ResizeObserver geometry and animated gradient approach. Adds responsive cubic paths, explicit pause, reduced-motion support and existing `framer-motion` imports. Omits unused upstream options.
+- Adaptation: `client/src/components/enterprise/AnimatedBeam.tsx`. Retains the ref/ResizeObserver geometry approach. The November 11 local revision uses responsive node-edge cubic paths, CSS-animated data packets and light trails, automatic offscreen suspension and reduced-motion support. Transparent labels are excluded from the path drawing with SVG masks; observing the labels keeps these cutouts correct when language or fonts change. Omits unused upstream options.
 
 MIT License
 
@@ -35,3 +35,10 @@ The published license allows modified end products but prohibits redistribution 
 - Reference screenshot was inspected for the centered hierarchy, open canvas, source cards and company-context narrative. No Zaro copy, logos, proprietary artwork or page code is included in the app.
 - Memova brand assets remain the existing local `/brand/` assets. Brand tokens follow `homepage-watch/src/styles.css`.
 - No new npm dependency, remote runtime widget, external font or third-party data service is added by this demonstration.
+
+## November 11 motion refinement reference
+
+- Public references reviewed: Magic UI Animated Beam (above) and Aceternity Tracing Beam, https://ui.aceternity.com/components/tracing-beam.
+- The latter is a visual reference for a highlighted path, not imported template code. No Pro assets or paid templates were used.
+- This local refinement removes the flow and logo marquee playback buttons as requested. Both still honor system reduced-motion preferences and suspend motion offscreen; hover-capable devices can hold the effect still by hovering.
+- The company knowledge node now uses Lucide LibraryBig rather than a Memova brand mark. Other existing brand assets remain unchanged.

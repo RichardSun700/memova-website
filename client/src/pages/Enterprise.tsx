@@ -812,8 +812,8 @@ export default function Enterprise() {
               </h2>
               <p>
                 {L(
-                  "来自公开行业实践的方法参考。以下不是 Memova 的客户案例；上方为 Memova 拟议应用场景。",
-                  "Lessons from public industry practices. These are not Memova customer projects; the applications above are proposed Memova scenarios."
+                  "来自公开行业实践的方法参考，为 Memova 拟议应用场景。",
+                  "Methodological references from public industry practices for Memova's proposed application scenarios."
                 )}
               </p>
             </div>

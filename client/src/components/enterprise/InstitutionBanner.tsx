@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { Pause, Play } from "lucide-react";
+import { useRef } from "react";
+import { useInView } from "framer-motion";
 import { useReducedMotionPreference } from "./useReducedMotionPreference";
 
 export const institutions = [
@@ -54,34 +54,17 @@ export const institutions = [
 ];
 
 export function InstitutionBanner({ zh }: { zh: boolean }) {
-  const [paused, setPaused] = useState(false);
+  const band = useRef<HTMLElement>(null);
+  const inView = useInView(band, { margin: "150px" });
   const reducedMotion = useReducedMotionPreference();
   const L = (cn: string, en: string) => (zh ? cn : en);
   return (
     <section
       className="ent-institution-band"
+      ref={band}
       aria-label={L("机构与技术品牌标识", "Institution and technology logos")}
-      data-paused={paused || !!reducedMotion}
+      data-paused={!inView || !!reducedMotion}
     >
-      <div className="ent-shell ent-institution-heading">
-        <button
-          type="button"
-          className="ent-icon-button"
-          disabled={!!reducedMotion}
-          aria-pressed={paused}
-          onClick={() => setPaused(value => !value)}
-          aria-label={L(
-            paused ? "播放机构 Logo 滚动" : "暂停机构 Logo 滚动",
-            paused ? "Play institution logos" : "Pause institution logos"
-          )}
-          title={L(
-            paused ? "播放滚动" : "暂停滚动",
-            paused ? "Play logos" : "Pause logos"
-          )}
-        >
-          {paused || reducedMotion ? <Play size={14} /> : <Pause size={14} />}
-        </button>
-      </div>
       <div className="ent-logo-window">
         <div className="ent-logo-track">
           {[0, 1].map(copy => (

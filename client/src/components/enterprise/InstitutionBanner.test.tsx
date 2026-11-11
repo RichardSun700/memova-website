@@ -27,9 +27,8 @@ describe("enterprise institution banner", () => {
           image => image.getAttribute("alt") === ""
         )
       ).toBe(true);
-      expect(
-        document.querySelector("button")?.getAttribute("aria-pressed")
-      ).toBe("false");
+      expect(document.querySelector("button")).toBeNull();
+      expect(document.querySelector(".ent-institution-heading")).toBeNull();
       expect(
         document.querySelectorAll(".ent-institution-logo small")
       ).toHaveLength(0);
