@@ -1,6 +1,6 @@
 # Enterprise knowledge flow release
 
-Date: 2026-11-11. Scope: enterprise frontend only. Consumer main and the contact backend are not release targets.
+Release initiated: 2026-11-11. Published and live verification completed by 2026-11-12. Scope: enterprise frontend only. Consumer main and the contact backend are not release targets.
 
 ## Reviewed changes
 
@@ -27,4 +27,13 @@ Date: 2026-11-11. Scope: enterprise frontend only. Consumer main and the contact
 - Local browser checks cover desktop 1396px and mobile 390px/320px, both languages, label cutout resizing, moving data packets, offscreen stopping, local logo assets and no horizontal overflow. This is not physical Safari/Android device certification.
 - Dependency audit still reports 83 existing advisories: 1 critical, 20 high, 51 moderate and 11 low. No dependency or lockfile change is part of this release.
 
-Append the actual deployed source, deployment ID and live readback results below after publication. Do not treat this prepared record or a GitHub push as proof of deployment.
+## Published verification
+
+- Source `60ceeb99fb14c065df3bf8dbee6283b0c95d8209` was committed, pushed and verified on the GitHub enterprise branch before the final clean rebuild and upload.
+- Production Pages deployment: `3b8fc477-a520-4950-9e8e-9c12fd3c7d05`, snapshot `https://3b8fc477.memova-enterprise.pages.dev/`.
+- The snapshot's `/enterprise-release.json` was read back and matches the source SHA above. Custom-host manifest requests timed out; snapshot verification is recorded separately rather than misrepresented as a successful custom-host manifest read.
+- The browser loaded `https://enterprise.memova.ai/?lang=zh` with the new approved industry text, source categories, LibraryBig icon, no flow/marquee controls and no horizontal overflow. A live 390px viewport also fit, and the temporary viewport override was reset. Broader responsive and language behavior was checked locally before release.
+- `GET https://enterprise.memova.ai/api/contact` returned HTTP 405 with `method_not_allowed`, confirming the dedicated service binding remains functional. No new lead or notification was created by this release verification.
+- The local enterprise robots/sitemap/canonical checks passed and these generators were unchanged. A live robots request timed out; do not report it as passed. Consumer main remained `053f3c9924ee15373d8c78888659a8cb701b09a6`; no consumer project deployment or write was performed. Main-site snapshot requests did not complete, so no new before/after homepage hash comparison is claimed.
+- Company Space `Memova knowledge base / Development / Website source and deployment` was updated with this release and its evidence boundaries. The iCloud vault still fails the host-freshness write boundary; its concise summary remains staged in project4.
+- Subsequent documentation-only commits need not match the live source manifest and do not require another deployment.
