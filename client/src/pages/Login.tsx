@@ -531,8 +531,8 @@ export default function Login() {
             )}
             <p className="mt-5 text-[11px] leading-5 text-[#626A79]">
               {L(
-                "登录仅在当前浏览器标签页保留。",
-                "Your sign-in is kept for this browser tab."
+                "在此浏览器中保持登录，直到退出或登录有效期结束。",
+                "Stay signed in on this browser until you sign out or your session expires."
               )}
             </p>
           </CardContent>
