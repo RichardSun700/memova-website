@@ -129,6 +129,7 @@ export default function Profile() {
       return;
     }
     if (!auth.token) return;
+    const token = auth.token;
 
     try {
       setAvatarStage("preparing");
@@ -136,7 +137,7 @@ export default function Profile() {
 
       setAvatarStage("reserving");
       const reservation = await reserveCurrentUserAvatarUpload(
-        auth.token,
+        token,
         file,
         checksumSha256
       );
@@ -146,7 +147,7 @@ export default function Profile() {
 
       setAvatarStage("completing");
       const current = await completeCurrentUserAvatarUpload(
-        auth.token,
+        token,
         reservation.avatar_upload.id,
         file,
         checksumSha256
@@ -155,7 +156,7 @@ export default function Profile() {
       setAvatarMessage("Profile photo saved.");
     } catch (err) {
       if (err instanceof ApiError && err.status === 401) {
-        auth.clearSession();
+        auth.clearSession(token);
         setLocation(`/login?next=${encodeURIComponent("/profile")}`);
         return;
       }
@@ -168,16 +169,17 @@ export default function Profile() {
 
   const handleDeleteAvatar = async () => {
     if (!auth.token || deletingAvatar || avatarStage !== "idle") return;
+    const token = auth.token;
     setDeletingAvatar(true);
     setAvatarMessage("");
     setError("");
     try {
-      const current = await deleteCurrentUserAvatar(auth.token);
+      const current = await deleteCurrentUserAvatar(token);
       auth.setSessionFromCurrentUserResponse(current);
       setAvatarMessage("Uploaded photo removed.");
     } catch (err) {
       if (err instanceof ApiError && err.status === 401) {
-        auth.clearSession();
+        auth.clearSession(token);
         setLocation(`/login?next=${encodeURIComponent("/profile")}`);
         return;
       }

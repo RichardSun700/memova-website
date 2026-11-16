@@ -256,7 +256,7 @@ export default function McpConsent() {
       .catch(reason => {
         if (cancelled || currentToken.current !== token) return;
         if (reason instanceof ApiError && reason.status === 401) {
-          auth.clearSession();
+          auth.clearSession(token);
           setLocation(loginPathRef.current);
           return;
         }
@@ -363,7 +363,7 @@ export default function McpConsent() {
       )
         return;
       if (reason instanceof ApiError && reason.status === 401) {
-        auth.clearSession();
+        auth.clearSession(token);
         setLocation(loginPathRef.current);
         return;
       }
