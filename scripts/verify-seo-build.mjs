@@ -8,6 +8,7 @@ import {
   getCanonicalUrl,
   sitePages,
 } from "../client/src/seo/sitePages.ts";
+import { APP_STORE_URL, BRAND_DESCRIPTION } from "../client/src/seo/brandIdentity.ts";
 import { PRIVATE_SPA_PAGES } from "./generate-seo-pages.mjs";
 
 const projectRoot = path.resolve(
@@ -82,9 +83,19 @@ export function collectProductionHomepageErrors(html, page, outputDir) {
   }
   try {
     const schemas = [...document.querySelectorAll('script[type="application/ld+json"]')]
-      .map(script => JSON.parse(script.textContent));
-    if (!schemas.some(schema => schema.url === `${SITE_URL}/` && schema.name === page.title &&
-        schema.description === page.description && schema.inLanguage === "en-US")) {
+      .flatMap(script => {
+        const schema = JSON.parse(script.textContent);
+        return schema["@graph"] || [schema];
+      });
+    const organization = schemas.find(schema => schema["@id"] === `${SITE_URL}/#organization`);
+    const website = schemas.find(schema => schema["@id"] === `${SITE_URL}/#website`);
+    const app = schemas.find(schema => schema["@id"] === `${SITE_URL}/#app`);
+    if (organization?.legalName !== "MEMOVA LLC" || website?.url !== `${SITE_URL}/` ||
+        website?.publisher?.["@id"] !== organization?.["@id"] ||
+        app?.["@type"] !== "MobileApplication" || app?.name !== "Memova" ||
+        app?.alternateName !== "Memova AI" || app?.description !== BRAND_DESCRIPTION ||
+        app?.inLanguage !== "en-US" || app?.operatingSystem !== "iOS, watchOS" ||
+        app?.installUrl !== APP_STORE_URL || app?.publisher?.["@id"] !== organization?.["@id"]) {
       errors.push("/ structured data does not describe the current homepage");
     }
   } catch {

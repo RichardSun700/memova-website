@@ -27,7 +27,7 @@ describe("official Memova brand assets", () => {
 
   it("uses the official app icon in social previews and publisher metadata", () => {
     expect(SOCIAL_IMAGE).toBe("https://memova.ai/brand/memova-app-icon-512.png");
-    expect(getStructuredData(getSitePage("/")).publisher.logo).toBe(SOCIAL_IMAGE);
+    expect(getStructuredData(getSitePage("/"))["@graph"]?.find(node => node["@type"] === "Organization")?.logo).toBe(SOCIAL_IMAGE);
     expect(read("client/public/brand/memova-app-icon-512.png").length).toBeGreaterThan(0);
   });
 });

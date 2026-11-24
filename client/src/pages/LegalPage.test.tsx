@@ -76,15 +76,19 @@ describe("complete bilingual legal documents", () => {
     expect(article.textContent).toContain(language === "zh" ? "微软 Azure 云平台" : "Microsoft Azure");
     expect(article.querySelector("h1")!.nextElementSibling?.textContent).toBe(
       language === "zh"
-        ? `${path === "privacy" ? "更新日期" : "最后更新"}：2026年11月5日`
-        : "Last updated: November 5, 2026"
+        ? `${path === "privacy" ? "更新日期" : "最后更新"}：2026年11月23日`
+        : "Last updated: November 23, 2026"
     );
     expect(article.textContent).not.toMatch(/预览修订稿|尚未上线|尚未生效|(?:review|preview) revision|not (?:yet )?(?:published|effective)/i);
-    expect(article.querySelectorAll("h2")).toHaveLength(path === "privacy" ? 20 : 21);
+    expect(article.querySelectorAll("h2")).toHaveLength(21);
     expect(article.getAttribute("lang")).toBe(language === "zh" ? "zh-CN" : "en");
     expect(article.hasAttribute("data-no-translate")).toBe(true);
     expect(f.document.documentElement.lang).toBe(language === "zh" ? "zh-CN" : "en-US");
-    expect(f.document.title).toBe(`${title} — Memova`);
+    expect(f.document.title).toBe(path === "privacy"
+      ? language === "zh"
+        ? "隐私政策 | Memova – Apple Watch 录音 App"
+        : "Privacy Policy | Memova – Apple Watch Voice Recorder"
+      : `${title} — Memova`);
     expect(JSON.parse(f.document.querySelector("#memova-structured-data")!.textContent!).inLanguage).toBe(language === "zh" ? "zh-CN" : "en-US");
     for (const chrome of [f.document.querySelector("header")!, f.document.querySelector("footer")!]) {
       expect(chrome.querySelector('img[src="/brand/memova-app-icon-liquid-blue.svg"]')).not.toBeNull();
@@ -98,25 +102,58 @@ describe("complete bilingual legal documents", () => {
     const article = f.document.querySelector("article")!;
     const text = article.textContent!;
     const requiredCopy = language === "zh" ? [
-      "原始录音在设备本地转写成文字",
-      "云端仅处理您选择并授权的转写文字",
+      "本隐私协议适用于",
+      "App Store",
+      "Memova AI",
+      "MEMOVA LLC",
+      "Apple Watch",
+      "memova.ai",
+      "隐私概览",
+      "文字分析许可不包含上传原始音频的许可",
+      "App Memova（在 App Store 中名为 Memova AI）",
+      "网站 memova.ai",
+      "隐私概览",
+      "文字分析许可不包含上传原始音频的许可",
+      "日志、缓存及响应副本不得延长这些期限",
+      "Apple 健康数据为可选项，仅在您单独许可后使用",
+      "App 云端功能需要网络连接，无需账号",
+      "MCP 访问需要独立账号及授权",
+      "上传的音频在转写完成后立即从云端删除",
+      "最长保留不超过24小时",
+      "结果下载至手机后，立即删除相应云端中转资料",
       "保存期限最长不超过30天",
       "该30天上限适用于 Memova 管理的原始音频",
       "删除一条转写，不会自动删除现有笔记、摘要",
       "其后续使用仍受相应功能及您的授权范围限制",
     ] : [
-      "Recording and transcription take place on your device",
-      "limited to transcript text and textual context you authorize",
+      "This Privacy Policy applies to Memova (listed on the App Store as Memova AI)",
+      "the Apple Watch and iPhone voice recorder made by MEMOVA LLC",
+      "the website memova.ai",
+      "At a glance",
+      "Permission for text analysis does not authorize uploading original audio",
+      "This Privacy Policy applies to Memova (listed on the App Store as Memova AI)",
+      "the Apple Watch and iPhone voice recorder made by MEMOVA LLC",
+      "At a glance",
+      "Permission for text analysis does not authorize uploading original audio",
+      "Logs, caches, and response copies do not extend these limits",
+      "Apple Health data is optional and used only with your separate permission",
+      "All Memova Watch app cloud features also work without a Memova account",
+      "MCP access requires a separate account and authorization",
+      "The uploaded audio is deleted immediately when transcription completes",
+      "for no more than 24 hours",
+      "deleted immediately after download to your phone",
       "retained for no more than 30 days",
       "This maximum applies only to app-managed original audio",
       "Deleting a transcript does not automatically delete existing notes, summaries",
       "Further use of retained content remains subject to the scope you authorize",
     ];
     for (const copy of requiredCopy) expect(text).toContain(copy);
+    const glanceHeading = Array.from(article.querySelectorAll("h2")).find(heading => heading.textContent === (language === "zh" ? "隐私概览" : "At a glance"));
+    expect(glanceHeading?.nextElementSibling?.querySelectorAll("li")).toHaveLength(5);
+    expect(text).not.toMatch(/云端功能需要账号及网络连接|Cloud features require an account and network connection/);
     const services = Array.from(article.querySelectorAll("ul")).find(list => list.textContent?.includes("Azure Blob"));
     expect(services).toBeTruthy();
     expect(services!.querySelectorAll("li")).toHaveLength(12);
-    expect(services!.textContent).not.toMatch(/Azure AI Speech|云端语音服务/);
     expect(text).not.toContain("|");
   });
 
@@ -153,8 +190,8 @@ describe("complete bilingual legal documents", () => {
     await act(() => (f.document.querySelector('main button[lang="zh-CN"]') as HTMLButtonElement).click());
     expect(f.document.querySelector("h1")!.textContent).toBe("隐私协议");
     expect(f.document.querySelector("article")!.textContent).toContain("健康测量不用于决定普通会议议题");
-    expect(f.document.title).toBe("隐私协议 — Memova");
-    expect(f.document.querySelector('meta[name="description"]')!.getAttribute("content")).toContain("健康关联");
+    expect(f.document.title).toBe("隐私政策 | Memova – Apple Watch 录音 App");
+    expect(f.document.querySelector('meta[name="description"]')!.getAttribute("content")).toContain("健康数据单独许可");
     expect(f.document.documentElement.lang).toBe("zh-CN");
     expect(f.location.searchParams.get("source")).toBe("review");
     expect(f.location.hash).toBe("#health");
@@ -165,7 +202,7 @@ describe("complete bilingual legal documents", () => {
     }
     await act(() => (f.document.querySelector('main button[lang="en"]') as HTMLButtonElement).click());
     expect(f.document.querySelector("article")!.textContent).not.toContain("健康测量不用于决定普通会议议题");
-    expect(f.document.title).toBe("Privacy Policy — Memova");
+    expect(f.document.title).toBe("Privacy Policy | Memova – Apple Watch Voice Recorder");
   });
 
   it("uses the stored language without a URL choice and remains usable when storage is blocked", async () => {

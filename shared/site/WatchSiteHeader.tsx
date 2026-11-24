@@ -80,7 +80,6 @@ export default function WatchSiteHeader({ language = "en", onLanguageChange, hom
     else communityDialog.current?.showModal();
   };
   const currentValue = (key: string) => current === key ? (home ? "location" as const : "page" as const) : undefined;
-  const signIn = <a className="mw-control mw-signin" href={local("/login")}>{L("登录", "Sign in")}</a>;
   return <>
     <header className="site-header memova-watch-header" ref={header} data-no-translate>
       <a className="brand mw-brand" href={home ? "#top" : local("/")} aria-label="Memova home">
@@ -93,13 +92,13 @@ export default function WatchSiteHeader({ language = "en", onLanguageChange, hom
       <div className="mw-actions">
         <button className="mw-language" type="button" onClick={() => onLanguageChange?.(language === "en" ? "zh" : "en")} aria-label={L("Switch to English", "切换为中文")}><Globe size={16} aria-hidden="true" />{L("EN", "中文")}</button>
         <button className="mw-control mw-community" type="button" aria-haspopup="dialog" aria-label={L("加入社区", "Join the community")} onClick={openCommunity}><UsersThree size={17} aria-hidden="true" /><span>{L("加入社区", "Join the community")}</span></button>
-        <div className="mw-desktop-account">{account || signIn}</div>
+        {account && <div className="mw-desktop-account">{account}</div>}
         <a className="mw-control mw-download" href="https://apps.apple.com/us/app/memova-ai/id6796284954" target="_blank" rel="noopener noreferrer">{L("免费下载", "Download free")}<ArrowUpRight size={15} aria-hidden="true" /></a>
         <button ref={menuButton} className="mw-menu-toggle mobile-menu-toggle" type="button" aria-expanded={menuOpen} aria-controls="mobile-navigation" aria-label={L(menuOpen ? "关闭导航菜单" : "打开导航菜单", menuOpen ? "Close navigation menu" : "Open navigation menu")} onClick={() => setMenuOpen(!menuOpen)}>{menuOpen ? <X size={23} /> : <List size={23} />}</button>
       </div>
       <nav id="mobile-navigation" className="mw-mobile-nav" aria-label={L("手机导航", "Mobile navigation")} hidden={!menuOpen} onClick={event => { if ((event.target as Element).closest("a")) setMenuOpen(false); }}>
         {links.map(([key, href, label]) => <a key={key} href={href} aria-current={currentValue(key)}>{label}</a>)}
-        {mobileAccount || account || signIn}
+        {mobileAccount || account}
         <button type="button" className="mw-mobile-community" aria-haspopup="dialog" onClick={openCommunity}>{L("加入社区", "Join the community")}<UsersThree size={18} aria-hidden="true" /></button>
         <a className="mw-mobile-download mobile-menu-download" href="https://apps.apple.com/us/app/memova-ai/id6796284954" target="_blank" rel="noopener noreferrer">{L("免费下载", "Download free")}<ArrowUpRight size={16} aria-hidden="true" /></a>
       </nav>

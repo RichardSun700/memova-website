@@ -47,6 +47,16 @@
 .pro-campaign-phone-bezel { position: absolute; z-index: 3; inset: 0; display: block; width: 100%; height: 100%; object-fit: contain; pointer-events: none; }
 .pro-campaign-phone-screen { position: absolute; inset: 6% 11.5% 6.5%; overflow: hidden; padding-top: 34px; border-radius: 22px; background: #fff; }
 .pro-campaign-real-screen { display: block; width: 100%; height: auto; user-select: none; }
+.pro-campaign-phone-screen--recap { padding-top: 28px; }
+.pro-campaign-recap-frame {
+  display: block;
+  width: calc(100% / .6);
+  height: calc(100% / .6);
+  border: 0;
+  transform: scale(.6);
+  transform-origin: top left;
+  pointer-events: none;
+}
 .pro-campaign-preview--spark { top: -2px; width: 352px; height: 524px; }
 .pro-campaign-spark-window { position: relative; width: 100%; aspect-ratio: 851 / 1265; overflow: hidden; }
 .pro-campaign-spark-window > img { position: absolute; top: 0; left: 0; display: block; width: 100%; height: auto; margin-top: -62.8672%; user-select: none; }

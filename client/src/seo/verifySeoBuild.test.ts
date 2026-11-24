@@ -22,11 +22,12 @@ describe("SEO build verification", () => {
       const header = document.querySelector("header.memova-watch-header");
       expect(header, file).toBeTruthy();
       expect(header!.querySelectorAll(".mw-desktop-nav a"), file).toHaveLength(5);
-      for (const href of ["/journal/", "/mcp/", "/login"]) {
+      for (const href of ["/journal/", "/mcp/"]) {
         const link = header!.querySelector(`a[href="${href}"]`)!;
         expect(link, `${file} ${href}`).toBeTruthy();
         expect(link.getAttribute("target"), `${file} ${href}`).toBeNull();
       }
+      expect(header!.querySelector('a[href^="/login"], a[href^="/mcp/login"]'), file).toBeNull();
       expect(header!.querySelector('a[href^="https://memova.ai"]'), file).toBeNull();
       expect(document.querySelector(".five-header, .memova-seo-legal__header"), file).toBeNull();
     }
@@ -103,7 +104,7 @@ describe("SEO build verification", () => {
       "<title>Rewind on an Older Apple Watch: Memova’s Upcoming Feature</title>"
     );
     expect(article).toContain(
-      'rel="canonical" href="https://memova.ai/journal/rewind-on-an-older-apple-watch"'
+      'rel="canonical" href="https://memova.ai/journal/rewind-on-an-older-apple-watch/"'
     );
     expect(article).toContain('"@type":"Article"');
     expect(article).not.toContain('"datePublished"');
@@ -112,7 +113,7 @@ describe("SEO build verification", () => {
       "utf8"
     );
     expect(sitemap).toContain(
-      "https://memova.ai/journal/rewind-on-an-older-apple-watch"
+      "https://memova.ai/journal/rewind-on-an-older-apple-watch/"
     );
     for (const slug of [
       "why-we-changed-our-onboarding-story",
@@ -129,7 +130,7 @@ describe("SEO build verification", () => {
     }
   });
   it.each([
-    ["/journal/rewind-on-an-older-apple-watch", "https://memova.ai/journal/rewind-on-an-older-apple-watch"],
+    ["/journal/rewind-on-an-older-apple-watch", "https://memova.ai/journal/rewind-on-an-older-apple-watch/"],
     ["/journal/apple-watch-live-rewind-siri-recap", "https://memova.ai/journal/apple-watch-live-rewind-siri-recap/"],
   ])("publishes indexable article HTML with one set of SEO metadata at %s", (route, canonical) => {
     const page = getSitePage(route);

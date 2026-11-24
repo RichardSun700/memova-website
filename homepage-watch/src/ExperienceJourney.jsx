@@ -91,27 +91,27 @@ export function ExperienceJourney({ lang, onOpen, suspended = false }) {
                   {step === 0
                     ? L(
                         <>
-                          打开记录，
+                          点开事件，
                           <br />
-                          查看本地转录。
+                          回看对话重点。
                         </>,
                         <>
-                          Open a recording.
+                          Open an event.
                           <br />
-                          Read its transcript.
+                          Review the key points.
                         </>,
                       )
                     : step === 1
                       ? L(
                           <>
-                            查看 HRV 变化，
+                            把今天的对话，
                             <br />
-                            回看当时的对话。
+                            留成每日回顾。
                           </>,
                           <>
-                            Review HRV changes.
+                            Review your day.
                             <br />
-                            Revisit the conversation.
+                            Keep what matters.
                           </>,
                         )
                       : L(
@@ -130,13 +130,13 @@ export function ExperienceJourney({ lang, onOpen, suspended = false }) {
                 <p>
                   {step === 0
                     ? L(
-                        "按小时查看原话、重点和总结，随时回到对话现场。",
-                        "Open any hour to read the transcript, highlights and summary.",
+                        "直接打开当天事件，展开摘要，再查看对应原话。",
+                        "Open an event from your day, expand a key point and check the original words.",
                       )
                     : step === 1
                       ? L(
-                          "对照你选择提供的 HRV 线索与当时的对话，获得复盘建议和相关阅读。",
-                          "Connect the HRV context you choose to share with that conversation, practical advice and further reading.",
+                          "从一张明信片开始，回看总结、重点片段、沟通反馈与每日记忆。想了解更多，随时展开原话与来源。",
+                          "Start with a postcard. Revisit your summary, highlights, communication feedback and daily memories, with the original words close at hand.",
                         )
                       : L(
                           "输入记得的几个词，离线找回相关原话和时间。",
@@ -179,36 +179,34 @@ export function ExperienceJourney({ lang, onOpen, suspended = false }) {
                 {step === 0 && (
                   <ProductDemoVideo
                     lang={lang} active={chapter === 0} suspended={suspended} kind="timeline"
-                    src="/assets/video/timeline-meeting-v6.mp4?v=248e74fe" poster="/assets/video/timeline-meeting-v6-poster.jpg?v=2efb079b"
+                    src="/assets/video/timeline-events-v7.mp4?v=4ee12fab" poster="/assets/video/timeline-events-v7-poster.jpg?v=130e6c90"
                     description={L(
-                      "Timeline 真实原型操作：选择 15:00–16:00 的产品复盘会议，查看用户问题、证据要求与下次评审三条重点，定位到 26:10 的原话，再查看同一小时的背景、决定、负责人、下次评审和待确认事项。",
-                      "Actual Timeline prototype: choose the 15:00–16:00 launch review, read highlights about the user problem, evidence and next review, verify the original quote at 26:10, then check the same hour’s context, decision, owners, next review and open items.",
+                      "Timeline 最新原型操作（英文界面）：从 Days 打开 15:00–15:30 的发布复盘事件，查看 Summary，展开摘要并核对对应 Transcript 原话，再回到会话总览与原事件列表。内容为原型示例。",
+                      "Latest Timeline prototype demo in English: open the 15:00–15:30 Launch Retrospective from Days, read Summary, expand a digest and check the corresponding Transcript passages, then return to the conversation overview and original event list. Uses prototype sample content.",
                     )}
-                    caption={L("按时段回看对话。", "Revisit an hour of your day.")}
+                    caption={L("按事件回看对话。", "Revisit a conversation from your day.")}
                     chapters={[
-                      {time: 0, seekTime: 3.7, revisitAt: 38.366667, label: L("选择时段", "Selected hour")},
-                      {time: 5.133333, seekTime: 5.833333, label: L("查看原话", "Transcript")},
-                      {time: 6.866667, seekTime: 13.8, label: L("重点与原话", "Highlights")},
-                      {time: 22.933333, seekTime: 26.533333, label: L("决定与分工", "Summary")},
+                      {time: 3.033333, seekTime: 6.033333, label: L("选择事件", "Selected event")},
+                      {time: 11.1, seekTime: 12.1, label: L("对话摘要", "Summary")},
+                      {time: 21.233333, seekTime: 22.733333, label: L("查看原话", "Original words")},
+                      {time: 30.966667, seekTime: 32.566667, label: L("返回时光", "Back to Days")},
                     ]}
                   />
                 )}
                 {step === 1 && (
                   <ProductDemoVideo
                     lang={lang} active={chapter === 1} suspended={suspended} kind="myday"
-                    src="/assets/video/myday-context-comic-v8.mp4?v=f06c5056" poster="/assets/video/myday-context-comic-v8-poster.jpg?v=e1b1c35c"
+                    src="/assets/video/myday-four-sections-v9.mp4?v=4467c03e" poster="/assets/video/myday-four-sections-v9-poster.jpg?v=e1e1a508"
                     description={L(
-                      "My Day 真实原型操作：展开 Demo HRV 曲线，对照同一时段的原话和上下文解读，查看今日观察、回应建议与相关阅读，为类似情境做准备。HRV 数值、时间与参考基线均为模拟数据。",
-                      "Actual My Day prototype: review the Demo HRV interval alongside the original conversation and contextual interpretation, then explore Today’s Observation, practical advice and further reading. HRV values, sample times and the reference baseline are simulated.",
+                      "My Day 最新原型操作（英文界面）：从 Days 信封揭晓进入每日回顾，浏览总结、重点片段、沟通反馈与每日记忆，展开重点片段的原话并核对独立反馈示例的来源，最后返回记录页的每日回顾。每日记忆为待选择保存的候选，内容为原型示例。",
+                      "Latest My Day prototype demo in English: open the Daily Recap from its Days envelope, explore Summary, Highlights, Feedback and Memories, expand the words behind a highlight and check the separate feedback example’s source, then return to Record’s Daily Recap collection. Memories are candidates to review before saving. Uses prototype sample content.",
                     )}
-                    caption={L("结合对话，回顾今天。", "Review your day in context.")}
+                    caption={L("浏览一天的四栏目回顾。", "Review your day across four sections.")}
                     chapters={[
-                      {time: 0, seekTime: 4.8, revisitAt: 31.5, label: L("打开回顾", "Open My Day")},
-                      {time: 7.148, seekTime: 10.5, label: L("模拟 HRV", "Demo HRV")},
-                      {time: 12.5, seekTime: 15.2, label: L("结合上下文", "Review the context")},
-                      {time: 19.026, seekTime: 21.7, label: L("今日观察", "Observation")},
-                      {time: 25.005, seekTime: 27.4, label: L("回应建议", "Practical advice")},
-                      {time: 28.2, seekTime: 29.5, label: L("相关阅读", "Further reading")},
+                      {time: 5.233333, seekTime: 7.033333, label: L("总结", "Summary")},
+                      {time: 9.233333, seekTime: 10.333333, label: L("重点片段", "Highlights")},
+                      {time: 20.7, seekTime: 21.9, label: L("沟通反馈", "Feedback")},
+                      {time: 28.6, seekTime: 29.9, label: L("每日记忆", "Memories")},
                     ]}
                   />
                 )}

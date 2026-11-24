@@ -28,6 +28,16 @@ function Lines({ text }) {
 }
 
 function ProductPreview({ feature, en }) {
+  if (feature.key === "recap") {
+    return <div className="pro-campaign-preview pro-campaign-preview--phone">
+      <div className="pro-campaign-phone-screen pro-campaign-phone-screen--recap">
+        <iframe className="pro-campaign-recap-frame" title={en ? "Daily Recap sample preview" : "每日回顾示例预览"}
+          key={en ? "en" : "zh"} src={`/examples/myday-daily-recap.html?lang=${en ? "en" : "zh"}`}
+          tabIndex={-1} aria-hidden="true" loading="lazy" />
+      </div>
+      <img className="pro-campaign-phone-bezel" src={ART + "retrospective-phone-bezel.png"} alt="" aria-hidden="true" loading="lazy" draggable="false" />
+    </div>;
+  }
   if (feature.key === "mentor") {
     return <div className="pro-campaign-preview pro-campaign-preview--classroom"><MentorClassroom preview /></div>;
   }
@@ -67,7 +77,7 @@ function ProductPreview({ feature, en }) {
 function ProductReader({ feature, lang, onReturnToCards }) {
   const en = lang === "en";
   const pages = {
-    recap: { file: "MyDay_Workplace_Conversation_Reference_Layout.html", title: en ? "Michael’s My Day" : "Michael 的 My Day" },
+    recap: { file: "myday-daily-recap.html", title: en ? "Michael’s My Day" : "Michael 的 My Day" },
     mentor: { file: "../mentor-classroom.html", title: "Personal mentor · A little help with what to say next" },
     spark: { file: "spark-fridge-idea.html", title: "Spark · Fridge clear-out assistant" },
     meeting: { file: "meeting-outcome-library.html", title: "Launch Retrospective · Meeting outcomes" },

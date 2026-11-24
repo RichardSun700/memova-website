@@ -51,9 +51,9 @@ describe("production homepage", () => {
     }
     const { document } = parseHTML(homepage);
     const schemas = [...document.querySelectorAll('script[type="application/ld+json"]')]
-      .map(script => JSON.parse(script.textContent || "{}"));
+      .flatMap(script => { const data = JSON.parse(script.textContent || "{}"); return data["@graph"] || [data]; });
     expect(schemas).toContainEqual(expect.objectContaining({
-      url: "https://memova.ai/", name: page.title, description: page.description, inLanguage: "en-US",
+      "@type": "MobileApplication", "@id": "https://memova.ai/#app", name: "Memova", alternateName: "Memova AI", inLanguage: "en-US",
     }));
   });
 
@@ -140,14 +140,31 @@ describe("production homepage", () => {
     expect(root).not.toBeNull();
     expect(root.querySelectorAll("h1")).toHaveLength(1);
     expect(root.querySelector("h1")?.textContent?.replace(/\s+/g, ""))
-      .toBe("Recordallday.Buildyourknowledge.");
+      .toBe("TheAppleWatchvoicerecorderthatremembersyourday");
+    expect(root.querySelector("p.hero-slogan")?.textContent?.replace(/\s+/g, ""))
+      .toBe("Theeasiestwaytojournalyourlife.");
+    expect(root.querySelector("#download")?.textContent).toContain("© 2026 MEMOVA LLC");
     expect(root.querySelector(".hero-intro")?.textContent).toContain("Transcribe and search offline on iPhone");
-    expect(root.querySelector(".trust-line")?.textContent).toContain("Saved locally by default. You choose what to upload.");
+    expect(root.querySelector(".trust-line")?.textContent).toContain("Use the app without an account. You choose what to upload.");
+    expect(root.querySelector("#faq")?.textContent).toContain("Only MCP requires an account and separate authorization");
+    expect(root.querySelector("#faq")?.textContent).toContain("up to 24 hours");
+    expect(root.querySelector("#faq")?.textContent).toContain("deleted immediately once downloaded to your phone");
+    expect(root.querySelector("#faq")?.textContent).not.toContain("Cloud AI and AI access require a separate sign-in");
     for (const id of ["experience", "privacy", "pro", "faq", "download"]) {
       expect(root.querySelector(`#${id}`), id).not.toBeNull();
     }
     expect(root.querySelector("#experience h2")).not.toBeNull();
     expect(root.querySelector("#privacy h2")).not.toBeNull();
+    expect([...root.querySelectorAll('.opening-runway, .privacy-story, .cloud-processing-section, #experience')].map(section => section.id))
+      .toEqual(['top', 'privacy', 'cloud-processing', 'experience']);
+    expect(root.querySelector('#privacy #privacy-cloud-demo')).toBeNull();
+    expect(root.querySelector('#cloud-processing #privacy-cloud-demo')).not.toBeNull();
+    expect(root.querySelector('#top .watch-assembly')).not.toBeNull();
+    expect(root.querySelector('.watch-reveal-section')).toBeNull();
+    expect(root.querySelector('.opening-scroll-cue')?.getAttribute('href')).toBe('#already-here');
+    expect(root.querySelector('#privacy-story-details')?.hasAttribute('hidden')).toBe(true);
+    expect(root.querySelector('#privacy [aria-controls="privacy-story-details"]')?.getAttribute('aria-expanded')).toBe('false');
+    expect(root.querySelector('#privacy .privacy-story-actions a')?.getAttribute('href')).toBe('/privacy/?lang=en');
     expect(root.querySelector("#pro")?.textContent).toContain("US$39.99");
     expect(root.querySelector("#pro")?.textContent).toContain("Prices shown in USD. Confirm the price and auto-renewal terms in the app.");
     expect(root.querySelector("#top video, #top iframe")).toBeNull();

@@ -245,14 +245,14 @@ section[id] {
   position: relative;
   z-index: 2;
 }
-.hero h1 {
+.hero .hero-slogan {
   font-family: var(--serif);
   font-size: 68px;
   line-height: 1.3;
   letter-spacing: 0.015em;
   margin: 18px 0;
 }
-html[lang="en"] .hero h1 {
+html[lang="en"] .hero .hero-slogan {
   font-size: 83px;
   line-height: 1.05;
   letter-spacing: -0.025em;
@@ -1131,10 +1131,10 @@ html[lang="en"] .hero h1 {
     padding-top: 48px;
     min-height: 940px;
   }
-  .hero h1 {
+  .hero .hero-slogan {
     font-size: 51px;
   }
-  html[lang="en"] .hero h1 {
+  html[lang="en"] .hero .hero-slogan {
     font-size: 64px;
   }
   .hero-intro {
@@ -1247,10 +1247,10 @@ html[lang="en"] .hero h1 {
   .hero {
     min-height: 900px;
   }
-  .hero h1 {
+  .hero .hero-slogan {
     font-size: 42px;
   }
-  html[lang="en"] .hero h1 {
+  html[lang="en"] .hero .hero-slogan {
     font-size: 49px;
   }
   .hero-actions {

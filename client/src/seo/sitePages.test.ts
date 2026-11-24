@@ -1,15 +1,14 @@
 import { describe, expect, it } from "vitest";
-import { SITE_URL, getSitePage, getStructuredData, sitePages } from "./sitePages";
+import { SITE_URL, getCanonicalUrl, getSitePage, getStructuredData, sitePages } from "./sitePages";
 
 describe("sitePages", () => {
   it("describes the Watch homepage in English while preserving other routes' metadata language", () => {
     const homepage = getSitePage("/");
-    expect(homepage.title).toBe("Memova — Record all day. Build your personal knowledge base.");
-    expect(homepage.hero?.title).toBe("Record all day. Build your knowledge.");
+    expect(homepage.title).toBe("Memova: Apple Watch Voice Recorder & Life Journal");
+    expect(homepage.hero?.title).toBe("The Apple Watch voice recorder that remembers your day");
     expect(homepage.description).toContain("Transcribe and search offline on iPhone");
     expect(homepage.description).toContain("Saved locally by default");
-    expect(homepage.description).toContain("You choose what to upload");
-    expect(getStructuredData(homepage).inLanguage).toBe("en-US");
+    expect(getStructuredData(homepage)["@graph"]?.find(node => node["@type"] === "MobileApplication")?.inLanguage).toBe("en-US");
     expect(getStructuredData(getSitePage("/support")).inLanguage).toBe("en-US");
   });
 
@@ -31,7 +30,8 @@ describe("sitePages", () => {
     expect(SITE_URL).toBe("https://memova.ai");
 
     for (const page of sitePages.filter(candidate => candidate.index)) {
-      const canonical = new URL(page.path, SITE_URL);
+      const canonical = new URL(getCanonicalUrl(page));
+      expect(canonical.pathname.endsWith("/")).toBe(true);
       expect(canonical.origin).toBe(SITE_URL);
       expect(canonical.search).toBe("");
       expect(canonical.hash).toBe("");

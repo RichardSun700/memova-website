@@ -1,0 +1,47 @@
+.cloud-processing-section {
+  border-top: 1px solid var(--line, #dce4ef);
+  scroll-margin-top: 77px;
+}
+
+.cloud-processing-section-intro {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 48px;
+  margin-bottom: 40px;
+}
+
+.cloud-processing-section-intro .lower-eyebrow {
+  margin-bottom: 18px;
+}
+
+.cloud-processing-section-intro .lower-body {
+  width: min(38%, 360px);
+  flex: 0 0 auto;
+  margin: 0 0 4px;
+}
+
+.cloud-processing-section .privacy-choice-demo {
+  margin-top: 0;
+}
+
+@media (max-width: 849px) {
+  .cloud-processing-section {
+    scroll-margin-top: 0;
+  }
+
+  .cloud-processing-section .cloud-processing-section-shell {
+    padding: 56px 22px;
+  }
+
+  .cloud-processing-section-intro {
+    display: block;
+    margin-bottom: 28px;
+  }
+
+  .cloud-processing-section-intro .lower-body {
+    width: auto;
+    max-width: 36em;
+    margin: 20px 0 0;
+  }
+}

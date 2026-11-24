@@ -74,7 +74,8 @@ describe('mobile reading and loading flow', () => {
   it('ships readable Watch copy and accessible phone navigation before the interaction bundle', () => {
     const { document } = parseHTML(fs.readFileSync(path.resolve('dist/public/index.html'), 'utf8'));
     const hero = document.querySelector('#root[data-seo-snapshot="true"] #top')!;
-    expect(hero.querySelector('h1')?.textContent?.replace(/\s+/g, '')).toBe('Recordallday.Buildyourknowledge.');
+    expect(hero.querySelector('.hero-slogan')?.textContent?.replace(/\s+/g, '')).toBe('Theeasiestwaytojournalyourlife.');
+    expect(hero.querySelector('h1')?.textContent).toBe('The Apple Watch voice recorder that remembers your day');
     const intro = hero.querySelector('.hero-intro')!.textContent!;
     expect(intro).toContain('Transcribe and search offline on iPhone');
     expect(intro.length).toBeLessThan(160);

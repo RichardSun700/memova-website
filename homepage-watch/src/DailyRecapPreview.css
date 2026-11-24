@@ -1,0 +1,52 @@
+.daily-recap-preview {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 0;
+  background: #edf2f7;
+}
+.daily-recap-preview > iframe {
+  display: block;
+  flex: 1 1 auto;
+  width: min(100%, 420px);
+  margin-inline: auto;
+  min-height: 0;
+  border: 0;
+}
+.daily-recap-preview-footer {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 4px 16px;
+  border-top: 1px solid #d2dfe9;
+  background: #e3ecf8;
+  color: #526b87;
+  font-size: 11px;
+  line-height: 1.5;
+}
+.daily-recap-preview-footer button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-height: 44px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #326da9;
+  font: inherit;
+  cursor: pointer;
+}
+.daily-recap-preview-footer button:focus-visible {
+  outline: 2px solid #326da9;
+  outline-offset: 3px;
+}
+@media (max-width: 850px) {
+  .daily-recap-preview { height: 530px; }
+}
+@media (max-width: 560px) {
+  .daily-recap-preview { height: 490px; }
+  .daily-recap-preview-footer { padding-inline: 14px; font-size: 10px; }
+}

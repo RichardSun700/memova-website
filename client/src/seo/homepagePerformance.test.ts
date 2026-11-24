@@ -44,6 +44,7 @@ describe("production homepage performance", () => {
 
     const demos = [...document.querySelectorAll(".product-demo-film video")];
     expect(demos).toHaveLength(3);
+    expect(document.querySelector('.daily-recap-preview iframe')).toBeNull();
     for (const video of demos) {
       expect(video.hasAttribute("src")).toBe(false);
       expect(video.hasAttribute("poster")).toBe(false);
@@ -57,7 +58,9 @@ describe("production homepage performance", () => {
     const hero = document.querySelector('#root[data-seo-snapshot="true"] #top')!;
     expect(hero).not.toBeNull();
     expect(hero.querySelector("h1")?.textContent?.replace(/\s+/g, ""))
-      .toBe("Recordallday.Buildyourknowledge.");
+      .toBe("TheAppleWatchvoicerecorderthatremembersyourday");
+    expect(hero.querySelector("p.hero-slogan")?.textContent?.replace(/\s+/g, ""))
+      .toBe("Theeasiestwaytojournalyourlife.");
     expect(hero.querySelector(".hero-intro")?.textContent).toContain("Apple Watch");
     expect(hero.querySelector("video, iframe")).toBeNull();
     expect(document.querySelector(".kb-lunar-backdrop, .kb-orbit-card, #memova-desktop-snapshot")).toBeNull();

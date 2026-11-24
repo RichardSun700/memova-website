@@ -161,11 +161,12 @@ describe("account profile completion", () => {
     expect(auth.logout).toHaveBeenCalledOnce();
   });
 
-  it("keeps sign in available in the shared navigation without an account", async () => {
+  it("keeps account sign in inside MCP rather than anonymous shared navigation", async () => {
     auth.isAuthenticated = false;
     const f = await headerFixture();
     const header = f.document.querySelector("header")!;
-    expect(header.querySelector('a[href^="/login"]')).not.toBeNull();
+    expect(header.querySelector('a[href^="/login"], a[href^="/mcp/login"]')).toBeNull();
+    expect(header.querySelector('a[href="/mcp/"]')).not.toBeNull();
     expect(header.textContent).not.toContain(auth.user.email);
     expect(header.querySelector('img[src="/test-avatar.png"]')).toBeNull();
   });

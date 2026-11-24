@@ -19,6 +19,7 @@ import { APP_STORE_URL as STORE, COMMUNITY_URL, COMMUNITY_QR } from "./siteLinks
 import "./lower.css";
 import SiteHeader from "../../client/src/components/SiteHeader";
 import { setLegalLanguage } from "../../client/src/seo/legalLanguage";
+import { HOMEPAGE_METADATA, getBrandEntities } from "../../client/src/seo/brandIdentity";
 const A = "/assets/";
 const modalFocusables = (root) => [...(root?.querySelectorAll(
   'a[href],button,input,select,textarea,iframe,video[controls],audio[controls],summary,[tabindex]',
@@ -71,7 +72,7 @@ export function App() {
     day: L("Michael 的一天", "A day with Michael"),
   };
   const pageFor = {
-    myday: "MyDay_Workplace_Conversation_Reference_Layout.html",
+    myday: "myday-daily-recap.html",
     travel: "smoky-travel-page.html",
     meeting: "meeting-outcome-library.html",
     spark: "spark-fridge-idea.html",
@@ -96,10 +97,18 @@ export function App() {
   }, []);
   useEffect(() => {
     document.documentElement.lang = lang === "zh" ? "zh-CN" : "en";
-    document.title = L(
-      "Memova — Apple Watch 全天记录与个人知识库",
-      "Memova — Record all day. Build your personal knowledge base.",
-    );
+    const metadata = HOMEPAGE_METADATA[lang];
+    document.title = metadata.title;
+    for (const [selector, content] of [
+      ['meta[name="description"]', metadata.description],
+      ['meta[property="og:title"]', metadata.title],
+      ['meta[property="og:description"]', metadata.description],
+    ]) document.querySelector(selector)?.setAttribute("content", content);
+    const schema = document.getElementById("memova-structured-data");
+    if (schema) {
+      const { organization, website, app } = getBrandEntities(lang === "zh" ? "zh-CN" : "en-US");
+      schema.textContent = JSON.stringify({ "@context": "https://schema.org", "@graph": [organization, website, app] });
+    }
   }, [lang]);
   useEffect(() => {
     if (!modalOpen) return;
@@ -178,7 +187,7 @@ export function App() {
             compact={compact}
           />
         </div>
-        <PrivacyBlock lang={lang} onOpenCase={setModal} />
+        <PrivacyBlock lang={lang} />
         <ExperienceJourney lang={lang} onOpen={setModal} suspended={Boolean(modal)} />
         <LowerSections lang={lang} onOpenCase={setModal} />
       </main>
@@ -282,8 +291,8 @@ export function App() {
                                   "Find a response to try next time.",
                                 )
                               : L(
-                                  "对照原话，查看今日观察与建议。",
-                                  "Read today’s observations and advice alongside the original words.",
+                                  "回看总结、重点片段、沟通反馈与每日记忆，随时核对原话。",
+                                  "Read your summary, highlights, communication feedback and daily memories, with the original words close at hand.",
                                 )}
                   </p>
                   {modal === "spark" && <div className="modal-source-note">
@@ -298,7 +307,7 @@ export function App() {
                     <iframe
                       onLoad={onCaseFrameLoad}
                       title={caseTitles[modal]}
-                      src={"/examples/" + pageFor[modal] + (modal === "myday" ? "?chimeLang=" + lang : "")}
+                      src={"/examples/" + pageFor[modal] + (modal === "myday" ? "?lang=" + lang + "&chimeLang=" + lang : "")}
                     />
                   ) : modal === "birthday" ? (
                     <div className="birthday-preview">

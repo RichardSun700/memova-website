@@ -1,0 +1,19 @@
+# Memova
+
+> Memova is an Apple Watch voice recorder. Tap to record on your wrist, then transcribe and search your conversations offline on iPhone. Recordings stay on your device by default.
+
+Memova is made by MEMOVA LLC. On the App Store it is listed as Memova AI (App Store ID 6796284954). The official website is https://memova.ai/.
+
+- Record on Apple Watch or iPhone. Local recording, on-device transcription, and offline search work without an account. All Memova Watch app cloud features also work without an account; only MCP connections require an account and separate authorization.
+- Original audio stays on your device by default. If you choose cloud audio transcription, the selected audio is processed by Microsoft Azure and deleted from the cloud immediately when transcription completes. Authorizing text analysis does not authorize uploading original audio.
+- Optional text AI analysis, Ask, and image generation also use Microsoft Azure and process only the material you authorize. Transcripts, summaries, Ask conversations, inspirations, daily reviews, and related results are saved on your device. Cloud task content is held only temporarily for processing and delivery, deleted immediately after download to your phone, and retained for no more than 24 hours. Logs, caches, response copies, and retrieval metadata must not extend this content-retention period. There is no long-term App cloud library or cloud content sync.
+- App-managed local original audio is retained for no more than 30 days. Apple Health data is optional and requires separate permission.
+- Memova is free to download. Local recording, on-device transcription, and offline search are free. Memova Pro adds cloud AI features; check the current in-app entitlements for availability and allowances.
+
+## Links
+
+- [Home](https://memova.ai/)
+- [Privacy policy](https://memova.ai/privacy/)
+- [Support](https://memova.ai/support/)
+- [Blog](https://memova.ai/journal/)
+- [App Store](https://apps.apple.com/us/app/memova-ai/id6796284954)

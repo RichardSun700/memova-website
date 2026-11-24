@@ -25,12 +25,12 @@
 .hero-stories .hero-copy button {
   pointer-events: auto;
 }
-.hero-stories h1 {
+.hero-stories .hero-slogan {
   font-size: 61px;
   margin: 20px 0;
   line-height: 1.27;
 }
-html[lang="en"] .hero-stories h1 {
+html[lang="en"] .hero-stories .hero-slogan {
   font-size: 75px;
   line-height: 1.03;
 }
@@ -157,10 +157,10 @@ html[lang="en"] .hero-stories h1 {
   .hero-stories .hero-copy {
     width: 730px;
   }
-  .hero-stories h1 {
+  .hero-stories .hero-slogan {
     font-size: 70px;
   }
-  html[lang="en"] .hero-stories h1 {
+  html[lang="en"] .hero-stories .hero-slogan {
     font-size: 84px;
   }
 }
@@ -168,10 +168,10 @@ html[lang="en"] .hero-stories h1 {
   .hero-stories .hero-copy {
     width: 560px;
   }
-  .hero-stories h1 {
+  .hero-stories .hero-slogan {
     font-size: 51px;
   }
-  html[lang="en"] .hero-stories h1 {
+  html[lang="en"] .hero-stories .hero-slogan {
     font-size: 62px;
   }
   .hero-stories .hero-intro {
@@ -193,10 +193,10 @@ html[lang="en"] .hero-stories h1 {
     width: 100%;
     padding: 0 25px;
   }
-  .hero-stories h1 {
+  .hero-stories .hero-slogan {
     font-size: 45px;
   }
-  html[lang="en"] .hero-stories h1 {
+  html[lang="en"] .hero-stories .hero-slogan {
     font-size: 56px;
   }
   .hero-stories .hero-intro {
@@ -235,10 +235,10 @@ html[lang="en"] .hero-stories h1 {
   }
 }
 @media (max-width: 600px) {
-  .hero-stories h1 {
+  .hero-stories .hero-slogan {
     font-size: 37px;
   }
-  html[lang="en"] .hero-stories h1 {
+  html[lang="en"] .hero-stories .hero-slogan {
     font-size: 45px;
   }
   .story-case-modal .story-meta,

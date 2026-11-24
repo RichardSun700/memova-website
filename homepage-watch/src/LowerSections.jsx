@@ -1,13 +1,14 @@
-import { useRef, useState } from "react";
+import { useState } from "react";
 import {
   AppleLogo,
   ArrowUpRight,
-  LockSimple,
   Plus,
 } from "@phosphor-icons/react";
 import "./lower.css";
 import { CloudProcessingDemo } from "./CloudProcessingDemo";
 import { ProOverview } from "./ProOverview";
+import { PrivacyStory } from "./PrivacyStory";
+import "./CloudProcessingSection.css";
 import { APP_STORE_URL as APP_STORE, MCP_OVERVIEW_URL, BLOG_PAGE_URL } from "./siteLinks";
 
 const ASSETS = {
@@ -95,8 +96,8 @@ const COPY = {
     privacyLabel: "02 · 本地保存与云端处理",
     privacyTitle: "离线转写，\n默认本地保存。",
     privacyBody:
-      "飞行模式下也能转写和搜索；需要 AI 分析时，再选择要上传的对话。",
-    privacyNote: "默认本地保存，上传内容由你决定。",
+      "离线转写和搜索，也可选择由微软 Azure 提供的云端转写与 AI 处理，无需账号。",
+    privacyNote: "转写与成果保存在本机，上传内容由你决定。",
     privacyMode: "使用云端处理以下内容",
     privacyModeDescription: "仅演示预设成果，不上传或分析对话。",
     privacySelection: (n) => `已选择 ${n} 段对话`,
@@ -114,8 +115,8 @@ const COPY = {
       {
         key: "recap",
         title: "每日回顾",
-        headline: "回顾今天，\n想好下次怎么做。",
-        body: "回看当天原话、今日观察和沟通建议，为下次交流做准备。",
+        headline: "一天的对话，\n一张值得留下的卡片。",
+        body: "回看总结、重点片段、沟通反馈与每日记忆，随时展开相关原话。",
         action: "打开 My Day",
         image: ASSETS.recap,
         color: "#d6e6fa",
@@ -174,6 +175,11 @@ const COPY = {
           "用已有的 Apple Watch 轻点录音，熄屏后继续；也支持 iPhone 录音。",
       },
       {
+        question: "需要注册账号吗？",
+        answer:
+          "使用 App 无需账号，包括录音、本地与云端转写、搜索和 AI 功能。只有使用 MCP 时需要账号并单独授权；云端处理仍需要联网和你的许可。",
+      },
+      {
         question: "没有网络，也能使用吗？",
         answer:
           "可以。本地录音、转写和搜索支持离线；AI 分析与 Pro 生成内容需要联网和你的授权。",
@@ -182,6 +188,11 @@ const COPY = {
         question: "我的所有对话都会上传吗？",
         answer:
           "不会。录音与转写默认本地保存；你可以选择要处理的内容，或主动开启自动云端处理。",
+      },
+      {
+        question: "云端会长期保存我的录音和成果吗？",
+        answer:
+          "App 的转写、摘要、Ask、灵感和每日回顾保存在本机。云端音频转写、文字 AI 分析和配图均由微软 Azure 处理；上传的音频在转写完成后立即删除。其他任务内容与成果仅临时保存，最长 24 小时，以便 App 未打开时等待下载；下载到手机后立即删除。App 不提供云端资料同步。",
       },
       {
         question: "免费版与 Pro 有什么不同？",
@@ -201,14 +212,14 @@ const COPY = {
     footerPrivacy: "隐私政策",
     footerSupport: "帮助与支持",
     footerTerms: "服务条款",
-    footerCopyright: "© 2026 Memova",
+    footerCopyright: "© 2026 MEMOVA LLC",
   },
   en: {
     privacyLabel: "02 · LOCAL STORAGE & CLOUD PROCESSING",
     privacyTitle: "Transcribe offline.\nSave locally by default.",
     privacyBody:
-      "Transcribe and search in airplane mode. Choose which conversations to send for AI analysis.",
-    privacyNote: "Saved locally by default. You choose what to upload.",
+      "Transcribe and search offline, or choose cloud transcription and AI processing on Microsoft Azure. No account required.",
+    privacyNote: "Transcripts and results are saved on your phone. You choose what to upload.",
     privacyMode: "Use cloud processing for these conversations",
     privacyModeDescription:
       "Preset results only. No upload or cloud analysis.",
@@ -231,8 +242,8 @@ const COPY = {
       {
         key: "recap",
         title: "Daily recap",
-        headline: "Look back on today.\nKnow what to try next.",
-        body: "Revisit today’s words, observations and practical advice for your next conversation.",
+        headline: "Your day,\nin a card to keep.",
+        body: "Revisit your summary, highlights, communication feedback and daily memories. Open the original words whenever you need them.",
         action: "Explore My Day",
         image: ASSETS.recap,
         color: "#d6e6fa",
@@ -291,6 +302,11 @@ const COPY = {
           "Use your Apple Watch. Tap to record, even with the screen off. You can also record on iPhone.",
       },
       {
+        question: "Do I need an account?",
+        answer:
+          "The app works without an account, including recording, local and cloud transcription, search and AI features. Only MCP requires an account and separate authorization. Cloud processing still needs an internet connection and your permission.",
+      },
+      {
         question: "Can I use Memova without a connection?",
         answer:
           "Yes. Record, transcribe and search offline. AI analysis and Pro-generated content need a connection and your authorization.",
@@ -299,6 +315,11 @@ const COPY = {
         question: "Will all my conversations be uploaded?",
         answer:
           "No. Recordings and transcripts stay local by default. Select content for cloud processing, or opt into automatic processing.",
+      },
+      {
+        question: "Does the cloud keep my recordings and results?",
+        answer:
+          "App transcripts, summaries, Ask responses, ideas and daily recaps are saved on your phone. Cloud audio transcription, text AI analysis and illustrations use Microsoft Azure. Uploaded audio is deleted immediately after transcription. Other task content and results are held temporarily for up to 24 hours so you can download them when you open the app, and are deleted immediately once downloaded to your phone. The app does not provide cloud content sync.",
       },
       {
         question: "What is included for free, and what does Pro add?",
@@ -320,7 +341,7 @@ const COPY = {
     footerPrivacy: "Privacy policy",
     footerSupport: "Help & support",
     footerTerms: "Terms of service",
-    footerCopyright: "© 2026 Memova",
+    footerCopyright: "© 2026 MEMOVA LLC",
   },
 };
 
@@ -332,34 +353,31 @@ function Multiline({ children }) {
 
 function PrivacySection({ copy, lang }) {
   const [phase, setPhase] = useState("selecting");
-  const introRef = useRef(null);
   return (
     <section
-      className={"lower-privacy cloud-transform-section" + (phase !== "selecting" ? " cloud-has-results" : "")}
-      id="privacy"
-      data-narrative-block="2"
+      className="cloud-processing-section"
+      id="cloud-processing"
       data-cloud-phase={phase}
-      aria-labelledby="lower-privacy-title"
+      aria-labelledby="cloud-processing-title"
     >
-      <div className="section-shell lower-shell lower-privacy-layout">
-        <div className="lower-privacy-copy" ref={introRef}>
-          <p className="lower-eyebrow">{copy.privacyLabel}</p>
-          <h2 className="lower-heading" id="lower-privacy-title">
-            <Multiline>{copy.privacyTitle}</Multiline>
-          </h2>
+      <div className="section-shell lower-shell cloud-processing-section-shell">
+        <header className="cloud-processing-section-intro">
+          <div>
+            <p className="lower-eyebrow">{copy.privacyLabel}</p>
+            <h2 className="lower-heading" id="cloud-processing-title">
+              <Multiline>{copy.privacyTitle}</Multiline>
+            </h2>
+          </div>
           <p className="lower-body">{copy.privacyBody}</p>
-          <p className="lower-trust-note">
-            <LockSimple size={18} weight="regular" aria-hidden="true" />
-            {copy.privacyNote}
-          </p>
+        </header>
+        <div className="privacy-choice-demo" id="privacy-cloud-demo" aria-label={copy.privacyMode}>
+          <CloudProcessingDemo
+            lang={lang}
+            copy={copy}
+            quotes={QUOTES}
+            onPhaseChange={setPhase}
+          />
         </div>
-        <CloudProcessingDemo
-          lang={lang}
-          copy={copy}
-          quotes={QUOTES}
-          introRef={introRef}
-          onPhaseChange={setPhase}
-        />
       </div>
     </section>
   );
@@ -483,9 +501,12 @@ function FooterSection({ copy, lang }) {
 export function PrivacyBlock({ lang = "zh" }) {
   const normalizedLang = lang === "en" ? "en" : "zh";
   return (
-    <div className="lower-sections" data-lang={normalizedLang}>
-      <PrivacySection copy={COPY[normalizedLang]} lang={normalizedLang} />
-    </div>
+    <>
+      <PrivacyStory lang={normalizedLang} />
+      <div className="lower-sections" data-lang={normalizedLang}>
+        <PrivacySection copy={COPY[normalizedLang]} lang={normalizedLang} />
+      </div>
+    </>
   );
 }
 

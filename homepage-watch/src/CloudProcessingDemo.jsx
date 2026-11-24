@@ -82,7 +82,7 @@ export function CloudProcessingDemo({
     if (!previous || reduced) return;
     layoutAnimations.current = previous.flatMap(({ node, rect }) => {
       const next = node.getBoundingClientRect();
-      if (!next.width || !next.height || typeof node.animate !== "function") return [];
+      if (!rect.width || !rect.height || !next.width || !next.height || typeof node.animate !== "function") return [];
       return [node.animate([
         { transformOrigin: "top left", transform: `translate(${rect.left - next.left}px, ${rect.top - next.top}px) scale(${rect.width / next.width}, ${rect.height / next.height})` },
         { transformOrigin: "top left", transform: "none" },
@@ -134,6 +134,8 @@ export function CloudProcessingDemo({
         <article
           className={`cloud-result-card${chosen ? " is-selected" : " is-unselected"}${available ? " is-ready" : ""}${result.preview ? " has-outcome-preview" : ""}`}
           data-result={result.key}
+          data-source-id={item.id}
+          aria-describedby={`${outcomesTitleId}-quote-${index}`}
           style={{ "--cloud-order": index }}
           key={item.id}
           aria-label={available ? L(`示例封面：${title}`, `Example cover: ${title}`)
@@ -157,7 +159,7 @@ export function CloudProcessingDemo({
   }
 
   return (
-    <div className="cloud-processing-demo" data-phase={phase} data-reduced={reduced}>
+    <div className="cloud-processing-demo" data-phase={phase} data-reduced={reduced} data-compact={compact} style={{ "--cloud-count": quotes.length }}>
       <div ref={sourcePanel} className={`lower-choice-panel cloud-source-panel${ready ? " is-prepared" : ""}`}>
         <div className="lower-choice-heading">
           <CloudSymbol />
@@ -173,6 +175,7 @@ export function CloudProcessingDemo({
               <label
                 className={`lower-choice-row${chosen ? " is-selected" : ""}`}
                 key={item.id}
+                data-source-id={item.id}
                 style={{ "--cloud-order": index }}
               >
                 <input
@@ -181,7 +184,7 @@ export function CloudProcessingDemo({
                   onChange={() => toggle(item.id)}
                   aria-label={translated(item.source, language)}
                 />
-                <span className="lower-choice-content">
+                <span className="lower-choice-content" id={`${outcomesTitleId}-quote-${index}`}>
                   <span className="lower-choice-source">
                     {translated(item.source, language)}
                     <span>{item.speaker}</span>
@@ -192,6 +195,7 @@ export function CloudProcessingDemo({
             );
           })}
         </div>
+        <div className="cloud-source-footer">
         <div className="lower-choice-summary">
           <span>
             {ready ? <CheckCircle size={18} aria-hidden="true" /> : <CloudSymbol size={18} />}
@@ -223,6 +227,7 @@ export function CloudProcessingDemo({
           </button>
         </div>
         <p className="lower-choice-feedback sr-only" role="status" aria-live="polite" aria-atomic="true">{feedback}</p>
+        </div>
       </div>
       {!compact && <aside className="cloud-result-region" aria-hidden={!ready}>
         <div className="cloud-result-stack">

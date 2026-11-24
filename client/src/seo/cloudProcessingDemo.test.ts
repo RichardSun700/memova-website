@@ -98,6 +98,13 @@ describe("cloud processing selection and results", () => {
       expect(demo.phase()).toBe("ready");
       expect(demo.onPhaseChange.mock.calls.map(([phase]) => phase)).toEqual(["ready"]);
       expect(demo.readyKeys()).toEqual(["travel", "meeting"]);
+      const sources = [...demo.container.querySelectorAll('.lower-choice-row')];
+      const outcomes = [...demo.container.querySelectorAll('.cloud-result-card')];
+      expect(outcomes.map(card => card.getAttribute('data-source-id')))
+        .toEqual(sources.map(source => source.getAttribute('data-source-id')));
+      outcomes.forEach((card, index) => {
+        expect(card.getAttribute('aria-describedby')).toBe(sources[index].querySelector('.lower-choice-content')?.id);
+      });
       const unselected = demo.container.querySelector('[data-result="myday"]')!;
       expect(unselected.classList.contains("is-ready")).toBe(false);
       expect(unselected.getAttribute("aria-label")).toContain("Not selected");

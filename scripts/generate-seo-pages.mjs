@@ -4,6 +4,7 @@ import { fileURLToPath, pathToFileURL } from "node:url";
 import { build } from "esbuild";
 import { loadEnv } from "vite";
 import { resolveMcpDeployment } from "../shared/mcpDeployment.ts";
+import { getLegalPageMetadata } from "../client/src/seo/legalLanguage.ts";
 import {
   SITE_URL,
   SOCIAL_IMAGE,
@@ -547,17 +548,16 @@ function renderLegalPolicySnapshot(page, markdownPath, chinesePath, currentPath,
   const termsCurrent = currentPath === "/terms" ? ' aria-current="page"' : "";
   const policy = renderLegalBlocks(fs.readFileSync(markdownPath, "utf8"));
   const chinesePolicy = renderLegalBlocks(fs.readFileSync(chinesePath, "utf8"));
-  return `<div id="root"><div class="memova-seo-shell memova-seo-shell--legal" data-no-translate data-seo-snapshot="true" data-seo-shell-version="${SEO_SHELL_VERSION}" data-page-summary="${escapeAttribute(page.summary)}">${renderSeoShellNav(headerMarkup)}<main class="memova-seo-legal__main"><nav class="memova-seo-legal__tabs" data-legal-language="en" aria-label="Legal documents"><a class="memova-seo-legal__tab" href="/privacy"${privacyCurrent}>Privacy Policy</a><a class="memova-seo-legal__tab" href="/terms"${termsCurrent}>Terms of Service</a></nav><nav class="memova-seo-legal__tabs" data-legal-language="zh" aria-label="法律文件"><a class="memova-seo-legal__tab" href="/privacy?lang=zh"${privacyCurrent}>隐私协议</a><a class="memova-seo-legal__tab" href="/terms?lang=zh"${termsCurrent}>服务条款</a></nav><article class="memova-seo-legal__article" lang="en" data-legal-language="en">${policy}</article><article class="memova-seo-legal__article" lang="zh-CN" data-legal-language="zh">${chinesePolicy}</article></main></div></div>`;
+  return `<div id="root"><div class="memova-seo-shell memova-seo-shell--legal" data-no-translate data-seo-snapshot="true" data-seo-shell-version="${SEO_SHELL_VERSION}" data-page-summary="${escapeAttribute(page.summary)}">${renderSeoShellNav(headerMarkup)}<main class="memova-seo-legal__main"><nav class="memova-seo-legal__tabs" data-legal-language="en" aria-label="Legal documents"><a class="memova-seo-legal__tab" href="/privacy/"${privacyCurrent}>Privacy Policy</a><a class="memova-seo-legal__tab" href="/terms/"${termsCurrent}>Terms of Service</a></nav><nav class="memova-seo-legal__tabs" data-legal-language="zh" aria-label="法律文件"><a class="memova-seo-legal__tab" href="/privacy/?lang=zh"${privacyCurrent}>隐私协议</a><a class="memova-seo-legal__tab" href="/terms/?lang=zh"${termsCurrent}>服务条款</a></nav><article class="memova-seo-legal__article" lang="en" data-legal-language="en">${policy}</article><article class="memova-seo-legal__article" lang="zh-CN" data-legal-language="zh">${chinesePolicy}</article></main></div></div>`;
 }
 
 function renderLegalLanguageBootstrap(currentPath) {
-  const privacy = currentPath === "/privacy";
-  const titles = JSON.stringify({
-    en: `${privacy ? "Privacy Policy" : "Terms of Service"} — Memova`,
-    zh: `${privacy ? "隐私协议" : "服务条款"} — Memova`,
+  const metadata = JSON.stringify({
+    en: getLegalPageMetadata(currentPath, "en"),
+    zh: getLegalPageMetadata(currentPath, "zh"),
   });
   return `<script id="memova-legal-language">(() => {
-    const titles = ${titles};
+    const metadata = ${metadata};
     const normalize = value => value === "en" || value === "zh" ? value : null;
     const sync = event => {
       const query = normalize(new URL(location.href).searchParams.get("lang"));
@@ -566,7 +566,19 @@ function renderLegalLanguageBootstrap(currentPath) {
       const language = normalize(event && event.detail && event.detail.language) || query || stored || "en";
       document.documentElement.dataset.legalLanguage = language;
       document.documentElement.lang = language === "zh" ? "zh-CN" : "en-US";
-      document.title = titles[language];
+      const current = metadata[language];
+      document.title = current.title;
+      for (const [selector, value] of [
+        ['meta[name="description"]', current.description],
+        ['meta[property="og:title"]', current.title],
+        ['meta[property="og:description"]', current.description]
+      ]) document.querySelector(selector)?.setAttribute("content", value);
+      const schema = document.getElementById("memova-structured-data");
+      if (schema) {
+        const data = JSON.parse(schema.textContent);
+        Object.assign(data, { name: current.title, description: current.description, inLanguage: current.htmlLang });
+        schema.textContent = JSON.stringify(data);
+      }
       document.querySelectorAll(".memova-seo-shell--legal a[href]").forEach(link => {
         const url = new URL(link.getAttribute("href"), location.href);
         if (url.origin === location.origin || url.origin === "https://memova.ai") {
@@ -593,11 +605,11 @@ export function renderTermsOfServiceSnapshot(page, headerMarkup) {
 
 function renderSeoShellNav(headerMarkup) {
   if (headerMarkup) return headerMarkup;
-  return `<header class="memova-seo-shell__nav"><a class="memova-seo-shell__brand" href="/" aria-label="Memova home">${renderBrandImages()}</a><div class="memova-seo-shell__nav-group"><nav class="memova-seo-shell__nav-links" aria-label="Primary"><a href="/#experience">Experience Memova</a><a href="/#privacy">Privacy &amp; offline</a><a href="/#pro">Memova Pro</a><a href="/journal/">Blog</a><a href="/mcp/">MCP</a><a href="/login">Sign in</a></nav><a class="memova-seo-shell__nav-cta memova-download-button" href="https://apps.apple.com/us/app/memova-ai/id6796284954" target="_blank" rel="noopener noreferrer">Download the app</a></div></header>`;
+  return `<header class="memova-seo-shell__nav"><a class="memova-seo-shell__brand" href="/" aria-label="Memova home">${renderBrandImages()}</a><div class="memova-seo-shell__nav-group"><nav class="memova-seo-shell__nav-links" aria-label="Primary"><a href="/#experience">Experience Memova</a><a href="/#privacy">Privacy &amp; offline</a><a href="/#pro">Memova Pro</a><a href="/journal/">Blog</a><a href="/mcp/">MCP</a></nav><a class="memova-seo-shell__nav-cta memova-download-button" href="https://apps.apple.com/us/app/memova-ai/id6796284954" target="_blank" rel="noopener noreferrer">Download the app</a></div></header>`;
 }
 
 function renderHomeSnapshot(page, headerMarkup) {
-  return `<div id="root"><div class="memova-seo-shell" data-seo-snapshot="true" data-seo-shell-version="${SEO_SHELL_VERSION}" data-page-summary="${escapeAttribute(page.summary)}">${renderSeoShellNav(headerMarkup)}<main><section class="memova-seo-shell__hero" aria-labelledby="memova-seo-hero-title"><div class="memova-seo-shell__copy"><span class="memova-seo-shell__eyebrow">${escapeText(page.hero.eyebrow)}</span><h1 class="memova-seo-shell__title" id="memova-seo-hero-title">${escapeText(page.hero.title)}</h1><p class="memova-seo-shell__lead">${escapeText(page.hero.intro)}</p><div class="memova-seo-shell__actions"><a class="memova-seo-shell__primary memova-download-button" href="https://apps.apple.com/us/app/memova-ai/id6796284954" target="_blank" rel="noopener noreferrer">Download the app</a><a class="memova-seo-shell__secondary" href="/product-journal">Open Product Journal</a></div><ul class="memova-seo-shell__trust" aria-label="Memova privacy principles"><li>Private by default</li><li>Review before sharing</li><li>Context that grows with you</li></ul></div><div class="memova-seo-shell__panel" aria-hidden="true"><p class="memova-seo-shell__panel-label">Living Book</p><div class="memova-seo-shell__card"><strong>Context you choose</strong><p>Conversations, notes, files, and experiences stay connected.</p></div><span class="memova-seo-shell__connector">↓</span><div class="memova-seo-shell__card memova-seo-shell__card--ready"><strong>Ready when you are</strong><p>Create Pages, prepare next actions, and share only what you approve.</p></div></div></section><section class="memova-seo-shell__story-copy" aria-labelledby="memova-seo-story-title"><h2 id="memova-seo-story-title">${escapeText(page.title)}</h2><p>${escapeText(page.summary)}</p><p>${escapeText(page.description)}</p></section></main></div></div>`;
+  return `<div id="root"><div class="memova-seo-shell" data-seo-snapshot="true" data-seo-shell-version="${SEO_SHELL_VERSION}" data-page-summary="${escapeAttribute(page.summary)}">${renderSeoShellNav(headerMarkup)}<main><section class="memova-seo-shell__hero" aria-labelledby="memova-seo-hero-title"><div class="memova-seo-shell__copy"><span class="memova-seo-shell__eyebrow">${escapeText(page.hero.eyebrow)}</span><h1 class="memova-seo-shell__title" id="memova-seo-hero-title">${escapeText(page.hero.title)}</h1><p class="memova-seo-shell__lead">${escapeText(page.hero.intro)}</p><div class="memova-seo-shell__actions"><a class="memova-seo-shell__primary memova-download-button" href="https://apps.apple.com/us/app/memova-ai/id6796284954" target="_blank" rel="noopener noreferrer">Download the app</a><a class="memova-seo-shell__secondary" href="/product-journal/">Open Product Journal</a></div><ul class="memova-seo-shell__trust" aria-label="Memova privacy principles"><li>Private by default</li><li>Review before sharing</li><li>Context that grows with you</li></ul></div><div class="memova-seo-shell__panel" aria-hidden="true"><p class="memova-seo-shell__panel-label">Living Book</p><div class="memova-seo-shell__card"><strong>Context you choose</strong><p>Conversations, notes, files, and experiences stay connected.</p></div><span class="memova-seo-shell__connector">↓</span><div class="memova-seo-shell__card memova-seo-shell__card--ready"><strong>Ready when you are</strong><p>Create Pages, prepare next actions, and share only what you approve.</p></div></div></section><section class="memova-seo-shell__story-copy" aria-labelledby="memova-seo-story-title"><h2 id="memova-seo-story-title">${escapeText(page.title)}</h2><p>${escapeText(page.summary)}</p><p>${escapeText(page.description)}</p></section></main></div></div>`;
 }
 
 function renderGenericSnapshot(page, headerMarkup) {

@@ -48,7 +48,8 @@ describe("Memova Journal", () => {
       expect(navigation).toContain('aria-current="page">Blog');
       expect(navigation).toContain('class="mw-control mw-download"');
       expect(navigation).toContain("Join the community");
-      expect(navigation).toContain("Sign in");
+      expect(navigation).not.toContain("Sign in");
+      expect(navigation).not.toMatch(/href="\/(?:mcp\/)?login(?:[?"])/);
       expect(html).not.toContain("Join Early Access");
       expect(html).toContain('aria-controls="mobile-navigation"');
     }

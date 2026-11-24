@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-31T08:47:56.691Z",
+  "generatedAt": "2026-11-23T10:29:02.131108Z",
   "pathBase": "public/",
-  "fileCount": 76,
-  "totalBytes": 120423921,
+  "fileCount": 83,
+  "totalBytes": 138709918,
   "largestFileBytes": 24468633,
   "perFileLimitBytes": 26214400,
   "verification": {
@@ -106,6 +106,16 @@
       "sizeBytes": 652036
     },
     {
+      "path": "assets/fonts/LICENSE-DM-Sans.txt",
+      "sha256": "2af94f4fb533be8fa23282eb33e08ca311ddf47c2f32777e2040b282deeec65c",
+      "sizeBytes": 4389
+    },
+    {
+      "path": "assets/fonts/LICENSE-Instrument-Serif.txt",
+      "sha256": "129ed7618959716959f2941fdd5b49e0ad6e6c1d78726761786a00253d865521",
+      "sizeBytes": 4405
+    },
+    {
       "path": "assets/fonts/dm-sans-400.ttf",
       "sha256": "b0ae3e89a7d3ef2b1838bb4b1ceb0b17cc3435af061eee809d76aa623ff116e9",
       "sizeBytes": 48280
@@ -129,16 +139,6 @@
       "path": "assets/fonts/instrument-serif-normal.ttf",
       "sha256": "a99e3db50076202713812ed541feeb23ffeebb61db1fa6b1cf48fe590d37ef18",
       "sizeBytes": 62284
-    },
-    {
-      "path": "assets/fonts/LICENSE-DM-Sans.txt",
-      "sha256": "2af94f4fb533be8fa23282eb33e08ca311ddf47c2f32777e2040b282deeec65c",
-      "sizeBytes": 4389
-    },
-    {
-      "path": "assets/fonts/LICENSE-Instrument-Serif.txt",
-      "sha256": "129ed7618959716959f2941fdd5b49e0ad6e6c1d78726761786a00253d865521",
-      "sizeBytes": 4405
     },
     {
       "path": "assets/meeting-library-preview.png",
@@ -211,6 +211,16 @@
       "sizeBytes": 1648812
     },
     {
+      "path": "assets/privacy-v2/days-phone-en.jpg",
+      "sha256": "f7da9d3011ec44373d83144b6af6b08c6538190d47d3236705f1fdb838d305e6",
+      "sizeBytes": 128904
+    },
+    {
+      "path": "assets/privacy-v2/days-phone-zh.jpg",
+      "sha256": "a0f921c02ff22480d521fad5b9af2ef1dafa951f54cfd82f8cbad2f8a368b23c",
+      "sizeBytes": 122420
+    },
+    {
       "path": "assets/pro-campaign-v2/card-meeting-outcomes-v2.png",
       "sha256": "b4e12b44ae17190f10d5b484e7f15d667658e66f763bf7f09f63961e654ba9dc",
       "sizeBytes": 1667020
@@ -276,6 +286,16 @@
       "sizeBytes": 4234797
     },
     {
+      "path": "assets/video/myday-four-sections-v9-poster.jpg",
+      "sha256": "e1e1a508af1c00ea2fa40017780cbabf5ab0ab4ee5ed654ec06816001220d67a",
+      "sizeBytes": 78472
+    },
+    {
+      "path": "assets/video/myday-four-sections-v9.mp4",
+      "sha256": "4467c03e10c1aaf2ab43e236c90505245fdf48f1bc631ee1b200fe8b0bce63d7",
+      "sizeBytes": 8304123
+    },
+    {
       "path": "assets/video/search-demo-en-v5-poster.jpg",
       "sha256": "2f9cd61296b5cb5f1738dbae500befb2ec9dcce03205028db60110bea9129b9e",
       "sizeBytes": 59684
@@ -284,6 +304,16 @@
       "path": "assets/video/search-demo-en-v5.mp4",
       "sha256": "bab920defce1e306b84530a5f678f6fe53395f4c4728435fd2d234e9199258b3",
       "sizeBytes": 3874820
+    },
+    {
+      "path": "assets/video/timeline-events-v7-poster.jpg",
+      "sha256": "130e6c9079204980b9dd8728cf83007f1d950c98219513bb85de8ef54fd345a3",
+      "sizeBytes": 105201
+    },
+    {
+      "path": "assets/video/timeline-events-v7.mp4",
+      "sha256": "4ee12fab9b8f384cbef1f909ae9c954c0cba40cafaac1ba3baa32198355bfec8",
+      "sizeBytes": 8913189
     },
     {
       "path": "assets/video/timeline-meeting-v6-poster.jpg",
@@ -301,9 +331,19 @@
       "sizeBytes": 172380
     },
     {
+      "path": "examples/MyDay_Workplace_Conversation_Reference_Layout.html",
+      "sha256": "33c22651381572b971a8177e603532a4b68b8ba36fbcc5f078e3b90448ad9166",
+      "sizeBytes": 6667395
+    },
+    {
       "path": "examples/launch-retrospective.html",
       "sha256": "3511d0ec71038a39ddd8451963c4c3f4ccec6a40b6ed3a822beb1265d62deaab",
       "sizeBytes": 665374
+    },
+    {
+      "path": "examples/meeting-outcome-library.html",
+      "sha256": "d29370593688c98b25156c07cfabcf25f52e804b8645cce74c6640543939e704",
+      "sizeBytes": 6357
     },
     {
       "path": "examples/meeting-outcome-library/app.js",
@@ -319,11 +359,6 @@
       "path": "examples/meeting-outcome-library/style.css",
       "sha256": "82efe01db02f5b8a53ef933b958dc239020ddf78b00cbd6b317669e9d22bbb8c",
       "sizeBytes": 16463
-    },
-    {
-      "path": "examples/meeting-outcome-library.html",
-      "sha256": "d29370593688c98b25156c07cfabcf25f52e804b8645cce74c6640543939e704",
-      "sizeBytes": 6357
     },
     {
       "path": "examples/mentor-sources/colleague-feedback.html",
@@ -351,14 +386,19 @@
       "sizeBytes": 3264596
     },
     {
-      "path": "examples/MyDay_Workplace_Conversation_Reference_Layout.html",
-      "sha256": "33c22651381572b971a8177e603532a4b68b8ba36fbcc5f078e3b90448ad9166",
-      "sizeBytes": 6667395
+      "path": "examples/myday-daily-recap.html",
+      "sha256": "17c3904e55f1c37fba3875b4377449a62d1fdd11a760e43f581d0a3a36c6fdd3",
+      "sizeBytes": 633688
     },
     {
       "path": "examples/smoky-travel-page.html",
       "sha256": "f68e1a479083fc40b7763336ec3fd540fb40ec50fef2cdd20e478bd9aa43df32",
       "sizeBytes": 2998161
+    },
+    {
+      "path": "examples/spark-fridge-idea.html",
+      "sha256": "0a7a12c00f38f5bdfd96c56b1af13b0805acebe04140d8a24c30163f1aeadd02",
+      "sizeBytes": 2225
     },
     {
       "path": "examples/spark-fridge-idea/app.js",
@@ -374,11 +414,6 @@
       "path": "examples/spark-fridge-idea/style.css",
       "sha256": "bff50eff1414308d5e5aaab0be09f59c71379e7c7fdadf3681feeefb2e41d4af",
       "sizeBytes": 7895
-    },
-    {
-      "path": "examples/spark-fridge-idea.html",
-      "sha256": "0a7a12c00f38f5bdfd96c56b1af13b0805acebe04140d8a24c30163f1aeadd02",
-      "sizeBytes": 2225
     },
     {
       "path": "examples/watch-prototype.html",

@@ -562,7 +562,7 @@ export function OpeningExperience({
           aria-hidden={progress > 0.25}
         >
           <div className="eyebrow">MEMOVA FOR APPLE WATCH</div>
-          <h1>
+          <p className="hero-slogan">
             {L(
               <>
                 全天候记录生活，
@@ -570,16 +570,22 @@ export function OpeningExperience({
                 积累个人知识库。
               </>,
               <>
-                Record all day.
+                The easiest way
                 <br />
-                <em>Build your knowledge.</em>
+                <em>to journal your life.</em>
               </>,
+            )}
+          </p>
+          <h1 className="hero-category">
+            {L(
+              "记住每一天的 Apple Watch 录音 App",
+              "The Apple Watch voice recorder that remembers your day",
             )}
           </h1>
           <p className="hero-intro">
             {L(
-              "Apple Watch 记录，iPhone 离线转写与搜索。",
-              "Record on Apple Watch. Transcribe and search offline on iPhone.",
+              "Apple Watch 或 iPhone 录音，iPhone 本地转写与离线搜索。",
+              "Record on Apple Watch or iPhone. Transcribe and search offline on iPhone.",
             )}
           </p>
           <div className="hero-actions">
@@ -602,8 +608,8 @@ export function OpeningExperience({
           <p className="trust-line">
             <Check size={14} />
             {L(
-              "默认本地保存，上传内容由你决定",
-              "Saved locally by default. You choose what to upload.",
+              "使用 App 无需账号，上传内容由你决定。",
+              "Use the app without an account. You choose what to upload.",
             )}
           </p>
         </div>
@@ -819,7 +825,7 @@ export function OpeningExperience({
                 >
                   {L("体验手表操作", "Try Watch controls")}<ArrowRight size={16} />
                 </button> : <a ref={action} className="text-link assembly-recordings-link" href="#privacy">
-                  {L("接着看离线转写", "Next: offline transcription")}
+                  {L("接着看隐私保护", "Next: privacy")}
                   <ArrowDown size={15} />
                 </a>}
                 <button className="assembly-reset" onClick={watchActive ? returnToCurves : reset}>

@@ -17,6 +17,7 @@ import { nextDataTypes } from "@/components/account/McpSetupGuide";
 import SiteHeader from "@/components/SiteHeader";
 import SiteFooter from "@/components/SiteFooter";
 import { MCP_DEPLOYMENT } from "@/lib/mcpDeployment";
+import { useAuth } from "@/contexts/AuthContext";
 import { useLegalLanguage, withLegalLanguage } from "@/seo/legalLanguage";
 
 const contentIcons = {
@@ -29,6 +30,7 @@ const contentIcons = {
 };
 
 export default function Mcp() {
+  const { isAuthenticated } = useAuth();
   const language = useLegalLanguage();
   const zh = language === "zh";
   const L = (chinese: string, english: string) => (zh ? chinese : english);
@@ -144,7 +146,21 @@ export default function Mcp() {
                 >
                   {L("管理已授权连接", "Manage connections")}
                 </a>
+                {!isAuthenticated && (
+                  <a
+                    href={local("/mcp/login")}
+                    className="inline-flex min-h-12 items-center justify-center rounded-xl px-3 text-sm font-semibold text-[#455E93] underline-offset-4 hover:underline"
+                  >
+                    {L("MCP 登录", "MCP sign in")}
+                  </a>
+                )}
               </div>
+              <p className="mt-4 text-[12px] leading-5 text-[#637793]">
+                {L(
+                  "App 无需账号。连接 MCP 时需要登录并单独授权。",
+                  "No account is needed for the app. MCP connections require sign-in and separate authorization."
+                )}
+              </p>
               <p className="mt-5 flex items-center gap-2 text-[12px] text-[#637793]">
                 <ShieldCheck size={15} aria-hidden="true" />
                 {L(

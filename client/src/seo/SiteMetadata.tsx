@@ -44,6 +44,7 @@ export default function SiteMetadata() {
       property: "og:description",
       content: page.description,
     });
+    setMeta('meta[property="og:site_name"]', { property: "og:site_name", content: "Memova" });
     setMeta('meta[property="og:type"]', { property: "og:type", content: "website" });
     setMeta('meta[property="og:url"]', { property: "og:url", content: canonicalUrl });
     setMeta('meta[property="og:image"]', { property: "og:image", content: SOCIAL_IMAGE });
@@ -67,10 +68,7 @@ export default function SiteMetadata() {
       jsonLd.type = "application/ld+json";
       document.head.appendChild(jsonLd);
     }
-    jsonLd.textContent = JSON.stringify({
-      ...getStructuredData(page),
-      inLanguage: legal?.htmlLang || "en-US",
-    });
+    jsonLd.textContent = JSON.stringify(getStructuredData(page, legal?.htmlLang || "en-US"));
   }, [location, legalLanguage]);
 
   return null;

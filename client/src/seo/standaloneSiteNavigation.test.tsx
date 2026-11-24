@@ -18,11 +18,11 @@ function hrefs(root: ParentNode) {
 
 describe("standalone site navigation", () => {
   it.each([
-    { name: "default homepage", props: { home: true, current: "privacy" }, chapters: ["#experience", "#privacy", "#pro"], brand: "#top", journal: "/journal/", mcp: "/mcp/", login: "/login", current: "location" },
-    { name: "Chinese homepage", props: { home: true, language: "zh", current: "privacy" }, chapters: ["#experience", "#privacy", "#pro"], brand: "#top", journal: "/journal/?lang=zh", mcp: "/mcp/?lang=zh", login: "/login?lang=zh", current: "location" },
-    { name: "default interior", props: { current: "mcp" }, chapters: ["/#experience", "/#privacy", "/#pro"], brand: "/", journal: "/journal/", mcp: "/mcp/", login: "/login", current: "page" },
-    { name: "Chinese interior", props: { language: "zh", current: "mcp" }, chapters: ["/?lang=zh#experience", "/?lang=zh#privacy", "/?lang=zh#pro"], brand: "/?lang=zh", journal: "/journal/?lang=zh", mcp: "/mcp/?lang=zh", login: "/login?lang=zh", current: "page" },
-  ] as const)("keeps $name navigation local and consistent on desktop and mobile", ({ props, chapters, brand, journal, mcp, login, current }) => {
+    { name: "default homepage", props: { home: true, current: "privacy" }, chapters: ["#experience", "#privacy", "#pro"], brand: "#top", journal: "/journal/", mcp: "/mcp/", current: "location" },
+    { name: "Chinese homepage", props: { home: true, language: "zh", current: "privacy" }, chapters: ["#experience", "#privacy", "#pro"], brand: "#top", journal: "/journal/?lang=zh", mcp: "/mcp/?lang=zh", current: "location" },
+    { name: "default interior", props: { current: "mcp" }, chapters: ["/#experience", "/#privacy", "/#pro"], brand: "/", journal: "/journal/", mcp: "/mcp/", current: "page" },
+    { name: "Chinese interior", props: { language: "zh", current: "mcp" }, chapters: ["/?lang=zh#experience", "/?lang=zh#privacy", "/?lang=zh#pro"], brand: "/?lang=zh", journal: "/journal/?lang=zh", mcp: "/mcp/?lang=zh", current: "page" },
+  ] as const)("keeps $name navigation local and consistent on desktop and mobile", ({ props, chapters, brand, journal, mcp, current }) => {
     const document = renderHeader(props);
     const desktop = document.querySelector(".mw-desktop-nav")!;
     const mobile = document.querySelector(".mw-mobile-nav")!;
@@ -30,7 +30,8 @@ describe("standalone site navigation", () => {
     expect(hrefs(desktop)).toEqual(expected);
     expect(hrefs(mobile).slice(0, 5)).toEqual(expected);
     expect(document.querySelector(".mw-brand")?.getAttribute("href")).toBe(brand);
-    expect(Array.from(document.querySelectorAll(".mw-signin"), link => link.getAttribute("href"))).toEqual([login, login]);
+    expect(document.querySelector(".mw-signin")).toBeNull();
+    expect(document.querySelector('header a[href^="/login"], header a[href^="/mcp/login"]')).toBeNull();
 
     for (const navigation of [desktop, mobile]) {
       const active = navigation.querySelectorAll("[aria-current]");
@@ -42,7 +43,7 @@ describe("standalone site navigation", () => {
     const internalLinks = Array.from(document.querySelectorAll("a")).filter(link =>
       new URL(link.getAttribute("href")!, previewUrl).origin === new URL(previewUrl).origin
     );
-    expect(internalLinks).toHaveLength(13);
+    expect(internalLinks).toHaveLength(11);
     for (const link of internalLinks) {
       const href = link.getAttribute("href")!;
       expect(href.startsWith("/") || href.startsWith("#")).toBe(true);

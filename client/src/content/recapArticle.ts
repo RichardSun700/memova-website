@@ -167,7 +167,7 @@ export const recapArticle: JournalEntry = {
         },
         {
           type: "paragraph",
-          text: "Memova’s current workflow keeps original recordings alongside their transcripts. You can use the text to review a captured conversation and listen again when the wording matters. [Memova’s App Store description](https://apps.apple.com/us/app/memova-ai/id6796284954) lists these existing capabilities.",
+          text: "Memova’s current workflow keeps original recordings alongside their transcripts. You can use the text to review a captured conversation and listen again when the wording matters. [Memova’s App Store description](https://apps.apple.com/us/app/memova-ai/id6796284954) lists these existing capabilities. Read [Memova’s Privacy Policy](https://memova.ai/privacy/) for local recording, optional cloud processing, and retention details.",
         },
         {
           type: "paragraph",
@@ -274,7 +274,7 @@ export const recapArticle: JournalEntry = {
         },
         {
           type: "paragraph",
-          text: "Memova’s optional Pro cloud features include hourly notes, daily events, and My Day reviews. They require an account, internet access, and an active subscription. The recording and transcription workflow remains available without Pro. [Check the current feature listing](https://apps.apple.com/us/app/memova-ai/id6796284954).",
+          text: "Memova’s optional Pro cloud features include daily events and My Day reviews. They require internet access, your permission and the applicable in-app entitlement, but no Memova account. Only MCP connections require an account. Local recording, on-device transcription and offline search remain available without Pro. [Check the current feature listing](https://apps.apple.com/us/app/memova-ai/id6796284954).",
         },
         {
           type: "paragraph",

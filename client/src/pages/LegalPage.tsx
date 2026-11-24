@@ -130,7 +130,7 @@ export function LegalPage({ markdown, currentPath }: LegalPageProps) {
           <div className="mb-8 flex flex-wrap items-center justify-between gap-3">
             <nav className="flex flex-wrap gap-2" aria-label={copy.navigation}>
             <a
-              href={withLegalLanguage("/privacy", language)}
+              href={withLegalLanguage("/privacy/", language)}
               aria-current={currentPath === "/privacy" ? "page" : undefined}
               className={`rounded-full border px-4 py-2 text-[12px] font-bold transition-colors ${
                 currentPath === "/privacy"
@@ -141,7 +141,7 @@ export function LegalPage({ markdown, currentPath }: LegalPageProps) {
               {copy.privacy}
             </a>
             <a
-              href={withLegalLanguage("/terms", language)}
+              href={withLegalLanguage("/terms/", language)}
               aria-current={currentPath === "/terms" ? "page" : undefined}
               className={`rounded-full border px-4 py-2 text-[12px] font-bold transition-colors ${
                 currentPath === "/terms"
@@ -230,12 +230,12 @@ export function LegalPage({ markdown, currentPath }: LegalPageProps) {
         <div className="container flex flex-col items-center justify-between gap-4 md:flex-row">
           <a href={withLegalLanguage("/", language)} aria-label={`Memova ${copy.home}`}><MemovaBrand compact /></a>
           <nav className="flex flex-wrap justify-center gap-6 text-[11px] font-semibold text-[#626A79]" aria-label={copy.navigation}>
-            <a href={withLegalLanguage("/support", language)}>{copy.support}</a>
+            <a href={withLegalLanguage("/support/", language)}>{copy.support}</a>
             <a href="mailto:hello@memova.ai">hello@memova.ai</a>
-            <a href={withLegalLanguage("/privacy", language)}>{copy.privacy}</a>
-            <a href={withLegalLanguage("/terms", language)}>{copy.terms}</a>
+            <a href={withLegalLanguage("/privacy/", language)}>{copy.privacy}</a>
+            <a href={withLegalLanguage("/terms/", language)}>{copy.terms}</a>
           </nav>
-          <p className="text-[10px] font-semibold text-[#6B86E8]">© 2026 Memova</p>
+          <p className="text-[10px] font-semibold text-[#6B86E8]">© 2026 MEMOVA LLC</p>
         </div>
       </footer>
     </div>

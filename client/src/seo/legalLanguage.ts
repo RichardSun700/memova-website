@@ -85,15 +85,19 @@ export function getLegalPageMetadata(pathname: string, language: LegalLanguage) 
   const privacy = path === "/privacy" || path === "/privacy-policy";
   if (!privacy && path !== "/terms") return null;
   return {
-    title: language === "zh"
-      ? `${privacy ? "隐私协议" : "服务条款"} — Memova`
-      : `${privacy ? "Privacy Policy" : "Terms of Service"} — Memova`,
+    title: privacy
+      ? language === "zh"
+        ? "隐私政策 | Memova – Apple Watch 录音 App"
+        : "Privacy Policy | Memova – Apple Watch Voice Recorder"
+      : language === "zh"
+        ? "服务条款 — Memova"
+        : "Terms of Service — Memova",
     description: language === "zh"
       ? privacy
-        ? "了解 Memova 如何处理个人信息、云端 AI、健康关联、数据保存与删除，以及您的隐私选择。"
+        ? "了解 Memova Apple Watch 与 iPhone 录音 App 的本地离线功能、可选 Azure 云端处理、无需账号使用、健康数据单独许可及最长24小时临时留存与删除规则。"
         : "了解使用 Memova 网站、应用、账号、云端 AI、订阅和相关服务的条款。"
       : privacy
-        ? "Read how Memova handles personal information, user-chosen context, connected services, data controls, and privacy requests."
+        ? "How Memova handles data: local recording, offline transcription and search, optional Azure cloud processing, and temporary retention of up to 24 hours."
         : "Review the terms that govern access to and use of Memova products, websites, software, integrations, and related services.",
     htmlLang: language === "zh" ? "zh-CN" : "en-US",
   };

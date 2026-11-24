@@ -4,6 +4,7 @@ const chapters = [
   ["top", null],
   ["watch-demo", "experience"],
   ["privacy", "privacy"],
+  ["cloud-processing", "privacy"],
   ["experience", "experience"],
   ["possibilities", "pro"],
   ["pro", "pro"],

@@ -43,8 +43,8 @@
     opacity: 1; transform: none; will-change: auto; pointer-events: auto;
   }
   .opening-stage .hero-copy .eyebrow { font-size: 10px; letter-spacing: .13em; }
-  .opening-stage.hero-stories h1 { font-size: clamp(29px, 8.65vw, 42px); line-height: 1.35; margin: 18px 0 22px; letter-spacing: -.035em; }
-  html[lang="en"] .opening-stage.hero-stories h1 { font-size: clamp(37px, 10vw, 52px); line-height: 1.08; letter-spacing: -.035em; }
+  .opening-stage.hero-stories .hero-slogan { font-size: clamp(29px, 8.65vw, 42px); line-height: 1.35; margin: 18px 0 22px; letter-spacing: -.035em; }
+  html[lang="en"] .opening-stage.hero-stories .hero-slogan { font-size: clamp(37px, 10vw, 52px); line-height: 1.08; letter-spacing: -.035em; }
   .opening-stage .hero-intro { max-width: 460px; font-size: 14px; line-height: 1.85; margin: 0 auto; color: #61758e; text-wrap: pretty; }
   .opening-stage .hero-actions { display: flex; flex-direction: row; justify-content: center; flex-wrap: wrap; gap: 10px; margin-top: 26px; }
   .opening-stage .hero-actions .button { min-height: 48px; padding: 12px 17px; font-size: 12px; gap: 8px; }

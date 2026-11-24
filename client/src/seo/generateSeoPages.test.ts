@@ -40,11 +40,12 @@ describe("SEO build generator", () => {
     expect(header.querySelector('a[href="/#experience"]')?.textContent).toBe("Experience Memova");
     expect(header.querySelector('a[href="/#privacy"]')?.textContent).toBe("Privacy & offline");
     expect(header.querySelector('a[href="/#pro"]')?.textContent).toBe("Memova Pro");
-    for (const href of ["/journal/", "/mcp/", "/login"]) {
+    for (const href of ["/journal/", "/mcp/"]) {
       const link = header.querySelector(`a[href="${href}"]`)!;
       expect(link).toBeTruthy();
       expect(link.getAttribute("target")).toBeNull();
     }
+    expect(header.querySelector('a[href^="/login"], a[href^="/mcp/login"]')).toBeNull();
     const internalLinks = [...header.querySelectorAll("a[href]")].filter(link => !link.getAttribute("href")!.startsWith("https://apps.apple.com/"));
     expect(internalLinks.every(link => link.getAttribute("href")!.startsWith("/"))).toBe(true);
     expect(header.querySelector('a[aria-label="Memova home"] img')?.getAttribute("src")).toBe("/brand/memova-app-icon-liquid-blue.svg");
@@ -87,7 +88,7 @@ describe("SEO build generator", () => {
 
     expect(html).toContain(`<title>${page.title}</title>`);
     expect(html).toContain(`name="description" content="${page.description}`);
-    expect(html).toContain(`rel="canonical" href="https://memova.ai/mcp"`);
+    expect(html).toContain(`rel="canonical" href="https://memova.ai/mcp/"`);
     expect(html).toContain(`property="og:title" content="${page.title}`);
     expect(html).toContain(`type="application/ld+json"`);
     expect(html).toContain(`data-seo-snapshot="true"`);
@@ -116,10 +117,10 @@ describe("SEO build generator", () => {
     expect(html).toContain("Living Book");
     expect(html).toContain("Download the app");
     expect(html).toContain('href="https://apps.apple.com/us/app/memova-ai/id6796284954"');
-    expect(html).toContain('href="/product-journal"');
+    expect(html).toContain('href="/product-journal/"');
     expect(html).toContain("Open Product Journal");
     expect(html).not.toContain('href="#product-tour"');
-    expect(html).toContain(page.title);
+    expect(parseHTML(html).document.title).toBe(page.title);
     expect(html).toContain(page.summary);
     expect(html.match(/id="memova-seo-shell-styles"/g)).toHaveLength(1);
   });
@@ -132,7 +133,7 @@ describe("SEO build generator", () => {
 
     expect(html).toContain('name="robots" content="index, follow');
     expect(html).toContain(
-      'rel="canonical" href="https://memova.ai/product-journal"'
+      'rel="canonical" href="https://memova.ai/product-journal/"'
     );
     expect(html).toContain("memova-seo-shell--page");
     expect(html).toContain(page.hero!.title);
@@ -170,10 +171,10 @@ describe("SEO build generator", () => {
     const xml = renderSitemap(sitePages);
 
     expect(xml).toMatch(/^<\?xml version="1.0" encoding="UTF-8"\?>/);
-    expect(xml).toContain("<loc>https://memova.ai/mcp</loc>");
-    expect(xml).toContain("<loc>https://memova.ai/support</loc>");
-    expect(xml).toContain("<loc>https://memova.ai/journal</loc>");
-    expect(xml).toContain("<loc>https://memova.ai/product-journal</loc>");
+    expect(xml).toContain("<loc>https://memova.ai/mcp/</loc>");
+    expect(xml).toContain("<loc>https://memova.ai/support/</loc>");
+    expect(xml).toContain("<loc>https://memova.ai/journal/</loc>");
+    expect(xml).toContain("<loc>https://memova.ai/product-journal/</loc>");
     expect(xml).not.toContain("/agent-memory</loc>");
     expect(xml).not.toContain("/ios</loc>");
     expect(xml).not.toContain("/how-it-works</loc>");
@@ -258,7 +259,7 @@ describe("SEO build generator", () => {
     expect(html).toContain("1. The Service");
     expect(html).toContain('class="memova-seo-shell memova-seo-shell--legal"');
     expect(html).toContain(
-      '<a class="memova-seo-legal__tab" href="/terms" aria-current="page">'
+      '<a class="memova-seo-legal__tab" href="/terms/" aria-current="page">'
     );
   });
 
@@ -271,9 +272,9 @@ describe("SEO build generator", () => {
     const { document } = parseHTML(html);
     const english = document.querySelector('article[lang="en"]')!;
     const chinese = document.querySelector('article[lang="zh-CN"]')!;
-    expect(english.querySelector("h1")!.nextElementSibling?.textContent).toBe("Last updated: November 5, 2026");
+    expect(english.querySelector("h1")!.nextElementSibling?.textContent).toBe("Last updated: November 23, 2026");
     expect(chinese.querySelector("h1")!.nextElementSibling?.textContent).toBe(
-      `${route === "/privacy" ? "更新日期" : "最后更新"}：2026年11月5日`
+      `${route === "/privacy" ? "更新日期" : "最后更新"}：2026年11月23日`
     );
     expect(chinese.querySelector("h1")?.textContent).toBe(title);
     expect(english.textContent).toContain(lastEn);
@@ -297,14 +298,16 @@ describe("SEO build generator", () => {
           "Gmail permissions.", "Google Calendar permissions.", "Limited Use requirements",
         ];
         for (const copy of signInCopy) expect(text).toContain(copy);
-        expect(text).toContain(zh ? "原始录音在设备本地转写成文字" : "Recording and transcription take place on your device");
-        expect(text).toContain(zh ? "云端仅处理您选择并授权的转写文字" : "limited to transcript text and textual context you authorize");
+        expect(text).toContain(zh ? "App 云端功能需要网络连接，无需账号" : "All Memova Watch app cloud features also work without a Memova account");
+        expect(text).toContain(zh ? "上传的音频在转写完成后立即从云端删除" : "The uploaded audio is deleted immediately when transcription completes");
+        expect(text).toContain(zh ? "最长保留不超过24小时" : "for no more than 24 hours");
+        expect(text).toContain(zh ? "结果下载至手机后，立即删除相应云端中转资料" : "deleted immediately after download to your phone");
+        expect(text).not.toMatch(/云端功能需要账号及网络连接|Cloud features require an account and network connection/);
         expect(text).toContain(zh ? "保存期限最长不超过30天" : "retained for no more than 30 days");
         expect(text).toContain(zh ? "删除一条转写，不会自动删除现有笔记、摘要" : "Deleting a transcript does not automatically delete existing notes, summaries");
         const services = Array.from(article.querySelectorAll("ul")).find(list => list.textContent?.includes("Azure Blob"));
         expect(services).toBeTruthy();
         expect(services!.querySelectorAll("li")).toHaveLength(12);
-        expect(services!.textContent).not.toMatch(/Azure AI Speech|云端语音服务/);
         expect(text).not.toContain("|");
       }
     }
@@ -321,14 +324,14 @@ describe("SEO build generator", () => {
     });
     document.dispatchEvent(new window.Event("DOMContentLoaded"));
     expect(document.documentElement.lang).toBe("zh-CN");
-    expect(document.title).toBe("隐私协议 — Memova");
+    expect(document.title).toBe("隐私政策 | Memova – Apple Watch 录音 App");
     expect(document.documentElement.dataset.legalLanguage).toBe("zh");
-    expect(document.querySelector('.memova-seo-legal__tab')?.getAttribute("href")).toBe("/privacy?lang=zh");
+    expect(document.querySelector('.memova-seo-legal__tab')?.getAttribute("href")).toBe("/privacy/?lang=zh");
     window.dispatchEvent(new window.CustomEvent("memova:languagechange", { detail: { language: "en" } }));
-    expect(document.title).toBe("Privacy Policy — Memova");
+    expect(document.title).toBe("Privacy Policy | Memova – Apple Watch Voice Recorder");
     expect(document.documentElement.lang).toBe("en-US");
     expect(document.documentElement.dataset.legalLanguage).toBe("en");
-    expect(document.querySelector('.memova-seo-legal__tab')?.getAttribute("href")).toBe("/privacy?lang=en");
+    expect(document.querySelector('.memova-seo-legal__tab')?.getAttribute("href")).toBe("/privacy/?lang=en");
   });
 
   it("generates neutral noindex shells for every private SPA route", () => {

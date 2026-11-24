@@ -83,10 +83,10 @@ export default function Support() {
               <a className="hover:text-[#0F2B3C]" href="/connected-clients">
                 Connected clients
               </a>
-              <a className="hover:text-[#0F2B3C]" href="/privacy">
+              <a className="hover:text-[#0F2B3C]" href="/privacy/">
                 Privacy Policy
               </a>
-              <a className="hover:text-[#0F2B3C]" href="/terms">
+              <a className="hover:text-[#0F2B3C]" href="/terms/">
                 Terms of Service
               </a>
             </div>

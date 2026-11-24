@@ -1,13 +1,13 @@
 import { journalEntries } from "../content/journalEntries";
-
-export const SITE_URL = "https://memova.ai";
-export const SOCIAL_IMAGE = `${SITE_URL}/brand/memova-app-icon-512.png`;
+import { BRAND_DESCRIPTION, HOMEPAGE_METADATA, SITE_URL, getBrandEntities } from "./brandIdentity";
+export { SITE_URL, SOCIAL_IMAGE } from "./brandIdentity";
 
 export type ChangeFrequency = "weekly" | "monthly" | "yearly";
 export type SchemaType =
   | "WebPage"
   | "AboutPage"
   | "SoftwareApplication"
+  | "MobileApplication"
   | "Article";
 
 export type SitePage = {
@@ -32,18 +32,17 @@ export type SitePage = {
 const publicPages: SitePage[] = [
   {
     path: "/",
-    title: "Memova — Record all day. Build your personal knowledge base.",
-    description:
-      "Tap to record on Apple Watch. Keep going with the screen off. Transcribe and search offline on iPhone. Find the original words. Saved locally by default. You choose what to upload.",
+    title: HOMEPAGE_METADATA.en.title,
+    description: HOMEPAGE_METADATA.en.description,
     index: true,
     changeFrequency: "weekly",
     priority: 1,
     summary:
-      "Record all day on Apple Watch and build your personal knowledge base. Transcribe and search offline on iPhone to find the original words. Saved locally by default. You choose what to upload. Revisit your day with My Day, find practical communication guidance, explore and create with Spark, and organize meeting outcomes into interactive webpages.",
-    schemaType: "SoftwareApplication",
+      BRAND_DESCRIPTION,
+    schemaType: "MobileApplication",
     hero: {
       eyebrow: "MEMOVA FOR APPLE WATCH",
-      title: "Record all day. Build your knowledge.",
+      title: "The Apple Watch voice recorder that remembers your day",
       intro:
         "Tap to record on Apple Watch. Keep going with the screen off. Transcribe and search offline on iPhone. Find the original words.",
     },
@@ -174,14 +173,14 @@ const publicPages: SitePage[] = [
   },
   {
     path: "/privacy",
-    title: "Privacy Policy — Memova",
+    title: "Privacy Policy | Memova – Apple Watch Voice Recorder",
     description:
-      "Read how Memova handles personal information, user-chosen context, connected services, data controls, and privacy requests.",
+      "How Memova handles data: local recording, offline transcription and search, optional Azure cloud processing, and temporary retention of up to 24 hours.",
     index: true,
     changeFrequency: "yearly",
     priority: 0.35,
     summary:
-      "The Memova privacy policy explains how the service handles personal information, user choices, connected services, retention, security, and privacy requests.",
+      "The privacy policy for Memova, listed as Memova AI on the App Store and made by MEMOVA LLC, explains local offline recording, optional Azure cloud processing, immediate deletion of uploaded audio after transcription, and temporary task delivery for up to 24 hours with deletion on download.",
     schemaType: "WebPage",
   },
   {
@@ -262,36 +261,38 @@ export function getSitePage(pathname: string): SitePage {
 }
 
 export function getCanonicalUrl(page: SitePage): string {
-  return new URL(page.canonicalPath ?? page.path, SITE_URL).toString();
+  const url = new URL(page.canonicalPath ?? page.path, SITE_URL);
+  if (page.index) url.pathname = url.pathname.replace(/\/+$/, "") + "/";
+  return url.toString();
 }
 
-export function getStructuredData(page: SitePage) {
+export function getStructuredData(page: SitePage, language = "en-US") {
   const url = getCanonicalUrl(page);
+  const { organization, website, app } = getBrandEntities(language);
+  if (page.path === "/") {
+    return {
+      "@context": "https://schema.org",
+      "@graph": [organization, website, app],
+    };
+  }
   const base = {
     "@context": "https://schema.org",
     "@type": page.schemaType,
+    "@id": `${url}#webpage`,
     name: page.title,
     description: page.description,
     url,
-    inLanguage: "en-US",
-    isPartOf: {
-      "@type": "WebSite",
-      name: "Memova",
-      url: SITE_URL,
-    },
-    publisher: {
-      "@type": "Organization",
-      name: "Memova",
-      url: SITE_URL,
-      logo: SOCIAL_IMAGE,
-    },
+    inLanguage: language,
+    isPartOf: { "@id": website["@id"] },
+    publisher: { "@id": organization["@id"] },
+    ...(page.path === "/privacy" ? { about: { "@id": app["@id"] } } : {}),
   };
 
   if (page.schemaType === "SoftwareApplication") {
     return {
       ...base,
       applicationCategory: "ProductivityApplication",
-      operatingSystem: "iOS, Web",
+      operatingSystem: "iOS, watchOS",
     };
   }
 
