@@ -411,6 +411,11 @@
   transform: scale(2.8);
   transform-origin: 52% 5%;
 }
+.memova-journal-author-avatar.has-photo img[src="/journal/apple-watch-guides/00-avery-author-portrait.png"] {
+  object-position: 50% 42%;
+  transform: scale(2.3);
+  transform-origin: 50% 42%;
+}
 .memova-journal-entry-cover {
   width: 100%;
   height: auto;
@@ -638,6 +643,10 @@
 }
 .memova-article-figure {
   margin: 30px -40px;
+}
+.memova-article-figure.is-portrait {
+  max-width: 440px;
+  margin-inline: auto;
 }
 .memova-article-figure figcaption {
   margin-top: 12px;

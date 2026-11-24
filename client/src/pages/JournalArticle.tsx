@@ -49,7 +49,7 @@ function ArticleImage({
 }: Extract<JournalBlock, { type: "image" }>) {
   const dialog = useRef<HTMLDialogElement>(null);
   return (
-    <figure className="memova-article-figure">
+    <figure className={`memova-article-figure${height > width ? " is-portrait" : ""}`}>
       <button
         className="memova-article-image-button"
         type="button"

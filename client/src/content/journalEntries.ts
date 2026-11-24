@@ -1,3 +1,5 @@
+import { bestRecorderArticle } from "./bestRecorderArticle";
+import { howToRecordArticle } from "./howToRecordArticle";
 import { recapArticle } from "./recapArticle";
 import { rewindArticle } from "./rewindArticle";
 
@@ -65,7 +67,12 @@ export type JournalEntry = {
   relatedUpdates: readonly JournalRelatedUpdate[];
 };
 
-export const journalEntries: readonly JournalEntry[] = [recapArticle, rewindArticle];
+export const journalEntries: readonly JournalEntry[] = [
+  bestRecorderArticle,
+  howToRecordArticle,
+  recapArticle,
+  rewindArticle,
+];
 // Publishing a Blog post does not opt it into a separate homepage announcement.
 export const latestJournalEntry: JournalEntry | null =
   journalEntries.find(entry => entry.featureOnHome) ?? null;

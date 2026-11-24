@@ -288,6 +288,22 @@ export function getStructuredData(page: SitePage, language = "en-US") {
     ...(page.path === "/privacy" ? { about: { "@id": app["@id"] } } : {}),
   };
 
+  if (page.schemaType === "Article") {
+    const entry = journalEntries.find(entry => page.path === `/journal/${entry.slug}`);
+    if (entry) return {
+      ...base,
+      headline: entry.title,
+      author: {
+        "@type": "Person",
+        name: entry.author,
+        ...(entry.authorRole ? { jobTitle: entry.authorRole } : {}),
+        ...(entry.authorAvatar ? { image: new URL(entry.authorAvatar, SITE_URL).toString() } : {}),
+      },
+      ...(entry.isoDate ? { datePublished: entry.isoDate } : {}),
+      ...(entry.cover ? { image: new URL(entry.cover.src, SITE_URL).toString() } : {}),
+    };
+  }
+
   if (page.schemaType === "SoftwareApplication") {
     return {
       ...base,

@@ -57,7 +57,23 @@ describe("Memova Journal", () => {
   it("lists Avery’s Rewind preview without restoring retired entries", () => {
     const html = renderToStaticMarkup(<Journal />);
 
-    expect(journalEntries).toHaveLength(2);
+    expect(journalEntries).toHaveLength(4);
+    for (const slug of ["best-voice-recorder-for-apple-watch", "how-to-record-audio-on-apple-watch"]) {
+      const entry = journalEntries.find(entry => entry.slug === slug)!;
+      expect(html).toContain(`href="/journal/${slug}/"`);
+      expect(entry.author).toBe("Avery");
+      expect(entry.authorRole).toBe("GTM at Memova");
+      const { document } = parseHTML(renderToStaticMarkup(<JournalArticle slug={slug} />));
+      const article = document.querySelector("article")!;
+      expect(article.querySelectorAll("h1")).toHaveLength(1);
+      expect(article.querySelector(".memova-article-byline img")?.getAttribute("src")).toBe("/journal/apple-watch-guides/00-avery-author-portrait.png");
+      expect(article.querySelector("time")?.outerHTML).toMatch(/datetime="2026-11-24"/i);
+      expect(article.querySelector('img[src="' + entry.cover!.src + '"]')).not.toBeNull();
+      for (const relatedSlug of ["best-voice-recorder-for-apple-watch", "how-to-record-audio-on-apple-watch", "apple-watch-live-rewind-siri-recap", "rewind-on-an-older-apple-watch"].filter(value => value !== slug)) {
+        expect(article.querySelector(`a[href="/journal/${relatedSlug}/"]`)).not.toBeNull();
+      }
+      expect(article.querySelectorAll("h3")).toHaveLength(0);
+    }
     expect(html).toMatch(/<h1\b[^>]*id="memova-journal-heading"[^>]*>Blog<\/h1>/);
     expect(html).not.toContain("New stories are on the way.");
     expect(html).toContain('aria-label="Filter journal notes"');
