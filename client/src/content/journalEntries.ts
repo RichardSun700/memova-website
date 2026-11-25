@@ -2,6 +2,10 @@ import { bestRecorderArticle } from "./bestRecorderArticle";
 import { howToRecordArticle } from "./howToRecordArticle";
 import { recapArticle } from "./recapArticle";
 import { rewindArticle } from "./rewindArticle";
+import { voiceMemosGuideArticle } from "./voiceMemosGuideArticle";
+import { siriRecapDevicesArticle } from "./siriRecapDevicesArticle";
+import { offlineTranscriptionArticle } from "./offlineTranscriptionArticle";
+import { aiConversationRecorderArticle } from "./aiConversationRecorderArticle";
 
 export type JournalBlock =
   | { type: "paragraph"; text: string }
@@ -68,6 +72,10 @@ export type JournalEntry = {
 };
 
 export const journalEntries: readonly JournalEntry[] = [
+  aiConversationRecorderArticle,
+  offlineTranscriptionArticle,
+  siriRecapDevicesArticle,
+  voiceMemosGuideArticle,
   bestRecorderArticle,
   howToRecordArticle,
   recapArticle,

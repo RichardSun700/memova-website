@@ -57,7 +57,7 @@ describe("Memova Journal", () => {
   it("lists Avery’s Rewind preview without restoring retired entries", () => {
     const html = renderToStaticMarkup(<Journal />);
 
-    expect(journalEntries).toHaveLength(4);
+    expect(journalEntries).toHaveLength(8);
     for (const slug of ["best-voice-recorder-for-apple-watch", "how-to-record-audio-on-apple-watch"]) {
       const entry = journalEntries.find(entry => entry.slug === slug)!;
       expect(html).toContain(`href="/journal/${slug}/"`);
@@ -99,6 +99,45 @@ describe("Memova Journal", () => {
     expect(html).not.toContain('href="/#use-cases"');
     expect(html).not.toContain('href="/#trust"');
     expect(html).toContain('href="/#top"');
+  });
+
+  it.each([
+    ["apple-watch-voice-memos-guide", "Ada", "GTM", "/journal/ada.jpg"],
+    ["siri-recap-supported-devices", "Avery", "GTM at Memova", "/journal/apple-watch-guides/00-avery-author-portrait.png"],
+    ["offline-transcription-apps", "Avery", "GTM at Memova", "/journal/apple-watch-guides/00-avery-author-portrait.png"],
+    ["ai-conversation-recorder-apple-watch", "Avery", "GTM at Memova", "/journal/apple-watch-guides/00-avery-author-portrait.png"],
+  ])("publishes %s with its supplied author, final artwork, and release date", (slug, author, role, avatar) => {
+    const entry = journalEntries.find(entry => entry.slug === slug)!;
+    const { document: index } = parseHTML(renderToStaticMarkup(<Journal />));
+    const card = index.querySelector(`.memova-journal-entry > a[href="/journal/${slug}/"]`)!;
+    expect(card.textContent).toContain(`${author} · ${role}`);
+    expect(card.querySelector("time")?.outerHTML).toMatch(/datetime="2026-11-25"/i);
+    expect(card.querySelector(`img[src="${avatar}"]`)).not.toBeNull();
+    const { document } = parseHTML(renderToStaticMarkup(<JournalArticle slug={slug} />));
+    const article = document.querySelector("article")!;
+    expect(article.querySelectorAll("h1")).toHaveLength(1);
+    expect(article.querySelector("h1")?.textContent).toBe(entry.title);
+    expect(article.querySelector(".memova-article-byline img")?.getAttribute("src")).toBe(avatar);
+    expect(article.querySelector("time")?.outerHTML).toMatch(/datetime="2026-11-25"/i);
+    expect(article.querySelectorAll("h3")).toHaveLength(0);
+    expect(article.querySelector('a[href^="https://memova.ai"]')).toBeNull();
+    const imageSources = Array.from(article.querySelectorAll("figure > button > img")).map(image => {
+      expect(image.getAttribute("width")).toBe("2000");
+      expect(image.getAttribute("height")).toBe("1250");
+      expect(image.getAttribute("alt")?.trim()).toBeTruthy();
+      return image.getAttribute("src");
+    });
+    expect(imageSources).toHaveLength(3);
+    expect(new Set(imageSources).size).toBe(3);
+    expect(imageSources).toContain(entry.cover!.src);
+    expect(imageSources.every(src => src?.startsWith(`/journal/${slug}/`))).toBe(true);
+    for (const table of Array.from(article.querySelectorAll("table"))) {
+      expect(table.querySelectorAll("thead th")).toHaveLength(3);
+      for (const row of Array.from(table.querySelectorAll("tbody tr"))) expect(row.querySelectorAll("th, td")).toHaveLength(3);
+    }
+    for (const relatedSlug of ["best-voice-recorder-for-apple-watch", "how-to-record-audio-on-apple-watch"]) {
+      expect(article.querySelector(`a[href="/journal/${relatedSlug}/"]`)).not.toBeNull();
+    }
   });
 
   it("lists Ada’s Recap article and preserves its authored structure", () => {
