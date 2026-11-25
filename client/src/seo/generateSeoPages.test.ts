@@ -183,6 +183,7 @@ describe("SEO build generator", () => {
     expect(xml).not.toContain("/login</loc>");
     expect(xml).not.toContain("/motion-lab</loc>");
     expect(xml).not.toContain("/framework-preview</loc>");
+    expect(xml).not.toContain("/pricing");
   });
 
   it("allows search crawlers, opts out of training, and protects private routes", () => {

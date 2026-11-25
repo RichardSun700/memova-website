@@ -1,6 +1,10 @@
 {
   "version": 1,
   "include": [
+    "/pricing",
+    "/pricing/",
+    "/pricing/index.html",
+    "/pricing.html",
     "/mcp",
     "/mcp/*",
     "/login",

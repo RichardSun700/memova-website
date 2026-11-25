@@ -49,10 +49,6 @@ export default defineConfig(({ command, mode }) => {
       rollupOptions: {
         input: {
           main: path.resolve(import.meta.dirname, "client/index.html"),
-          pricing: path.resolve(
-            import.meta.dirname,
-            "client/pricing/index.html"
-          ),
         },
       },
     },

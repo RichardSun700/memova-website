@@ -7,8 +7,8 @@ const source = fs.readFileSync('client/public/brand/site-language.js', 'utf8');
 const flush = () => new Promise(resolve => setImmediate(resolve));
 function fixture({ url = 'https://memova.ai/', stored, blocked = false } = {}) {
   const { document, window: domWindow } = parseHTML(`<html lang="en"><head><title>Memova</title></head><body>
-    <header class="five-header"><a href="/pricing/">Pricing</a><span class="five-account-name">Free</span><memova-language-switch></memova-language-switch></header>
-    <main><h1>Your context,<br>finally understood.</h1><p id="allowance">Turn speech into text as you record in Spark. Your 300-minute allowance resets each month.</p><p id="dynamic">HTML Page</p>
+    <header class="five-header"><a href="/personal-manual/">Personal Manual</a><span class="five-account-name">Free</span><memova-language-switch></memova-language-switch></header>
+    <main><h1>Your context,<br>finally understood.</h1><p id="subscription">Subscriptions are managed in the Memova app.</p><p id="dynamic">HTML Page</p>
     <input value="My own words"><p contenteditable="true">Pricing</p><pre>Pricing</pre><iframe src="/personal-manual/neil-armstrong/"></iframe><img src="/hero.webp"></main></body></html>`);
   const window = {
     addEventListener: document.addEventListener.bind(document),
@@ -34,7 +34,7 @@ describe('shared website language', () => {
     f.document.querySelector('[data-language="zh"]').click();
     expect(f.document.documentElement.lang).toBe('zh-CN');
     expect(f.document.querySelector('h1').innerHTML).toBe('你的经历与想法，<br>终于被理解。');
-    expect(f.document.querySelector('#allowance').textContent).toContain('每个月重置');
+    expect(f.document.querySelector('#subscription').textContent).toBe('订阅在 Memova App 内管理。');
     expect(f.document.querySelector('pre').textContent).toBe('Pricing');
     expect(f.document.querySelector('[contenteditable]').textContent).toBe('Pricing');
     expect(f.document.querySelector('.five-account-name').textContent).toBe('Free');
@@ -52,9 +52,9 @@ describe('shared website language', () => {
     expect(f.location.searchParams.get('manual')).toBe('start');
     expect(f.location.hash).toBe('#capture');
     expect(f.history.replaceState.mock.calls.at(-1)[0]).toEqual({ keep: 1 });
-    const next = fixture({ url: 'https://memova.ai/pricing/', stored: f.data.get('memova.site-language.v1') });
+    const next = fixture({ url: 'https://memova.ai/personal-manual/', stored: f.data.get('memova.site-language.v1') });
     expect(next.document.documentElement.lang).toBe('zh-CN');
-    expect(next.document.querySelector('header a').textContent).toBe('价格与权益');
+    expect(next.document.querySelector('header a').textContent).toBe('个人手册');
     expect(fixture({ url: 'https://memova.ai/?lang=en', stored: 'zh' }).language.language).toBe('en');
   });
 
@@ -94,7 +94,7 @@ describe('shared website language', () => {
 
   it('translates shared navigation without partially translating an English article', () => {
     const f = fixture({ stored: 'zh', url: 'https://memova.ai/journal/' });
-    expect(f.document.querySelector('header a').textContent).toBe('价格与权益');
+    expect(f.document.querySelector('header a').textContent).toBe('个人手册');
     expect(f.document.querySelector('h1').textContent).toBe('Your context,finally understood.');
     expect(f.document.documentElement.lang).toBe('en');
   });

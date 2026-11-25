@@ -15,6 +15,18 @@ afterEach(() => {
 });
 
 describe("SEO build verification", () => {
+  it("excludes the retired pricing page and its allowances from published search content", () => {
+    const outputDir = path.resolve(process.cwd(), "dist/public");
+    expect(fs.existsSync(path.join(outputDir, "pricing/index.html"))).toBe(false);
+    expect(fs.existsSync(path.join(outputDir, "pricing.html"))).toBe(false);
+    expect(fs.readFileSync(path.join(outputDir, "sitemap.xml"), "utf8")).not.toContain("/pricing");
+    for (const page of sitePages.filter(page => page.index)) {
+      const file = page.path === "/" ? "index.html" : `${page.path.slice(1)}/index.html`;
+      const html = fs.readFileSync(path.join(outputDir, file), "utf8");
+      expect(html, file).not.toMatch(/300 recording minutes|10 webpages|unlimited recording minutes|\$20(?:\s|<)/i);
+    }
+  });
+
   it("keeps all migrated route first paints on the same site and shared navigation", () => {
     const outputDir = path.resolve(process.cwd(), "dist/public");
     for (const file of ["index.html", "journal/index.html", "journal/rewind-on-an-older-apple-watch/index.html", "mcp/index.html", "privacy/index.html", "privacy.html", "terms/index.html", "support/index.html", "login.html", "profile.html", "connected-clients.html", "mcp/oauth/consent.html"]) {

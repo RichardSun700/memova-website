@@ -1,5 +1,12 @@
 export async function onRequest(context) {
   const url = new URL(context.request.url);
+  // Pages middleware handles this redirect so it can retain the full query.
+  if (["/pricing", "/pricing/", "/pricing/index.html", "/pricing.html"].includes(url.pathname)) {
+    return new Response(null, {
+      status: 301,
+      headers: { Location: `/${url.search}#pro` },
+    });
+  }
   const accountRoute =
     /^\/(?:login|profile|connected-clients|settings\/connected-clients|mcp)(?:\/|$)/.test(url.pathname);
   if (

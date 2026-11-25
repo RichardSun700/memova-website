@@ -363,7 +363,6 @@
   "Skip to pricing": "跳转至价格与权益",
   "MEMOVA PRICING": "MEMOVA 价格与权益",
   "A little more room to think.": "给想法多一点空间。",
-  "Start free. Upgrade for unlimited webpages and recording minutes in Meeting and Spark.": "免费开始使用。升级后可无限创建网页，Meeting 与 Spark 均不限录制总分钟数。",
   "Free": "免费版",
   "A place to begin": "从这里开始",
   "Start capturing ideas and see what you can create.": "从记录想法开始，体验内容创作。",
@@ -372,26 +371,17 @@
   "What’s included": "包含权益",
   "Includes all Free features": "包含所有免费版的权益",
   "Turn conversations and notes into shareable webpages.": "将对话和笔记整理成可分享的网页。",
-  "Shared across Meeting and Spark recordings.": "Meeting 与 Spark 共享每月录制额度。",
   "Create posts and images in your style. Publish with one click.": "创作符合你风格的文案与图片，一键发布。",
   "Save ideas for your AI assistant to find and update with your approval.": "保存有价值的想法，供 AI 助手查找，并经你确认后更新。",
-  "Create and share with no monthly page limit.": "自由创建和分享网页，不限每月数量。",
-  "Record in Meeting and Spark with no monthly minute limit.": "Meeting 与 Spark 均不限每月录制总分钟数。",
   "Turn on AI to capture meeting excerpts and correct the transcript in real time.": "按需开启，AI 实时截取会议对话并校正转写。",
-  "10 webpages / month": "10 个网页 / 月",
-  "300 recording minutes / month": "300 分钟录制 / 月",
   "Meeting AI Report: upgrade to Pro or": "Meeting 智能报告需升级 Pro，或",
   "for trial access.": "获取体验权限。",
-  "Free Spark minutes reset each month.": "免费版 Spark 额度每月重置。",
   "Prices in USD.": "价格以美元计。",
-  "10 webpages per month": "每月创建 10 个网页",
   "Turn your conversations and notes into clear, beautifully designed webpages you can share.": "将对话和笔记整理成清晰、美观的网页，随时分享给他人。",
   "Social posts that sound like you": "更懂你风格的社媒创作",
   "Create posts and images that fit the tone and visual style of X and LinkedIn. Memova can also learn from your past posts to reflect your own voice and visual style. Publish with one click.": "为 X 和 LinkedIn 定制文案与图片，贴合平台的表达习惯与视觉风格。还可学习你以往的社媒风格，让内容更符合你的表达方式，一键发布。",
   "Build and manage your knowledge base": "创建和维护知识库",
   "Keep useful ideas, decisions, and preferences in one place. Connect your AI assistant to search your knowledge base. Your assistant can add or update information only with your approval.": "集中保存有价值的想法、决定和偏好。连接智能体后，可随时查找这些内容，并仅在你的确认下补充或更新知识库。",
-  "300 minutes of Spark live transcription per month": "每月 300 分钟 Spark 实时转录",
-  "Turn speech into text as you record in Spark. Your 300-minute allowance resets each month.": "在 Spark 录制时，将语音实时转成文字。每月包含 300 分钟额度，每个月重置。",
   "Upgrade to Pro for Meeting AI Report, or": "Meeting 智能报告需升级 Pro，或",
   "join our community": "加入社群",
   "to get trial access.": "获取体验权限。",
@@ -399,14 +389,9 @@
   "Everything in Free, with more room to capture and create.": "包含免费版全部功能，拥有更多记录与创作空间。",
   "Billed monthly": "按月付费",
   "Upgrade to Pro in the app": "在 App 内升级 Pro",
-  "Unlimited webpages": "无限创建网页",
-  "Turn your conversations and notes into shareable webpages, with no monthly page limit.": "将对话和笔记整理成可分享的网页，不限每月创建数量。",
-  "Unlimited recording minutes": "不限录制分钟数",
-  "Turn speech into text as you record in Spark, with no limit on transcription minutes.": "在 Spark 录制时，将语音实时转成文字，不限转录额度。",
   "Meeting AI Report": "Meeting 智能报告",
   "Turn it on when you need it. AI captures excerpts from your meeting conversation and corrects the transcript in real time for more accurate meeting notes.": "按需开启，AI 实时截取会议对话并校正转写，让会议记录更准确。",
   "For both plans:": "两种方案均适用：",
-  "Each Meeting or Spark recording can last up to 4 hours.": "每次 Meeting 或 Spark 录制最长 4 小时。",
   "Current beta plans. Prices in USD.": "当前为测试阶段方案，价格以美元计。",
   "Subscriptions are managed in the Memova app.": "订阅在 Memova App 内管理。",
   "THE DETAILS": "权益详情",
@@ -415,20 +400,14 @@
   "Plan comparison table, scroll horizontally on small screens": "方案对比表，小屏幕可横向滚动",
   "Memova Free and Pro benefits": "Memova 免费版与 Pro 权益",
   "$0 / month": "$0 / 月",
-  "$20 / month": "$20 / 月",
   "Webpages": "创建网页",
-  "10 per month": "每月 10 个",
   "Unlimited": "不限数量",
   "Social posts for X & LinkedIn": "X 与 LinkedIn 社媒创作",
   "Included": "包含",
   "Spark live transcription": "Spark 实时转录",
-  "300 minutes / month": "每月 300 分钟",
-  "Resets each month": "每月重置",
-  "Unlimited minutes": "不限分钟数",
   "Not included": "不包含",
   "Trial access available through our community": "可加入社群获取体验权限",
   "Included · Turn on as needed": "包含 · 按需开启",
-  "Up to 4 hours": "最长 4 小时",
   "Maximum recording length": "单次录制时长上限",
   "QUESTIONS": "常见问题",
   "A few things": "你可能",
@@ -436,16 +415,12 @@
   "What is Meeting AI Report?": "什么是 Meeting 智能报告？",
   "Meeting AI Report is off by default. Turn it on in the app to let AI capture excerpts from your meeting conversation and correct the transcript in real time. The feature is included with Pro. Free users can join our community for trial access.": "Meeting 智能报告默认关闭。在 App 内开启后，AI 会实时截取会议对话并校正转写。Pro 版包含此功能，免费版用户可加入社群获取体验权限。",
   "How long can a recording be?": "单次最多能录制多久？",
-  "On both Free and Pro, each Meeting or Spark recording can last up to 4 hours.": "免费版与 Pro 版的每次 Meeting 或 Spark 录制均最长 4 小时。",
   "Where do I upgrade to Pro?": "在哪里升级 Pro？",
   "Upgrade in the Memova app. If you haven’t installed Memova yet, download it from the App Store first.": "请在 Memova App 内升级。如果尚未安装 Memova，请先前往 App Store 下载。",
-  "4 hours per Meeting or Spark": "每次 Meeting 或 Spark 最长 4 小时",
   "GOOD TO KNOW": "使用前了解",
   "A few details before you start.": "开始前，你可能想了解。",
   "How does the free recording allowance work?": "免费录制额度如何计算？",
-  "Free includes 300 recording minutes per month, shared across Meeting and Spark. Your allowance resets each month.": "免费版每月包含 300 分钟录制额度，由 Meeting 与 Spark 共享，每个月重置。",
   "How many webpages can I create?": "我可以创建多少个网页？",
-  "Free includes 10 webpages per month. Pro has no monthly page limit. Both plans turn your conversations and notes into webpages you can share.": "免费版每月可创建 10 个网页，Pro 版不限每月创建数量。两种方案都能将对话和笔记整理成可分享的网页。",
   "How does Meeting AI Report work?": "Meeting 智能报告如何使用？",
   "Where will you run Memova?": "你将在哪个 AI 客户端使用 Memova？",
   "We’ll give you the two instructions that match the AI client you already use.": "我们会提供两条操作指引，适配你正在使用的 AI 客户端。",
@@ -499,7 +474,7 @@
   const textSources = new WeakMap();
   const attributeSources = new WeakMap();
   const EXCLUDE = 'script,style,noscript,svg,iframe,textarea,input,pre,code,[contenteditable],[data-no-translate],memova-language-switch,.five-account-name,.five-account-avatar,.agent-instruction-prompt,.agent-prompt-text';
-  const fullPage = () => /^\/(?:pricing\/?|personal-manual\/?)?$/.test(location.pathname);
+  const fullPage = () => /^\/(?:personal-manual\/?)?$/.test(location.pathname);
   const eligible = element => element && !element.closest(EXCLUDE) &&
     (fullPage() || element.closest('.five-header,.memova-app-download'));
   const translate = value => {
@@ -568,9 +543,7 @@
     // A page with an English article retains its correct document language.
     if (fullPage()) {
       document.documentElement.lang = language === "zh" ? "zh-CN" : "en";
-      document.title = location.pathname.startsWith("/pricing")
-        ? (language === "zh" ? "价格与权益 — Memova 免费版与 Pro" : "Pricing — Memova Free & Pro")
-        : location.pathname.startsWith("/personal-manual")
+      document.title = location.pathname.startsWith("/personal-manual")
         ? (language === "zh" ? "个人手册 — Memova" : "Personal Manual — Memova")
         : (language === "zh" ? "Memova — 让你的经历与想法被真正理解" : "Memova — Your Context, Finally Understood");
     }

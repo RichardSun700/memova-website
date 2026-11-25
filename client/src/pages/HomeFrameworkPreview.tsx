@@ -607,7 +607,7 @@ function HomeV2Header() {
           <a href="#product">Product</a>
           <a href="#use-cases">Use Cases</a>
           <a href="/journal">Journal</a>
-          <a href="/pricing/">Pricing</a>
+          <a href="/#pro">Memova Pro</a>
           <a href="#trust">Trust</a>
         </nav>
 
@@ -706,8 +706,8 @@ function HomeV2Header() {
             <a href="/journal" onClick={closeMobileMenu}>
               Journal <ChevronRight aria-hidden="true" />
             </a>
-            <a href="/pricing/" onClick={closeMobileMenu}>
-              Pricing <ChevronRight aria-hidden="true" />
+            <a href="/#pro" onClick={closeMobileMenu}>
+              Memova Pro <ChevronRight aria-hidden="true" />
             </a>
             <a href="#trust" onClick={closeMobileMenu}>
               Trust <ChevronRight aria-hidden="true" />

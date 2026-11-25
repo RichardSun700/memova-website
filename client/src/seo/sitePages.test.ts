@@ -60,6 +60,7 @@ describe("sitePages", () => {
 
   it("removes retired marketing pages from public metadata", () => {
     const retiredPaths = [
+      "/pricing",
       "/ios",
       "/agent-memory",
       "/how-it-works",
