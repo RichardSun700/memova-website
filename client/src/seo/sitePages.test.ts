@@ -4,7 +4,7 @@ import { SITE_URL, getCanonicalUrl, getSitePage, getStructuredData, sitePages } 
 describe("sitePages", () => {
   it("describes the Watch homepage in English while preserving other routes' metadata language", () => {
     const homepage = getSitePage("/");
-    expect(homepage.title).toBe("Memova: Apple Watch Voice Recorder & Life Journal");
+    expect(homepage.title).toBe("Memova: Apple Watch Voice Recorder with AI");
     expect(homepage.hero?.title).toBe("The Apple Watch voice recorder that remembers your day");
     expect(homepage.description).toContain("Transcribe and search offline on iPhone");
     expect(homepage.description).toContain("Saved locally by default");

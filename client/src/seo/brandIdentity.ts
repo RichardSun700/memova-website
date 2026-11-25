@@ -6,7 +6,7 @@ export const BRAND_DESCRIPTION = "Memova is an Apple Watch voice recorder. Tap t
 
 export const HOMEPAGE_METADATA = {
   en: {
-    title: "Memova: Apple Watch Voice Recorder & Life Journal",
+    title: "Memova: Apple Watch Voice Recorder with AI",
     description: "Record on Apple Watch with one tap, even with the screen off. Transcribe and search offline on iPhone. Saved locally by default. Free to download.",
   },
   zh: {
