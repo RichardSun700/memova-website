@@ -57,7 +57,7 @@ describe("Memova Journal", () => {
   it("lists Avery’s Rewind preview without restoring retired entries", () => {
     const html = renderToStaticMarkup(<Journal />);
 
-    expect(journalEntries).toHaveLength(8);
+    expect(journalEntries).toHaveLength(9);
     for (const slug of ["best-voice-recorder-for-apple-watch", "how-to-record-audio-on-apple-watch"]) {
       const entry = journalEntries.find(entry => entry.slug === slug)!;
       expect(html).toContain(`href="/journal/${slug}/"`);

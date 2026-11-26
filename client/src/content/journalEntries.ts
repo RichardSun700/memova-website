@@ -6,6 +6,7 @@ import { voiceMemosGuideArticle } from "./voiceMemosGuideArticle";
 import { siriRecapDevicesArticle } from "./siriRecapDevicesArticle";
 import { offlineTranscriptionArticle } from "./offlineTranscriptionArticle";
 import { aiConversationRecorderArticle } from "./aiConversationRecorderArticle";
+import { watchVoiceMemosToIphoneArticle } from "./watchVoiceMemosToIphoneArticle";
 
 export type JournalBlock =
   | { type: "paragraph"; text: string }
@@ -72,6 +73,7 @@ export type JournalEntry = {
 };
 
 export const journalEntries: readonly JournalEntry[] = [
+  watchVoiceMemosToIphoneArticle,
   aiConversationRecorderArticle,
   offlineTranscriptionArticle,
   siriRecapDevicesArticle,
