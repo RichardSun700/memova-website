@@ -37,6 +37,13 @@
 .pro-overview-download:hover { background: #edf2ff; }
 .pro-overview-download svg { flex-shrink: 0; }
 .pro-overview-terms { margin: 18px 0 0; color: #e6edff; font-size: 10px; line-height: 1.8; }
+.pro-overview-cloud-plans { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin-top: 20px; }
+.pro-overview-cloud-plan { min-width: 0; padding: 14px 17px; border: 1px solid #ffffff4d; border-radius: 9px; background: #102a771f; }
+.pro-overview-cloud-plan h3 { margin: 0 0 9px; color: #fff; font-size: 14px; font-weight: 600; line-height: 1.45; }
+.pro-overview-cloud-plan dl { display: grid; gap: 6px; margin: 0; }
+.pro-overview-cloud-plan dl > div { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 2px 12px; font-size: 13px; line-height: 1.5; }
+.pro-overview-cloud-plan dt { color: #e6edff; }
+.pro-overview-cloud-plan dd { margin: 0; color: #fff; font-weight: 600; font-variant-numeric: tabular-nums; }
 .pro-overview :is(button, a, select):focus-visible { outline: 2px solid var(--accent, #586dcc); outline-offset: 3px; }
 .pro-overview-plan :is(button, a):focus-visible { outline-color: #fff; }
 @media (max-width: 1000px) {
@@ -56,6 +63,9 @@
 @media (max-width: 359px) {
   .pro-overview-plan { padding: 16px; }
   .pro-overview-price-action { flex-wrap: wrap; gap: 14px; }
+}
+@media (max-width: 640px) {
+  .pro-overview-cloud-plans { grid-template-columns: minmax(0, 1fr); }
 }
 @media (prefers-reduced-motion: reduce) {
   .pro-overview-billing button, .pro-overview-download { transition: none; }

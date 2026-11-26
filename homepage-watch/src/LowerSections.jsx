@@ -159,6 +159,13 @@ const COPY = {
     freeFeatures: ["本地录音", "本地转写", "离线搜索"],
     freeBody:
       "先免费录音、转写和搜索原话。需要每日回顾、个人导师、Spark 或会议成果时，再选择 Pro。",
+    cloudPlansLabel: "免费版与 Pro 的云端权益",
+    cloudProcessingLabel: "云端 AI 处理",
+    cloudTranscriptionLabel: "云端音频转录",
+    cloudPlans: [
+      { name: "免费版", processing: "完整体验一天", transcription: "一次性赠送 120 分钟" },
+      { name: "Memova Pro", processing: "不限量", transcription: "每月赠送 1,200 分钟" },
+    ],
     billingLabel: "选择订阅周期",
     monthly: "月付",
     annual: "年付",
@@ -197,7 +204,7 @@ const COPY = {
       {
         question: "免费版与 Pro 有什么不同？",
         answer:
-          "录音、转写和离线搜索免费。Pro 提供每日回顾、个人导师、Spark 和会议成果。",
+          "录音、本地转写和离线搜索免费。免费版可完整体验一天云端 AI 处理，另获一次性 120 分钟云端音频转录。Pro 提供不限量的云端 AI 处理，每月另含 1,200 分钟云端音频转录。云端 AI 处理包括每日回顾、个人导师、Spark 和会议成果等功能。",
       },
       {
         question: "今日观察和沟通建议从哪里来？",
@@ -286,6 +293,13 @@ const COPY = {
     freeFeatures: ["Local recording", "Local transcription", "Offline search"],
     freeBody:
       "Start with free recording, transcription and keyword search. Choose Pro for daily recaps, a personal mentor, Spark and meeting outcomes.",
+    cloudPlansLabel: "Cloud benefits for Free and Pro",
+    cloudProcessingLabel: "Cloud AI processing",
+    cloudTranscriptionLabel: "Cloud audio transcription",
+    cloudPlans: [
+      { name: "Free", processing: "One full day of access", transcription: "120 minutes included once" },
+      { name: "Memova Pro", processing: "Unlimited", transcription: "1,200 minutes per month" },
+    ],
     billingLabel: "Choose a billing period",
     monthly: "Monthly",
     annual: "Yearly",
@@ -324,7 +338,7 @@ const COPY = {
       {
         question: "What is included for free, and what does Pro add?",
         answer:
-          "Recording, transcription and offline search are free. Pro adds daily recaps, a personal mentor, Spark and meeting outcomes.",
+          "Recording, on-device transcription, and offline search are free. The free plan includes one full day of cloud AI processing and a one-time allowance of 120 minutes of cloud audio transcription. Pro includes unlimited cloud AI processing and 1,200 minutes of cloud audio transcription per month. Cloud AI processing includes features such as daily recaps, a personal mentor, Spark, and meeting outcomes.",
       },
       {
         question:

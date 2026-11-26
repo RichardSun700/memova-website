@@ -166,6 +166,12 @@ describe("production homepage", () => {
     expect(root.querySelector('#privacy [aria-controls="privacy-story-details"]')?.getAttribute('aria-expanded')).toBe('false');
     expect(root.querySelector('#privacy .privacy-story-actions a')?.getAttribute('href')).toBe('/privacy/?lang=en');
     expect(root.querySelector("#pro")?.textContent).toContain("US$39.99");
+    const cloudPlans = [...root.querySelectorAll(".pro-overview-cloud-plan")];
+    expect(cloudPlans.map(plan => [...plan.querySelectorAll("dt")].map(cell => cell.textContent)))
+      .toEqual(Array(2).fill(["Cloud AI processing", "Cloud audio transcription"]));
+    expect(cloudPlans.map(plan => [...plan.querySelectorAll("dd")].map(cell => cell.textContent)))
+      .toEqual([["One full day of access", "120 minutes included once"], ["Unlimited", "1,200 minutes per month"]]);
+    expect(root.querySelector("#faq")?.textContent).toContain("on-device transcription, and offline search are free");
     expect(root.querySelector("#pro")?.textContent).toContain("Prices shown in USD. Confirm the price and auto-renewal terms in the app.");
     expect(root.querySelector("#top video, #top iframe")).toBeNull();
     expect(root.querySelector("#download form, #download input")).toBeNull();

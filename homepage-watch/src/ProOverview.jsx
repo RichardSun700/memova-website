@@ -51,6 +51,23 @@ export function ProOverview({
             "Prices shown in USD. Confirm the price and auto-renewal terms in the app.",
           )}
         </p>
+        <div className="pro-overview-cloud-plans" role="group" aria-label={copy.cloudPlansLabel}>
+          {copy.cloudPlans.map((plan) => (
+            <div className="pro-overview-cloud-plan" key={plan.name}>
+              <h3>{plan.name}</h3>
+              <dl>
+                <div>
+                  <dt>{copy.cloudProcessingLabel}</dt>
+                  <dd>{plan.processing}</dd>
+                </div>
+                <div>
+                  <dt>{copy.cloudTranscriptionLabel}</dt>
+                  <dd>{plan.transcription}</dd>
+                </div>
+              </dl>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );
