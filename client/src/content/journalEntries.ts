@@ -1,3 +1,4 @@
+import { siriRecapNotWorkingArticle } from "./siriRecapNotWorkingArticle";
 import { bestRecorderArticle } from "./bestRecorderArticle";
 import { howToRecordArticle } from "./howToRecordArticle";
 import { recapArticle } from "./recapArticle";
@@ -73,6 +74,7 @@ export type JournalEntry = {
 };
 
 export const journalEntries: readonly JournalEntry[] = [
+  siriRecapNotWorkingArticle,
   watchVoiceMemosToIphoneArticle,
   aiConversationRecorderArticle,
   offlineTranscriptionArticle,
